@@ -19,15 +19,13 @@ exports.otpSent = async ({ body }) => {
             }
         } else {
             body.otp = '1234'
-            const usermodel=await userModel(body);
-           await usermodel.save();
-
-            // const save = await userModel.create(body);
+            const userData = await userModel(body);
+            const result = await userData.save()
             return {
                 statusCode: 200,
-                status: false,
+                status: true,
                 message: "Otp Send",
-                data: []
+                data: [result]
             }
 
         }
@@ -46,11 +44,13 @@ exports.otpVerify = async ({ body }) => {
         }
         if (user) {
             if (user.otp === body.otp) {
+                const data = await userModel.findOneAndUpdate({ phone: body.phone }, { $set: { verify: true } });
+                data.verify = true
                 return {
                     statusCode: 200,
                     status: true,
                     message: "Otp Matched",
-                    data: []
+                    data: [data]
                 }
             } else {
                 return {
@@ -75,37 +75,42 @@ exports.otpVerify = async ({ body }) => {
 }
 
 exports.register = async ({ body }) => {
-    const { name, phone, email, password } = body
-    let user;
-    if (phone) {
-        const data = await userModel.findOne({ phone })
-        if (data) user = data
-    }
-    if (email) {
-        const data = await userModel.findOne({ email })
-        if (data) user = data
-    }
-    if (user) {
-        return {
-            statusCode: 400,
-            status: false,
-            message: "User Already Exists",
-            data: []
+    try {
+        const { name, phone, email, password } = body
+        let user;
+        if (phone) {
+            const data = await userModel.findOne({ phone })
+            if (data) user = data
         }
-    } else {
-        body.password = bcrypt.hashSync(password, 10)
-        const user = await userModel(body)
-        const token = jwt.sign({ _id: user._id }, process.env.SECRET)
-        const saveUser = await user.save()
-        return {
-            statusCode: 201,
-            status: true,
-            message: "Registration successfull",
-            data: { auth: token, saveUser }
+        if (email) {
+            const data = await userModel.findOne({ email })
+            if (data) user = data
         }
+        if (user) {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "User Already Exists",
+                data: []
+            }
+        } else {
+            body.password = bcrypt.hashSync(password, 10)
+            const user = await userModel(body)
+            const token = jwt.sign({ _id: user._id }, process.env.SECRET)
+            const saveUser = await user.save()
+            return {
+                statusCode: 201,
+                status: true,
+                message: "Registration successfull",
+                data: { auth: token, saveUser }
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        throw error
     }
 }
-
+/*
 exports.otplogin = async ({ body }) => {
     try {
         let user;
@@ -113,6 +118,8 @@ exports.otplogin = async ({ body }) => {
             const findPhone = await userModel.findOne({ phone: body.phone });
             if (findPhone) user = findPhone
         }
+
+        // bhajeo otp
 
         if (user) {
             if (user.otp === body.otp) {
@@ -137,21 +144,32 @@ exports.otplogin = async ({ body }) => {
     } catch (error) {
         throw error;
     }
-}
+}*/
 
-exports.emailLogin = async ({ body }) => {
-    const { email, password, phone } = body
-    if (email) {
-        const data = await userModel.findOne({ email: body.email });
-        if (data) {
-            const match = await bcrypt.compare(password, data.password)
-            if (match) {
-                return {
-                    statusCode: 200,
-                    status: true,
-                    message: "Email Login successfull !",
-                    data: []
+exports.login = async ({ body }) => {
+    try {
+        const { email, password, phone } = body
+        if (email) {
+            const user = await userModel.findOne({ email: body.email });
+            if (user) {
+                const match = await bcrypt.compare(password, user.password)
+                if (match) {
+                    const token = jwt.sign({ _id: user._id }, process.env.SECRET)
+                    return {
+                        statusCode: 200,
+                        status: true,
+                        message: "Login successfull !",
+                        data: [user, { auth: token }]
+                    }
+                } else {
+                    return {
+                        statusCode: 400,
+                        status: false,
+                        message: "Invalid Login  Details !",
+                        data: []
+                    }
                 }
+
             } else {
                 return {
                     statusCode: 400,
@@ -160,35 +178,31 @@ exports.emailLogin = async ({ body }) => {
                     data: []
                 }
             }
+        }
 
-        } else {
-            return {
-                statusCode: 400,
-                status: false,
-                message: "Invalid Login  Details !",
-                data: []
+        if (phone) {
+            const data = await userModel.findOne({ phone: body.phone });
+            console.log("data", data)
+            if (data) {
+
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "Otp Send",
+                    data: []
+                }
+            } else {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "Invalid Phone Number Not Matched!",
+                    data: []
+                }
             }
         }
-    }
-
-    if (phone) {
-        const data = await userModel.findOne({ phone: body.phone });
-        console.log("data", data)
-        if (data) {
-            return {
-                statusCode: 400,
-                status: false,
-                message: "Otp Send",
-                data: []
-            }
-        } else {
-            return {
-                statusCode: 400,
-                status: false,
-                message: "Invalid Phone Number Not Matched!",
-                data: []
-            }
-        }
+    } catch (error) {
+        console.log(error)
+        throw error
     }
 }
 
