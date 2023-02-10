@@ -1,6 +1,4 @@
-
 const categoryModule = require("./model")
-const { getCategory } = require("./services")
 
 exports.getCategoryListing = async (req, res) => {
     try {
@@ -22,38 +20,50 @@ exports.getCategoryListing = async (req, res) => {
             return {
                 statusCode: 200,
                 status: true,
-                message: "noData!",
+                message: "noData !",
                 data: []
             }
         }
 
     } catch (error) {
         console.log("getCategoryListing", error)
+        throw error
     }
 }
 
-
 exports.getAllCategoryListing = async (req, res) => {
     try {
-        const FindData = await categoryModule.find({ parent_Name: null })
-        req.data = FindData
-        const result = await getCategory(req)
-        if (result) {
-            return {
-                statusCode: 200,
-                status: true,
-                message: "successfull!",
-                data: [result.data]
-            }
-        } else {
-            return {
-                statusCode: 200,
-                status: true,
-                message: "no data",
-                data: ["no data"]
+        let parent = []
+        let child = []
+        const FindData = await categoryModule.find()
+
+        FindData.forEach((item) => {
+            if (item.parent_Name == null) return parent.push(item)
+            if (item.parent_Name) return child.push(item)
+        })
+
+        function getDinamicCategory(parent, child) {
+            for (pdata of parent) {
+                pdata._doc.subchild = []
+                for (cdata of child) {
+                    if (cdata.parent_Name.toString() === pdata._id.toString()) {
+                        pdata._doc.subchild.push(cdata)
+                    }
+                }
+                if (pdata._doc.subchild != null) {
+                    getDinamicCategory(pdata._doc.subchild, child)
+                }
             }
         }
+        getDinamicCategory(parent, child);
+        return {
+            statusCode: 200,
+            status: true,
+            message: "successfull!",
+            data: [parent]
+        }
     } catch (error) {
-        console.log("GetAllCategoryListing", error)
+        console.log(error);
+        throw error;
     }
 }
