@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken")
 
 exports.otpSent = async ({ body }) => {
-    try {
+    try {console.log("hello")
         let user;
         if (body.phone) {
             const data = await userModel.findOne({ phone: body.phone });
@@ -116,14 +116,14 @@ exports.otplogin = async ({ body }) => {
         let user;
         if (body.phone) {
             const findPhone = await userModel.findOne({ phone: body.phone });
-            if (data) user = findPhone
+            if (findPhone) user = findPhone
         }
 
         // bhajeo otp
 
         if (user) {
             if (user.otp === body.otp) {
-                const token = jwt.sign({ _id: data._id }, process.env.SECRET);
+                const token = jwt.sign({ _id: user._id }, process.env.SECRET);
                 body.token = token;
                 const loggeduser = await userModel.findOne({ phone: body.phone }, body);
                 return {
