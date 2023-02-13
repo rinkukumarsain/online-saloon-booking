@@ -99,7 +99,7 @@ exports.register = async ({ body }) => {
             const token = jwt.sign({ _id: user._id }, process.env.SECRET)
             const saveUser = await user.save()
             return {
-                statusCode: 201,
+                statusCode: 200,
                 status: true,
                 message: "Registration successfull",
                 data: { auth: token, saveUser }
@@ -212,8 +212,8 @@ exports.loginOtpVerify = async ({ body }) => {
     if (data) {
         if (otp == data.otp) {
             return {
-                statusCode: 400,
-                status: false,
+                statusCode: 200,
+                status: true,
                 message: "Phone Login successfull !",
                 data: []
             }
@@ -240,8 +240,8 @@ exports.add_to_cart = async ({ body }) => {
     if (data) {
         if (otp == data.otp) {
             return {
-                statusCode: 400,
-                status: false,
+                statusCode: 200,
+                status: true,
                 message: "Phone Login successfull !",
                 data: []
             }
