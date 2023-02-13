@@ -215,7 +215,7 @@ exports.loginOtpVerify = async ({ body }) => {
                 statusCode: 200,
                 status: true,
                 message: "Phone Login successfull !",
-                data: []
+                data: [data]
             }
         } else {
             return {
@@ -234,6 +234,7 @@ exports.loginOtpVerify = async ({ body }) => {
         }
     }
 }
+
 exports.add_to_cart = async ({ body }) => {
     const cart = body
     const data = await cart.findOne({ phone });
