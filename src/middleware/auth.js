@@ -7,7 +7,9 @@ module.exports = async (req, res, next) => {
             const token = req.headers.authorization.split(" ").pop()
             const { _id } = jwt.verify(token, process.env.SECRET)
             req.user = await userModel.findOneAndUpdate({ _id, auth: token, isDeleted: false }, { new: true })
-            if (!req.user) {
+            if (req.user) {
+                next()
+            } else {
                 return res.status(401).json({
                     status: false,
                     message: "Unauthorized",
