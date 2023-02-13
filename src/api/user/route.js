@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const responseHandler = require("../../utils/responseHandlers");
-const { register, otpSent, otpVerify, login, loginOtpVerify,add_to_cart,showprofile } = require('./controller');
+const { register, otpSent, otpVerify, login, loginOtpVerify,add_to_cart } = require('./controller');
 const app = Router();
 
 app.post("/otp-sent", responseHandler(otpSent));
