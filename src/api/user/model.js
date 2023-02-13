@@ -5,26 +5,35 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null
   },
-  phone: {
-    type: Number,
-    default: null
-  },
   email: {
     type: String,
     // unique: true
   },
+  phone: {
+    type: Number,
+    default: null
+  },
+  gender: {
+    type: String
+  },
+  dateOfBirth: {
+    type: Date
+  },
   password: {
     type: String
+  },
+  image: {
+    type: [String]
+  },
+  verify: {
+    type: Boolean,
+    default: false
   },
   otp: {
     type: String
   },
   token: {
     type: String
-  },
-  verify: {
-    type: Boolean,
-    default: false
   }
 });
 
