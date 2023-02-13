@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken")
 
 exports.otpSent = async ({ body }) => {
-    try {console.log("hello")
+    try {
         let user;
         if (body.phone) {
             const data = await userModel.findOne({ phone: body.phone });
@@ -44,8 +44,7 @@ exports.otpVerify = async ({ body }) => {
         }
         if (user) {
             if (user.otp === body.otp) {
-                const data = await userModel.findOneAndUpdate({ phone: body.phone }, { $set: { verify: true } });
-                data.verify = true
+                const data = await userModel.findOneAndUpdate({ phone: body.phone }, { $set: { verify: true } }, { new: true });
                 return {
                     statusCode: 200,
                     status: true,
@@ -182,14 +181,13 @@ exports.login = async ({ body }) => {
 
         if (phone) {
             const data = await userModel.findOne({ phone: body.phone });
-            console.log("data", data)
             if (data) {
 
                 return {
                     statusCode: 200,
                     status: true,
                     message: "Otp Send",
-                    data: []
+                    data: [data]
                 }
             } else {
                 return {
@@ -207,30 +205,114 @@ exports.login = async ({ body }) => {
 }
 
 exports.loginOtpVerify = async ({ body }) => {
-    const { phone, otp } = body
-    const data = await userModel.findOne({ phone });
-    if (data) {
-        if (otp == data.otp) {
-            return {
-                statusCode: 400,
-                status: false,
-                message: "Phone Login successfull !",
-                data: []
+    try {
+        const { phone, otp } = body
+        const user = await userModel.findOne({ phone });
+        if (user) {
+            if (otp == user.otp) {
+                const token = jwt.sign({ _id: user._id }, process.env.SECRET)
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "Phone Login successfull !",
+                    data: [user, { auth: token }]
+                }
+            } else {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "Invalid Otp",
+                    data: []
+                }
             }
         } else {
             return {
                 statusCode: 400,
                 status: false,
-                message: "Invalid Otp",
+                message: "Invalid Phone Number Not Matched!",
                 data: []
             }
         }
-    } else {
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+exports.user_Profile = async (req, res) => {
+    try {
+        if (req.user) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "user-Profile !",
+                data: [req.user]
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+exports.userEditProfile = async ({ body, user, file }) => {
+    try {
+        let obj = {}
+        if (body.name) {
+            obj.name = body.name
+        }
+        if (body.phone) {
+            obj.phone = body.phone
+        }
+        if (body.email) {
+            obj.email = body.email
+        }
+        if (body.gender) {
+            obj.gender = body.gender
+        }
+        if (body.dateOfBirth) {
+            obj.dateOfBirth = body.dateOfBirth
+        }
+        if (file) {
+            obj.image = file.filename
+        };
+
+        const result = await userModel.findByIdAndUpdate({ _id: user._id }, { $set: obj }, { new: true })
+        if (result) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "User Profile Update successfull !",
+                data: [result]
+            }
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "User Profile Not Update !",
+                data: []
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+
+}
+
+exports.logOut = async (req, res) => {
+    try {
+        if (req.cookies != undefined && req.cookies) {
+            res.clearCookie("", 'token', { expires: new Date(0) })
+        }
+
         return {
-            statusCode: 400,
-            status: false,
-            message: "Invalid Phone Number Not Matched!",
+            statusCode: 200,
+            status: true,
+            message: "User log-Out successfull !",
             data: []
         }
+    } catch (error) {
+        console.log(error)
+        throw error
     }
 }
