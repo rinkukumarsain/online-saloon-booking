@@ -235,32 +235,3 @@ exports.loginOtpVerify = async ({ body }) => {
     }
 }
 
-exports.add_to_cart = async ({ body }) => {
-    const cart = body
-    const data = await cart.findOne({ phone });
-    if (data) {
-        if (otp == data.otp) {
-            return {
-                statusCode: 200,
-                status: true,
-                message: "Phone Login successfull !",
-                data: []
-            }
-        } else {
-            return {
-                statusCode: 400,
-                status: false,
-                message: "Invalid Otp",
-                data: []
-            }
-        }
-    } else {
-        return {
-            statusCode: 400,
-            status: false,
-            message: "Invalid Phone Number Not Matched!",
-            data: []
-        }
-    }
-}
-
