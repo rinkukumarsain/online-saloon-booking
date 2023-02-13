@@ -77,10 +77,7 @@ exports.register = async ({ body }) => {
     try {
         const { name, phone, email, password } = body
         let user;
-        if (phone) {
-            const data = await userModel.findOne({ phone })
-            if (data) user = data
-        }
+        
         if (email) {
             const data = await userModel.findOne({ email })
             if (data) user = data
@@ -93,15 +90,20 @@ exports.register = async ({ body }) => {
                 data: []
             }
         } else {
+
             body.password = bcrypt.hashSync(password, 10)
-            const user = await userModel(body)
+
+            body.otp = '';
+            const user = await userModel.findOneAndUpdate({ phone: body.phone }, { $set: body }, { new: true });
+
             const token = jwt.sign({ _id: user._id }, process.env.SECRET)
-            const saveUser = await user.save()
+
+
             return {
                 statusCode: 201,
                 status: true,
                 message: "Registration successfull",
-                data: { auth: token, saveUser }
+                data: { auth: token, user }
             }
         }
     } catch (error) {
@@ -180,6 +182,8 @@ exports.login = async ({ body }) => {
         }
 
         if (phone) {
+
+            const user = await userModel.findOneAndUpdate({ phone: body.phone }, { $set: {otp:"1234"} }, { new: true });
             const data = await userModel.findOne({ phone: body.phone });
             if (data) {
 
@@ -210,10 +214,11 @@ exports.loginOtpVerify = async ({ body }) => {
         const user = await userModel.findOne({ phone });
         if (user) {
             if (otp == user.otp) {
+                const user = await userModel.findOneAndUpdate({ phone: body.phone }, { $set: {otp:""} }, { new: true });
                 const token = jwt.sign({ _id: user._id }, process.env.SECRET)
                 return {
-                    statusCode: 400,
-                    status: false,
+                    statusCode: 200,
+                    status: true,
                     message: "Phone Login successfull !",
                     data: [user, { auth: token }]
                 }
