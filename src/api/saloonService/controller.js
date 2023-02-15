@@ -1,4 +1,5 @@
 const saloonService = require("./model");
+const saloonstore = require("../saloonstore/model")
 const mongoose = require("mongoose");
 exports.saloonService = async (req) => {
     try {
@@ -36,21 +37,18 @@ exports.add_Service = async ({ body, file, query }) => {
         let obj = {};
         let imgs = [];
         let categorys = [];
-        // if (body._id) {
-        if (query._id) {
-            let _id = mongoose.Types.ObjectId(body._id);
 
-            if (file != undefined && file.length > 0) {
-                file.forEach(element => {
-                    imgs.push(element.filename);
-                });
+        if (query.id) {
+            let _id = mongoose.Types.ObjectId(query.id);
+
+            if (file) {
+                imgs.push(file.filename);
             };
 
             if (imgs.length > 0) {
                 obj.image = imgs;
-            }// else {
-            // obj.image = "file-1675662678559noimg.jpg";
-            // };
+            }
+
             if (body.ServiceName) {
                 obj.ServiceName = body.ServiceName;
             };
@@ -60,8 +58,9 @@ exports.add_Service = async ({ body, file, query }) => {
             if (body.description) {
                 obj.description = body.description;
             };
-
-            // const find = await Product.findByIdAndUpdate({ _id })
+            if (body.timePeriod) {
+                obj.timePeriod_in_minits = body.timePeriod;
+            };
 
             const result = await saloonService.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
             if (result) {
@@ -74,34 +73,54 @@ exports.add_Service = async ({ body, file, query }) => {
             };
         } else {
             if (body.category != undefined && body.category.length > 0) {
-                body.category.forEach((item) => {
-                    console.log("id-----", item);
-                    categorys.push(mongoose.Types.ObjectId(item))
-                });
-                obj.category = categorys;
+                if (body.category.length == 24) {
+                    categorys.push(mongoose.Types.ObjectId(body.category))
+                    obj.last_category = categorys;
+                    obj.category = categorys;
+
+                } else {
+                    body.category.forEach((item) => {
+                        categorys.push(mongoose.Types.ObjectId(item))
+                    });
+                    obj.category = categorys;
+                    obj.last_category = body.category[body.category.length - 1];
+                }
             };
-            if (body.ServiceName) {
-                const findData = await saloonService.find({ ServiceName: body.ServiceName });
-                if (findData.length > 0) {
+            if (body.saloonStore) {
+                let saloonStore = mongoose.Types.ObjectId(body.saloonStore)
+                const findstore = await saloonstore.findOne({ _id: saloonStore });
+                if (findstore) {
+                    if (body.ServiceName) {
+                        const findData = await saloonService.find({ saloonStore, ServiceName: body.ServiceName });
+                        if (findData.length > 0) {
+                            return {
+                                statusCode: 400,
+                                status: false,
+                                message: "ServiceName if All Ready Reagister this store !",
+                                data: []
+                            };
+                        } else {
+                            obj.ServiceName = body.ServiceName
+                        };
+                    };
+                } else {
                     return {
                         statusCode: 400,
                         status: false,
-                        message: "ServiceName if All Ready Reagister !",
+                        message: "please Enter valide SaloonStore id !",
                         data: []
                     };
-                } else {
-                    obj.ServiceName = body.ServiceName
-                };
-            };
-            if (file != undefined && file.length > 0) {
-                req.file.forEach(element => {
-                    imgs.push(element.filename);
-                });
+                }
+            }
+            if (file) {
+                // file.forEach(element => {
+                imgs.push(file.filename);
+                // });
             };
             if (imgs.length > 0) {
                 obj.image = imgs;
             } else {
-                obj.image = "file-1675662678559noimg.jpg";
+                obj.image = "";
             };
             if (body.ServicePrice) {
                 obj.ServicePrice = body.ServicePrice;
@@ -109,7 +128,13 @@ exports.add_Service = async ({ body, file, query }) => {
             if (body.description) {
                 obj.description = body.description;
             };
-            obj.last_category = body.category[body.category.length - 1];
+            if (body.saloonStore) {
+                obj.saloonStore = body.saloonStore
+            }
+            if (body.timePeriod) {
+                obj.timePeriod_in_minits = body.timePeriod
+            }
+            // obj.last_category = body.category[body.category.length - 1];
 
             service_details = new saloonService(obj);
             const result = await service_details.save();
