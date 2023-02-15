@@ -14,7 +14,7 @@ exports.getCategoryListing = async (req, res) => {
                 statusCode: 200,
                 status: true,
                 message: "successfull!",
-                data: [FindData]
+                data: FindData
             }
         } else {
             return {
@@ -60,7 +60,7 @@ exports.getAllCategoryListing = async (req, res) => {
             statusCode: 200,
             status: true,
             message: "successfull!",
-            data: [parent]
+            data: parent
         }
     } catch (error) {
         console.log(error);

@@ -11,7 +11,7 @@ const add_Category = new mongoose.Schema({
     image: {
         type: String,
     }
-})
+}, { timestamps: true })
 
 
 const category = new mongoose.model("category", add_Category)
