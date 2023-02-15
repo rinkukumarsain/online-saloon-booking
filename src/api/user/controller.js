@@ -214,13 +214,13 @@ exports.loginOtpVerify = async ({ body }) => {
         const user = await userModel.findOne({ phone });
         if (user) {
             if (otp == user.otp) {
-                const user = await userModel.findOneAndUpdate({ phone: body.phone }, { $set: {otp:""} }, { new: true });
+                const userr = await userModel.findOneAndUpdate({ phone: body.phone }, { $set: {otp:""} }, { new: true });
                 const token = jwt.sign({ _id: user._id }, process.env.SECRET)
                 return {
                     statusCode: 200,
                     status: true,
                     message: "Phone Login successfull !",
-                    data: [user, { auth: token }]
+                    data: [userr, { auth: token }]
                 }
             } else {
                 return {
