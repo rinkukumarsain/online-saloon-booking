@@ -38,7 +38,7 @@ const saloon_Store = new mongoose.Schema({
     description: {
         type: String
     }
-})
+}, { timestamps: true })
 
 
 const saloon = new mongoose.model("saloon", saloon_Store)
