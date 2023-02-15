@@ -1,0 +1,99 @@
+<% if(message.success || message.error || message.danger || message.warning) { %>
+    <div class="position-fixed bottom-15px right-15px z-index-1000">
+        <% if(message.success){ %>
+
+            <div class="toast border" id="toastBasic4" role="alert" aria-live="assertive" aria-atomic="true"
+                data-delay="5000">
+                <div class="toast-header border bg-success text-white">
+                    <i class="far fa-check-circle"></i>
+                    <strong class="mr-auto ml-2">Success!</strong>
+                    <small class="text-white-50 ml-2">just now</small>
+                    <button class="ml-2 mb-1 close text-white bg-success" type="button" data-dismiss="toast"
+                        aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    <%= message.success %>
+                </div>
+            </div>
+            <% } %>
+                <% if(message.warning){ %>
+
+                    <div class="toast border" id="toastBasic2" role="alert" aria-live="assertive" aria-atomic="true"
+                        data-delay="5000">
+                        <div class="toast-header border bg-danger text-white">
+                            <i class="far fa-exclamation-circle"></i>
+                            <strong class="mr-auto ml-2">Alert!</strong>
+                            <small class="text-white-50 ml-2">just now</small>
+                            <button class="ml-2 mb-1 close text-white bg-danger" type="button" data-dismiss="toast"
+                                aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="toast-body">
+                            <%= message.warning %>
+                        </div>
+                    </div>
+                    <% } %>
+
+                        <% if(message.danger){ %>
+
+                            <div class="toast border" id="toastBasic3" role="alert" aria-live="assertive"
+                                aria-atomic="true" data-delay="5000">
+                                <div class="toast-header border bg-danger text-white">
+                                    <i class="far fa-exclamation-circle"></i>
+                                    <strong class="mr-auto ml-2">Alert!</strong>
+                                    <small class="text-white-50 ml-2">just now</small>
+                                    <button class="ml-2 mb-1 close text-white bg-danger" type="button"
+                                        data-dismiss="toast" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="toast-body">
+                                    <%= message.danger %>
+                                </div>
+                            </div>
+                            <% } %>
+
+                                <% if(message.error){ %>
+
+                                    <div class="toast border" id="toastBasic1" role="alert" aria-live="assertive"
+                                        aria-atomic="true" data-delay="5000">
+                                        <div class="toast-header border bg-danger text-white">
+                                            <i class="far fa-exclamation-circle"></i>
+                                            <strong class="mr-auto ml-2">Alert!</strong>
+                                            <small class="text-white-50 ml-2">just now</small>
+                                            <button class="ml-2 mb-1 close text-white bg-danger" type="button"
+                                                data-dismiss="toast" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="toast-body">
+                                            <%= message.error %>
+                                        </div>
+                                    </div>
+                                    <% } %>
+
+    </div>
+
+    <script>
+        $(window).on("load", function () {
+            if (`<%= message.success %>`) {
+                $("#toastBasic4").toast('show');
+            }
+
+            if (`<%= message.danger %>`) {
+                $("#toastBasic3").toast('show');
+            }
+
+            if (`<%= message.error %>`) {
+                $("#toastBasic1").toast('show');
+            }
+
+            if (`<%= message.warning %>`) {
+                $("#toastBasic2").toast('show');
+            }
+        });
+    </script>
+    <% } %>
