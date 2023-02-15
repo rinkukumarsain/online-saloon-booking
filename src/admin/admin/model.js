@@ -16,10 +16,6 @@ const userSchema = new mongoose.Schema({
   gender: {
     type: String
   },
-  type: {
-    type: String,
-    default:"user"
-  },
   dateOfBirth: {
     type: Date
   },
@@ -39,6 +35,6 @@ const userSchema = new mongoose.Schema({
   token: {
     type: String
   }
-}, { timestamps: true });
+});
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("admin", userSchema);
