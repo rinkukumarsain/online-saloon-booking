@@ -21,7 +21,7 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                 if (body.city) { locations.city = body.city };
                 if (body.state) { locations.state = body.state };
                 if (body.description) { obj.description = body.description };
-                if (body.userId) { obj.userId = body.userId };
+                if (user) { obj.userId = user._id };
                 if (files) {
                     img = []
                     files.forEach(element => {
