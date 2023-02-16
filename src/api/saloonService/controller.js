@@ -61,6 +61,9 @@ exports.add_Service = async ({ body, file, query }) => {
             if (body.timePeriod) {
                 obj.timePeriod_in_minits = body.timePeriod;
             };
+            if (body.serviceProvider) {
+                obj.serviceProvider = body.serviceProvider
+            }
 
             const result = await saloonService.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
             if (result) {
@@ -133,6 +136,9 @@ exports.add_Service = async ({ body, file, query }) => {
             }
             if (body.timePeriod) {
                 obj.timePeriod_in_minits = body.timePeriod
+            }
+            if (body.serviceProvider) {
+                obj.serviceProvider = body.serviceProvider
             }
             // obj.last_category = body.category[body.category.length - 1];
 

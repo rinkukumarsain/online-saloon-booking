@@ -14,7 +14,7 @@ const usercart = new mongoose.Schema({
         quantity: {
             type: Number,
         },
-        totalAmount: {
+        Amount: {
             type: String,
         },
         timePeriod_in_minits: {
@@ -22,6 +22,9 @@ const usercart = new mongoose.Schema({
         },
         _id: false
     }],
+    totalamount: {
+        type: Number,
+    },
 }, { timestamps: true })
 
 
