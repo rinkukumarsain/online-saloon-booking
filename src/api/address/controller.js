@@ -115,3 +115,61 @@ exports.getUserAddress = async ({ user, query }) => {
         throw error;
     };
 };
+
+exports.addAddresssInUserCart = async ({ user, query }) => {
+    try {
+        if (query.id) {
+            const _id = mongoose.Types.ObjectId(query.id);
+            const findAddress = await userAddress.findOne({ _id })
+            if (findAddress) {
+                const findCart = await cart.findOne({ userId: user._id })
+                if (findCart) {
+                    if (findCart.cartdata.length > 0) {
+                        const result = await cart.findByIdAndUpdate({ _id: findCart._id }, { $set: { addressId: findAddress._id } }, { new: true });
+                        if (result) {
+                            return {
+                                statusCode: 200,
+                                status: true,
+                                message: "addresh added Succesfuuly in cart !",
+                                data: [result]
+                            };
+                        } else {
+                            console.log("noadress update");
+                        }
+                    } else {
+                        return {
+                            statusCode: 200,
+                            status: true,
+                            message: "your cart is empty please add servish !",
+                            data: [findCart]
+                        };
+                    }
+                } else {
+                    return {
+                        statusCode: 200,
+                        status: true,
+                        message: "please register cart !",
+                        data: [findCart]
+                    };
+                }
+            } else {
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "Address-Not-Found-please enter valide Id !",
+                    data: findAddress
+                };
+            }
+        } else {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "give me valide address id !",
+                data: ""
+            };
+        }
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
+}

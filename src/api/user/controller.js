@@ -77,7 +77,7 @@ exports.register = async ({ body }) => {
     try {
         const { name, phone, email, password } = body
         let user;
-        
+
         if (email) {
             const data = await userModel.findOne({ email })
             if (data) user = data
@@ -183,7 +183,7 @@ exports.login = async ({ body }) => {
 
         if (phone) {
 
-            const user = await userModel.findOneAndUpdate({ phone: body.phone }, { $set: {otp:"1234"} }, { new: true });
+            const user = await userModel.findOneAndUpdate({ phone: body.phone }, { $set: { otp: "1234" } }, { new: true });
             const data = await userModel.findOne({ phone: body.phone });
             if (data) {
 
@@ -214,7 +214,7 @@ exports.loginOtpVerify = async ({ body }) => {
         const user = await userModel.findOne({ phone });
         if (user) {
             if (otp == user.otp) {
-                const userr = await userModel.findOneAndUpdate({ phone: body.phone }, { $set: {otp:""} }, { new: true });
+                const userr = await userModel.findOneAndUpdate({ phone: body.phone }, { $set: { otp: "" } }, { new: true });
                 const token = jwt.sign({ _id: user._id }, process.env.SECRET)
                 return {
                     statusCode: 200,
@@ -278,7 +278,7 @@ exports.userEditProfile = async ({ body, user, file }) => {
             obj.dateOfBirth = body.dateOfBirth
         }
         if (file) {
-            obj.image = file.filename
+            obj.image = `http:159.89.164.11:7070/uploads/${file.filename}`
         };
 
         const result = await userModel.findByIdAndUpdate({ _id: user._id }, { $set: obj }, { new: true })
