@@ -5,37 +5,47 @@ const schedule = require("./model")
 
 exports.scheduleYourVisit = async ({ body, user }) => {
     try {
-        let obj = {};
-        const findcart = await cart.findOne({ userId: user._id });
-        if (findcart._id) {
-            obj.cartId = findcart._id
-        };
-        if (findcart.userId) {
-            obj.userId = findcart.userId;
-        };
+        let findcart = await cart.findOne({ userId: user._id });
+        let findSchedul = await schedule.findOne({ cartId: findcart._id });
+        if (!findSchedul) {
+            let obj = {};
+            if (findcart._id) {
+                obj.cartId = findcart._id
+            };
+            if (findcart.userId) {
+                obj.userId = findcart.userId;
+            };
 
-        if (findcart.saloonId) {
-            obj.saloonId = findcart.saloonId;
-        };
+            if (findcart.saloonId) {
+                obj.saloonId = findcart.saloonId;
+            };
 
-        if (body.date) {
-            obj.date = body.date;
-        };
+            if (body.date) {
+                obj.date = body.date;
+            };
 
-        if (body.timeslot) {
-            obj.timeslot = body.timeslot;
-        };
+            if (body.timeslot) {
+                obj.timeslot = body.timeslot;
+            };
 
-        let scheduleCart = new schedule(obj);
-        const result = await scheduleCart.save();
-        if (result) {
+            let scheduleCart = new schedule(obj);
+            const result = await scheduleCart.save();
+            if (result) {
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "scheduleCart-Succesfuuly !",
+                    data: [result]
+                };
+            };
+        } else {
             return {
                 statusCode: 200,
                 status: true,
-                message: "scheduleCart-Succesfuuly !",
-                data: [result]
+                message: "Allready scheduleCart-added-click-to chakeOut!",
+                data: [findSchedul]
             };
-        };
+        }
     } catch (error) {
         console.log(error);
         throw error;

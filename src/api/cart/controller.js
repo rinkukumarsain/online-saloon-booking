@@ -81,7 +81,7 @@ exports.cartRegistration = async ({ body, user, query }) => {
                 return {
                     statusCode: 400,
                     status: false,
-                    message: "Cart-Is-Allready fg -Register !",
+                    message: "Cart-Is-Allready-Register !",
                     data: [findData]
                 };
             };
