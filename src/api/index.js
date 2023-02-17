@@ -4,5 +4,6 @@ const saloonService = require("./saloonService/route")
 const saloonstore = require("./saloonstore/route")
 const cart = require("./cart/route")
 const schedule = require("./Schedule/route")
+const address = require("./address/route")
 
-module.exports = [userRoutes, category, saloonstore, saloonService, cart, schedule]
+module.exports = [userRoutes, category, saloonstore, saloonService, cart, schedule, address]
