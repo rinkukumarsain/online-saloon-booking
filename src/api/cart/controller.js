@@ -215,3 +215,22 @@ exports.removeServishFromCart = async ({ body, user, query }) => {
         throw error;
     };
 };
+
+exports.getcart = async ({ user }) => {
+    const findData = await cart.findOne({ userId: user._id });
+    if (findData) {
+        return {
+            statusCode: 400,
+            status: false,
+            message: "your cart is hare !",
+            data: [findData]
+        };
+    } else {
+        return {
+            statusCode: 400,
+            status: false,
+            message: "NO Cart !",
+            data: [findData]
+        };
+    }
+}
