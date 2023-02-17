@@ -278,7 +278,7 @@ exports.userEditProfile = async ({ body, user, file }) => {
             obj.dateOfBirth = body.dateOfBirth
         }
         if (file) {
-            obj.image = `http:159.89.164.11:7070/uploads/${file.filename}`
+            obj.image = `http://159.89.164.11:7070/uploads/${file.filename}`
         };
 
         const result = await userModel.findByIdAndUpdate({ _id: user._id }, { $set: obj }, { new: true })
