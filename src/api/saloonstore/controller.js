@@ -22,6 +22,7 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                 if (body.state) { locations.state = body.state };
                 if (body.description) { obj.description = body.description };
                 if (user) { obj.userId = user._id };
+                if (body.type) { obj.type = body.type }
                 if (files) {
                     img = []
                     files.forEach(element => {
@@ -106,6 +107,7 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                 description: body.description,
                 userId: body.userId,
                 image: body.image,
+                type: body.type
             });
             const result = await saloon_details.save();
             if (result) {

@@ -35,6 +35,10 @@ const saloon_Store = new mongoose.Schema({
             type: String
         },
     },
+    type: {
+        type: String,
+        default: "Unisex"
+    },
     description: {
         type: String
     }
