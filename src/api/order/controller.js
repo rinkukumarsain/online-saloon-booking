@@ -55,3 +55,34 @@ exports.userOrder = async ({ user }) => {
     };
 };
 
+exports.getUserOrder = async ({ user, query }) => {
+    try {
+        let condition = {};
+        if (query.id) {
+            let _id = query.id;
+            condition._id = _id;
+        } else {
+            let userId = user._id;
+            condition.userId = userId;
+        };
+        const findData = await order.find(condition);
+        if (findData.length > 0) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "Find Your Order  Succesfuuly Done !",
+                data: [findData]
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "Not Find Your Order !",
+                data: []
+            };
+        };
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
+};
