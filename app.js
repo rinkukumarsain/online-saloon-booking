@@ -22,8 +22,8 @@ const adminroutes = require("./src/admin");
 app.use(cors());
 app.use(express.json());
 app.use(routes);
-app.use(adminroutes)
+app.use(adminroutes);
 
 app.listen(port, () => {
-    console.log(`server is running ${port}`)
+    console.log(`server is running ${port}`);
 });

@@ -11,10 +11,10 @@ const add_Category = new mongoose.Schema({
     image: {
         type: String,
     }
-}, { timestamps: true })
+}, { timestamps: true });
 
 
-const category = new mongoose.model("category", add_Category)
+const category = new mongoose.model("category", add_Category);
 module.exports = category;
 
 

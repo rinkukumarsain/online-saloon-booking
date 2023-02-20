@@ -32,10 +32,10 @@ const saloon_Service = new mongoose.Schema({
         type: [ObjectId],
         default: null
     }
-}, { timestamps: true })
+}, { timestamps: true });
 
 
-const saloonService = new mongoose.model("saloonService", saloon_Service)
+const saloonService = new mongoose.model("saloonService", saloon_Service);
 module.exports = saloonService;
 
 

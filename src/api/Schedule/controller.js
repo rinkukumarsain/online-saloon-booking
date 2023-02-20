@@ -1,7 +1,7 @@
-const saloonservice = require("../saloonService/model")
+const saloonservice = require("../saloonService/model");
 const mongoose = require("mongoose");
-const cart = require("../cart/model")
-const schedule = require("./model")
+const cart = require("../cart/model");
+const schedule = require("./model");
 
 exports.scheduleYourVisit = async ({ body, user }) => {
     try {
@@ -45,7 +45,7 @@ exports.scheduleYourVisit = async ({ body, user }) => {
                 message: "Allready scheduleCart-added-click-to chakeOut!",
                 data: [findSchedul]
             };
-        }
+        };
     } catch (error) {
         console.log(error);
         throw error;
