@@ -42,10 +42,10 @@ const saloon_Store = new mongoose.Schema({
     description: {
         type: String
     }
-}, { timestamps: true })
+}, { timestamps: true });
 
 
-const saloon = new mongoose.model("saloon", saloon_Store)
+const saloon = new mongoose.model("saloon", saloon_Store);
 module.exports = saloon;
 
 

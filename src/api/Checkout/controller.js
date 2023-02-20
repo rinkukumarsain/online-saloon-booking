@@ -1,13 +1,8 @@
-const saloonservice = require("../saloonService/model")
-const mongoose = require("mongoose");
-const cart = require("../cart/model")
-const userAddress = require("./model")
-const users = require("../user/model")
-const servish = require("../saloonService/model")
+const users = require("../user/model");
+const servish = require("../saloonService/model");
 
 exports.Checkout = async ({ user }) => {
     try {
-
         let condition = [
             {
                 '$match': {
@@ -86,33 +81,38 @@ exports.Checkout = async ({ user }) => {
                     }
                 }
             }
-        ]
+        ];
 
-        const findData = await users.aggregate(condition)
-        if (findData) {
-            const { cartdata, ...Checkout } = findData[0]
-            const cartitem = findData[0].cartdata
-            let cart = []
+        const findData = await users.aggregate(condition);
+        if (findData.length > 0) {
+            const { cartdata, ...Checkout } = findData[0];
+            const cartitem = findData[0].cartdata;
+            let cart = [];
             for (const item of cartitem) {
-                let userServish = {}
+                let userServish = {};
                 const findservish = await servish.findOne({ _id: item.serviceId });
-                userServish.ServiceName = findservish.ServiceName
-                userServish.ServicePrice = findservish.ServicePrice
-                userServish.quantity = item.quantity
-                userServish.Amount = item.Amount
-                cart.push(userServish)
-            }
-            Checkout.cart = cart
+                userServish.ServiceName = findservish.ServiceName;
+                userServish.ServicePrice = findservish.ServicePrice;
+                userServish.quantity = item.quantity;
+                userServish.Amount = item.Amount;
+                cart.push(userServish);
+            };
+            Checkout.cart = cart;
             return {
                 statusCode: 200,
                 status: true,
                 message: "Checkout  Succesfuuly !",
                 data: [Checkout]
             };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "data not Found !",
+                data: []
+            };
         }
-
-
     } catch (error) {
-        th
-    }
-}
+        throw error;
+    };
+};

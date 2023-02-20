@@ -5,11 +5,11 @@ exports.saloonService = async (req) => {
     try {
         let findData;
         if (req.query.id != undefined && req.query.id) {
-            let _id = req.query.id
-            findData = await saloonService.find({ _id })
+            let _id = req.query.id;
+            findData = await saloonService.find({ _id });
         } else {
-            findData = await saloonService.find()
-        }
+            findData = await saloonService.find();
+        };
 
         if (findData.length > 0) {
             return {
@@ -17,20 +17,20 @@ exports.saloonService = async (req) => {
                 status: true,
                 message: "Product Sent Successfull !",
                 data: [findData]
-            }
+            };
         } else {
             return {
                 statusCode: 400,
                 status: false,
                 message: "No Product !",
                 data: []
-            }
-        }
+            };
+        };
     } catch (error) {
-        console.log(error)
-        throw error
-    }
-}
+        console.log(error);
+        throw error;
+    };
+};
 
 exports.add_Service = async ({ body, file, query }) => {
     try {
@@ -42,12 +42,12 @@ exports.add_Service = async ({ body, file, query }) => {
             let _id = mongoose.Types.ObjectId(query.id);
 
             if (file) {
-                imgs.push(file.filename);
+                imgs.push(`http://159.89.164.11:7070/uploads/${file.filename}`);
             };
 
             if (imgs.length > 0) {
                 obj.image = imgs;
-            }
+            };
 
             if (body.ServiceName) {
                 obj.ServiceName = body.ServiceName;
@@ -62,8 +62,8 @@ exports.add_Service = async ({ body, file, query }) => {
                 obj.timePeriod_in_minits = body.timePeriod;
             };
             if (body.serviceProvider) {
-                obj.serviceProvider = body.serviceProvider
-            }
+                obj.serviceProvider = body.serviceProvider;
+            };
 
             const result = await saloonService.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
             if (result) {
@@ -77,20 +77,20 @@ exports.add_Service = async ({ body, file, query }) => {
         } else {
             if (body.category != undefined && body.category.length > 0) {
                 if (body.category.length == 24) {
-                    categorys.push(mongoose.Types.ObjectId(body.category))
+                    categorys.push(mongoose.Types.ObjectId(body.category));
                     obj.last_category = categorys;
                     obj.category = categorys;
 
                 } else {
                     body.category.forEach((item) => {
-                        categorys.push(mongoose.Types.ObjectId(item))
+                        categorys.push(mongoose.Types.ObjectId(item));
                     });
                     obj.category = categorys;
                     obj.last_category = body.category[body.category.length - 1];
                 }
             };
             if (body.saloonStore) {
-                let saloonStore = mongoose.Types.ObjectId(body.saloonStore)
+                let saloonStore = mongoose.Types.ObjectId(body.saloonStore);
                 const findstore = await saloonstore.findOne({ _id: saloonStore });
                 if (findstore) {
                     if (body.ServiceName) {
@@ -113,12 +113,10 @@ exports.add_Service = async ({ body, file, query }) => {
                         message: "please Enter valide SaloonStore id !",
                         data: []
                     };
-                }
-            }
+                };
+            };
             if (file) {
-                // file.forEach(element => {
-                imgs.push(file.filename);
-                // });
+                imgs.push(`http://159.89.164.11:7070/uploads/${file.filename}`);
             };
             if (imgs.length > 0) {
                 obj.image = imgs;
@@ -132,15 +130,14 @@ exports.add_Service = async ({ body, file, query }) => {
                 obj.description = body.description;
             };
             if (body.saloonStore) {
-                obj.saloonStore = body.saloonStore
-            }
+                obj.saloonStore = body.saloonStore;
+            };
             if (body.timePeriod) {
-                obj.timePeriod_in_minits = body.timePeriod
-            }
+                obj.timePeriod_in_minits = body.timePeriod;
+            };
             if (body.serviceProvider) {
-                obj.serviceProvider = body.serviceProvider
-            }
-            // obj.last_category = body.category[body.category.length - 1];
+                obj.serviceProvider = body.serviceProvider;
+            };
 
             service_details = new saloonService(obj);
             const result = await service_details.save();
@@ -154,7 +151,7 @@ exports.add_Service = async ({ body, file, query }) => {
             };
         };
     } catch (error) {
-        console.log(error)
-        throw error
-    }
-}
+        console.log(error);
+        throw error;
+    };
+};

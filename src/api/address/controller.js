@@ -1,7 +1,6 @@
-const saloonservice = require("../saloonService/model")
 const mongoose = require("mongoose");
-const cart = require("../cart/model")
-const userAddress = require("./model")
+const cart = require("../cart/model");
+const userAddress = require("./model");
 
 exports.addUserAddress = async ({ user, body }) => {
     try {
@@ -120,9 +119,9 @@ exports.addAddresssInUserCart = async ({ user, query }) => {
     try {
         if (query.id) {
             const _id = mongoose.Types.ObjectId(query.id);
-            const findAddress = await userAddress.findOne({ _id })
+            const findAddress = await userAddress.findOne({ _id });
             if (findAddress) {
-                const findCart = await cart.findOne({ userId: user._id })
+                const findCart = await cart.findOne({ userId: user._id });
                 if (findCart) {
                     if (findCart.cartdata.length > 0) {
                         const result = await cart.findByIdAndUpdate({ _id: findCart._id }, { $set: { addressId: findAddress._id } }, { new: true });
@@ -130,20 +129,25 @@ exports.addAddresssInUserCart = async ({ user, query }) => {
                             return {
                                 statusCode: 200,
                                 status: true,
-                                message: "addresh added Succesfuuly in cart !",
+                                message: "address added Succesfuuly in cart !",
                                 data: [result]
                             };
                         } else {
-                            console.log("noadress update");
-                        }
+                            return {
+                                statusCode: 200,
+                                status: true,
+                                message: "not address update in cart !",
+                                data: []
+                            };
+                        };
                     } else {
                         return {
                             statusCode: 200,
                             status: true,
-                            message: "your cart is empty please add servish !",
+                            message: "your cart is empty please add service  !",
                             data: [findCart]
                         };
-                    }
+                    };
                 } else {
                     return {
                         statusCode: 200,
@@ -151,7 +155,7 @@ exports.addAddresssInUserCart = async ({ user, query }) => {
                         message: "please register cart !",
                         data: [findCart]
                     };
-                }
+                };
             } else {
                 return {
                     statusCode: 200,
@@ -159,7 +163,7 @@ exports.addAddresssInUserCart = async ({ user, query }) => {
                     message: "Address-Not-Found-please enter valide Id !",
                     data: findAddress
                 };
-            }
+            };
         } else {
             return {
                 statusCode: 200,
@@ -167,7 +171,7 @@ exports.addAddresssInUserCart = async ({ user, query }) => {
                 message: "give me valide address id !",
                 data: ""
             };
-        }
+        };
     } catch (error) {
         console.log(error);
         throw error;

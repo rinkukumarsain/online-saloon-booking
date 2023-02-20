@@ -1,6 +1,7 @@
-const saloonservice = require("../saloonService/model")
+const saloonservice = require("../saloonService/model");
 const mongoose = require("mongoose");
 const cart = require("./model");
+const saloon = require("../saloonstore/model");
 
 exports.cartRegistration = async ({ body, user, query }) => {
     try {
@@ -11,7 +12,18 @@ exports.cartRegistration = async ({ body, user, query }) => {
         if (!findData) {
             obj.userId = user._id;
             if (body.saloonId) {
-                obj.saloonId = mongoose.Types.ObjectId(body.saloonId);
+                let _id = mongoose.Types.ObjectId(body.saloonId);
+                const findSaloon = await saloon.findOne({ _id });
+                if (findSaloon) {
+                    obj.saloonId = body.saloonId;
+                } else {
+                    return {
+                        statusCode: 400,
+                        status: false,
+                        message: "Enter Valid saloon Id !",
+                        data: []
+                    };
+                };
             };
             if (body.cartData.length > 0) {
                 for await (const item of body.cartData) {
@@ -26,11 +38,11 @@ exports.cartRegistration = async ({ body, user, query }) => {
                     totalamount.push(cartdata.Amount);
                 };
                 obj.cartdata = arr;
-            }
+            };
             const sum = totalamount.reduce(add, 0);
             function add(accumulator, a) {
                 return accumulator + a;
-            }
+            };
             obj.totalamount = sum;
 
             let cart_detail = new cart(obj);
@@ -47,7 +59,18 @@ exports.cartRegistration = async ({ body, user, query }) => {
             if (findData.cartdata.length == 0) {
                 obj.userId = user._id;
                 if (body.saloonId) {
-                    obj.saloonId = mongoose.Types.ObjectId(body.saloonId);
+                    let _id = mongoose.Types.ObjectId(body.saloonId);
+                    const findSaloon = await saloon.findOne({ _id });
+                    if (findSaloon) {
+                        obj.saloonId = body.saloonId;
+                    } else {
+                        return {
+                            statusCode: 400,
+                            status: false,
+                            message: "Enter Valid saloon Id !",
+                            data: []
+                        };
+                    };
                 };
                 if (body.cartData.length > 0) {
                     for await (const item of body.cartData) {
@@ -97,56 +120,77 @@ exports.editCart = async ({ body, user, query }) => {
         let obj = {};
         let arr = [];
         let totalamount = [];
-        if (query.id) {
-            const _id = mongoose.Types.ObjectId(query.id);
-            const findData = await cart.findOne({ _id });
-            if (findData) {
-                if (body.saloonId) {
-                    obj.saloonId = mongoose.Types.ObjectId(body.saloonId);
-                };
 
-                if (body.cartData.length > 0) {
-                    for await (const item of body.cartData) {
-                        let cartdata = {};
-                        let _id = item.serviceId;
-                        const finddata = await saloonservice.findOne({ _id: item.serviceId });
-                        cartdata.serviceId = finddata._id;
-                        cartdata.quantity = item.quantity;
-                        cartdata.Amount = item.quantity * finddata.ServicePrice;
-                        cartdata.timePeriod_in_minits = finddata.timePeriod_in_minits;
-                        arr.push(cartdata);
-                        totalamount.push(cartdata.Amount);
-                    };
-                    obj.cartdata = arr;
-                }
-                const sum = totalamount.reduce(add, 0);
-                function add(accumulator, a) {
-                    return accumulator + a;
-                }
-                obj.totalamount = sum;
+        let userId = user._id;
+        const _id = mongoose.Types.ObjectId(query.id);
+        const findData = await cart.findOne({ userId });
+        console.log("findData...", findData);
 
-                const result = await cart.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
-                if (result) {
+        if (findData) {
+            if (body.saloonId) {
+                // obj.
+                let _id = mongoose.Types.ObjectId(body.saloonId);
+                const findSaloon = await saloon.findOne({ _id });
+                if (findSaloon) {
+                    obj.saloonId = body.saloonId;
+                } else {
                     return {
-                        statusCode: 200,
-                        status: true,
-                        message: "User-Cart-update- Succesfuuly !",
-                        data: [result]
+                        statusCode: 400,
+                        status: false,
+                        message: "Enter Valid saloon Id !",
+                        data: []
                     };
+                };
+            };
+
+            if (body.cartData.length > 0) {
+                for await (const item of body.cartData) {
+                    let cartdata = {};
+                    let _id = item.serviceId;
+                    const finddata = await saloonservice.findOne({ _id: item.serviceId });
+                    cartdata.serviceId = finddata._id;
+                    cartdata.quantity = item.quantity;
+                    cartdata.Amount = item.quantity * finddata.ServicePrice;
+                    cartdata.timePeriod_in_minits = finddata.timePeriod_in_minits;
+                    arr.push(cartdata);
+                    totalamount.push(cartdata.Amount);
+                };
+                obj.cartdata = arr;
+            }
+            const sum = totalamount.reduce(add, 0);
+            function add(accumulator, a) {
+                return accumulator + a;
+            }
+            obj.totalamount = sum;
+
+            const result = await cart.findByIdAndUpdate({ _id: findData._id }, { $set: obj }, { new: true });
+            if (result) {
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "User-Cart-update- Succesfuuly !",
+                    data: [result]
                 };
             } else {
                 return {
                     statusCode: 400,
                     status: false,
-                    message: "please-Enter-valid-Cart-Id !",
+                    message: "User-Cart-is not update !",
                     data: []
                 };
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "please-Enter-valid-Cart-Id !",
+                data: []
             };
         };
     } catch (error) {
         console.log(error);
         throw error;
-    }
+    };
 };
 
 exports.removeServishFromCart = async ({ body, user, query }) => {
@@ -193,12 +237,19 @@ exports.removeServishFromCart = async ({ body, user, query }) => {
                             data: []
                         };
                     };
+                } else {
+                    return {
+                        statusCode: 400,
+                        status: false,
+                        message: "Please-Enter-valid-sarvice -Id !",
+                        data: []
+                    };
                 };
             } else {
                 return {
                     statusCode: 200,
                     status: true,
-                    message: "Please-Enter-valide-Cart-Id !",
+                    message: "Please-Enter-valid-Cart-Id !",
                     data: []
                 };
             };
@@ -220,8 +271,8 @@ exports.getcart = async ({ user }) => {
     const findData = await cart.findOne({ userId: user._id });
     if (findData) {
         return {
-            statusCode: 400,
-            status: false,
+            statusCode: 200,
+            status: true,
             message: "your cart is hare !",
             data: [findData]
         };
@@ -230,7 +281,7 @@ exports.getcart = async ({ user }) => {
             statusCode: 400,
             status: false,
             message: "NO Cart !",
-            data: [findData]
+            data: []
         };
-    }
-}
+    };
+};

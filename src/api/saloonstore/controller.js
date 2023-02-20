@@ -22,13 +22,13 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                 if (body.state) { locations.state = body.state };
                 if (body.description) { obj.description = body.description };
                 if (user) { obj.userId = user._id };
-                if (body.type) { obj.type = body.type }
+                if (body.type) { obj.type = body.type };
                 if (files) {
-                    img = []
+                    img = [];
                     files.forEach(element => {
-                        img.push(element.filename)
+                        img.push(`http://159.89.164.11:7070/uploads/${element.filename}`);
                     });
-                    obj.image = img
+                    obj.image = img;
                 }
                 obj.location = locations;
                 const result = await saloon.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
@@ -85,14 +85,14 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                 };
             };
             if (files) {
-                img = []
+                img = [];
                 files.forEach(element => {
-                    img.push(element.filename)
+                    img.push(`http://159.89.164.11:7070/uploads/${element.filename}`);
                 });
-                body.image = img
+                body.image = img;
             } else {
-                body.image = ""
-            }
+                body.image = "";
+            };
             let saloon_details = new saloon({
                 storeName: body.storeName,
                 Email: body.Email,
@@ -118,19 +118,19 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                     data: [result]
                 };
             };
-        }
+        };
     } catch (error) {
         console.log(error);
         throw error;
     };
-}
+};
 
 exports.getSaloonStore = async ({ query }) => {
     try {
         let result;
         if (query.id) {
-            const _id = query.id
-            result = await saloon.findOne({ _id })
+            const _id = query.id;
+            result = await saloon.findOne({ _id });
             if (result) {
                 return {
                     statusCode: 200,
@@ -149,9 +149,9 @@ exports.getSaloonStore = async ({ query }) => {
                     data: [result]
                 };
             };
-        }
+        };
     } catch (error) {
         console.log(error);
         throw error;
-    }
-}
+    };
+};

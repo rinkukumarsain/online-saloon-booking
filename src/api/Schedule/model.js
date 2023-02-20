@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-// const { mongoose, ObjectId } = require("mongoose");
+
 const schedul = new mongoose.Schema({
 
     userId: {
@@ -17,25 +17,8 @@ const schedul = new mongoose.Schema({
     timeslot: {
         type: String,
     },
-    /* cartdata: [{
-         serviceId: {
-             type: mongoose.Types.ObjectId
-         },
-         quantity: {
-             type: Number,
-         },
-         Amount: {
-             type: String,
-         },
-         timePeriod_in_minits: {
-             type: Number,
-         },
-         _id: false
-     }],
-     totalamount: {
-         type: Number,
-     },*/
-}, { timestamps: true })
 
-const schedule = new mongoose.model("schedule", schedul)
+}, { timestamps: true });
+
+const schedule = new mongoose.model("schedule", schedul);
 module.exports = schedule;

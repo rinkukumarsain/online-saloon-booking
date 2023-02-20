@@ -1,4 +1,3 @@
-// const mongoose = require("mongoose");
 const { mongoose, ObjectId } = require("mongoose");
 const address = new mongoose.Schema({
     userId: {
@@ -21,7 +20,7 @@ const address = new mongoose.Schema({
             type: String
         },
     }
-}, { timestamps: true })
+}, { timestamps: true });
 
-const userAddress = new mongoose.model("userAddress", address)
+const userAddress = new mongoose.model("userAddress", address);
 module.exports = userAddress;
