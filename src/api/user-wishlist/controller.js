@@ -126,6 +126,41 @@ exports.getWishlist = async ({ user, query }) => {
     };
 };
 
-
+exports.removeStoreFromWishlist = async ({ query }) => {
+    try {
+        if (query.id) {
+            let saloonId = mongoose.Types.ObjectId(query.id);
+            const findSaloon = await wishlist.findOne({ saloonId });
+            if (findSaloon) {
+                const result = await wishlist.findByIdAndRemove({ _id: findSaloon._id });
+                if (result) {
+                    return {
+                        statusCode: 200,
+                        status: true,
+                        message: "remove Succesfuuly  !",
+                        data: [result]
+                    };
+                };
+            } else {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "please Enter valid store id  !",
+                    data: []
+                };
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "please Enter store id  !",
+                data: []
+            };
+        };
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
+};
 
 

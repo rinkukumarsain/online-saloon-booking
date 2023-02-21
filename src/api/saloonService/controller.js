@@ -1,6 +1,8 @@
 const saloonService = require("./model");
 const saloonstore = require("../saloonstore/model")
+const category = require("../category/model")
 const mongoose = require("mongoose");
+
 exports.saloonService = async (req) => {
     try {
         let findData;
@@ -148,6 +150,71 @@ exports.add_Service = async ({ body, file, query }) => {
                     message: "Service Register Succesfuuly !",
                     data: [result]
                 };
+            };
+        };
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
+};
+
+
+exports.getAllSaloonServiceByCatogory = async ({ query }) => {
+    try {
+        let arrr = []
+        let final = []
+        let arr = {};
+        let saloonId = mongoose.Types.ObjectId(query.saloonId);
+        let categoryId = mongoose.Types.ObjectId(query.catogoryId);
+        const findStore = await saloonstore.findOne({ _id: saloonId });
+        if (findStore) {
+            const findCategory = await category.findOne({ _id: categoryId });
+            if (findCategory) {
+                findCategory._doc.sub = []
+                arrr.push(findCategory)
+                arr.Category = findCategory
+                const subcotegory = await category.find({ parent_Name: findCategory._id });
+                if (subcotegory.length > 0) {
+                    for await (const element of subcotegory) {
+                        const findData = await saloonService.find({ saloonStore: saloonId, last_category: element._id });
+                        if (findData.length > 0) {
+                            element._doc.Service = findData
+                            arrr[0]._doc.sub.push(element)
+                        } else {
+                            element._doc.Service = []
+                            arrr[0]._doc.sub.push(element)
+                        }
+                    }
+                    if (arrr) {
+                        return {
+                            statusCode: 200,
+                            status: true,
+                            message: "Find Data Succesfuuly !",
+                            data: arrr
+                        };
+                    }
+                } else {
+                    return {
+                        statusCode: 400,
+                        status: false,
+                        message: "subcategory not found!",
+                        data: []
+                    };
+                }
+            } else {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "invalide categoryId id please Enter valide categoryId Id!",
+                    data: []
+                };
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "invalide saloon id please Enter valide saloon Id!",
+                data: []
             };
         };
     } catch (error) {
