@@ -7,6 +7,8 @@ const schedule = require("./Schedule/route");
 const address = require("./address/route");
 const checkOut = require("./Checkout/route");
 const order = require("./order/route");
+const userWishlist = require("./user-wishlist/route")
 
 module.exports = [userRoutes, category, saloonstore, saloonService,
-    cart, schedule, address, checkOut, order];
+    cart, schedule, address, checkOut,
+    order, userWishlist];

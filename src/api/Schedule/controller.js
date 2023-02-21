@@ -6,10 +6,8 @@ const schedule = require("./model");
 exports.scheduleYourVisit = async ({ body, user }) => {
     try {
         let findcart = await cart.findOne({ userId: user._id });
-        // console.log("findcart", findcart)
         if (findcart) {
             let findSchedul = await schedule.findOne({ cartId: findcart._id });
-            // console.log("findSchedul", findSchedul)
             if (!findSchedul) {
                 let obj = {};
                 if (findcart._id) {
@@ -54,9 +52,9 @@ exports.scheduleYourVisit = async ({ body, user }) => {
                 statusCode: 400,
                 status: false,
                 message: "Your Cart in empty!",
-                data: [findcart]
+                data: []
             };
-        }
+        };
     } catch (error) {
         console.log(error);
         throw error;

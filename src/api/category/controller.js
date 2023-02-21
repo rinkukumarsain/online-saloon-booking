@@ -76,8 +76,48 @@ exports.getServiceByCategory = async ({ query }) => {
             let _id = query.id;
             const findCategory = await category.findOne({ _id });
             if (findCategory) {
-                let last_category = findCategory._id;
-                const findService = await service.find({ last_category });
+                // let last_category = findCategory._id;
+                const condition = [];
+                condition.push({
+                    '$match': {
+                        'last_category': findCategory._id
+                    }
+                });
+
+                condition.push({
+                    '$lookup': {
+                        'from': 'saloons',
+                        'localField': 'saloonStore',
+                        'foreignField': '_id',
+                        'as': 'result'
+                    }
+                });
+
+                condition.push({
+                    '$unwind': {
+                        'path': '$result'
+                    }
+                });
+
+                condition.push({
+                    '$project': {
+                        'saloonStore': 1,
+                        'storeLOcation': '$result.location',
+                        'storeName': '$result.storeName',
+                        'ServiceName': 1,
+                        'ServicePrice': 1,
+                        'image': 1,
+                        'description': 1,
+                        'last_category': 1,
+                        'category': 1,
+                        'timePeriod': 1,
+                        'timePeriod_in_minits': 1,
+                        'serviceProvider': 1,
+                        'updatedA': 1
+                    }
+                });
+
+                const findService = await service.aggregate(condition);
                 if (findService) {
                     return {
                         statusCode: 200,
@@ -104,6 +144,6 @@ exports.getServiceByCategory = async ({ query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error
+        throw error;
     };
 };
