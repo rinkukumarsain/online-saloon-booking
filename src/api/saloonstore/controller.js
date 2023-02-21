@@ -5,6 +5,7 @@ const { error } = require("console");
 
 exports.registerSaloonStore = async ({ body, user, files, query }) => {
     try {
+        console.log("files",files);
         if (query.id) {
             let _id = mongoose.Types.ObjectId(query.id);
             const result = await saloon.findOne({ _id });
