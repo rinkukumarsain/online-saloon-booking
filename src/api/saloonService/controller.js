@@ -2,6 +2,7 @@ const saloonService = require("./model");
 const saloonstore = require("../saloonstore/model")
 const category = require("../category/model")
 const mongoose = require("mongoose");
+const service = require("../saloonService/model")
 
 exports.saloonService = async (req) => {
     try {
@@ -214,6 +215,105 @@ exports.getAllSaloonServiceByCatogory = async ({ query }) => {
                 statusCode: 400,
                 status: false,
                 message: "invalide saloon id please Enter valide saloon Id!",
+                data: []
+            };
+        };
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
+};
+
+
+exports.getServiceByCategory = async ({ query }) => {
+    try {
+        if (query.id) {
+            let arrr = []
+            let _id = query.id;
+            const findCategory = await category.findOne({ _id });
+            if (findCategory) {
+                const findsubCategory = await category.find({ parent_Name: findCategory._id });
+                if (findsubCategory.length > 0) {
+                    for (const item of findsubCategory) {
+                        const condition = [];
+                        condition.push({
+                            '$match': {
+                                'last_category': item._id
+                            }
+                        });
+
+                        condition.push({
+                            '$lookup': {
+                                'from': 'saloons',
+                                'localField': 'saloonStore',
+                                'foreignField': '_id',
+                                'as': 'result'
+                            }
+                        });
+
+                        condition.push({
+                            '$unwind': {
+                                'path': '$result'
+                            }
+                        });
+
+                        condition.push({
+                            '$project': {
+                                'saloonStore': 1,
+                                'storeLOcation': '$result.location',
+                                'storeName': '$result.storeName',
+                                'ServiceName': 1,
+                                'ServicePrice': 1,
+                                'image': 1,
+                                'description': 1,
+                                'last_category': 1,
+                                'category': 1,
+                                'timePeriod': 1,
+                                'timePeriod_in_minits': 1,
+                                'serviceProvider': 1,
+                                'updatedA': 1
+                            }
+                        });
+
+                        const findService = await service.aggregate(condition);
+                        if (findService) {
+                            arrr.push(findService)
+                        };
+                    }
+                    if (arrr && arrr.length > 0) {
+                        return {
+                            statusCode: 200,
+                            status: true,
+                            message: "Find Service successfull !",
+                            data: arrr
+                        };
+                    } else {
+                        return {
+                            statusCode: 400,
+                            status: false,
+                            message: "Service Not Found   !",
+                            data: arrr
+                        };
+                    }
+
+
+                } else {
+                    console.log("subcatory not found ")
+                }
+
+            } else {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "Please Enter Valid Category id !",
+                    data: []
+                };
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "Please Enter Category id !",
                 data: []
             };
         };
