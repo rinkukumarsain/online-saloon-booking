@@ -5,7 +5,6 @@ const { error } = require("console");
 
 exports.registerSaloonStore = async ({ body, user, files, query }) => {
     try {
-        console.log("files",files);
         if (query.id) {
             let _id = mongoose.Types.ObjectId(query.id);
             const result = await saloon.findOne({ _id });
@@ -128,27 +127,26 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
 
 exports.getSaloonStore = async ({ query }) => {
     try {
-        let result;
+        let condition = {};
         if (query.id) {
-            const _id = query.id;
-            result = await saloon.findOne({ _id });
-            if (result) {
-                return {
-                    statusCode: 200,
-                    status: true,
-                    message: "Get one Saloon-Store successfull !",
-                    data: [result]
-                };
+            condition._id = mongoose.Types.ObjectId(query.id);
+        } else {
+            condition = {};
+        };
+        let result = await saloon.find(condition);
+        if (result.length > 0) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "Get All Saloon-Store successfull !",
+                data: result
             };
         } else {
-            result = await saloon.find()
-            if (result) {
-                return {
-                    statusCode: 200,
-                    status: true,
-                    message: "Get All Saloon-Store successfull !",
-                    data: [result]
-                };
+            return {
+                statusCode: 400,
+                status: false,
+                message: "No Data Found  !",
+                data: []
             };
         };
     } catch (error) {
