@@ -333,7 +333,7 @@ exports.getServiceByLocation = async ({ query }) => {
                     statusCode: 200,
                     status: true,
                     message: `find saloon By Location City Name ${query.State}!`,
-                    data: findSaloon
+                    data: [findSaloon]
                 };
             };
         };
@@ -344,7 +344,7 @@ exports.getServiceByLocation = async ({ query }) => {
                     statusCode: 200,
                     status: true,
                     message: `find saloon By Location City Name ${query.city}!`,
-                    data: findSaloon
+                    data: [findSaloon]
                 };
             };
         };
@@ -356,7 +356,7 @@ exports.getServiceByLocation = async ({ query }) => {
                     statusCode: 200,
                     status: true,
                     message: `find saloon By Location City Name ${query.city}!`,
-                    data: findSaloon
+                    data: [findSaloon]
                 };
             };
         };
