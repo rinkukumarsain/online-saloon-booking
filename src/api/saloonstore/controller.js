@@ -5,6 +5,7 @@ const { error } = require("console");
 
 exports.registerSaloonStore = async ({ body, user, files, query }) => {
     try {
+        let catogoryarr = []
         if (query.id) {
             let _id = mongoose.Types.ObjectId(query.id);
             const result = await saloon.findOne({ _id });
@@ -29,6 +30,12 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                         img.push(`http://159.89.164.11:7070/uploads/${element.filename}`);
                     });
                     obj.image = img;
+                }
+                console.log(body)
+
+                if (body.category) {
+                    catogoryarr.push(body.category)
+                    obj.category = catogoryarr
                 }
                 obj.location = locations;
                 const result = await saloon.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
@@ -93,6 +100,11 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
             } else {
                 body.image = "";
             };
+            if (body.category.length > 0) {
+                for (const index of body.category) {
+                    catogoryarr.push(index)
+                }
+            }
             let saloon_details = new saloon({
                 storeName: body.storeName,
                 Email: body.Email,
@@ -107,7 +119,9 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                 description: body.description,
                 userId: body.userId,
                 image: body.image,
-                type: body.type
+                type: body.type,
+                category: catogoryarr,
+
             });
             const result = await saloon_details.save();
             if (result) {
