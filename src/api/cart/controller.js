@@ -25,20 +25,24 @@ exports.cartRegistration = async ({ body, user, query }) => {
                     };
                 };
             };
-            if (body.cartData.length > 0) {
-                for await (const item of body.cartData) {
-                    let cartdata = {};
-                    let _id = item.serviceId;
-                    const finddata = await saloonservice.findOne({ _id: item.serviceId });
-                    cartdata.serviceId = finddata._id;
-                    cartdata.quantity = item.quantity;
-                    cartdata.Amount = item.quantity * finddata.ServicePrice;
-                    cartdata.timePeriod_in_minits = finddata.timePeriod_in_minits;
-                    arr.push(cartdata);
-                    totalamount.push(cartdata.Amount);
+            if (body.cartData != undefined) {
+                if (body.cartData.length > 0) {
+                    for await (const item of body.cartData) {
+                        let cartdata = {};
+                        let _id = item.serviceId;
+                        const finddata = await saloonservice.findOne({ _id: item.serviceId });
+                        if (finddata != null) {
+                            cartdata.serviceId = finddata._id;
+                            cartdata.quantity = item.quantity;
+                            cartdata.Amount = item.quantity * finddata.ServicePrice;
+                            cartdata.timePeriod_in_minits = finddata.timePeriod_in_minits;
+                            arr.push(cartdata);
+                            totalamount.push(cartdata.Amount);
+                        }
+                    };
+                    obj.cartdata = arr;
                 };
-                obj.cartdata = arr;
-            };
+            }
             const sum = totalamount.reduce(add, 0);
             function add(accumulator, a) {
                 return accumulator + a;
@@ -72,19 +76,23 @@ exports.cartRegistration = async ({ body, user, query }) => {
                         };
                     };
                 };
-                if (body.cartData.length > 0) {
-                    for await (const item of body.cartData) {
-                        let cartdata = {};
-                        let _id = item.serviceId;
-                        const finddata = await saloonservice.findOne({ _id: item.serviceId });
-                        cartdata.serviceId = finddata._id;
-                        cartdata.quantity = item.quantity;
-                        cartdata.Amount = item.quantity * finddata.ServicePrice;
-                        cartdata.timePeriod_in_minits = finddata.timePeriod_in_minits;
-                        arr.push(cartdata);
-                        totalamount.push(cartdata.Amount);
-                    };
-                    obj.cartdata = arr;
+                if (body.cartData != undefined) {
+                    if (body.cartData.length > 0) {
+                        for await (const item of body.cartData) {
+                            let cartdata = {};
+                            let _id = item.serviceId;
+                            const finddata = await saloonservice.findOne({ _id: item.serviceId });
+                            if (finddata != null) {
+                                cartdata.serviceId = finddata._id;
+                                cartdata.quantity = item.quantity;
+                                cartdata.Amount = item.quantity * finddata.ServicePrice;
+                                cartdata.timePeriod_in_minits = finddata.timePeriod_in_minits;
+                                arr.push(cartdata);
+                                totalamount.push(cartdata.Amount);
+                            };
+                        }
+                        obj.cartdata = arr;
+                    }
                 }
                 const sum = totalamount.reduce(add, 0);
                 function add(accumulator, a) {
