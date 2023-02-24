@@ -2,7 +2,7 @@ const service = require("../saloonService/model");
 const mongoose = require("mongoose");
 const cart = require("./model");
 const saloon = require("../saloonstore/model");
-
+/*
 exports.cartRegistration = async ({ body, user, query }) => {
     try {
         let obj = {};
@@ -15,6 +15,7 @@ exports.cartRegistration = async ({ body, user, query }) => {
                 let _id = mongoose.Types.ObjectId(body.saloonId);
                 const findSaloon = await saloon.findOne({ _id });
                 if (findSaloon) {
+                    console.log("cart RRR", 1)
                     obj.saloonId = body.saloonId;
                 } else {
                     return {
@@ -26,6 +27,7 @@ exports.cartRegistration = async ({ body, user, query }) => {
                 };
             };
             if (body.cartData != undefined) {
+                console.log("cart RRR", 2)
                 if (body.cartData.length > 0) {
                     for await (const item of body.cartData) {
                         let cartdata = {};
@@ -49,6 +51,7 @@ exports.cartRegistration = async ({ body, user, query }) => {
             };
             obj.totalamount = sum;
 
+            console.log(obj)
             let cart_detail = new cart(obj);
             const result = await cart_detail.save();
             if (result) {
@@ -122,9 +125,9 @@ exports.cartRegistration = async ({ body, user, query }) => {
         throw error;
     };
 };
+*/
 
-
-exports.removeServishFromCart = async ({ body, user, query }) => {
+exports.removeserviceFromCart = async ({ body, user, query }) => {
     try {
         if (query.id) {
             const _id = mongoose.Types.ObjectId(query.id);
@@ -256,14 +259,37 @@ exports.getcart = async ({ user }) => {
     };
 };
 
-
-
-
-
 exports.addcart = async ({ body, user, query }) => {
     try {
+        let obj = {};
         let serviceArr = [];
         let findService;
+        const findData = await cart.findOne({ userId: user._id });
+        if (!findData) {
+            obj.userId = user._id;
+            if (query.saloonId) {
+                let _id = mongoose.Types.ObjectId(query.saloonId);
+                const findSaloon = await saloon.findOne({ _id });
+                if (findSaloon) {
+                    console.log("cart RRR", 1)
+                    obj.saloonId = query.saloonId;
+                } else {
+                    return {
+                        statusCode: 400,
+                        status: false,
+                        message: "Enter Valid saloon Id !",
+                        data: []
+                    };
+                };
+            };
+            console.log(obj)
+            let cart_detail = new cart(obj);
+            const result = await cart_detail.save();
+            if (result) {
+                console.log("User-Cart-register- Succesfuuly !", 1)
+            };
+        };
+        console.log("User-Cart-register- Succesfuuly !", 2)
         if (query.serviceId) {
             let _id = mongoose.Types.ObjectId(query.serviceId);
             findService = await service.findOne({ _id });
@@ -316,6 +342,7 @@ exports.addcart = async ({ body, user, query }) => {
                 data: [FindCart]
             };
         };
+
     } catch (error) {
         console.log(error);
         throw error;
