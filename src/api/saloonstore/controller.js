@@ -33,9 +33,14 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                 }
                 console.log(body)
 
-                if (body.category) {
+
+                if (typeof (body.category) == "string") {
                     catogoryarr.push(body.category)
-                    obj.category = catogoryarr
+                }
+                if (typeof (body.category) == "object") {
+                    for (const index of body.category) {
+                        catogoryarr.push(index)
+                    }
                 }
                 obj.location = locations;
                 const result = await saloon.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
