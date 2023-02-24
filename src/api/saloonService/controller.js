@@ -229,6 +229,7 @@ exports.getServiceByCategory = async ({ query }) => {
     try {
         console.log("query--->", query)
         let Ltprice;
+        const condition = [];
         if (query.id) {
             if (query.ServicePrice_lt != undefined && query.ServicePrice_lt != "") {
                 Ltprice = Number(query.ServicePrice_lt)
@@ -241,7 +242,7 @@ exports.getServiceByCategory = async ({ query }) => {
                 const findsubCategory = await category.find({ parent_Name: findCategory._id });
                 if (findsubCategory.length > 0) {
                     for (const item of findsubCategory) {
-                        const condition = [];
+
                         if (Ltprice) {
                             condition.push({
                                 '$match': {
@@ -337,7 +338,7 @@ exports.getServiceByCategory = async ({ query }) => {
                                 'storeName': '$result.storeName',
                                 'ServiceName': 1,
                                 'ServicePrice': 1,
-                                'image': 1,
+                                'image': "$result.image",
                                 'description': 1,
                                 'last_category': 1,
                                 'category': 1,
@@ -365,7 +366,7 @@ exports.getServiceByCategory = async ({ query }) => {
                             statusCode: 400,
                             status: false,
                             message: "Service Not Found   !",
-                            data: arrr
+                            data: []
                         };
                     }
 
