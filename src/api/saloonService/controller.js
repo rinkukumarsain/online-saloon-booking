@@ -227,7 +227,13 @@ exports.getAllSaloonServiceByCatogory = async ({ query }) => {
 
 exports.getServiceByCategory = async ({ query }) => {
     try {
+        console.log("query--->", query)
+        let Ltprice;
         if (query.id) {
+            if (query.ServicePrice_lt != undefined && query.ServicePrice_lt != "") {
+                Ltprice = Number(query.ServicePrice_lt)
+            }
+            console.log("ServicePrice_lt", typeof (Ltprice))
             let arrr = []
             let _id = query.id;
             const findCategory = await category.findOne({ _id });
@@ -236,11 +242,78 @@ exports.getServiceByCategory = async ({ query }) => {
                 if (findsubCategory.length > 0) {
                     for (const item of findsubCategory) {
                         const condition = [];
-                        condition.push({
-                            '$match': {
-                                'last_category': item._id
+                        if (Ltprice) {
+                            condition.push({
+                                '$match': {
+                                    '$and': [
+                                        {
+                                            'last_category': item._id
+                                        }, {
+                                            'ServicePrice': {
+                                                '$lte': Ltprice
+                                            }
+                                        },
+                                        /*{
+                                           'timePeriod_in_minits': 15
+                                       }, {
+                                           'serviceProvider': 'male'
+                                       }*/
+                                    ]
+                                }
+                            });
+                        } else {
+                            condition.push({
+                                '$match': {
+                                    'last_category': item._id
+                                }
+                            });
+                        }
+                        /*                   
+                   [
+                     {
+                       '$match': {
+                         '$and': [
+                           {
+                             'last_category': new ObjectId('63f486cc1822bbd9adee7465')
+                           }, {
+                             'ServicePrice': {
+                               '$lt': 250
+                             }
+                           }, {
+                             'timePeriod_in_minits': 15
+                           }, {
+                             'serviceProvider': 'male'
+                           }
+                         ]
+                       }
+                     }
+                   ]
+                   [
+                       {
+                                '$match': {
+                                    '$and': [
+                                        {
+                                            'last_category': new ObjectId('63f486cc1822bbd9adee7465')
+                                        }, {
+                                            'ServicePrice': {
+                                                '$lte': 300
+                                            }
+                                        }, {
+                                            'timePeriod_in_minits': 15
+                                        }, {
+                                            'serviceProvider': 'male'
+                                        }
+                                    ]
+                                }
                             }
-                        });
+                        ]
+                        
+                        */
+                        // condition.push({
+                        //     '$match': {
+                        //         'last_category': item._id
+                        //     }
+                        // });
 
                         condition.push({
                             '$lookup': {

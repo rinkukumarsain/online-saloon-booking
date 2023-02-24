@@ -123,93 +123,6 @@ exports.cartRegistration = async ({ body, user, query }) => {
     };
 };
 
-exports.editCart = async ({ body, user, query }) => {
-    try {
-        let obj = {};
-        let arr = [];
-        let totalamount = [];
-
-        let userId = user._id;
-        const _id = mongoose.Types.ObjectId(query.id);
-        const findData = await cart.findOne({ userId });
-        // console.log("findData...", findData);
-
-        if (findData) {
-            if (body.saloonId) {
-                // obj.
-                let _id = mongoose.Types.ObjectId(body.saloonId);
-                const findSaloon = await saloon.findOne({ _id });
-                if (findSaloon) {
-                    obj.saloonId = body.saloonId;
-                } else {
-                    return {
-                        statusCode: 400,
-                        status: false,
-                        message: "Enter Valid saloon Id !",
-                        data: []
-                    };
-                };
-            };
-
-            if (body.cartData.length > 0) {
-                for await (const item of body.cartData) {
-                    let cartdata = {};
-                    let _id = mongoose.Types.ObjectId(item.serviceId);
-                    const finddata = await service.findOne({ _id });
-                    // console.log("finddata---", finddata)
-                    if (finddata) {
-                        cartdata.serviceId = finddata._id;
-                        cartdata.quantity = item.quantity;
-                        cartdata.Amount = item.quantity * finddata.ServicePrice;
-                        cartdata.timePeriod_in_minits = finddata.timePeriod_in_minits;
-                        arr.push(cartdata);
-                        totalamount.push(cartdata.Amount);
-                    } else {
-                        return {
-                            statusCode: 400,
-                            status: false,
-                            message: "Please-Enter-Valid-service ID !",
-                            data: []
-                        };
-                    }
-                };
-                obj.cartdata = arr;
-            }
-            const sum = totalamount.reduce(add, 0);
-            function add(accumulator, a) {
-                return accumulator + a;
-            }
-            obj.totalamount = sum;
-
-            const result = await cart.findByIdAndUpdate({ _id: findData._id }, { $set: obj }, { new: true });
-            if (result) {
-                return {
-                    statusCode: 200,
-                    status: true,
-                    message: "User-Cart-update- Succesfuuly !",
-                    data: [result]
-                };
-            } else {
-                return {
-                    statusCode: 400,
-                    status: false,
-                    message: "User-Cart-is not update !",
-                    data: []
-                };
-            };
-        } else {
-            return {
-                statusCode: 400,
-                status: false,
-                message: "please-Enter-Valid-Cart-Id !",
-                data: []
-            };
-        };
-    } catch (error) {
-        console.log(error);
-        throw error;
-    };
-};
 
 exports.removeServishFromCart = async ({ body, user, query }) => {
     try {
@@ -222,8 +135,11 @@ exports.removeServishFromCart = async ({ body, user, query }) => {
             if (findData) {
                 if (query.serviceId) {
                     if (findData.cartdata.length > 0) {
+                        let i = 1;
                         for (const item of findData.cartdata) {
-                            if (item.serviceId.toString() != query.serviceId) {
+                            if (item.serviceId.toString() == query.serviceId && i === 1) {
+                                i++;
+                            } else {
                                 cartdata.push(item);
                                 Amount.push(Number(item.Amount));
                             };
@@ -337,5 +253,71 @@ exports.getcart = async ({ user }) => {
             message: "NO Cart !",
             data: []
         };
+    };
+};
+
+
+
+
+
+exports.addcart = async ({ body, user, query }) => {
+    try {
+        let serviceArr = [];
+        let findService;
+        if (query.serviceId) {
+            let _id = mongoose.Types.ObjectId(query.serviceId);
+            findService = await service.findOne({ _id });
+            if (!findService) {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "service is  not Found please Enter valide servish Id !",
+                    data: []
+                };
+            };
+        };
+
+        const FindCart = await cart.findOne({ userId: user._id });
+        if (FindCart) {
+            if (FindCart.cartdata.length > 0) {
+                for (const item of FindCart.cartdata) {
+                    let serviceId = item.serviceId.toString()
+                    serviceArr.push(item)
+                };
+            };
+            serviceArr.push({
+                serviceId: findService._id,
+                Amount: findService.ServicePrice,
+                quantity: 1,
+                timePeriod_in_minits: findService.timePeriod_in_minits,
+            });
+            let totalamount = [];
+            serviceArr.forEach(element => {
+                totalamount.push(Number(element.Amount))
+            });
+            let sum = totalamount.reduce(function (x, y) {
+                return x + y;
+            }, 0);
+
+            const result = await cart.findByIdAndUpdate({ _id: FindCart._id }, { $set: { cartdata: serviceArr, totalamount: sum } }, { new: true });
+            if (result) {
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "service added in cart Succesfuuly !",
+                    data: [result]
+                };
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "cart not Found register karwao !",
+                data: [FindCart]
+            };
+        };
+    } catch (error) {
+        console.log(error);
+        throw error;
     };
 };
