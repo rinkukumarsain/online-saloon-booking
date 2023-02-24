@@ -100,11 +100,15 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
             } else {
                 body.image = "";
             };
-            if (body.category.length > 0) {
+            if (typeof (body.category) == "string") {
+                catogoryarr.push(body.category)
+            }
+            if (typeof (body.category) == "object") {
                 for (const index of body.category) {
                     catogoryarr.push(index)
                 }
             }
+
             let saloon_details = new saloon({
                 storeName: body.storeName,
                 Email: body.Email,
