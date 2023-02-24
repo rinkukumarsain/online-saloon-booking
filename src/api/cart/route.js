@@ -8,6 +8,6 @@ const app = Router();
 
 app.get("/remove-service-from-cart", auth, responseHandler(removeserviceFromCart));
 app.get("/get-cart", auth, responseHandler(getcart));
-app.post("/add-cart", auth, responseHandler(addcart))
+app.get("/add-cart", auth, responseHandler(addcart))
 
 module.exports = app;
