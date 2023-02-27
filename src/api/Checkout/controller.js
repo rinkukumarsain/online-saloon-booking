@@ -1,42 +1,49 @@
 const users = require("../user/model");
 const servish = require("../saloonService/model");
 
-exports.Checkout = async ({ user }) => {
+exports.Checkout = async ({ user, query }) => {
     try {
-        let condition = [
-            {
-                '$match': {
-                    '_id': user._id
-                }
-            }, {
-                '$lookup': {
-                    'from': 'carts',
-                    'localField': '_id',
-                    'foreignField': 'userId',
-                    'as': 'cartData'
-                }
-            }, {
-                '$unwind': {
-                    'path': '$cartData'
-                }
-            }, {
-                '$project': {
-                    'name': 1,
-                    'phone': 1,
-                    'email': 1,
-                    'saloonId': '$cartData.saloonId',
-                    'cartdata': '$cartData.cartdata',
-                    'totalamount': '$cartData.totalamount',
-                    'addressId': '$cartData.addressId'
-                }
-            }, {
-                '$lookup': {
-                    'from': 'saloons',
-                    'localField': 'saloonId',
-                    'foreignField': '_id',
-                    'as': 'saloon'
-                }
-            }, {
+        let condition = [];
+        // let condition = [
+        condition.push({
+            '$match': {
+                '_id': user._id
+            }
+        })
+        condition.push({
+            '$lookup': {
+                'from': 'carts',
+                'localField': '_id',
+                'foreignField': 'userId',
+                'as': 'cartData'
+            }
+        })
+        condition.push({
+            '$unwind': {
+                'path': '$cartData'
+            }
+        })
+        condition.push({
+            '$project': {
+                'name': 1,
+                'phone': 1,
+                'email': 1,
+                'saloonId': '$cartData.saloonId',
+                'cartdata': '$cartData.cartdata',
+                'totalamount': '$cartData.totalamount',
+                'addressId': '$cartData.addressId'
+            }
+        })
+        condition.push({
+            '$lookup': {
+                'from': 'saloons',
+                'localField': 'saloonId',
+                'foreignField': '_id',
+                'as': 'saloon'
+            }
+        })
+        if (query.Home) {
+            condition.push({
                 '$lookup': {
                     'from': 'useraddresses',
                     'localField': 'addressId',
@@ -44,25 +51,31 @@ exports.Checkout = async ({ user }) => {
                     'as': 'Address'
                 }
             }, {
-                '$lookup': {
-                    'from': 'schedules',
-                    'localField': '_id',
-                    'foreignField': 'userId',
-                    'as': 'schedule'
-                }
-            }, {
-                '$unwind': {
-                    'path': '$saloon'
-                }
-            }, {
                 '$unwind': {
                     'path': '$Address'
                 }
-            }, {
+            })
+        }
+
+        condition.push({
+            '$lookup': {
+                'from': 'schedules',
+                'localField': '_id',
+                'foreignField': 'userId',
+                'as': 'schedule'
+            }
+        })
+        condition.push({
+            '$unwind': {
+                'path': '$saloon'
+            }
+        },
+            {
                 '$unwind': {
                     'path': '$schedule'
                 }
-            }, {
+            },
+            {
                 '$project': {
                     '_id': 0,
                     'name': 1,
@@ -80,8 +93,9 @@ exports.Checkout = async ({ user }) => {
                         'Email': '$saloon.Email'
                     }
                 }
-            }
-        ];
+            })
+
+        // ];
 
         const findData = await users.aggregate(condition);
         if (findData.length > 0) {
@@ -109,7 +123,8 @@ exports.Checkout = async ({ user }) => {
                 statusCode: 400,
                 status: false,
                 message: "data not Found !",
-                data: []
+                data: condition
+
             };
         }
     } catch (error) {
