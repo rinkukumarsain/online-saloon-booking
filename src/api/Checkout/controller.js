@@ -1,5 +1,6 @@
 const users = require("../user/model");
 const servish = require("../saloonService/model");
+const { default: mongoose } = require("mongoose");
 
 exports.Checkout = async ({ user, query }) => {
     try {
@@ -23,17 +24,42 @@ exports.Checkout = async ({ user, query }) => {
                 'path': '$cartData'
             }
         })
-        condition.push({
-            '$project': {
-                'name': 1,
-                'phone': 1,
-                'email': 1,
-                'saloonId': '$cartData.saloonId',
-                'cartdata': '$cartData.cartdata',
-                'totalamount': '$cartData.totalamount',
-                'addressId': '$cartData.addressId'
-            }
-        })
+        // condition.push({
+        //     '$project': {
+        //         'name': 1,
+        //         'phone': 1,
+        //         'email': 1,
+        //         'saloonId': '$cartData.saloonId',
+        //         'cartdata': '$cartData.cartdata',
+        //         'totalamount': '$cartData.totalamount',
+        //         // 'addressId': '$cartData.addressId'
+        //     }
+        // })
+        if (query.Home != undefined && query.Home != "") {
+            condition.push({
+                '$project': {
+                    'name': 1,
+                    'phone': 1,
+                    'email': 1,
+                    'saloonId': '$cartData.saloonId',
+                    'cartdata': '$cartData.cartdata',
+                    'totalamount': '$cartData.totalamount',
+                    'addressId': mongoose.Types.ObjectId(query.Home)
+                }
+            })
+        } else {
+            condition.push({
+                '$project': {
+                    'name': 1,
+                    'phone': 1,
+                    'email': 1,
+                    'saloonId': '$cartData.saloonId',
+                    'cartdata': '$cartData.cartdata',
+                    'totalamount': '$cartData.totalamount',
+                    // 'addressId': '$cartData.addressId'
+                }
+            })
+        }
         condition.push({
             '$lookup': {
                 'from': 'saloons',
@@ -42,7 +68,7 @@ exports.Checkout = async ({ user, query }) => {
                 'as': 'saloon'
             }
         })
-        if (query.Home) {
+        if (query.Home != undefined && query.Home != "") {
             condition.push({
                 '$lookup': {
                     'from': 'useraddresses',
@@ -123,7 +149,7 @@ exports.Checkout = async ({ user, query }) => {
                 statusCode: 400,
                 status: false,
                 message: "data not Found !",
-                data: condition
+                data: []
 
             };
         }

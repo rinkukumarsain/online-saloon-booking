@@ -309,12 +309,12 @@ exports.getServiceByCategory = async ({ query }) => {
                             }
                         ]
                         
-                        */
-                        // condition.push({
-                        //     '$match': {
-                        //         'last_category': item._id
-                        //     }
-                        // });
+                        
+                         condition.push({
+                             '$match': {
+                                 'last_category': item._id
+                             }
+                         });*/
 
                         condition.push({
                             '$lookup': {

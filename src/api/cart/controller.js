@@ -230,7 +230,7 @@ exports.getcart = async ({ user }) => {
             '$project': {
                 'totalamount': 1,
                 'cartdata': {
-                    'serviceId':'$result._id',
+                    'serviceId': '$result._id',
                     'quantity': '$cartdata.quantity',
                     'Amount': '$cartdata.Amount',
                     'ServiceName': '$result.ServiceName',
@@ -344,6 +344,54 @@ exports.addcart = async ({ body, user, query }) => {
             };
         };
 
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
+};
+
+
+exports.GetCountOfServiceInUserCart = async ({ user, query }) => {
+    try {
+        if (query.service != undefined && query.service != "") {
+            const _id = mongoose.Types.ObjectId(query.service);
+            findService = await service.findOne({ _id });
+            if (findService != null) {
+                let arrr = [];
+                const fondCart = await cart.findOne({ userId: user._id });
+                for await (const index of fondCart.cartdata) {
+                    if (query.service == index.serviceId.toString()) {
+                        arrr.push(index.serviceId.toString());
+                    };
+                };
+                // console.log("inde", arrr.length);
+                if (arrr) {
+                    return {
+                        statusCode: 200,
+                        status: true,
+                        message: "Enter Valid saloon Id !",
+                        data: [{
+                            service_Id: mongoose.Types.ObjectId(query.service),
+                            count: arrr.length
+                        }]
+                    };
+                };
+            } else {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "Enter Valid service  Id !",
+                    data: []
+                };
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "Enter Valid service  Id !",
+                data: []
+            };
+        };
     } catch (error) {
         console.log(error);
         throw error;
