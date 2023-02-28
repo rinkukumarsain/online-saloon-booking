@@ -369,7 +369,7 @@ exports.GetCountOfServiceInUserCart = async ({ user, query }) => {
                     return {
                         statusCode: 200,
                         status: true,
-                        message: "Enter Valid saloon Id !",
+                        message: "Get Count Of Service sent Succesfuuly !",
                         data: [{
                             service_Id: mongoose.Types.ObjectId(query.service),
                             count: arrr.length
