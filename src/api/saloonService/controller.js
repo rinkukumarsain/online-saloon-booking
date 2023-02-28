@@ -3,6 +3,7 @@ const saloonstore = require("../saloonstore/model")
 const category = require("../category/model")
 const mongoose = require("mongoose");
 const service = require("../saloonService/model")
+const cart = require("../cart/model")
 
 exports.saloonService = async (req) => {
     try {
@@ -160,11 +161,15 @@ exports.add_Service = async ({ body, file, query }) => {
 };
 
 
-exports.getAllSaloonServiceByCatogory = async ({ query }) => {
+exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
     try {
         let arrr = []
         let final = []
         let arr = {};
+        const findCart = await cart.findOne({ userId: user._id })
+        // console.log("findCart", findCart.cartdata)
+
+
         let saloonId = mongoose.Types.ObjectId(query.saloonId);
         let categoryId = mongoose.Types.ObjectId(query.catogoryId);
         const findStore = await saloonstore.findOne({ _id: saloonId });
@@ -178,7 +183,22 @@ exports.getAllSaloonServiceByCatogory = async ({ query }) => {
                 if (subcotegory.length > 0) {
                     for await (const element of subcotegory) {
                         const findData = await saloonService.find({ saloonStore: saloonId, last_category: element._id });
+
                         if (findData.length > 0) {
+                            findData.forEach(index => {
+                                let i = 0;
+                                findCart.cartdata.forEach(cart => {
+                                    if (index._id.toString() === cart.serviceId.toString()) {
+                                        i++
+                                    }
+                                });
+                                if (i > 0) {
+                                    index._doc.Quantity_In_Cart = i
+                                } else {
+                                    index._doc.Quantity_In_Cart = 0
+                                }
+                                // console.log("iii", index)
+                            });
                             element._doc.Service = findData
                             arrr[0]._doc.sub.push(element)
                         } else {
