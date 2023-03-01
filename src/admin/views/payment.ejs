@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pay</title>
+</head>
+
+<body>
+    <h1>payment pay</h1>
+    <button id="rzp-button1">Pay</button>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+        var settings;
+        var orderId;
+        $(document).ready(function () {
+            var settings = {
+                "url": "/create/orderId",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    "amount": "399"
+                }),
+            };
+            //creates new orderId everytime
+            $.ajax(settings).done(function (response) {
+                console.log("response", response)
+                orderId = response.orderId;
+                console.log(orderId);
+                $("button").show();
+            });
+        });
+
+
+
+        document.getElementById('rzp-button1').onclick = function (e) {
+            e.preventDefault();
+            var options = {
+                "key": "rzp_test_NkfVhSnelzPIaS", // Enter the Key ID generated from the Dashboard
+                "amount": "399", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "currency": "INR",
+                "name": "tea store",
+                "description": "Test Transaction",
+                "image": "https://example.com/your_logo",
+                "order_id": orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "handler": function (response) {
+                    alert(response.razorpay_payment_id);
+                    alert(response.razorpay_order_id);
+                    alert(response.razorpay_signature);
+                    settings = {
+                        "url": "/api/payment/verify",
+                        "method": "POST",
+                        "timeout": 0,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "data": JSON.stringify({ response }),
+                    }
+                    $.ajax(settings).done(function (response) {
+                        console.log("response 2222", response)
+                        alert(JSON.stringify(response))
+                    });
+                },
+            }
+           
+            /* "theme": {
+                 "color": "#99cc33"
+             }*/
+            // });
+            // };
+            var rzp1 = new Razorpay(options);
+            rzp1.on('payment.failed', function (response) {
+                alert(response.error.code);
+                alert(response.error.description);
+                alert(response.error.source);
+                alert(response.error.step);
+                alert(response.error.reason);
+                alert(response.error.metadata.order_id);
+                alert(response.error.metadata.payment_id);
+            });
+            rzp1.open();
+
+        }
+    </script>
+</body>
+
+</html>
