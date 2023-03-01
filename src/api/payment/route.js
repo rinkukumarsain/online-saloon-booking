@@ -5,17 +5,8 @@ const { createOrderId, apiPaymentVerify } = require('./controller');
 const razorpay = require("razorpay");
 const app = Router();
 
-app.get("/pay", (req, res) => {
-    res.render("payment");
-});
-//back End
-app.post('/create/orderId', responseHandler(createOrderId));
-///front end
-// app.post('/create/orderId', createOrderId);
-// backEnd
-app.post('/api/payment/verify', responseHandler(apiPaymentVerify));
-// frontend
-// app.post('/api/payment/verify', apiPaymentVerify);
+app.post('/create/orderId', auth, responseHandler(createOrderId));
+app.post('/api/payment/verify', auth, responseHandler(apiPaymentVerify));
 
 
 module.exports = app;

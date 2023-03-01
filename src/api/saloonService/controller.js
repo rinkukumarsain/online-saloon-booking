@@ -246,12 +246,14 @@ exports.getServiceByCategory = async ({ query }) => {
     try {
         console.log("query--->", query)
         let Ltprice;
+        let Gtprice;
         const condition = [];
         if (query.id) {
-            if (query.ServicePrice_lt != undefined && query.ServicePrice_lt != "") {
+            if (query.ServicePrice_lt != undefined && query.ServicePrice_lt != "" && query.ServicePrice_gt != undefined && query.ServicePrice_gt != "") {
                 Ltprice = Number(query.ServicePrice_lt)
+                Gtprice = Number(query.ServicePrice_gt)
             }
-            console.log("ServicePrice_lt", typeof (Ltprice))
+            // console.log("ServicePrice_lt", typeof (Ltprice))
             let arrr = []
             let _id = query.id;
             const findCategory = await category.findOne({ _id });
@@ -260,22 +262,76 @@ exports.getServiceByCategory = async ({ query }) => {
                 if (findsubCategory.length > 0) {
                     for (const item of findsubCategory) {
 
-                        if (Ltprice) {
+                        if (Ltprice && Gtprice) {
+                            if (Ltprice && Gtprice && query.timePeriod_in_minits != undefined && query.timePeriod_in_minits != "") {
+                                console.log("Ltprice && Gtprice query.timePeriod_in_minits")
+                                condition.push({
+                                    '$match': {
+                                        '$and': [
+                                            {
+                                                'last_category': item._id
+                                            },
+                                            {
+                                                'ServicePrice': {
+                                                    '$lte': Ltprice
+                                                }
+                                            },
+                                            {
+                                                'ServicePrice': {
+                                                    '$gte': Gtprice
+                                                }
+                                            },
+                                            {
+                                                'timePeriod_in_minits': Number(query.timePeriod_in_minits)
+                                            },/* {
+                                               'serviceProvider': 'male'
+                                           }*/
+                                        ]
+                                    }
+                                });
+                            } else {
+                                console.log("Ltprice && Gtprice")
+                                condition.push({
+                                    '$match': {
+                                        '$and': [
+                                            {
+                                                'last_category': item._id
+                                            },
+                                            {
+                                                'ServicePrice': {
+                                                    '$lte': Ltprice
+                                                }
+                                            },
+                                            {
+                                                'ServicePrice': {
+                                                    '$gte': Gtprice
+                                                }
+                                            }
+                                            /*{
+                                               'timePeriod_in_minits': 15
+                                           }, {
+                                               'serviceProvider': 'male'
+                                           }*/
+                                        ]
+                                    }
+                                });
+                            }
+                        } else if (query.timePeriod_in_minits != undefined && query.timePeriod_in_minits != "") {
+                            console.log("query.timePeriod_in_minits0", query.timePeriod_in_minits)
+                            const number = Number(query.timePeriod_in_minits)
                             condition.push({
                                 '$match': {
                                     '$and': [
                                         {
                                             'last_category': item._id
-                                        }, {
-                                            'ServicePrice': {
-                                                '$lte': Ltprice
-                                            }
                                         },
-                                        /*{
-                                           'timePeriod_in_minits': 15
-                                       }, {
-                                           'serviceProvider': 'male'
-                                       }*/
+
+                                        {
+                                            'timePeriod_in_minits': number
+                                        },
+                                        /* {
+                                            'serviceProvider': 'male'
+                                        }*/
                                     ]
                                 }
                             });
@@ -286,52 +342,11 @@ exports.getServiceByCategory = async ({ query }) => {
                                 }
                             });
                         }
-                        /*                   
-                   [
-                     {
-                       '$match': {
-                         '$and': [
-                           {
-                             'last_category': new ObjectId('63f486cc1822bbd9adee7465')
-                           }, {
-                             'ServicePrice': {
-                               '$lt': 250
-                             }
-                           }, {
-                             'timePeriod_in_minits': 15
-                           }, {
-                             'serviceProvider': 'male'
-                           }
-                         ]
-                       }
-                     }
-                   ]
-                   [
-                       {
-                                '$match': {
-                                    '$and': [
-                                        {
-                                            'last_category': new ObjectId('63f486cc1822bbd9adee7465')
-                                        }, {
-                                            'ServicePrice': {
-                                                '$lte': 300
-                                            }
-                                        }, {
-                                            'timePeriod_in_minits': 15
-                                        }, {
-                                            'serviceProvider': 'male'
-                                        }
-                                    ]
-                                }
-                            }
-                        ]
-                        
-                        
-                         condition.push({
-                             '$match': {
-                                 'last_category': item._id
-                             }
-                         });*/
+
+
+
+
+
 
                         condition.push({
                             '$lookup': {
@@ -365,7 +380,15 @@ exports.getServiceByCategory = async ({ query }) => {
                                 'updatedA': 1
                             }
                         });
-
+                        if (query.sort != undefined && query.sort != "") {
+                            // console.log("num", query.sort)
+                            const num = Number(query.sort)
+                            condition.push({
+                                '$sort': {
+                                    'ServicePrice': num
+                                }
+                            })
+                        }
                         const findService = await saloonService.aggregate(condition);
                         if (findService) {
                             arrr.push(findService)
