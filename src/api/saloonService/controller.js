@@ -184,14 +184,19 @@ exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
 
                         if (findData.length > 0) {
                             findData.forEach(index => {
-                                let i = 0;
-                                findCart.cartdata.forEach(cart => {
-                                    if (index._id.toString() === cart.serviceId.toString()) {
-                                        i++
+                                if (findCart != null && findCart) {
+                                    console.log("findCart", findCart)
+                                    let i = 0;
+                                    findCart.cartdata.forEach(cart => {
+                                        if (index._id.toString() === cart.serviceId.toString()) {
+                                            i++
+                                        }
+                                    });
+                                    if (i > 0) {
+                                        index._doc.Quantity_In_Cart = i
+                                    } else {
+                                        index._doc.Quantity_In_Cart = 0
                                     }
-                                });
-                                if (i > 0) {
-                                    index._doc.Quantity_In_Cart = i
                                 } else {
                                     index._doc.Quantity_In_Cart = 0
                                 }
