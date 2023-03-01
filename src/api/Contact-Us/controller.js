@@ -37,15 +37,15 @@ exports.ContactUs = async ({ user, body }) => {
             if (result) {
                 const sendmailer = await sendmail(result)
                 if (sendmailer) {
-                    console.log("sendmailer", 1, sendmailer)
+                    console.log("sendmailer", 2, sendmailer)
+                    return {
+                        statusCode: 200,
+                        status: true,
+                        message: "ContactUs successfull !",
+                        data: [result]
+                    };
                 }
-                console.log("sendmailer", 2, sendmailer)
-                return {
-                    statusCode: 200,
-                    status: true,
-                    message: "ContactUs successfull !",
-                    data: [result]
-                };
+
             };
         };
     } catch (error) {
