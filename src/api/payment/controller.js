@@ -2,6 +2,7 @@ const users = require("../user/model");
 const servish = require("../saloonService/model");
 const razorpay = require("razorpay");
 const payments = require("./model");
+const cart = require("../cart/model")
 const { findOne, findOneAndUpdate } = require("./model");
 
 var instance = new razorpay({
@@ -76,7 +77,9 @@ exports.apiPaymentVerify = async (req, res) => {
                 "payment_detail.razorpay_order_id": req.body.response.razorpay_order_id,
                 "payment_detail.razorpay_signature": req.body.response.razorpay_signature
             }, { new: true });
-            if (result) {
+            const removeCart = await cart.findOneAndRemove({ userId: req.user._id })
+            console.log("removeCart", removeCart)
+            if (result && removeCart) {
                 console.log("result", result)
                 response = { "signatureIsValid": "true" };
                 return {
