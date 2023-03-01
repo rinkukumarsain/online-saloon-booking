@@ -1,4 +1,5 @@
 const Contact = require("./model");
+const { sendmail } = require("../../middleware/mail")
 
 exports.ContactUs = async ({ user, body }) => {
     try {
@@ -34,6 +35,11 @@ exports.ContactUs = async ({ user, body }) => {
             const contactDtails = new Contact(body);
             const result = await contactDtails.save();
             if (result) {
+                const sendmailer = await sendmail(result)
+                if (sendmailer) {
+                    console.log("sendmailer", 1, sendmailer)
+                }
+                console.log("sendmailer", 2, sendmailer)
                 return {
                     statusCode: 200,
                     status: true,
