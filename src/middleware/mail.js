@@ -23,6 +23,7 @@ exports.sendmail = async (user) => {
     let result = await transporter.sendMail(mailoption)
     // console.log("result", result)
     if (result) {
+        console.log("send")
         return {
             details: result
         }
