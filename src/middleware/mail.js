@@ -5,12 +5,12 @@ exports.sendmail = async (user) => {
     let transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "jjai24386@gmail.com", // generated ethereal user
-            pass: "kduk ikok ieom enmi", // generated ethereal password
+            user: process.env.email, // generated ethereal user
+            pass: process.env.pass, // generated ethereal password
         }
     });
     var mailoption = {
-        from: 'jjai24386@gmail.com', // sender address
+        from: process.env.email, // sender address
         to: "rahbar.img@gmail.com", // list of receivers
         subject: `${user.services} ✔`, // Subject line
         text: `hello my name is ${user.name} 
@@ -21,7 +21,12 @@ exports.sendmail = async (user) => {
         ${user.name}`
     }
     let result = await transporter.sendMail(mailoption)
-    console.log("result", result)
+    // console.log("result", result)
+    if (result) {
+        return {
+            details: result
+        }
+    }
     /*, async function (error, info) {
         if (error) {
             console.log(error)
