@@ -2,7 +2,7 @@ const users = require("../user/model");
 const servish = require("../saloonService/model");
 const razorpay = require("razorpay");
 const payments = require("./model");
-const cart = require("../cart/model")
+// const cart = require("../cart/model")
 const { findOne, findOneAndUpdate } = require("./model");
 
 var instance = new razorpay({
@@ -86,7 +86,10 @@ exports.apiPaymentVerify = async (req, res) => {
                     statusCode: 200,
                     status: true,
                     message: "User orderid signature successfull !",
-                    data: [response]
+                    data: [{
+                        "signature": response,
+                        "data": req.body.response
+                    }]
                 }
             };
         };
