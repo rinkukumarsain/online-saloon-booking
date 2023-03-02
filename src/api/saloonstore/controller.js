@@ -5,6 +5,7 @@ const { error } = require("console");
 
 exports.registerSaloonStore = async ({ body, user, files, query }) => {
     try {
+        // console.log("filesfiles", files)
         let catogoryarr = []
         if (query.id) {
             let _id = mongoose.Types.ObjectId(query.id);
@@ -13,18 +14,18 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                 let obj = {};
                 let locations = {};
 
-                if (body.storeName) { obj.storeName = body.storeName };
-                if (body.Email) { obj.Email = body.Email };
-                if (body.PhoneNumber) { obj.PhoneNumber = body.PhoneNumber };
-                if (body.shopNumber) { locations.shopNumber = body.shopNumber };
-                if (body.aria) { locations.aria = body.aria };
-                if (body.pincode) { locations.pincode = body.pincode };
-                if (body.city) { locations.city = body.city };
-                if (body.state) { locations.state = body.state };
-                if (body.description) { obj.description = body.description };
+                if (body.storeName != undefined && body.storeName != "") { obj.storeName = body.storeName };
+                if (body.Email != undefined && body.Email != "") { obj.Email = body.Email };
+                if (body.PhoneNumber != undefined && body.PhoneNumber != "") { obj.PhoneNumber = body.PhoneNumber };
+                if (body.shopNumber != undefined && body.shopNumber != "") { locations.shopNumber = body.shopNumber };
+                if (body.aria != undefined && body.aria != "") { locations.aria = body.aria };
+                if (body.pincode != undefined && body.pincode != "") { locations.pincode = body.pincode };
+                if (body.city != undefined && body.city != "") { locations.city = body.city };
+                if (body.state != undefined && body.state != "") { locations.state = body.state };
+                if (body.description != undefined && body.description != "") { obj.description = body.description };
                 if (user) { obj.userId = user._id };
-                if (body.type) { obj.type = body.type };
-                if (files) {
+                if (body.type != undefined && body.type != "") { obj.type = body.type };
+                if (files != undefined && files.length > 0) {
                     img = [];
                     files.forEach(element => {
                         img.push(`http://159.89.164.11:7070/uploads/${element.filename}`);
@@ -42,7 +43,9 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                         catogoryarr.push(index)
                     }
                 }
-                obj.location = locations;
+                if (locations) {
+                    obj.location = locations;
+                }
                 const result = await saloon.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
                 if (result) {
                     return {
@@ -96,15 +99,13 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                     };
                 };
             };
-            if (files) {
+            if (files != undefined && files.length > 0) {
                 img = [];
                 files.forEach(element => {
                     img.push(`http://159.89.164.11:7070/uploads/${element.filename}`);
                 });
                 body.image = img;
-            } else {
-                body.image = "";
-            };
+            }
             if (typeof (body.category) == "string") {
                 catogoryarr.push(body.category)
             }

@@ -3,7 +3,7 @@ const order = require("./model");
 const Schedule = require("../Schedule/model");
 const saloon = require("../saloonstore/model")
 const wishlist = require("./model");
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 
 exports.userWishlist = async ({ user, query }) => {
     try {
