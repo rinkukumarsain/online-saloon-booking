@@ -1,12 +1,11 @@
 const { Router } = require("express");
-const responseHandler = require("../../utils/responseHandlers")
+const responseHandler = require("../../utils/responseHandlers");
+const auth = require("../../middleware/auth")
 const { getCategoryListing, getAllCategoryListing } = require('./controller');
 const app = Router();
 
-const categoryModule = require("./model")
-
-app.get("/getCategoryListing/:id?", responseHandler(getCategoryListing))
-app.get("/getAllCategoryListing", responseHandler(getAllCategoryListing))
+app.get("/getCategoryListing/:id?", auth, responseHandler(getCategoryListing))
+app.get("/getAllCategoryListing", auth, responseHandler(getAllCategoryListing))
 
 
 module.exports = app

@@ -1,15 +1,16 @@
 const { Router } = require("express");
-const responseHandler = require("../../utils/responseHandlers")
-const { saloonService, add_Service } = require('./controller');
-
+const responseHandler = require("../../utils/responseHandlers");
+const { saloonService, add_Service, getAllSaloonServiceByCatogory, getServiceByCategory, getServiceByLocation } = require('./controller');
 const Upload = require("../../middleware/img");
 const app = Router();
+const auth = require("../../middleware/auth")
 
-app.get("/saloonService/:id?", responseHandler(saloonService))
+app.get("/saloonService/:id?", auth, responseHandler(saloonService));
+app.post("/add-Service", auth, Upload.single("file"), responseHandler(add_Service));
+app.get("/get-all-saloon-Service-by-catogory", auth, responseHandler(getAllSaloonServiceByCatogory))
+app.get("/get-Service-By-Category", auth, responseHandler(getServiceByCategory))
 
-//add_Service servish edit and add new Service 10/02/2023 saam ko raat me 
-app.post("/add-Service", Upload.single("file"), responseHandler(add_Service))
+app.get("/get-saloon-by-location", auth, responseHandler(getServiceByLocation))
 
 
-
-module.exports = app
+module.exports = app;

@@ -5,6 +5,8 @@ const { error } = require("console");
 
 exports.registerSaloonStore = async ({ body, user, files, query }) => {
     try {
+        // console.log("filesfiles", files)
+        let catogoryarr = []
         if (query.id) {
             let _id = mongoose.Types.ObjectId(query.id);
             const result = await saloon.findOne({ _id });
@@ -12,24 +14,38 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                 let obj = {};
                 let locations = {};
 
-                if (body.storeName) { obj.storeName = body.storeName };
-                if (body.Email) { obj.Email = body.Email };
-                if (body.PhoneNumber) { obj.PhoneNumber = body.PhoneNumber };
-                if (body.shopNumber) { locations.shopNumber = body.shopNumber };
-                if (body.aria) { locations.aria = body.aria };
-                if (body.pincode) { locations.pincode = body.pincode };
-                if (body.city) { locations.city = body.city };
-                if (body.state) { locations.state = body.state };
-                if (body.description) { obj.description = body.description };
-                if (body.userId) { obj.userId = body.userId };
-                if (files) {
-                    img = []
+                if (body.storeName != undefined && body.storeName != "") { obj.storeName = body.storeName };
+                if (body.Email != undefined && body.Email != "") { obj.Email = body.Email };
+                if (body.PhoneNumber != undefined && body.PhoneNumber != "") { obj.PhoneNumber = body.PhoneNumber };
+                if (body.shopNumber != undefined && body.shopNumber != "") { locations.shopNumber = body.shopNumber };
+                if (body.aria != undefined && body.aria != "") { locations.aria = body.aria };
+                if (body.pincode != undefined && body.pincode != "") { locations.pincode = body.pincode };
+                if (body.city != undefined && body.city != "") { locations.city = body.city };
+                if (body.state != undefined && body.state != "") { locations.state = body.state };
+                if (body.description != undefined && body.description != "") { obj.description = body.description };
+                if (user) { obj.userId = user._id };
+                if (body.type != undefined && body.type != "") { obj.type = body.type };
+                if (files != undefined && files.length > 0) {
+                    img = [];
                     files.forEach(element => {
-                        img.push(element.filename)
+                        img.push(`http://159.89.164.11:7070/uploads/${element.filename}`);
                     });
-                    obj.image = img
+                    obj.image = img;
                 }
-                obj.location = locations;
+                console.log(body)
+
+
+                if (typeof (body.category) == "string") {
+                    catogoryarr.push(body.category)
+                }
+                if (typeof (body.category) == "object") {
+                    for (const index of body.category) {
+                        catogoryarr.push(index)
+                    }
+                }
+                if (locations) {
+                    obj.location = locations;
+                }
                 const result = await saloon.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
                 if (result) {
                     return {
@@ -83,15 +99,22 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                     };
                 };
             };
-            if (files) {
-                img = []
+            if (files != undefined && files.length > 0) {
+                img = [];
                 files.forEach(element => {
-                    img.push(element.filename)
+                    img.push(`http://159.89.164.11:7070/uploads/${element.filename}`);
                 });
-                body.image = img
-            } else {
-                body.image = ""
+                body.image = img;
             }
+            if (typeof (body.category) == "string") {
+                catogoryarr.push(body.category)
+            }
+            if (typeof (body.category) == "object") {
+                for (const index of body.category) {
+                    catogoryarr.push(index)
+                }
+            }
+
             let saloon_details = new saloon({
                 storeName: body.storeName,
                 Email: body.Email,
@@ -106,6 +129,9 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                 description: body.description,
                 userId: body.userId,
                 image: body.image,
+                type: body.type,
+                category: catogoryarr,
+
             });
             const result = await saloon_details.save();
             if (result) {
@@ -116,40 +142,39 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                     data: [result]
                 };
             };
-        }
+        };
     } catch (error) {
         console.log(error);
         throw error;
     };
-}
+};
 
 exports.getSaloonStore = async ({ query }) => {
     try {
-        let result;
+        let condition = {};
         if (query.id) {
-            const _id = query.id
-            result = await saloon.findOne({ _id })
-            if (result) {
-                return {
-                    statusCode: 200,
-                    status: true,
-                    message: "Get one Saloon-Store successfull !",
-                    data: [result]
-                };
+            condition._id = mongoose.Types.ObjectId(query.id);
+        } else {
+            condition = {};
+        };
+        let result = await saloon.find(condition);
+        if (result.length > 0) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "Get All Saloon-Store successfull !",
+                data: result
             };
         } else {
-            result = await saloon.find()
-            if (result) {
-                return {
-                    statusCode: 200,
-                    status: true,
-                    message: "Get All Saloon-Store successfull !",
-                    data: [result]
-                };
+            return {
+                statusCode: 400,
+                status: false,
+                message: "No Data Found  !",
+                data: []
             };
-        }
+        };
     } catch (error) {
         console.log(error);
         throw error;
-    }
-}
+    };
+};

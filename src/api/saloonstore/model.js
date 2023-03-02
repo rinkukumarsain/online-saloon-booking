@@ -44,13 +44,20 @@ const saloon_Store = new mongoose.Schema({
             type: String
         },
     },
+    category: {
+        type: [String]
+    },
+    type: {
+        type: String,
+        default: "Unisex"
+    },
     description: {
         type: String
     }
-}, { timestamps: true })
+}, { timestamps: true });
 
 
-const saloon = new mongoose.model("saloon", saloon_Store)
+const saloon = new mongoose.model("saloon", saloon_Store);
 module.exports = saloon;
 
 
