@@ -9,12 +9,6 @@ const saloon_Store = new mongoose.Schema({
     storeName: {
         type: String,
     },
-    password: {
-        type: String,
-    },
-    confirmpassword: {
-        type: String,
-    },
     Email: {
         type: String,
     },
@@ -38,9 +32,6 @@ const saloon_Store = new mongoose.Schema({
             type: String
         },
         state: {
-            type: String
-        },
-        fulladdress: {
             type: String
         },
     },
