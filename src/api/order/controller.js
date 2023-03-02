@@ -37,6 +37,7 @@ exports.userOrder = async ({ user }) => {
         let orderId = Math.floor(Math.random() * 10 ** 15);
         obj.userId = userId;
         obj.orderId = orderId;
+        // obj.paymentStatus = "Payment successful"
         const orderdetails = new order(obj);
         const result = await orderdetails.save();
         if (result) {
@@ -45,7 +46,7 @@ exports.userOrder = async ({ user }) => {
                 return {
                     statusCode: 200,
                     status: true,
-                    message: "order  Succesfuuly !",
+                    message: "order  successful !",
                     data: [result]
                 };
             };
@@ -57,20 +58,60 @@ exports.userOrder = async ({ user }) => {
 
 exports.getUserOrder = async ({ user, query }) => {
     try {
-        let condition = {};
+        let condition = [];
         if (query.id) {
-            let _id = query.id;
-            condition._id = _id;
+            condition.push({
+                '$match': {
+                    '_id': mongoose.Types.ObjectId(query.id)
+                }
+            })
         } else {
-            let userId = user._id;
-            condition.userId = userId;
+            // let userId = user._id;
+            // condition.userId = userId;
+            condition.push({
+                '$match': {
+                    'userId': user._id
+                }
+            })
         };
-        const findData = await order.find(condition);
+        condition.push({
+            '$unwind': {
+                'path': '$cartdata'
+            }
+        }, {
+            '$lookup': {
+                'from': 'saloonservices',
+                'localField': 'cartdata.serviceId',
+                'foreignField': '_id',
+                'as': 'result'
+            }
+        }, {
+            '$unwind': {
+                'path': '$result'
+            }
+        }, {
+            '$project': {
+                'userId': 1,
+                'saloonId': 1,
+                'ServiceName': '$result.ServiceName',
+                'ServicePrice': '$result.ServicePrice',
+                'timePeriod_in_minits': '$result.timePeriod_in_minits',
+                'totalamount': 1,
+                'addressId': 1,
+                'ScheduleId': 1,
+                'paymentStatus': 1,
+                'status': 1,
+                'orderId': 1,
+                'createdAt': 1,
+                'updatedAt': 1
+            }
+        })
+        const findData = await order.aggregate(condition);
         if (findData.length > 0) {
             return {
                 statusCode: 200,
                 status: true,
-                message: "Find Your Order  Succesfuuly Done !",
+                message: "Find Your Order  successful Done !",
                 data: [findData]
             };
         } else {
