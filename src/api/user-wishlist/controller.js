@@ -13,7 +13,6 @@ exports.userWishlist = async ({ user, query }) => {
             if (findSaloon) {
                 const findWishlist = await wishlist.findOne({ saloonId: _id });
                 if (findWishlist) {
-                    console.log("findWishlist", findWishlist)
                     return {
                         statusCode: 400,
                         status: false,
