@@ -3,7 +3,7 @@ const order = require("./model");
 const Schedule = require("../Schedule/model");
 const saloon = require("../saloonstore/model")
 const wishlist = require("./model");
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 
 exports.userWishlist = async ({ user, query }) => {
     try {
@@ -13,6 +13,7 @@ exports.userWishlist = async ({ user, query }) => {
             if (findSaloon) {
                 const findWishlist = await wishlist.findOne({ saloonId: _id });
                 if (findWishlist) {
+                    console.log("findWishlist", findWishlist)
                     return {
                         statusCode: 400,
                         status: false,
