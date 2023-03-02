@@ -10,7 +10,7 @@ exports.ContactUs = async ({ user, body }) => {
                 return {
                     statusCode: 400,
                     status: false,
-                    message: "Your contact requist allready panding !",
+                    message: "Your contact requist allready pending !",
                     data: []
 
                 };
@@ -24,7 +24,7 @@ exports.ContactUs = async ({ user, body }) => {
                 return {
                     statusCode: 400,
                     status: false,
-                    message: "Your contact requist allready panding !",
+                    message: "Your contact requist allready pending !",
                     data: []
 
                 };
