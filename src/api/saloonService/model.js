@@ -16,7 +16,10 @@ const saloon_Service = new mongoose.Schema({
         type: Number,
         default: 15
     },
-    serviceProvider: {
+    // serviceProvider: {
+    //     type: String
+    // },
+    type: {
         type: String
     },
     image: {

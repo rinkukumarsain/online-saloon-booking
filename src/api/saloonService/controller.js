@@ -2,7 +2,6 @@ const saloonService = require("./model");
 const saloonstore = require("../saloonstore/model")
 const category = require("../category/model")
 const mongoose = require("mongoose");
-const service = require("../saloonService/model")
 const cart = require("../cart/model")
 
 exports.saloonService = async (req) => {
@@ -42,10 +41,10 @@ exports.add_Service = async ({ body, file, query }) => {
         let imgs = [];
         let categorys = [];
 
-        if (query.id) {
+        if (query.id != undefined && query.id != "") {
             let _id = mongoose.Types.ObjectId(query.id);
 
-            if (file) {
+            if (file != undefined) {
                 imgs.push(`http://159.89.164.11:7070/uploads/${file.filename}`);
             };
 
@@ -53,20 +52,23 @@ exports.add_Service = async ({ body, file, query }) => {
                 obj.image = imgs;
             };
 
-            if (body.ServiceName) {
+            if (body.ServiceName != undefined && body.ServiceName != "") {
                 obj.ServiceName = body.ServiceName;
             };
-            if (body.ServicePrice) {
+            if (body.ServicePrice != undefined && body.ServicePrice != "") {
                 obj.ServicePrice = body.ServicePrice;
             };
-            if (body.description) {
+            if (body.description != undefined && body.description != "") {
                 obj.description = body.description;
             };
-            if (body.timePeriod) {
+            if (body.timePeriod != undefined && body.timePeriod != "") {
                 obj.timePeriod_in_minits = body.timePeriod;
             };
-            if (body.serviceProvider) {
-                obj.serviceProvider = body.serviceProvider;
+            // if (body.serviceProvider) {
+            //     obj.serviceProvider = body.serviceProvider;
+            // };
+            if (body.type != undefined && body.type != "") {
+                obj.type = body.type;
             };
 
             const result = await saloonService.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
@@ -93,11 +95,11 @@ exports.add_Service = async ({ body, file, query }) => {
                     obj.last_category = body.category[body.category.length - 1];
                 }
             };
-            if (body.saloonStore) {
+            if (body.saloonStore != undefined && body.saloonStore != "") {
                 let saloonStore = mongoose.Types.ObjectId(body.saloonStore);
                 const findstore = await saloonstore.findOne({ _id: saloonStore });
                 if (findstore) {
-                    if (body.ServiceName) {
+                    if (body.ServiceName != undefined && body.ServiceName != "") {
                         const findData = await saloonService.find({ saloonStore, ServiceName: body.ServiceName });
                         if (findData.length > 0) {
                             return {
@@ -119,7 +121,7 @@ exports.add_Service = async ({ body, file, query }) => {
                     };
                 };
             };
-            if (file) {
+            if (file != undefined) {
                 imgs.push(`http://159.89.164.11:7070/uploads/${file.filename}`);
             };
             if (imgs.length > 0) {
@@ -127,21 +129,32 @@ exports.add_Service = async ({ body, file, query }) => {
             } else {
                 obj.image = "";
             };
-            if (body.ServicePrice) {
+            if (body.ServicePrice != undefined && body.ServicePrice != "") {
                 obj.ServicePrice = body.ServicePrice;
             };
-            if (body.description) {
+            if (body.description != undefined && body.description != "") {
                 obj.description = body.description;
             };
-            if (body.saloonStore) {
+            if (body.saloonStore != undefined && body.saloonStore != "") {
                 obj.saloonStore = body.saloonStore;
             };
-            if (body.timePeriod) {
-                obj.timePeriod_in_minits = body.timePeriod;
+            if (body.timePeriod != undefined && body.timePeriod != "") {
+                obj.timePeriod_in_minits = body.timePeriod
             };
-            if (body.serviceProvider) {
-                obj.serviceProvider = body.serviceProvider;
-            };
+            // if (body.serviceProvider) {
+            //     obj.serviceProvider = body.serviceProvider;
+            // };
+
+            if (body.type != undefined && body.type != "") {
+                obj.type = body.type;
+            } else {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "Enter a saloon Type !",
+                    data: [{ "type": "male-female-unisex" }]
+                };
+            }
 
             service_details = new saloonService(obj);
             const result = await service_details.save();
@@ -269,31 +282,56 @@ exports.getServiceByCategory = async ({ query }) => {
 
                         if (Ltprice && Gtprice) {
                             if (Ltprice && Gtprice && query.timePeriod_in_minits != undefined && query.timePeriod_in_minits != "") {
-                                console.log("Ltprice && Gtprice query.timePeriod_in_minits")
-                                condition.push({
-                                    '$match': {
-                                        '$and': [
-                                            {
-                                                'last_category': item._id
-                                            },
-                                            {
-                                                'ServicePrice': {
-                                                    '$lte': Ltprice
+                                if (Ltprice && Gtprice && query.timePeriod_in_minits != undefined && query.timePeriod_in_minits != "" && query.type != undefined && query.type != "") {
+                                    condition.push({
+                                        '$match': {
+                                            '$and': [
+                                                {
+                                                    'last_category': item._id
+                                                },
+                                                {
+                                                    'ServicePrice': {
+                                                        '$lte': Ltprice
+                                                    }
+                                                },
+                                                {
+                                                    'ServicePrice': {
+                                                        '$gte': Gtprice
+                                                    }
+                                                },
+                                                {
+                                                    'timePeriod_in_minits': Number(query.timePeriod_in_minits)
+                                                }, {
+                                                    'type': query.type
                                                 }
-                                            },
-                                            {
-                                                'ServicePrice': {
-                                                    '$gte': Gtprice
-                                                }
-                                            },
-                                            {
-                                                'timePeriod_in_minits': Number(query.timePeriod_in_minits)
-                                            },/* {
-                                               'serviceProvider': 'male'
-                                           }*/
-                                        ]
-                                    }
-                                });
+                                            ]
+                                        }
+                                    });
+                                } else {
+                                    console.log("Ltprice && Gtprice query.timePeriod_in_minits")
+                                    condition.push({
+                                        '$match': {
+                                            '$and': [
+                                                {
+                                                    'last_category': item._id
+                                                },
+                                                {
+                                                    'ServicePrice': {
+                                                        '$lte': Ltprice
+                                                    }
+                                                },
+                                                {
+                                                    'ServicePrice': {
+                                                        '$gte': Gtprice
+                                                    }
+                                                },
+                                                {
+                                                    'timePeriod_in_minits': Number(query.timePeriod_in_minits)
+                                                },
+                                            ]
+                                        }
+                                    });
+                                }
                             } else {
                                 console.log("Ltprice && Gtprice")
                                 condition.push({
@@ -312,11 +350,6 @@ exports.getServiceByCategory = async ({ query }) => {
                                                     '$gte': Gtprice
                                                 }
                                             }
-                                            /*{
-                                               'timePeriod_in_minits': 15
-                                           }, {
-                                               'serviceProvider': 'male'
-                                           }*/
                                         ]
                                     }
                                 });
@@ -334,9 +367,20 @@ exports.getServiceByCategory = async ({ query }) => {
                                         {
                                             'timePeriod_in_minits': number
                                         },
-                                        /* {
-                                            'serviceProvider': 'male'
-                                        }*/
+                                    ]
+                                }
+                            });
+                        } else if (query.type != undefined && query.type != "") {
+                            console.log("hello", 11, query.type)
+                            condition.push({
+                                '$match': {
+                                    '$and': [
+                                        {
+                                            'last_category': item._id
+                                        },
+                                        {
+                                            'type': query.type
+                                        }
                                     ]
                                 }
                             });
@@ -347,11 +391,6 @@ exports.getServiceByCategory = async ({ query }) => {
                                 }
                             });
                         }
-
-
-
-
-
 
                         condition.push({
                             '$lookup': {
@@ -381,12 +420,12 @@ exports.getServiceByCategory = async ({ query }) => {
                                 'category': 1,
                                 'timePeriod': 1,
                                 'timePeriod_in_minits': 1,
-                                'serviceProvider': 1,
-                                'updatedA': 1
+                                // 'serviceProvider': 1,
+                                'updatedA': 1,
+                                'type': 1
                             }
                         });
                         if (query.sort != undefined && query.sort != "") {
-                            // console.log("num", query.sort)
                             const num = Number(query.sort)
                             condition.push({
                                 '$sort': {
@@ -414,10 +453,13 @@ exports.getServiceByCategory = async ({ query }) => {
                             data: []
                         };
                     }
-
-
                 } else {
-                    console.log("subcatory not found ")
+                    return {
+                        statusCode: 400,
+                        status: false,
+                        message: "subcatory not found !",
+                        data: []
+                    };
                 }
 
             } else {
