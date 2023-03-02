@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Pages / Register - NiceAdmin Bootstrap Template</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <!-- MY GAMES!! -->
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="/logo.png" />
+    <script data-search-pseudo-elements defer src="/js/all.min.js"></script>
+    <link href="/css/bijarniadream.min.css" rel="stylesheet" />
+    <link href="/css/bootstrap-select.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <link href="/css/theme1.css" rel="stylesheet" />
+    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" />
+    <link rel='stylesheet' href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/r-2.2.1/datatables.min.css">
+
+
+    <!-- my Games11 End -->
+
+    <!-- =======================================================
+         
+  * Template Name: NiceAdmin - v2.2.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+    <main>
+        <div class="container">
+            <%- include("../partials/alertMsg") %>
+                <%- include("../partials/Header.ejs") %>
+                    <%- include("../partials/sidebar.ejs") %>
+
+                        <section
+                            class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+                            <div class="container">
+                                <div class="row justify-content-end">
+                                    <div
+                                        class="col-lg-10 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+                                        <div class="d-flex justify-content-center py-4">
+                                            <a href="index.html" class="logo d-flex align-items-center w-auto">
+                                                <img src="assets/img/logo.png" alt="">
+                                                <span class="d-none d-lg-block">NiceAdmin</span>
+                                            </a>
+                                        </div><!-- End Logo -->
+
+                                        <div class="card mb-3">
+
+                                            <div class="card-body">
+
+                                                <div class="pt-4 pb-2">
+                                                    <h5 class="card-title text-center pb-0 fs-4">Create an Acccount For
+                                                        your Buisness</h5>
+                                                    <p class="text-center small">Enter your personal details to create
+                                                        account</p>
+                                                </div>
+
+                                                <form class="row g-3 needs-validation" action="/add_saloon"
+                                                    method="post" novalidate>
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <label for="yourName" class="form-label">Enter Your Brand
+                                                            Name</label>
+                                                        <input type="text" name="storeName" class="form-control"
+                                                            id="yourName" required>
+                                                        <div class="invalid-feedback">Please, enter your brand name!
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <label for="yourName" class="form-label">Enter Your Owener
+                                                            Name</label>
+                                                        <input type="text" name="name" class="form-control"
+                                                            id="yourName" required>
+                                                        <div class="invalid-feedback">Please, enter your brand name!
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <label for="yourName" class="form-label">Enter Shop
+                                                            Number</label>
+                                                        <input type="text" name="shopNumber" class="form-control"
+                                                            id="yourName" required>
+                                                        <div class="invalid-feedback">Please, enter your brand name!
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <label for="yourEmail" class="form-label">Your Email</label>
+                                                        <input type="email" name="Email" class="form-control"
+                                                            id="yourEmail" required>
+                                                        <div class="invalid-feedback">Please enter a valid Email
+                                                            adddress!</div>
+                                                    </div>
+
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <label for="yourEmail" class="form-label">Primary Contact
+                                                            Number</label>
+                                                        <input type="PhoneNumber" name="primarynumber"
+                                                            class="form-control" id="yourEmail" required>
+                                                        <div class="invalid-feedback">Please enter a valid Email
+                                                            adddress!</div>
+                                                        
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <label for="yourEmail" class="form-label">Enter
+                                                            Description</label>
+                                                        <input type="email" name="description" class="form-control"
+                                                            id="yourEmail" required>
+                                                        <div class="invalid-feedback">Please enter a valid Email
+                                                            adddress!</div>
+                                                    </div>
+
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <label for="yourPassword" class="form-label">Password</label>
+                                                        <input type="password" name="password" class="form-control"
+                                                            id="yourPassword" required>
+                                                        <div class="invalid-feedback">Please enter your password!</div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <label for="yourPassword" class="form-label">Confirm
+                                                            Password</label>
+                                                        <input type="password" name="confirmpassword"
+                                                            class="form-control" id="yourPassword" required>
+                                                        <div class="invalid-feedback">Please enter your Confirm
+                                                            password!</div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <div class="fs-6 mb-2">Select Gendar</div>
+                                                        <select class="form-select" aria-label="Default select example">
+                                                            <option selected>Gender Served*</option>
+                                                            <option value="1">Male</option>
+                                                            <option value="2">Female</option>
+                                                            <option value="3">Unisex</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <div class="fs-6 mb-2">Select Size Of Orgnization</div>
+                                                        <select class="form-select" aria-label="Default select example">
+                                                            <option selected>Select partner size*</option>
+                                                            <option value="1">Indiviual Size</option>
+                                                            <option value="2">Indiviual Chain</option>
+                                                            <option value="3">Joint Venture</option>
+                                                            <option value="3">COCO(Company Owned Conpany Oprated)
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <div class="fs-6 mb-2">Select Type of Category</div>
+                                                        <select class="form-select" aria-label="Default select example">
+                                                            <option selected>Select Category Type*</option>
+                                                            <option value="1">Spa</option>
+                                                            <option value="2">Parlor</option>
+                                                            <option value="3">Salon</option>
+                                                            <option value="3">Packages</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <label for="yourName" class="form-label">Pin Code</label>
+                                                        <input type="text" name="pincode" class="form-control"
+                                                            id="yourName" required>
+                                                        <div class="invalid-feedback">Please, enter your brand name!
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <label for="yourName" class="form-label">Enter Your
+                                                            Locality</label>
+                                                        <input type="text" name="aria" class="form-control"
+                                                            id="yourName" required>
+                                                        <div class="invalid-feedback">Please, enter your brand name!
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <div class="fs-6 mb-2">Select City</div>
+                                                        <select class="form-select" aria-label="Default select example"
+                                                            name="city">
+                                                            <option selected>Select City*</option>
+                                                            <option value="1">Jaipur</option>
+                                                            <option value="2">Delhi</option>
+                                                            <option value="3">Kolkata</option>
+                                                            <option value="3">kerela</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <div class="fs-6 mb-2">Select State</div>
+                                                        <select class="form-select" aria-label="Default select example"
+                                                            name="state">
+                                                            <option selected>Select State*</option>
+                                                            <option value="1">Rajshthan</option>
+                                                            <option value="2">M.P</option>
+                                                            <option value="3">U.p</option>
+                                                            <option value="3">Himachal</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-12 w-50 col-md-6 col-lg-4">
+                                                        <label for="yourName" class="form-label">Full Address</label>
+                                                        <input type="text" name="fulladdress" class="form-control"
+                                                            id="yourName" required>
+                                                        <div class="invalid-feedback">Please, enter your brand name!
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 ">
+                                                        <div class="form-check text-center">
+                                                            <input class="form-check-input" name="terms" type="checkbox"
+                                                                value="" id="acceptTerms" required
+                                                                style="float: unset;">
+                                                            <label class="form-check-label" for="acceptTerms">I agree
+                                                                and accept the <a href="#">terms and
+                                                                    conditions</a></label>
+                                                            <div class="invalid-feedback">You must agree before
+                                                                submitting.</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 w-50 mx-auto">
+                                                        <button class="btn btn-primary w-100" type="submit">Create
+                                                            Account</button>
+                                                    </div>
+                                                    <div class="col-12 text-center">
+                                                        <p class="small mb-0">Already have an account? <a
+                                                                href="pages-login.html">Log in</a></p>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="credits">
+                                            <!-- All the links in the footer should remain intact. -->
+                                            <!-- You can delete the links only if you purchased the pro version. -->
+                                            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                                            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+                                            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </section>
+
+        </div>
+    </main><!-- End #main -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.min.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.min.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
