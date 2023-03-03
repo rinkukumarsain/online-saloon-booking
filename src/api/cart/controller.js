@@ -206,9 +206,10 @@ exports.removeserviceFromCart = async ({ body, user, query }) => {
 
 exports.getcart = async ({ user, query }) => {
     try {
+        let arr = [];
         let condition = [];
-        const findData = await cart.aggregate([
-            {
+        if (query.saloonId != undefined && query.saloonId != "") {
+            condition.push({
                 '$match': {
                     '$and': [
                         {
@@ -219,14 +220,60 @@ exports.getcart = async ({ user, query }) => {
                         }
                     ]
                 }
-            }, {
-                '$unwind': {
-                    'path': '$cartdata'
+            })
+        } else {
+            condition.push({
+                '$match': {
+                    '$and': [
+                        {
+                            'userId': user._id
+                        },
+                    ]
+                }
+            })
+        }
+        condition.push({
+            '$unwind': {
+                'path': '$cartdata'
+            }
+        }, {
+            '$lookup': {
+                'from': 'saloonservices',
+                'localField': 'cartdata.serviceId',
+                'foreignField': '_id',
+                'as': 'result'
+            }
+        }, {
+            '$unwind': {
+                'path': '$result'
+            }
+        }, {
+            '$project': {
+                'totalamount': 1,
+                'cartdata': {
+                    'saloonId': '$result.saloonStore',
+                    'serviceId': '$result._id',
+                    'quantity': '$cartdata.quantity',
+                    'Amount': '$cartdata.Amount',
+                    'ServiceName': '$result.ServiceName',
+                    'ServicePrice': '$result.ServicePrice',
+                    'timePeriod_in_minits': '$result.timePeriod_in_minits',
+                    'serviceProvider': '$result.serviceProvider',
+                    'image': '$result.image',
+                    'description': '$result.description'
+                }
+            }
+        })
+        const findData = await cart.aggregate(condition)
+        const findSaloon = await cart.aggregate([
+            {
+                '$match': {
+                    'userId': user._id
                 }
             }, {
                 '$lookup': {
-                    'from': 'saloonservices',
-                    'localField': 'cartdata.serviceId',
+                    'from': 'saloons',
+                    'localField': 'saloonId',
                     'foreignField': '_id',
                     'as': 'result'
                 }
@@ -235,28 +282,30 @@ exports.getcart = async ({ user, query }) => {
                     'path': '$result'
                 }
             }, {
-                '$project': {
-                    'totalamount': 1,
-                    'cartdata': {
-                        'serviceId': '$result._id',
-                        'quantity': '$cartdata.quantity',
-                        'Amount': '$cartdata.Amount',
-                        'ServiceName': '$result.ServiceName',
-                        'ServicePrice': '$result.ServicePrice',
-                        'timePeriod_in_minits': '$result.timePeriod_in_minits',
-                        'serviceProvider': '$result.serviceProvider',
-                        'image': '$result.image',
-                        'description': '$result.description'
-                    }
+                '$replaceRoot': {
+                    'newRoot': '$result'
                 }
             }
-        ]);
-        if (findData) {
+        ])
+        let i;
+        i = 1
+        let cartData = []
+        for (const saloon of findSaloon) {
+            cartData = []
+            for (const cart of findData) {
+                if (cart.cartdata.saloonId.toString() === saloon._id.toString()) {
+                    cartData.push(cart)
+                }
+            }
+            saloon.cart = cartData
+            arr.push(saloon)
+        }
+        if (arr) {
             return {
                 statusCode: 200,
                 status: true,
                 message: "your cart is hare !",
-                data: findData
+                data: arr
             };
         } else {
             return {
