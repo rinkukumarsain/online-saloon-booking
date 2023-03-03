@@ -179,10 +179,10 @@ exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
         let arrr = []
         let final = []
         let arr = {};
-        const findCart = await cart.findOne({ userId: user._id })
-
         let saloonId = mongoose.Types.ObjectId(query.saloonId);
         let categoryId = mongoose.Types.ObjectId(query.catogoryId);
+        const findCart = await cart.findOne({ userId: user._id, saloonId })
+        // console.log("findCart  ===?", findCart)
         const findStore = await saloonstore.findOne({ _id: saloonId });
         if (findStore) {
             const findCategory = await category.findOne({ _id: categoryId });
@@ -198,7 +198,7 @@ exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
                         if (findData.length > 0) {
                             findData.forEach(index => {
                                 if (findCart != null && findCart) {
-                                    console.log("findCart", findCart)
+                                    // console.log("findCart", findCart)
                                     let i = 0;
                                     findCart.cartdata.forEach(cart => {
                                         if (index._id.toString() === cart.serviceId.toString()) {
