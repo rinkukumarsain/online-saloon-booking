@@ -12,7 +12,7 @@ app.set("view engine", "ejs");
 app.use(cookiparser('keyboard cat'));
 app.use(session({ cookie: { maxAge: 60000000 }, resave: true, saveUninitialized: true, secret: "secretsession" }));
 app.use(flash());
-
+app.use(cookiparser());
 app.use(express.urlencoded({ extended: true }));
 require('dotenv').config();
 require('./src/datasources/connection');
