@@ -132,7 +132,7 @@ exports.removeStoreFromWishlist = async ({ query }) => {
             let saloonId = mongoose.Types.ObjectId(query.id);
             const findSaloon = await wishlist.findOne({ saloonId });
             if (findSaloon) {
-                const result = await wishlist.findOneAndRemove({ saloonId: findSaloon._id });
+                const result = await wishlist.findByIdAndRemove({ _id: findSaloon._id });
                 if (result) {
                     return {
                         statusCode: 200,
