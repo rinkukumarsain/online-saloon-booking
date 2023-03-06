@@ -31,13 +31,12 @@ exports.ContactUs = async ({ user, body }) => {
             };
         };
 
-        if (body.phone != undefined && body.phone == user.phone && body.email != undefined && user.email == body.email) {
+        if (body.phone != undefined && body.phone != "" && body.email != undefined && body.email != "") {
             const contactDtails = new Contact(body);
             const result = await contactDtails.save();
             if (result) {
                 const sendmailer = await sendmail(result)
                 if (sendmailer) {
-                    console.log("sendmailer", 2, sendmailer)
                     return {
                         statusCode: 200,
                         status: true,
@@ -47,7 +46,14 @@ exports.ContactUs = async ({ user, body }) => {
                 }
 
             };
-        };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "samethin is wrong !",
+                data: []
+            };
+        }
     } catch (error) {
         console.log(error);
         throw error;

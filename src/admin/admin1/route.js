@@ -3,15 +3,16 @@ const Upload = require("../../middleware/img");
 const responseHandler = require("../../utils/responseHandlers");
 const { Router } = require("express");
 const app = Router();
-const { registerView, registerData, loginData, loginView, dashboardView  } = require('./controller');
+const { admin, register, adminRegisterData, loginData, login,
+    usersProfile } = require('./controller');
+app.get("/", admin)
 
-app.get("/register", registerView);
-app.post("/register-admin-data", registerData);
-app.get("/login", loginView);
+app.get("/pages-register", register);
+app.post("/register-admin-data", adminRegisterData);
+
+app.get("/login", login);
 app.post("/login-admin-data", loginData);
-app.get("/dashboard", auth, dashboardView);
-//app.get("/login_add_saloon_view", auth, login_Add_Saloon_View);
-//app.get("/add_saloon_view", auth, add_Saloon_View);
-//app.post("/add_saloon", auth, add_Saloon);
-//app.post("/view_saloon", auth, view_saloon);
+
+app.get("/users-profile", auth, usersProfile);
+
 module.exports = app

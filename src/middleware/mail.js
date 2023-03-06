@@ -23,7 +23,10 @@ exports.sendmail = async (user) => {
         let result = await transporter.sendMail(mailoption)
         if (result) {
             return {
-                details: result
+                statusCode: 200,
+                status: true,
+                message: "ContactUs successfull !",
+                data: [result]
             };
         };
 
