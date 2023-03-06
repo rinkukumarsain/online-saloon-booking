@@ -1,6 +1,6 @@
 const adminModel = require("../../api/user/model");
-const bcrypt = require('bcrypt')
-const jwt = require("jsonwebtoken")
+const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
 const saloon = require("../../api/saloonstore/model");
 
 exports.add_Saloon_View = async (req, res) => {
@@ -42,64 +42,63 @@ exports.view_saloon = async (req, res) => {
 }
 
 
-exports.add_Saloon = async (req,res) => {
+exports.add_Saloon = async (req, res) => {
     try {
-        let {body, user, files, query } = req
-        res.locals.message=req.flash();
+        let { body, user, files, query } = req
+        res.locals.message = req.flash();
         if (query.id) {
-            
+
             let _id = mongoose.Types.ObjectId(query.id);
             const result = await saloon.findOne({ _id });
             if (result) {
                 let obj = {};
                 let locations = {};
                 const match = await bcrypt.compare(body.password, user.password)
-                if(match)
-                {
+                if (match) {
 
-                if (body.storeName) { obj.storeName = body.storeName };
-                if (body.Email) { obj.Email = body.Email };
-                if (body.PhoneNumber) { obj.PhoneNumber = body.PhoneNumber };
-                if (body.shopNumber) { locations.shopNumber = body.shopNumber };
-                if (body.aria) { locations.aria = body.aria };
-                if (body.pincode) { locations.pincode = body.pincode };
-                if (body.city) { locations.city = body.city };
-                if (body.state) { locations.state = body.state };
-                if (body.fulladdress) { locations.fulladdress = body.fulladdress };
-                if (body.description) { obj.description = body.description };
-                if (body.userId) { obj.userId = body.userId };
-                if (files) {
-                    img = []
-                    files.forEach(element => {
-                        img.push(element.filename)
-                    });
-                    obj.image = img
+                    if (body.storeName) { obj.storeName = body.storeName };
+                    if (body.Email) { obj.Email = body.Email };
+                    if (body.PhoneNumber) { obj.PhoneNumber = body.PhoneNumber };
+                    if (body.shopNumber) { locations.shopNumber = body.shopNumber };
+                    if (body.aria) { locations.aria = body.aria };
+                    if (body.pincode) { locations.pincode = body.pincode };
+                    if (body.city) { locations.city = body.city };
+                    if (body.state) { locations.state = body.state };
+                    if (body.fulladdress) { locations.fulladdress = body.fulladdress };
+                    if (body.description) { obj.description = body.description };
+                    if (body.userId) { obj.userId = body.userId };
+                    if (files) {
+                        img = []
+                        files.forEach(element => {
+                            img.push(element.filename)
+                        });
+                        obj.image = img
+                    }
+                    obj.location = locations;
+                    const result = await saloon.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
+                    if (result) {
+                        req.flash("success", "Saloon-Store is  Update successfull !")
+                        res.redirect("/add_saloon_view")
+                        // return {
+                        //     statusCode: 200,
+                        //     status: true,
+                        //     message: "Saloon-Store is  Update successfull !",
+                        //     data: [result]
+                        // };
+                    };
                 }
-                obj.location = locations;
-                const result = await saloon.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
-                if (result) {
-                    req.flash("success","Saloon-Store is  Update successfull !")
+                else {
+                    req.flash("error", "Saloon-Store is  Update successfull !")
                     res.redirect("/add_saloon_view")
                     // return {
-                    //     statusCode: 200,
-                    //     status: true,
-                    //     message: "Saloon-Store is  Update successfull !",
-                    //     data: [result]
+                    //     statusCode: 400,
+                    //     status: false,
+                    //     message: "Password Not Matched",
+                    //     data: []
                     // };
-                };
-            }
-            else{
-                req.flash("error","Saloon-Store is  Update successfull !")
-                res.redirect("/add_saloon_view")
-                // return {
-                //     statusCode: 400,
-                //     status: false,
-                //     message: "Password Not Matched",
-                //     data: []
-                // };
-            }
+                }
             } else {
-                req.flash("error","Saloon-Store is Not Found !")
+                req.flash("error", "Saloon-Store is Not Found !")
                 res.redirect("/add_saloon_view")
                 // return {
                 //     statusCode: 400,
@@ -114,7 +113,7 @@ exports.add_Saloon = async (req,res) => {
             if (storeName) {
                 const result = await saloon.findOne({ storeName });
                 if (result) {
-                    req.flash("error","storeName Already Exists")
+                    req.flash("error", "storeName Already Exists")
                     res.redirect("/add_saloon_view")
 
                     // return {
@@ -128,7 +127,7 @@ exports.add_Saloon = async (req,res) => {
             if (Email) {
                 const result = await saloon.findOne({ Email });
                 if (result) {
-                    req.flash("error","Email Already Exists")
+                    req.flash("error", "Email Already Exists")
                     res.redirect("/add_saloon_view")
                     // return {
                     //     statusCode: 400,
@@ -141,7 +140,7 @@ exports.add_Saloon = async (req,res) => {
             if (PhoneNumber) {
                 const result = await saloon.findOne({ PhoneNumber });
                 if (result) {
-                    req.flash("error","PhoneNumber Already Exists")
+                    req.flash("error", "PhoneNumber Already Exists")
                     res.redirect("/add_saloon_view")
                     // return {
                     //     statusCode: 400,
@@ -165,7 +164,7 @@ exports.add_Saloon = async (req,res) => {
                 storeName: body.storeName,
                 Email: body.Email,
                 PhoneNumber: body.PhoneNumber,
-                password:body.password,
+                password: body.password,
                 location: {
                     shopNumber: body.shopNumber,
                     aria: body.aria,
@@ -181,7 +180,7 @@ exports.add_Saloon = async (req,res) => {
             });
             const result = await saloon_details.save();
             if (result) {
-                req.flash("success","register-Saloon-Store Succesfuuly !")
+                req.flash("success", "register-Saloon-Store Succesfuuly !")
                 res.redirect("/add_saloon_view")
                 //res.send("data add successfully")
                 // return {

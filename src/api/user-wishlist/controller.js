@@ -63,7 +63,14 @@ exports.getWishlist = async ({ user, query }) => {
         if (query.id) {
             condition.push({
                 '$match': {
-                    '_id': mongoose.Types.ObjectId(query.id)
+                    '$and': [
+                        {
+                            'saloonId': mongoose.Types.ObjectId(query.id)
+                        },
+                        {
+                            'userId': user._id
+                        },
+                    ]
                 }
             });
         } else {
@@ -104,7 +111,7 @@ exports.getWishlist = async ({ user, query }) => {
         });
 
         const finddata = await wishlist.aggregate(condition);
-
+        // console.log("finddata", finddata)
         if (finddata.length > 0) {
             return {
                 statusCode: 200,
