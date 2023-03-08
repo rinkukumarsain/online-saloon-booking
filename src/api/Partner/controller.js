@@ -10,9 +10,9 @@ exports.PartnerRegistrationForm = async (req, res) => {
         if (req.user) {
             obj.userId = req.user._id
         }
-        if (req.body.phone != undefined && req.body.phone != "") {
-            const finddata = await saloonRequst.findOne({ PhoneNumber: req.body.phone })
-            console.log("phone", finddata)
+        if (req.body.Phone != undefined && req.body.Phone != "") {
+            const finddata = await saloonRequst.findOne({ PhoneNumber: req.body.Phone })
+            console.log("Phone", finddata)
             if (finddata) {
                 return {
                     statusCode: 400,
@@ -21,10 +21,10 @@ exports.PartnerRegistrationForm = async (req, res) => {
                     data: [req.body]
                 };
             }
-            obj.PhoneNumber = req.body.phone
+            obj.PhoneNumber = req.body.Phone
         } else {
             const finddata = await saloonRequst.findOne({ PhoneNumber: req.user.phone })
-            console.log("phone",2, finddata)
+            console.log("phone", 2, finddata, "-----", req.body.Phone)
             if (finddata) {
                 return {
                     statusCode: 400,
@@ -105,7 +105,14 @@ exports.PartnerRegistrationForm = async (req, res) => {
         const result = await saloonRequstDitail.save()
 
         console.log("result", result)
-
+        if (result) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "Your saloon requist create successfully !",
+                data: [result]
+            };
+        }
 
 
 
