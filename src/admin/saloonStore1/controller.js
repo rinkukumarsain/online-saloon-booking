@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const saloon = require("../../api/saloonstore/model");
 const user = require("../../api/user/model")
+const saloonRequst = require("../../api/Partner/model")
 
 exports.add_Saloon_View = async (req, res) => {
     try {
@@ -22,13 +23,64 @@ exports.addSaloon = async (req, res) => {
         res.locals.message = req.flash();
         const user = req.user
         res.render("add-saloon", { user })
-
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error)
         throw error
     }
 }
+
+exports.saloonAllRequistDatatable = async (req, res) => {
+    try {
+        saloonRequst.countDocuments().exec(async (err, row) => {
+            if (err) console.log(err);
+            let newData = row
+            let data = [];
+            let count = 1;
+            await saloonRequst.find().exec(async (err, row1) => {
+                console.log("row---->", row1)
+                for await (const index of row1) {
+                    let piture = []
+
+                    index.image.forEach(element => {
+                        piture.push(`<img src="/uploads/${element}" alt="pic" width="50" height="60">`)
+                    });
+                    const findUser = await user.findOne({ _id: index.userId })
+                    data.push({
+                        "count": count,
+                        "storeName": index.storeName,
+                        "owerName": findUser.name,
+                        "Email": index.Email,
+                        "phone": index.PhoneNumber,
+                        // "image": piture[0],
+                        "shopNumber": index.location.shopNumber,
+                        "aria": index.location.aria,
+                        "pincode": index.location.pincode,
+                        "city": index.location.city,
+                        "state": index.location.state,
+                        "type": index.type,
+                        "category": index.category,
+                        "Action": `<a href="/Product-registration/${index._id}">Edit</a> ||<a href="/Delete-Product/${index._id}">delete</a> `,
+                    });
+                    count++;
+                };
+                if (count > row1.length) {
+                    let jsonValue = JSON.stringify({
+                        recordsTotal: row,
+                        recordsFiltered: newData,
+                        data: data
+                    });
+                    res.send(jsonValue);
+                }
+            });
+        });
+    } catch (error) {
+
+    }
+}
+
+
+
+
 exports.viewSaloon = async (req, res) => {
     try {
         // console.log("res", req.user)

@@ -6,55 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>saloon-Registration</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-
-    <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet">
-
-    <!-- Vendor CSS Files -->
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
-    <!-- Template Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet">
-    <!-- MY GAMES!! -->
-    <link href="/css/bootstrap.css" rel="stylesheet" />
-    <link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-    <link rel="icon" type="image/x-icon" href="/logo.png" />
-    <script data-search-pseudo-elements defer src="/js/all.min.js"></script>
-    <link href="/css/bijarniadream.min.css" rel="stylesheet" />
-    <link href="/css/bootstrap-select.css" rel="stylesheet" />
-    <link href="/css/style.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="/js/jquery.dataTables.min.js"></script>
-    <link href="/css/theme1.css" rel="stylesheet" />
-    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" />
-    <link rel='stylesheet' href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/r-2.2.1/datatables.min.css">
-
-
-    <!-- my Games11 End -->
-
-    <!-- =======================================================
-         
-  * Template Name: online saloon - v2.2.0
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+    <%- include('../partials/Headlink.ejs') %>
 </head>
 
 <body>
@@ -88,175 +40,29 @@
                                                     <p class="text-center small">Enter your personal details to create
                                                         account</p>
                                                 </div>
-
-                                                <form class="row g-3 needs-validation" action="/saloon-registration"
-                                                    method="post" novalidate>
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <label for="yourName" class="form-label">Enter Your Brand
-                                                            Name</label>
-                                                        <input type="text" name="storeName" class="form-control"
-                                                            id="yourName" required>
-                                                        <div class="invalid-feedback">Please, enter your brand name!
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <label for="yourName" class="form-label">Enter Your Owener
-                                                            Name</label>
-                                                        <input type="text" name="name" class="form-control"
-                                                            id="yourName" required>
-                                                        <div class="invalid-feedback">Please, enter your brand name!
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <label for="yourName" class="form-label">Enter Shop
-                                                            Number</label>
-                                                        <input type="number" name="shopNumber" class="form-control"
-                                                            id="yourName" required>
-                                                        <div class="invalid-feedback">Please, enter your brand name!
-                                                        </div>
-                                                    </div>
-
-
-
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <label for="yourEmail" class="form-label">Your Email</label>
-                                                        <input type="email" name="Email" class="form-control"
-                                                            id="yourEmail" required>
-                                                        <div class="invalid-feedback">Please enter a valid Email
-                                                            adddress!</div>
-                                                    </div>
-
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <label for="yourEmail" class="form-label">Primary Contact
-                                                            Number</label>
-                                                        <input type="Number" name="PhoneNumber" class="form-control"
-                                                            id="yourEmail" required>
-                                                        <div class="invalid-feedback">Please enter a valid Email
-                                                            adddress!</div>
-
-                                                    </div>
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <label for="yourEmail" class="form-label">Enter
-                                                            Description</label>
-                                                        <input type="text" name="description" class="form-control" id=""
-                                                            required>
-                                                        <!-- <div class="invalid-feedback">Please enter a valid Email
-                                                            adddress!</div> -->
-                                                    </div>
-
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <label for="yourPassword" class="form-label">Password</label>
-                                                        <input type="password" name="password" class="form-control"
-                                                            id="yourPassword" required>
-                                                        <div class="invalid-feedback">Please enter your password!</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <label for="yourPassword" class="form-label">Confirm
-                                                            Password</label>
-                                                        <input type="password" name="confirmpassword"
-                                                            class="form-control" id="yourPassword" required>
-                                                        <div class="invalid-feedback">Please enter your Confirm
-                                                            password!</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <div class="fs-6 mb-2">Select Gendar</div>
-                                                        <select class="form-select" aria-label="Default select example">
-                                                            <option selected>Gender Served*</option>
-                                                            <option value="1">Male</option>
-                                                            <option value="2">Female</option>
-                                                            <option value="3">Unisex</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <div class="fs-6 mb-2">Select Size Of Orgnization</div>
-                                                        <select class="form-select" aria-label="Default select example">
-                                                            <option selected>Select partner size*</option>
-                                                            <option value="1">Indiviual Size</option>
-                                                            <option value="2">Indiviual Chain</option>
-                                                            <option value="3">Joint Venture</option>
-                                                            <option value="3">COCO(Company Owned Conpany Oprated)
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <div class="fs-6 mb-2">Select Type of Category</div>
-                                                        <select class="form-select" aria-label="Default select example">
-                                                            <option selected>Select Category Type*</option>
-                                                            <option value="1">Spa</option>
-                                                            <option value="2">Parlor</option>
-                                                            <option value="3">Salon</option>
-                                                            <option value="3">Packages</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <label for="yourName" class="form-label">Pin Code</label>
-                                                        <input type="number" name="pincode" class="form-control"
-                                                            id="yourName" required>
-                                                        <div class="invalid-feedback">Please, enter your brand name!
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <label for="yourName" class="form-label">Enter Your
-                                                            Locality</label>
-                                                        <input type="text" name="aria" class="form-control"
-                                                            id="yourName" required>
-                                                        <div class="invalid-feedback">Please, enter your brand name!
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <div class="fs-6 mb-2">Select City</div>
-                                                        <select class="form-select" aria-label="Default select example"
-                                                            name="city">
-                                                            <option selected>Select City*</option>
-                                                            <option value="Jaipur">Jaipur</option>
-                                                            <option value="Delhi">Delhi</option>
-                                                            <option value="Kolkata">Kolkata</option>
-                                                            <option value="kerela">kerela</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <div class="fs-6 mb-2">Select State</div>
-                                                        <select class="form-select" aria-label="Default select example"
-                                                            name="state">
-                                                            <option selected>Select State*</option>
-                                                            <option value="Rajshthan">Rajshthan</option>
-                                                            <option value="M">M.P</option>
-                                                            <option value="U">U.p</option>
-                                                            <option value="Himachal">Himachal</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <!-- <div class="col-12 w-50 col-md-6 col-lg-4">
-                                                        <label for="yourName" class="form-label">Full Address</label>
-                                                        <input type="text" name="fulladdress" class="form-control"
-                                                            id="yourName" required>
-                                                        <div class="invalid-feedback">Please, enter your brand name!
-                                                        </div>
-                                                    </div> -->
-
-                                                    <div class="col-12 ">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" name="terms" type="checkbox"
-                                                                value="" id="acceptTerms" required
-                                                                style="float: unset;">
-                                                            <label class="form-check-label" for="acceptTerms">I agree
-                                                                and accept the <a href="#">terms and
-                                                                    conditions</a></label>
-                                                            <div class="invalid-feedback">You must agree before
-                                                                submitting.</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 w-50 mx-auto">
-                                                        <button class="btn btn-primary w-100" type="submit">Create
-                                                            Account</button>
-                                                    </div>
-                                                    <!--   <div class="col-12 text-center">
-                                                        <p class="small mb-0">Already have an account? <a
-                                                                href="pages-login.html">Log in</a></p>
-                                                    </div> -->
-                                                </form>
-
+                                                <table class="content-table" id="mytable" border="3px">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sno</th>
+                                                            <th>storeName</th>
+                                                            <th>owerName</th>
+                                                            <th>Email</th>
+                                                            <th>phone</th>
+                                                            <th>shopN</th>
+                                                            <th>aria</th>
+                                                            <th>pincode</th>
+                                                            <th>city</th>
+                                                            <th>state</th>
+                                                            <th>type</th>
+                                                            <th>category</th>
+                                                            <!-- <th>Image</th> -->
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                                <input type="text" id="myText" value="<%-user.type %>">
                                             </div>
                                         </div>
 
@@ -273,26 +79,64 @@
                             </div>
 
                         </section>
+                        <script type="text/javascript">
+                            // function GetReqForSubCatagory(_id) {
+                            //     console.log("idddd", _id)
+                            // }
+
+                            $(document).ready(function () {
+                                let id = document.getElementById("myText").value;
+                                let fff;
+                                if (id) {
+                                    fff = `/?id=${id}`
+                                    console.log("if ", id, fff)
+                                }
+                                else {
+                                    fff = `/`
+                                    console.log("else ", id, fff)
+                                }
+
+                                // $.fn.dataTable.ext.errMode = 'none';
+                                console.log("kkkkk")
+                                $('#mytable').DataTable({
+                                    "lengthMenu": [2, 4, 6, 8, 15],
+                                    "pageLength": 5,
+                                    serverSide: true,
+                                    "ajax": {
+                                        "type": 'GET',
+                                        "url": "/saloon-all-requist-datatable",
+                                        "dataSrc": 'data',
+                                        error: function () { console.log(error) }
+                                    },
+                                    "columns": [
+                                        { "data": "count" },
+                                        { "data": "storeName" },
+                                        { "data": "owerName" },
+                                        { "data": "Email" },
+                                        { "data": "phone" },
+                                        { "data": "shopNumber" },
+                                        { "data": "aria" },
+                                        { "data": "pincode" },
+                                        { "data": "city" },
+                                        { "data": "state" },
+                                        { "data": "type" },
+                                        { "data": "category" },
+                                        // { "data": "image" },
+                                        { "data": "Action" },
+                                        //{ "data": "delete" },
+                                    ]
+                                }
+                                )
+                            })
+                            //console.log("hello id ", x)
+                        </script>
 
         </div>
     </main><!-- End #main -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
-
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.min.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
-
+    <%- include("../partials/script.ejs") %>
 </body>
 
 </html>
