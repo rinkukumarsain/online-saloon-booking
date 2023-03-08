@@ -9,13 +9,10 @@ module.exports = async (req, res, next) => {
             req.user = await userModel.findOneAndUpdate({ _id, auth: token, isDeleted: false }, { new: true })
             if (req.user) {
                 next()
-                console.log("accessToken ->")
             } else {
-                console.log("auth login:")
                 res.render("login")
             }
         } else if (req.cookies.refreshToken) {
-            console.log("refreshToken ->")
             const varifyRefreshToken = jwt.verify(req.cookies.refreshToken, process.env.refreshToken)
             if (varifyRefreshToken) {
                 const accessToken = jwt.sign({ _id: varifyRefreshToken._id }, process.env.accessToken)
@@ -33,11 +30,7 @@ module.exports = async (req, res, next) => {
                 next()
             }
         } else {
-            return res.status(401).json({
-                status: false,
-                message: "Token Not Found accessToken && refreshToken",
-                data: []
-            })
+            res.redirect("/");
         }
     } catch (error) {
         console.log("error", error)
