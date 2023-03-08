@@ -5,54 +5,11 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <title>Dashboard - online saloon</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
+  <%- include("../partials/Headlink.ejs")%>
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: NiceAdmin - v2.2.0
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-  <!-- games11 start-->
-  <link href="/css/bootstrap.css" rel="stylesheet" />
-  <link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-  <link rel="icon" type="image/x-icon" href="/logo.png" />
-  <script data-search-pseudo-elements defer src="/js/all.min.js"></script>
-  <link href="/css/bijarniadream.min.css" rel="stylesheet" />
-  <link href="/css/bootstrap-select.css" rel="stylesheet" />
-  <link href="/css/style.css" rel="stylesheet" />
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script src="/js/jquery.dataTables.min.js"></script>
-  <link href="/css/theme1.css" rel="stylesheet" />
-  <link href="/css/jquery.datetimepicker.css" rel="stylesheet" />
-  <link rel='stylesheet' href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/r-2.2.1/datatables.min.css">
-
-  <!-- games 11 end -->
 </head>
 
 <body>
@@ -67,12 +24,12 @@
             <%console.log("message"+JSON.stringify(message))%>
 
               <h1>
-                <%- user %>
-                  <a href="/refreshToken"> <button>refresh</button></a>
+                <%- user.type %>
+
               </h1>
               <nav>
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                  <li class="breadcrumb-item"><a href="/">Home</a></li>
                   <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
               </nav>
@@ -155,82 +112,15 @@
                       </div>
 
                     </div>
-                  </div><!-- End Revenue Card -->
-
-                  <!-- Customers Card -->
-                  <!-- End Customers Card -->
-
-                  <!-- Reports -->
-                  <!-- End Reports -->
-
-                  <!-- Recent Sales -->
-                  <!-- End Recent Sales -->
-
-                  <!-- Top Selling -->
-                  <!-- End Top Selling -->
-
+                  </div>
                 </div>
-              </div><!-- End Left side columns -->
-
-              <!-- Right side columns -->
+              </div>
               <div class="col-lg-4">
 
-                <!-- Recent Activity -->
-                <!-- End Recent Activity -->
-
-                <!-- Budget Report -->
-                <!-- End Budget Report -->
-
-                <!-- Website Traffic -->
-                <!-- End Website Traffic -->
-
-                <!-- News & Updates Traffic -->
-
-              </div><!-- End Right side columns -->
-
+              </div>
             </div>
           </section>
-          <script>
-            function refreshToken() {
-              console.log("refresh")
-              $.ajax({
-                type: 'get',
-                data: {},
-                url: '/refreshToken',// nandlal
-                success: function (data) {
-                  if (data.length > 0) {
-                    console.log(data)
-                    let abc = `<div id="subcategory-${num + 1}"><label for="inputAddress" class="form-label">Sub Category</label>`
-                    abc += `<select style="width:50%;margin-bottom:20px"   class="form-select" onchange="clickMe(this )" name="category" id="${num + 1}">`
-                    abc += `<option>select Sub Category</option>`
 
-                    data.forEach((item) => {
-                      abc += `<option value=${item._id}>${item.Name}</option>`
-                    })
-
-                    abc += `</select></div>`
-                    let num2 = num + 1
-                    while (true) {
-                      let cat = $(`#subcategory-${num2}`)
-                      if (cat.html()) {
-                        cat.remove();
-                      }
-                      else {
-                        break;
-                      }
-                      ++num2
-                    }
-                    $('#myselect').append(abc)
-                  } else {
-                    document.getElementById("mySubmit").disabled = false;
-                  }
-                }
-              })
-            }
-
-
-
-          </script>
 
         </main><!-- End #main -->
 
@@ -241,18 +131,7 @@
           <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
               class="bi bi-arrow-up-short"></i></a>
 
-          <!-- Vendor JS Files -->
-          <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-          <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-          <script src="assets/vendor/chart.js/chart.min.js"></script>
-          <script src="assets/vendor/echarts/echarts.min.js"></script>
-          <script src="assets/vendor/quill/quill.min.js"></script>
-          <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-          <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-          <script src="assets/vendor/php-email-form/validate.js"></script>
-
-          <!-- Template Main JS File -->
-          <script src="assets/js/main.js"></script>
+          <%- include("../partials/script.ejs") %>
 
 </body>
 

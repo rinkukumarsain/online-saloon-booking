@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
-const userModel = require("../../api/user/model")
+const userModel = require("../../api/user/model");
 
 exports.admin = async (req, res) => {
     try {

@@ -2,6 +2,7 @@ const adminModel = require("../../api/user/model");
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const saloon = require("../../api/saloonstore/model");
+const user = require("../../api/user/model")
 
 exports.add_Saloon_View = async (req, res) => {
     try {
@@ -16,7 +17,7 @@ exports.add_Saloon_View = async (req, res) => {
     }
 }
 
-exports.login_Add_Saloon_View = async (req, res) => {
+exports.addSaloon = async (req, res) => {
     try {
         res.locals.message = req.flash();
 
@@ -28,19 +29,86 @@ exports.login_Add_Saloon_View = async (req, res) => {
         throw error
     }
 }
-exports.view_saloon = async (req, res) => {
+exports.viewSaloon = async (req, res) => {
     try {
+        // console.log("res", req.user)
         res.locals.message = req.flash();
-
-        res.render("viewSaloon")
-
-    }
-    catch (error) {
+        const user = req.user
+        res.render("view-saloon", { user })
+    } catch (error) {
         console.log(error)
         throw error
     }
 }
+exports.getSaloons = async (req, res) => {
+    try {
+        console.log("getSaloons------------------->")
+        console.log("data table")
+        // console.log("22", req.params.id)
+        let start = Number(req.query.start);
+        let limit = Number(req.query.length);
+        let condition = {};
+        // skip: start
+        /*  if (req.user.type == "admin") {
+              console.log("admin---=>", req.user)
+              // condition.push({
+              // '$match': {
+              condition.userId = req.user._id
+              // }
+              console.log("user", condition)
+              // })
+          } else if (req.user.type == "SuperAdmin") {
+              condition = {}
+          }*/
 
+        saloon.countDocuments(condition).exec(async (err, row) => {
+            if (err) console.log(err);
+            let newData = row
+            let data = [];
+            let count = 1;
+            await saloon.find(condition).exec(async (err, row1) => {
+                console.log("row---->", row1)
+                for await (const index of row1) {
+                    let piture = []
+
+                    index.image.forEach(element => {
+                        piture.push(`<img src="/uploads/${element}" alt="pic" width="50" height="60">`)
+                    });
+                    const findUser = await user.findOne({ _id: index.userId })
+                    console.log("findUser-->>", index.userId, findUser)
+                    data.push({
+                        "count": count,
+                        "storeName": index.storeName,
+                        "owerName": findUser.name,
+                        "Email": index.Email,
+                        "phone":index.phone,
+                        // "image": piture[0],
+                        "shopNumber": index.location.shopNumber,
+                        "aria": index.location.aria,
+                        "pincode": index.location.pincode,
+                        "city": index.location.city,
+                        "state": index.location.state,
+
+                        "description": index.description,
+                        "Action": `<a href="/Product-registration/${index._id}">Edit</a> ||<a href="/Delete-Product/${index._id}">delete</a> `,
+
+                    });
+                    count++;
+                };
+                if (count > row1.length) {
+                    let jsonValue = JSON.stringify({
+                        recordsTotal: row,
+                        recordsFiltered: newData,
+                        data: data
+                    });
+                    res.send(jsonValue);
+                }
+            });
+        });
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 exports.add_Saloon = async (req, res) => {
     try {
