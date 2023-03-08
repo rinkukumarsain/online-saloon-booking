@@ -283,6 +283,16 @@ exports.getServiceByCategory = async ({ query }) => {
                         if (Ltprice && Gtprice) {
                             if (Ltprice && Gtprice && query.timePeriod_in_minits != undefined && query.timePeriod_in_minits != "") {
                                 if (Ltprice && Gtprice && query.timePeriod_in_minits != undefined && query.timePeriod_in_minits != "" && query.type != undefined && query.type != "") {
+                                    let aaaa = []
+                                    console.log("hello", 11, query.type, query.type.length)
+                                    console.log(typeof (query.type))
+                                    if (typeof (query.type) == "object") {
+                                        query.type.forEach(element => {
+                                            aaaa.push(element)
+                                        });
+                                    } else {
+                                        aaaa.push(query.type)
+                                    }
                                     condition.push({
                                         '$match': {
                                             '$and': [
@@ -302,7 +312,7 @@ exports.getServiceByCategory = async ({ query }) => {
                                                 {
                                                     'timePeriod_in_minits': Number(query.timePeriod_in_minits)
                                                 }, {
-                                                    'type': query.type
+                                                    'type': { $in: aaaa }
                                                 }
                                             ]
                                         }
@@ -371,7 +381,16 @@ exports.getServiceByCategory = async ({ query }) => {
                                 }
                             });
                         } else if (query.type != undefined && query.type != "") {
-                            console.log("hello", 11, query.type)
+                            let aaaa = []
+                            console.log("hello", 11, query.type, query.type.length)
+                            console.log(typeof (query.type))
+                            if (typeof (query.type) == "object") {
+                                query.type.forEach(element => {
+                                    aaaa.push(element)
+                                });
+                            } else {
+                                aaaa.push(query.type)
+                            }
                             condition.push({
                                 '$match': {
                                     '$and': [
@@ -379,7 +398,7 @@ exports.getServiceByCategory = async ({ query }) => {
                                             'last_category': item._id
                                         },
                                         {
-                                            'type': query.type
+                                            'type': { $in: aaaa }
                                         }
                                     ]
                                 }
