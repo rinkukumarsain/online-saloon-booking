@@ -121,7 +121,7 @@ exports.getWishlist = async ({ user, query }) => {
             };
         } else {
             return {
-                statusCode: 400,
+                statusCode: 200,
                 status: false,
                 message: "please Enter valid store id  !",
                 data: []

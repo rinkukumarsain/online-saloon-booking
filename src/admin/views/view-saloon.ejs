@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>view-saloon</title>
+    <%- include('../partials/Headlink.ejs') %>
+</head>
+
+<body>
+    <%- include("../partials/alertMsg") %>
+        <%- include('../partials/Header.ejs') %>
+            <%- include("../partials/sidebar.ejs") %>
+
+                <main id="main" class="main">
+                    <div class="pagetitle">
+                        <h1>
+                            <%-user.type %>
+                        </h1>
+                        <nav>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active">Dashboard</li>
+                            </ol>
+                        </nav>
+                    </div><!-- End Page Title -->
+
+                    <section class="section dashboard">
+                        <div class="row">
+
+                            <!-- Left side columns -->
+                            <div class="col-lg-8">
+                                <div class="row">
+                                    <h1>Welcome to View Saloon</h1>
+
+                                    <table class="content-table" id="mytable" border="3px">
+                                        <thead>
+                                            <tr>
+                                                <th>Sno</th>
+                                                <th>storeName</th>
+                                                <th>owerName</th>
+                                                <th>Email</th>
+                                                <th>phone</th>
+                                                <th>shopN</th>
+                                                <th>aria</th>
+                                                <th>pincode</th>
+                                                <th>city</th>
+                                                <th>state</th>
+                                                <!-- <th>Image</th> -->
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    <input type="text" id="myText" value="<%-user.type %>">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+
+                            </div>
+                        </div>
+                    </section>
+                </main>
+
+
+                <script type="text/javascript">
+                    // function GetReqForSubCatagory(_id) {
+                    //     console.log("idddd", _id)
+                    // }
+
+                    $(document).ready(function () {
+                        let id = document.getElementById("myText").value;
+                        let fff;
+                        if (id) {
+                            fff = `/?id=${id}`
+                            console.log("if ", id, fff)
+                        }
+                        else {
+                            fff = `/`
+                            console.log("else ", id, fff)
+                        }
+
+                        // $.fn.dataTable.ext.errMode = 'none';
+                        console.log("kkkkk")
+                        $('#mytable').DataTable({
+                            "lengthMenu": [2, 4, 6, 8, 15],
+                            "pageLength": 5,
+                            serverSide: true,
+                            "ajax": {
+                                "type": 'GET',
+                                "url": "/get-saloons",
+                                "dataSrc": 'data',
+                                error: function () { console.log(error) }
+                            },
+                            "columns": [
+                                { "data": "count" },
+                                { "data": "storeName" },
+                                { "data": "owerName" },
+                                { "data": "Email" },
+                                { "data": "phone" },
+                                { "data": "shopNumber" },
+                                { "data": "aria" },
+                                { "data": "pincode" },
+                                { "data": "city" },
+                                { "data": "state" },
+                                // { "data": "image" },
+                                { "data": "Action" },
+                                //{ "data": "delete" },
+                            ]
+                        }
+                        )
+                    })
+                    //console.log("hello id ", x)
+                </script>
+                <%- include("../partials/script.ejs") %>
+</body>
+
+</html>
