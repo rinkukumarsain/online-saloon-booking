@@ -297,8 +297,10 @@ exports.getcart = async ({ user, query }) => {
                     cartData.push(cart)
                 }
             }
-            saloon.cart = cartData
-            arr.push(saloon)
+            if (cartData.length > 0) {
+                saloon.cart = cartData
+                arr.push(saloon)
+            }
         }
         if (arr) {
             return {

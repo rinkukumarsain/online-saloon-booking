@@ -20,8 +20,8 @@ exports.add_Saloon_View = async (req, res) => {
 exports.addSaloon = async (req, res) => {
     try {
         res.locals.message = req.flash();
-
-        res.render("login_add_saloon")
+        const user = req.user
+        res.render("add-saloon", { user })
 
     }
     catch (error) {
@@ -75,23 +75,20 @@ exports.getSaloons = async (req, res) => {
                         piture.push(`<img src="/uploads/${element}" alt="pic" width="50" height="60">`)
                     });
                     const findUser = await user.findOne({ _id: index.userId })
-                    console.log("findUser-->>", index.userId, findUser)
                     data.push({
                         "count": count,
                         "storeName": index.storeName,
                         "owerName": findUser.name,
                         "Email": index.Email,
-                        "phone":index.phone,
+                        "phone": index.PhoneNumber,
                         // "image": piture[0],
                         "shopNumber": index.location.shopNumber,
                         "aria": index.location.aria,
                         "pincode": index.location.pincode,
                         "city": index.location.city,
                         "state": index.location.state,
-
                         "description": index.description,
                         "Action": `<a href="/Product-registration/${index._id}">Edit</a> ||<a href="/Delete-Product/${index._id}">delete</a> `,
-
                     });
                     count++;
                 };
@@ -110,8 +107,10 @@ exports.getSaloons = async (req, res) => {
     }
 }
 
-exports.add_Saloon = async (req, res) => {
+exports.saloonRegistration = async (req, res) => {
     try {
+        console.log("body", req.body)
+        // dfhgfjg
         let { body, user, files, query } = req
         res.locals.message = req.flash();
         if (query.id) {
@@ -146,7 +145,7 @@ exports.add_Saloon = async (req, res) => {
                     const result = await saloon.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
                     if (result) {
                         req.flash("success", "Saloon-Store is  Update successfull !")
-                        res.redirect("/add_saloon_view")
+                        res.redirect("/")
                         // return {
                         //     statusCode: 200,
                         //     status: true,
@@ -157,7 +156,7 @@ exports.add_Saloon = async (req, res) => {
                 }
                 else {
                     req.flash("error", "Saloon-Store is  Update successfull !")
-                    res.redirect("/add_saloon_view")
+                    res.redirect("/")
                     // return {
                     //     statusCode: 400,
                     //     status: false,
@@ -167,7 +166,7 @@ exports.add_Saloon = async (req, res) => {
                 }
             } else {
                 req.flash("error", "Saloon-Store is Not Found !")
-                res.redirect("/add_saloon_view")
+                res.redirect("/")
                 // return {
                 //     statusCode: 400,
                 //     status: false,
@@ -182,7 +181,7 @@ exports.add_Saloon = async (req, res) => {
                 const result = await saloon.findOne({ storeName });
                 if (result) {
                     req.flash("error", "storeName Already Exists")
-                    res.redirect("/add_saloon_view")
+                    res.redirect("/")
 
                     // return {
                     //     statusCode: 400,
@@ -196,7 +195,7 @@ exports.add_Saloon = async (req, res) => {
                 const result = await saloon.findOne({ Email });
                 if (result) {
                     req.flash("error", "Email Already Exists")
-                    res.redirect("/add_saloon_view")
+                    res.redirect("/")
                     // return {
                     //     statusCode: 400,
                     //     status: false,
@@ -209,7 +208,7 @@ exports.add_Saloon = async (req, res) => {
                 const result = await saloon.findOne({ PhoneNumber });
                 if (result) {
                     req.flash("error", "PhoneNumber Already Exists")
-                    res.redirect("/add_saloon_view")
+                    res.redirect("/")
                     // return {
                     //     statusCode: 400,
                     //     status: false,
@@ -249,7 +248,7 @@ exports.add_Saloon = async (req, res) => {
             const result = await saloon_details.save();
             if (result) {
                 req.flash("success", "register-Saloon-Store Succesfuuly !")
-                res.redirect("/add_saloon_view")
+                res.redirect("/")
                 //res.send("data add successfully")
                 // return {
                 //     statusCode: 200,

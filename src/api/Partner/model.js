@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 var ObjectId = require('mongodb').ObjectId;
 
-const saloon_Store = new mongoose.Schema({
+const saloon_Requst = new mongoose.Schema({
     userId: {
         type: ObjectId
     },
@@ -10,9 +10,6 @@ const saloon_Store = new mongoose.Schema({
         type: String,
     },
     password: {
-        type: String,
-    },
-    confirmpassword: {
         type: String,
     },
     Email: {
@@ -40,7 +37,7 @@ const saloon_Store = new mongoose.Schema({
         state: {
             type: String
         },
-        
+
     },
     category: {
         type: [String]
@@ -55,7 +52,7 @@ const saloon_Store = new mongoose.Schema({
 }, { timestamps: true });
 
 
-const saloon = new mongoose.model("saloon", saloon_Store);
-module.exports = saloon;
+const saloonRequst = new mongoose.model("saloonRequst", saloon_Requst);
+module.exports = saloonRequst;
 
 
