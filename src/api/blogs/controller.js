@@ -90,9 +90,9 @@ exports.creatBlog = async ({ body, file }) => {
 exports.getAllBlog = async ({ query }) => {
     try {
         let condition = {};
-        if (query.id) {
-            condition.category = mongoose.Types.ObjectId(query.id);
-            const findCategory = await category.findOne({ _id: mongoose.Types.ObjectId(query.id) });
+        if (query.categoryId) {
+            condition.category = mongoose.Types.ObjectId(query.categoryId);
+            const findCategory = await category.findOne({ _id: mongoose.Types.ObjectId(query.categoryId) });
             if (!findCategory) {
                 return {
                     statusCode: 200,
@@ -101,6 +101,9 @@ exports.getAllBlog = async ({ query }) => {
                     data: []
                 };
             };
+        };
+        if (query.id) {
+            condition._id = mongoose.Types.ObjectId(query.id);
         };
         const result = await blog.find(condition);
         if (result) {
