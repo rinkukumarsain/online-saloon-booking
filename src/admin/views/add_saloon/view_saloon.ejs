@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>view-saloon</title>
+    <%- include('../../partials/headlink.ejs') %>
+  </head>
+
+  <body>
+    <%- include('../../partials/Header.ejs') %> <%-
+    include("../../partials/sidebar.ejs") %>
+
+    <main id="main" class="main">
+      <div class="pagetitle">
+        <h1><%-user.type %></h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
+      <section class="section dashboard">
+        <div class="row">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Hotel List</h5>
+    
+                  <!-- Table with stripped rows -->
+                  <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns"><div class="dataTable-top"><div class="dataTable-dropdown"><label><select class="dataTable-selector"><option value="5">5</option><option value="10" selected="">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option></select> entries per page</label></div><div class="dataTable-search"><input class="dataTable-input" placeholder="Search..." type="text"></div></div><div class="dataTable-container"><table class="table datatable dataTable-table">
+                    <thead>
+                      <tr>
+                        <th scope="col" data-sortable="" style="width: 5.38714%;"><a href="#" class="dataTable-sorter">#</a></th>
+                        
+                        <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">Store Name</a></th>
+                        <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">Owner Name</a></th>
+                        <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">Email</a></th>
+                        <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">Phone</a></th>
+                        <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">Shop Number</a></th>
+                        <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">Pin Code</a></th>
+                        <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">City</a></th>
+                        <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">State</a></th>
+                        <th scope="col" data-sortable=""><a href="#" class="dataTable-sorter">Action</a></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <% let i = 1%>
+                        <% for (data of data) {%>
+                        <tr>
+                        <th scope="row"><%= i++%></th>
+                        <td><%= data.storeName%></td>
+                        <td><%= data.name%></td>
+                        <td><%= data.Email%></td>
+                        <td><%= data.PhoneNumber%></td>
+                        <td><%= data.location.shopNumber%></td>
+                        <td><%= data.location.pincode%></td>
+                        <td><%= data.location.city%></td>
+                        <td><%= data.location.state%></td>
+                        <td>
+                            <a href="/add_saloon?id=<%= data._id%>" class="btn btn-dark">Edit</a> 
+                            <a href="/delete_saloon?id=<%= data._id%>" class="btn btn-danger">Delete</a>
+                        </td>
+                        </tr>
+                        <%}%>
+                        </tbody>
+                       </table></div><div class="dataTable-bottom"><div class="dataTable-info">Showing 1 to 3 of 3 entries</div><nav class="dataTable-pagination"><ul class="dataTable-pagination-list"></ul></nav></div></div>
+                  <!-- End Table with stripped rows -->
+    
+                </div>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </section>
+     
+    </main>
+
+    <%- include("../../partials/script.ejs") %>
+  </body>
+</html>
