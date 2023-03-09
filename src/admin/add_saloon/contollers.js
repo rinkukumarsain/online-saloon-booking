@@ -1,9 +1,11 @@
 const saloon = require("../../api/saloonstore/model");
-const user = require("../../api/user/model")
+const service = require("./services")
 const bcrypt = require('bcrypt');
 exports.ADD_SALOON = async (req, res) => {
     const user = req.user
-    res.render("add_saloon/add_saloon",{user})
+    const _id = req.query.id
+    const saloon_data = await saloon.findOne({_id})
+    res.render("add_saloon/add_saloon",{user,saloon_data})
 }
 
 exports.ADD_SALOON_STORE = async (req, res) => { 
@@ -29,7 +31,6 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                     if (body.pincode) { locations.pincode = body.pincode };
                     if (body.city) { locations.city = body.city };
                     if (body.state) { locations.state = body.state };
-                    if (body.fulladdress) { locations.fulladdress = body.fulladdress };
                     if (body.description) { obj.description = body.description };
                     if (body.userId) { obj.userId = body.userId };
                     if (files) {
@@ -118,5 +119,15 @@ exports.ADD_SALOON_STORE = async (req, res) => {
 }
 
 exports.VIEW_SALOON = async (req, res) => {
-    
+    const data = await service.VIEW_SALOON()
+    const user = req.user
+    res.render("add_saloon/view_saloon",{user,data})
+}
+
+
+
+exports.DELETE_SALOON = async (req, res) => {
+    const id = req.query.id
+    await saloon.findByIdAndDelete({ _id: id })
+    res.redirect("/view_saloon")
 }
