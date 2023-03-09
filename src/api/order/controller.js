@@ -2,6 +2,7 @@ const cart = require("../cart/model");
 const order = require("./model");
 const Schedule = require("../Schedule/model");
 const mongoose = require("mongoose")
+const saloon = require("../saloonstore/model")
 
 exports.userOrder = async ({ user }) => {
     try {
@@ -61,6 +62,7 @@ exports.userOrder = async ({ user }) => {
 exports.getUserOrder = async ({ user, query }) => {
     try {
         let condition = [];
+        let finalData = [];
         if (query.id) {
             condition.push({
                 '$match': {
@@ -73,6 +75,7 @@ exports.getUserOrder = async ({ user, query }) => {
             condition.push({
                 '$match': {
                     'userId': user._id
+                    // 'userId': mongoose.Types.ObjectId("63edcfe963019ceacb729327")
                 }
             })
         };
@@ -107,14 +110,59 @@ exports.getUserOrder = async ({ user, query }) => {
                 'createdAt': 1,
                 'updatedAt': 1
             }
+
+        }, {
+            "$group": {
+                _id: "$_id",
+                data: {
+                    $push: {
+                        _id: "$_id",
+                        userId: "$userId",
+                        saloonId: "$saloonId",
+                        ServiceName: "$ServiceName",
+                        ServicePrice: "$ServicePrice",
+                        timePeriod_in_minits:
+                            "$timePeriod_in_minits",
+                        totalamount: "$totalamount",
+                        addressId: "$addressId",
+                        ScheduleId: "$ScheduleId",
+                        paymentStatus: "$paymentStatus",
+                        status: "$status",
+                        orderId: "$orderId",
+                        createdAt: "$createdAt",
+                        updatedAt: "$updatedAt",
+                    },
+                },
+            }
+        }, {
+            "$project": {
+                _id: 0,
+                saloonId: {
+                    $arrayElemAt: ["$data.saloonId", 0],
+                },
+                data: 1,
+            }
         })
+
+
         const findData = await order.aggregate(condition);
-        if (findData.length > 0) {
+        const findAllSaloon = await saloon.find()
+
+        for (const order of findData) {
+            for (const Saloon of findAllSaloon) {
+                if (order.saloonId.toString() === Saloon._id.toString()) {
+                    Saloon._doc.item = order
+                    finalData.push(Saloon)
+                };
+            };
+        };
+
+        if (finalData.length > 0) {
             return {
                 statusCode: 200,
                 status: true,
                 message: "Find Your Order  successful Done !",
-                data: [findData]
+                data: [finalData]
             };
         } else {
             return {
@@ -130,5 +178,8 @@ exports.getUserOrder = async ({ user, query }) => {
     };
 };
 
+exports.orderCancel = async (req, res) => {
+    console.log("orderCancel")
+}
 
 
