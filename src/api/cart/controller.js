@@ -199,7 +199,7 @@ exports.getcart = async ({ user, query }) => {
     };
 };
 
-exports.addcart = async ({ body, user, query }) => {
+exports.addcart = async ({ user, query }) => {
     try {
         let obj = {};
         let serviceArr = [];

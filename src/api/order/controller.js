@@ -3,6 +3,7 @@ const order = require("./model");
 const Schedule = require("../Schedule/model");
 const mongoose = require("mongoose")
 const saloon = require("../saloonstore/model")
+const { addcart } = require("../cart/controller")
 
 exports.userOrder = async ({ user }) => {
     try {
@@ -179,7 +180,38 @@ exports.getUserOrder = async ({ user, query }) => {
 };
 
 exports.orderCancel = async (req, res) => {
-    console.log("orderCancel")
-}
+    try {
+        if (req.query.id) {
+            let query = {};
+            let addserviceincart;
+            const _id = mongoose.Types.ObjectId(req.query.id);
+            const findOrder = await order.findOne({ _id });
+            const user = req.user;
+            let i = 0;
+            for (const services of findOrder.cartdata) {
+                query.saloonId = findOrder.saloonId;
+                query.serviceId = services.serviceId;
+                addserviceincart = await addcart({ user, query });
+                if (addserviceincart.status) {
+                    i++;
+                }
+            }
+            if (i > 0) {
+                const findOrder = await order.findOneAndRemove({ _id });
+                if (findOrder) {
+                    return {
+                        statusCode: 200,
+                        status: true,
+                        message: `order cansel and  !${i}service added in cart !!`,
+                        data: [addserviceincart]
+                    };
+                };
+            };
+        };
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
+};
 
 
