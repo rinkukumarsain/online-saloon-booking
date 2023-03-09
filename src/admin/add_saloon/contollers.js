@@ -116,3 +116,7 @@ exports.ADD_SALOON_STORE = async (req, res) => {
         throw error;
     }
 }
+
+exports.VIEW_SALOON = async (req, res) => {
+    
+}
