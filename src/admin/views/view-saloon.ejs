@@ -86,9 +86,13 @@
                         // $.fn.dataTable.ext.errMode = 'none';
                         console.log("kkkkk")
                         $('#mytable').DataTable({
+                            language: {
+                                zeroRecords: "No records to display",
+                            },
                             "lengthMenu": [2, 4, 6, 8, 15],
                             "pageLength": 5,
-                            serverSide: true,
+                            "serverSide": true,
+                            "search": true,
                             "ajax": {
                                 "type": 'GET',
                                 "url": "/get-saloons-dataTable",

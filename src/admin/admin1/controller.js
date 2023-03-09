@@ -121,3 +121,15 @@ exports.usersProfile = async (req, res) => {
     };
 };
 
+
+exports.AdminlogOut = async (req, res) => {
+    try {
+        res.clearCookie("accessToken", 'token', { expires: new Date(0) })
+            .clearCookie("refreshToken", 'token', { expires: new Date(0) })
+            .redirect("/");
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+

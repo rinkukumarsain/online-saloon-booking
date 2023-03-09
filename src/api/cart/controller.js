@@ -207,14 +207,14 @@ exports.addcart = async ({ body, user, query }) => {
         let newCart;
         let i;
         const findData = await cart.find({ userId: user._id });
-        console.log("user carts", findData)
+        // console.log("user carts", findData)
         if (findData.length == 0) {
             obj.userId = user._id;
             if (query.saloonId) {
                 let _id = mongoose.Types.ObjectId(query.saloonId);
                 const findSaloon = await saloon.findOne({ _id });
                 if (findSaloon) {
-                    console.log("cart RRR", 1)
+                    // console.log("cart RRR", 1)
                     obj.saloonId = query.saloonId;
                 } else {
                     return {
@@ -225,7 +225,7 @@ exports.addcart = async ({ body, user, query }) => {
                     };
                 };
             };
-            console.log(obj)
+            // console.log(obj)
             let cart_detail = new cart(obj);
             const result = await cart_detail.save();
             if (result) {
@@ -241,14 +241,14 @@ exports.addcart = async ({ body, user, query }) => {
             } else {
                 for await (const element of findData) {
                     // }
-                    console.log("findD carts", element.saloonId)
+                    // console.log("findD carts", element.saloonId)
                     if (query.saloonId != element.saloonId.toString() && i === 1) {
-                        console.log("if")
+                        // console.log("if")
                         obj.userId = user._id;
                         obj.saloonId = query.saloonId;
                         let cart_detail = new cart(obj);
                         newCart = await cart_detail.save();
-                        console.log("new cart ban jaye", obj, "newCart", newCart)
+                        // console.log("new cart ban jaye", obj, "newCart", newCart)
                         i++
                     }
                 }
@@ -259,11 +259,11 @@ exports.addcart = async ({ body, user, query }) => {
         // dfhgfjhg
         console.log("User-Cart-register- Succesfuuly !", 2)
         if (query.serviceId) {
-            console.log("query.serviceId", query.serviceId)
+            // console.log("query.serviceId", query.serviceId)
             let _id = mongoose.Types.ObjectId(query.serviceId);
             if (newCart) {
                 findService = await service.findOne({ _id, saloonStore: newCart.saloonId });
-                console.log("findService", 1111, findService)
+                // console.log("findService", 1111, findService)
                 if (!findService) {
                     return {
                         statusCode: 400,
@@ -287,7 +287,7 @@ exports.addcart = async ({ body, user, query }) => {
                         timePeriod_in_minits: findService.timePeriod_in_minits,
                     });
                 }
-                console.log("neew cart nhi bani ", 21, FindCart, 21)
+                // console.log("neew cart nhi bani ", 21, FindCart, 21)
                 let totalamount = [];
                 serviceArr.forEach(element => {
                     totalamount.push(Number(element.Amount))
@@ -308,9 +308,9 @@ exports.addcart = async ({ body, user, query }) => {
 
                 // }
             } else {
-                console.log(111, "new cart nhi bani ")
+                // console.log(111, "new cart nhi bani ")
                 const findService = await service.findOne({ _id, saloonStore: mongoose.Types.ObjectId(query.saloonId) });
-                console.log("findService", 1111, findService)
+                // console.log("findService", 1111, findService)
                 if (!findService) {
                     return {
                         statusCode: 200,
@@ -323,7 +323,7 @@ exports.addcart = async ({ body, user, query }) => {
 
                 // };
                 const FindCart = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
-                console.log("--===", 4444, FindCart)
+                // console.log("--===", 4444, FindCart)
                 if (FindCart) {
                     if (FindCart.cartdata.length > 0) {
                         for (const item of FindCart.cartdata) {
@@ -345,7 +345,7 @@ exports.addcart = async ({ body, user, query }) => {
                     let sum = totalamount.reduce(function (x, y) {
                         return x + y;
                     }, 0);
-                    console.log("serviceArr-->", serviceArr, "---->", totalamount)
+                    // console.log("serviceArr-->", serviceArr, "---->", totalamount)
 
                     const result = await cart.findByIdAndUpdate({ _id: FindCart._id }, { $set: { cartdata: serviceArr, totalamount: sum } }, { new: true });
                     if (result) {
