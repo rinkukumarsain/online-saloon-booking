@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>view-saloon</title>
-    <%- include('../partials/Headlink.ejs') %>
+    <%- include('../partials/headlink.ejs') %>
 </head>
 
 <body>
@@ -91,7 +91,7 @@
                             serverSide: true,
                             "ajax": {
                                 "type": 'GET',
-                                "url": "/get-saloons",
+                                "url": "/get-saloons-dataTable",
                                 "dataSrc": 'data',
                                 error: function () { console.log(error) }
                             },
