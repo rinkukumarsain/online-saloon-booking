@@ -59,7 +59,7 @@ exports.saloonAllRequistDatatable = async (req, res) => {
                         "state": index.location.state,
                         "type": index.type,
                         "category": index.category,
-                        "Action": `<a href="/Product-registration/${index._id}">Edit</a> ||<a href="/Delete-Product/${index._id}">delete</a> `,
+                        "Action": `<a href="/saloon-approval/?id=${index._id}">approval</a> ||<a href="/Delete-Product/${index._id}">delete</a> `,
                     });
                     count++;
                 };
@@ -79,6 +79,10 @@ exports.saloonAllRequistDatatable = async (req, res) => {
 }
 
 
+exports.saloonApproval = async ({ query }) => {
+    console.log("saloonApproval", query)
+}
+
 
 
 exports.viewSaloon = async (req, res) => {
@@ -92,9 +96,9 @@ exports.viewSaloon = async (req, res) => {
         throw error
     }
 }
-exports.getSaloons = async (req, res) => {
+exports.getSaloonsDataTable = async (req, res) => {
     try {
-        console.log("getSaloons------------------->")
+        console.log("getSaloonsDataTable------------------->")
         console.log("data table")
         // console.log("22", req.params.id)
         let start = Number(req.query.start);
@@ -119,8 +123,8 @@ exports.getSaloons = async (req, res) => {
             let data = [];
             let count = 1;
             await saloon.find(condition).exec(async (err, row1) => {
-                console.log("row---->", row1)
                 for await (const index of row1) {
+                    console.log("row---->", index.storeName)
                     let piture = []
 
                     index.image.forEach(element => {
