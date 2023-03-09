@@ -43,7 +43,8 @@ exports.userOrder = async ({ user }) => {
         const result = await orderdetails.save();
         if (result) {
             const deletcart = await cart.findOneAndRemove({ userId });
-            if (deletcart) {
+            const findSchedule = await Schedule.findOneAndRemove({ userId });
+            if (deletcart && findSchedule) {
                 return {
                     statusCode: 200,
                     status: true,

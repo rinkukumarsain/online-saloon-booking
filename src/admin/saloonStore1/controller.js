@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const saloon = require("../../api/saloonstore/model");
 const user = require("../../api/user/model")
-const saloonRequst = require("../../api/Partner/model")
+const saloonRequst = require("../../api/Partner/model");
+const { default: mongoose } = require("mongoose");
 
 exports.add_Saloon_View = async (req, res) => {
     try {
@@ -18,11 +19,11 @@ exports.add_Saloon_View = async (req, res) => {
     }
 }
 
-exports.addSaloon = async (req, res) => {
+exports.viewssaloonrequest = async (req, res) => {
     try {
         res.locals.message = req.flash();
         const user = req.user
-        res.render("add-saloon", { user })
+        res.render("views-saloon-request", { user })
     } catch (error) {
         console.log(error)
         throw error
@@ -37,7 +38,6 @@ exports.saloonAllRequistDatatable = async (req, res) => {
             let data = [];
             let count = 1;
             await saloonRequst.find().exec(async (err, row1) => {
-                console.log("row---->", row1)
                 for await (const index of row1) {
                     let piture = []
 
@@ -59,7 +59,7 @@ exports.saloonAllRequistDatatable = async (req, res) => {
                         "state": index.location.state,
                         "type": index.type,
                         "category": index.category,
-                        "Action": `<a href="/saloon-approval/?id=${index._id}">approval</a> ||<a href="/Delete-Product/${index._id}">delete</a> `,
+                        "Action": `<a href="/saloon-requist-approval/?id=${index._id}">approval</a> ||<a href="/Delete-Product/${index._id}">delete</a> `,
                     });
                     count++;
                 };
@@ -80,14 +80,25 @@ exports.saloonAllRequistDatatable = async (req, res) => {
 
 
 exports.saloonApproval = async ({ query }) => {
-    console.log("saloonApproval", query)
+    try {
+        if (query.id != undefined && query.id != "") {
+            const _id = mongoose.Types.ObjectId(query.id)
+            const findSloonRequist = await saloonRequst.findOne({ _id })
+            console.log("findSloonRequist", findSloonRequist)
+            this.saloonRegistration(findSloonRequist);
+        } else {
+            res.redirect("/views-saloon-request")
+        }
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
 }
 
 
 
 exports.viewSaloon = async (req, res) => {
     try {
-        // console.log("res", req.user)
         res.locals.message = req.flash();
         const user = req.user
         res.render("view-saloon", { user })
@@ -98,9 +109,6 @@ exports.viewSaloon = async (req, res) => {
 }
 exports.getSaloonsDataTable = async (req, res) => {
     try {
-        console.log("getSaloonsDataTable------------------->")
-        console.log("data table")
-        // console.log("22", req.params.id)
         let start = Number(req.query.start);
         let limit = Number(req.query.length);
         let condition = {};

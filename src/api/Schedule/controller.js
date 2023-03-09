@@ -7,7 +7,7 @@ exports.scheduleYourVisit = async ({ body, user }) => {
     try {
         let findcart = await cart.findOne({ userId: user._id });
         if (findcart) {
-            let findSchedul = await schedule.findOne({ cartId: findcart._id });
+            let findSchedul = await schedule.findOne({ cartId: findcart._id, saloonId: findcart.saloonId });
             if (!findSchedul) {
                 let obj = {};
                 if (findcart._id) {
@@ -40,11 +40,22 @@ exports.scheduleYourVisit = async ({ body, user }) => {
                     };
                 };
             } else {
-                return {
-                    statusCode: 200,
-                    status: true,
-                    message: "Allready scheduleCart-added-click-to chakeOut!",
-                    data: [findSchedul]
+                let obj = {};
+                if (body.date) {
+                    obj.date = body.date;
+                };
+
+                if (body.timeslot) {
+                    obj.timeslot = body.timeslot;
+                };
+                const scheduleUpdate = await schedule.findByIdAndUpdate({ _id: findSchedul._id }, { $set: obj }, { new: true })
+                if (scheduleUpdate) {
+                    return {
+                        statusCode: 200,
+                        status: true,
+                        message: "Allready scheduleCart-added-click-to chakeOut!",
+                        data: [scheduleUpdate]
+                    };
                 };
             };
         } else {
