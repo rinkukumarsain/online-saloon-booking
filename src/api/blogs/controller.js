@@ -7,7 +7,8 @@ exports.creatBlog = async ({ body, file }) => {
     try {
         let obj = {};
         if (file) {
-            obj.image = file.filename;
+            obj.image = `http://159.89.164.11:7070/uploads/${file.filename}`;
+            
         }
         if (body.category != "" && body.category != undefined) {
             let _id = mongoose.Types.ObjectId(body.category);

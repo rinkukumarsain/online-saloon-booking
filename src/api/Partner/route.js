@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const responseHandler = require("../../utils/responseHandlers");
+const Upload = require("../../middleware/img");
 const auth = require("../../middleware/auth");
 const { PartnerRegistrationForm } = require('./controller');
 const app = Router();
@@ -11,5 +12,5 @@ const app = Router();
 // app.get("/add-cart", auth, responseHandler(addcart))
 
 // app.get("/get-Count-of-service-in-user-cart", auth, responseHandler(GetCountOfServiceInUserCart))
-app.post("/Partner-Registration-Form", auth, responseHandler(PartnerRegistrationForm))
+app.post("/Partner-Registration-Form", auth, Upload.array("file"), responseHandler(PartnerRegistrationForm))
 module.exports = app;

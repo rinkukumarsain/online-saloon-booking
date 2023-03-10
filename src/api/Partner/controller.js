@@ -1,131 +1,95 @@
 const service = require("../saloonService/model");
 const mongoose = require("mongoose");
 const saloonRequst = require("./model");
-// const saloonRequst = require("../saloonstore/model");
+const saloon = require("../saloonstore/model")
 
 exports.PartnerRegistrationForm = async (req, res) => {
     try {
-        let obj = {};
-        let location = {};
-        if (req.user) {
-            obj.userId = req.user._id
-        }
-        if (req.body.Phone != undefined && req.body.Phone != "") {
-            const finddata = await saloonRequst.findOne({ PhoneNumber: req.body.Phone })
-            console.log("Phone", finddata)
-            if (finddata) {
+        const { body, user, files } = req
+        let catogoryarr = []
+        const { storeName, Email, PhoneNumber } = body;
+        body.userId = user._id;
+        if (storeName) {
+            const result = await saloon.findOne({ storeName });
+            const result1 = await saloonRequst.findOne({ storeName });
+            if (result || result1) {
                 return {
                     statusCode: 400,
                     status: false,
-                    message: "wrong phone !",
-                    data: [req.body]
+                    message: "storeName Already Exists",
+                    data: []
                 };
-            }
-            obj.PhoneNumber = req.body.Phone
-        } else {
-            const finddata = await saloonRequst.findOne({ PhoneNumber: req.user.phone })
-            console.log("phone", 2, finddata, "-----", req.body.Phone)
-            if (finddata) {
-                return {
-                    statusCode: 400,
-                    status: false,
-                    message: "wrong phone !",
-                    data: [req.body]
-                };
-            }
-            obj.PhoneNumber = req.user.phone
-        }
-        if (req.body.OwenerName != undefined && req.body.OwenerName != "") {
-            obj.OwenerName = req.body.OwenerName
-        }
-        if (req.body.BrandName != undefined && req.body.BrandName != "") {
-            const finddata = await saloonRequst.findOne({ storeName: req.body.BrandName })
-            if (finddata) {
-                return {
-                    statusCode: 400,
-                    status: false,
-                    message: "wrong BrandName !",
-                    data: [req.body]
-                };
-            }
-            obj.storeName = req.body.BrandName
-        }
-        if (req.body.Gender != undefined && req.body.Gender != "") {
-            obj.type = req.body.Gender
-        }
-        if (req.body.Email != undefined && req.body.Email != "") {
-            const finddata = await saloonRequst.findOne({ Email: req.body.Email })
-            if (finddata) {
-                return {
-                    statusCode: 400,
-                    status: false,
-                    message: "wrong Email !",
-                    data: [req.body]
-                };
-            }
-            obj.Email = req.body.Email
-        }
-        if (req.body.Password != undefined && req.body.Password != "" && req.body.ConfremPassword === req.body.Password) {
-            obj.password = req.body.Password
-        } else {
-            return {
-                statusCode: 200,
-                status: true,
-                message: "wrong password !",
-                data: [req.body]
             };
+        };
+        if (Email) {
+            const result = await saloon.findOne({ Email });
+            const result1 = await saloonRequst.findOne({ Email });
+            if (result || result1) {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "Email Already Exists",
+                    data: []
+                };
+            };
+        };
+        if (PhoneNumber) {
+            const result = await saloon.findOne({ PhoneNumber });
+            const result1 = await saloonRequst.findOne({ PhoneNumber });
+            if (result || result1) {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "PhoneNumber Already Exists",
+                    data: []
+                };
+            };
+        };
+        if (files != undefined && files.length > 0) {
+            img = [];
+            files.forEach(element => {
+                img.push(`http://159.89.164.11:7070/uploads/${element.filename}`);
+            });
+            body.image = img;
+        }
+        if (typeof (body.category) == "string") {
+            catogoryarr.push(body.category)
+        }
+        if (typeof (body.category) == "object") {
+            for (const index of body.category) {
+                catogoryarr.push(index)
+            }
         }
 
-        if (req.body.PartnerSize != undefined && req.body.PartnerSize != "") {
-            obj.PartnerSize = req.body.PartnerSize
-        }
-        if (req.body.category != undefined && req.body.category != "") {
-            obj.category = req.body.category
-        }
+        let saloon_details = new saloonRequst({
+            storeName: body.storeName,
+            Email: body.Email,
+            PhoneNumber: body.PhoneNumber,
+            location: {
+                shopNumber: body.shopNumber,
+                aria: body.aria,
+                pincode: body.pincode,
+                city: body.city,
+                state: body.state,
+            },
+            description: body.description,
+            userId: body.userId,
+            image: body.image,
+            type: body.type,
+            category: catogoryarr,
 
-        if (req.body.shopNumber != undefined && req.body.shopNumber != "") {
-            location.shopNumber = req.body.shopNumber
-        }
-        if (req.body.aria != undefined && req.body.aria != "") {
-            location.aria = req.body.aria
-        }
-        if (req.body.pincode != undefined && req.body.pincode != "") {
-            location.pincode = req.body.pincode
-        }
-        if (req.body.city != undefined && req.body.city != "") {
-            location.city = req.body.city
-        }
-        if (req.body.state != undefined && req.body.state != "") {
-            location.state = req.body.state
-        }
-        obj.location = location
-
-        const saloonRequstDitail = new saloonRequst(obj)
-
-        const result = await saloonRequstDitail.save()
-
-        console.log("result", result)
+        });
+        const result = await saloon_details.save();
         if (result) {
             return {
                 statusCode: 200,
                 status: true,
-                message: "Your saloon requist create successfully !",
+                message: "Saloon-requist-register Succesfuuly !",
                 data: [result]
             };
-        }
-
-
-
-
-
-
-
-        console.log("-->", obj)
-
+        };
     } catch (error) {
-        console.log("error", error);
+        console.log(error);
         throw error;
-    }
-}
-
-
+    };
+};

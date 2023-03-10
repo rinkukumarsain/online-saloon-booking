@@ -444,6 +444,29 @@ exports.getServiceByCategory = async ({ query }) => {
                                 'type': 1
                             }
                         });
+                        condition.push({
+                            $group: {
+                                _id: "$saloonStore",
+                                data: {
+                                    $first: {
+                                        saloonStore: "$saloonStore",
+                                        storeLOcation: "$storeLOcation",
+                                        storeName: "$storeName",
+                                        ServiceName: "$ServiceName",
+                                        ServicePrice: "$ServicePrice",
+                                        image: "$image",
+                                        description: "$description",
+                                        last_category: "$last_category",
+                                        category: "$category",
+                                        timePeriod: "$timePeriod",
+                                        timePeriod_in_minits:
+                                            "$timePeriod_in_minits",
+                                        updatedA: "$updatedA",
+                                        type: "$type",
+                                    },
+                                },
+                            }
+                        })
                         if (query.sort != undefined && query.sort != "") {
                             const num = Number(query.sort)
                             condition.push({
@@ -455,6 +478,7 @@ exports.getServiceByCategory = async ({ query }) => {
                         const findService = await saloonService.aggregate(condition);
                         if (findService) {
                             arrr.push(findService)
+                            // console.log("findService", findService)
                         };
                     }
                     if (arrr && arrr.length > 0) {

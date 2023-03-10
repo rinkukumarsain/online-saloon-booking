@@ -178,3 +178,33 @@ exports.getSaloonStore = async ({ query }) => {
         throw error;
     };
 };
+
+
+exports.getAllSaloonCity = async ({ query }) => {
+    try {
+        const arr = [];
+        const category = [];
+        let condition = {};
+        if (query.category != undefined && query.category != "") {
+            category.push(query.category);
+            condition.category = { $in: category };
+        }
+        const findAllSalonn = await saloon.find(condition);
+        for (const item of findAllSalonn) {
+            if (!arr.includes(item.location.city)) {
+                arr.push(item.location.city);
+            };
+        };
+        if (arr.length > 0) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "get All location city !",
+                data: arr
+            };
+        };
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
+};
