@@ -1,10 +1,11 @@
 const saloon = require("../../api/saloonstore/model");
 const service = require("./services")
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
 exports.ADD_SALOON = async (req, res) => {
     const user = req.user
     const _id = req.query.id
-    const saloon_data = await saloon.findOne({_id})
+    const saloon_data = await saloon.findOne({ _id })
     res.render("add_saloon/add_saloon",{user,saloon_data})
 }
 
@@ -12,6 +13,8 @@ exports.ADD_SALOON_STORE = async (req, res) => {
     try {
         console.log("body", req.body)
         let { body, user, files, query } = req
+
+        console.log("=====>",files)
         res.locals.message = req.flash();
         if (query.id) {
 
@@ -20,9 +23,6 @@ exports.ADD_SALOON_STORE = async (req, res) => {
             if (result) {
                 let obj = {};
                 let locations = {};
-                const match = await bcrypt.compare(body.password, user.password)
-                if (match) {
-
                     if (body.storeName) { obj.storeName = body.storeName };
                     if (body.Email) { obj.Email = body.Email };
                     if (body.PhoneNumber) { obj.PhoneNumber = body.PhoneNumber };
@@ -32,8 +32,8 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                     if (body.city) { locations.city = body.city };
                     if (body.state) { locations.state = body.state };
                     if (body.description) { obj.description = body.description };
-                    if (body.userId) { obj.userId = body.userId };
-                    if (files) {
+                if (files.length>0) {
+                        console.log("666666")
                         img = []
                         files.forEach(element => {
                             img.push(element.filename)
@@ -46,17 +46,13 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                         req.flash("success", "Saloon-Store is  Update successfull !")
                         res.redirect("/")
                     };
-                }
-                else {
-                    req.flash("error", "Saloon-Store is  Update successfull !")
-                    res.redirect("/")
-                }
+               
             } else {
                 req.flash("error", "Saloon-Store is Not Found !")
                 res.redirect("/")
             };
         } else {
-            const { storeName, Email, PhoneNumber } = body;
+            const { storeName, Email, PhoneNumber,category } = body;
             body.userId = user._id;
             if (storeName) {
                 const result = await saloon.findOne({ storeName });
@@ -105,6 +101,7 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                 description: body.description,
                 userId: body.userId,
                 image: body.image,
+                category:body.category
             });
             const result = await saloon_details.save();
             if (result) {
