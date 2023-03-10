@@ -186,28 +186,44 @@ exports.orderCancel = async (req, res) => {
             let addserviceincart;
             const _id = mongoose.Types.ObjectId(req.query.id);
             const findOrder = await order.findOne({ _id });
-            const user = req.user;
-            let i = 0;
-            for (const services of findOrder.cartdata) {
-                query.saloonId = findOrder.saloonId;
-                query.serviceId = services.serviceId;
-                addserviceincart = await addcart({ user, query });
-                if (addserviceincart.status) {
-                    i++;
+            if (findOrder) {
+                const user = req.user;
+                let i = 0;
+                for (const services of findOrder.cartdata) {
+                    query.saloonId = findOrder.saloonId;
+                    query.serviceId = services.serviceId;
+                    addserviceincart = await addcart({ user, query });
+                    if (addserviceincart.status) {
+                        i++;
+                    }
                 }
-            }
-            if (i > 0) {
-                const findOrder = await order.findOneAndRemove({ _id });
-                if (findOrder) {
-                    return {
-                        statusCode: 200,
-                        status: true,
-                        message: `order cansel and  !${i}service added in cart !!`,
-                        data: [addserviceincart]
+                if (i > 0) {
+                    const findOrder = await order.findOneAndRemove({ _id });
+                    if (findOrder) {
+                        return {
+                            statusCode: 200,
+                            status: true,
+                            message: `order cansel and  !${i}service added in cart !!`,
+                            data: [addserviceincart]
+                        };
                     };
                 };
+            } else {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: `Enter valid order id`,
+                    data: []
+                };
+            }
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: `Enter a order id`,
+                data: []
             };
-        };
+        }
     } catch (error) {
         console.log(error);
         throw error;
