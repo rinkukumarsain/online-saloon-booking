@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>view-saloon</title>
+
     <%- include('../../partials/headlink.ejs') %>
 </head>
 
@@ -36,211 +37,153 @@
                                   <h5 class="card-title">Add Saloon</h5>
                                   
                                       <% if(typeof saloon_data !=="undefined" && saloon_data){%>
-                                      <form action="/add_saloon_store" method="post" enctype="multipart/form-data">
+                                      <form action="/add_saloon_store?id=<%=saloon_data._id%>" method="post" enctype="multipart/form-data">
+                                        <div class="row g-3">
+                                          <div class="col">
+                                            <input required type="text" name="storeName" class="form-control" value="<%= saloon_data.storeName%>" placeholder="Enter Your Store Name">
+                                          </div>
+                                          <div class="col">
+                                            <input required type="text" name="Email" class="form-control" value="<%= saloon_data.Email%>" placeholder="Enter a Email">
+                                          </div>
+                                        </div><br>
+
+                                        <div class="row g-3">
+                                      
+                                          <div class="col">
+                                            <input required type="number" id="addressSearch" name="PhoneNumber" value="<%= saloon_data.PhoneNumber%>"class="form-control pac-target-input" placeholder="Enter Your Mobile Number"  autocomplete="off">
+                                          </div>
+                                        </div><br>
+
+                                        <div class="row g-3">
+                                          <div class="col">
+                                            <input required type="number" id="addressSearch" name="shopNumber" value="<%= saloon_data.location.shopNumber%>"class="form-control pac-target-input" placeholder="Enter a shopNumber" autocomplete="off">
+                                          </div>
+                                          <div class="col">
+                                            <input required type="text" id="addressSearch" name="pincode"  value="<%= saloon_data.location.pincode%>"class="form-control pac-target-input"  placeholder="Enter a Pin Code" autocomplete="off">
+                                          </div>
+                                        </div><br>
+
+                                        <div class="row g-3">
+                                          <div class="col">
+                                            <input required type="text" id="addressSearch" name="city"  value="<%= saloon_data.location.city%>"class="form-control pac-target-input" placeholder="Enter a city"  autocomplete="off">
+                                          </div>
+                                          <div class="col">
+                                            <input required type="text" id="addressSearch" name="state" value="<%= saloon_data.location.state%>" class="form-control pac-target-input" placeholder="Enter a state" autocomplete="off">
+                                          </div>
+                                        </div><br>
+
+                                        <div class="row g-3">
+                                          <div class="col">
+                                            <input required type="text" id="addressSearch" name="aria" value="<%= saloon_data.location.aria%>"  class="form-control pac-target-input" placeholder="Enter a Aria" autocomplete="off">
+                                          </div>
+                                          <div class="col">
+                                            <input required type="text" id="addressSearch" name="type" value="<%= saloon_data.type%>" class="form-control pac-target-input" placeholder="saloon type" autocomplete="off">
+                                          </div>
+                                        </div><br>
+
+                                        <div class="row g-3">
+                                          <div class="col">
+                                            <textarea class="form-control" name="description" placeholder="Description" style="height: 100px" required><%= saloon_data.description%></textarea>
+                                          </div>
+                                          <div class="col">
+                                            <input  class="form-control" type="file" name="image" id="formFile" multiple>
+                                            <%for(image of saloon_data.image){%>
+                                            <img src="../../../../uploads/<%=image%>" width="70px">
+                                            <%}%>
+                                          </div>
+                                        </div><br>
+
                                         <div class="row mb-3">
-                                          <label for="inputText" class="col-sm-2 col-form-label">Store Name</label>
+                                          <label class="col-sm-2 col-form-label">Select category</label>
                                           <div class="col-sm-10">
-                                            <input required type="text" name="storeName" class="form-control" value="<%= saloon_data.name%>" placeholder="Enter a Store Name">
+                                            <select class="form-select" multiple="" name="category[]"aria-label="multiple select example" required>
+                                              <% for(category of saloon_data.category){%>
+                                                <option value="<%= category%>" <%= category ? "selected" : "" %>><%=category %></option>
+                                              <%}%>
+                                            </select>
                                           </div>
                                         </div>
-                                        
-                                        <div class="row mb-3">
-                                            <label class="col-sm-2 col-form-label">Multi Select</label>
+
+    
+                                          <div class="row mb-3">
+                                            <label class="col-sm-2 col-form-label">Submit Button</label>
                                             <div class="col-sm-10">
-                                              <select class="form-select" multiple="" name="category[]"aria-label="multiple select example">
+                                              <button type="submit" class="btn btn-primary">Update</button>
+                                            </div>
+                                          </div>
+                        
+                                      </form>
+                                      <%}else{%>
+                                        <form action="/add_saloon_store" method="post" enctype="multipart/form-data">
+
+                                          <div class="row g-3">
+                                            <div class="col">
+                                              <input required type="text" name="storeName" class="form-control" placeholder="Enter Your Store Name">
+                                            </div>
+                                            <div class="col">
+                                              <input required type="text" name="Email" class="form-control" placeholder="Enter a Email">
+                                            </div>
+                                          </div><br>
+
+                                          <div class="row g-3">
+                                            <div class="col">
+                                              <input required type="text" name="password" class="form-control" placeholder="Enter a Password">
+                                            </div>
+                                            <div class="col">
+                                              <input required type="number" id="addressSearch" name="PhoneNumber" class="form-control pac-target-input" placeholder="Enter Your Mobile Number" autocomplete="off">
+                                            </div>
+                                          </div><br>
+
+                                          <div class="row g-3">
+                                            <div class="col">
+                                              <input required type="number" id="addressSearch" name="shopNumber" class="form-control pac-target-input" placeholder="Enter a shopNumber" autocomplete="off">
+                                            </div>
+                                            <div class="col">
+                                              <input required type="text" id="addressSearch" name="pincode" class="form-control pac-target-input"  placeholder="Enter a Pin Code" autocomplete="off">
+                                            </div>
+                                          </div><br>
+
+                                          <div class="row g-3">
+                                            <div class="col">
+                                              <input required type="text" id="addressSearch" name="city" class="form-control pac-target-input" placeholder="Enter a city"  autocomplete="off">
+                                            </div>
+                                            <div class="col">
+                                              <input required type="text" id="addressSearch" name="state" class="form-control pac-target-input" placeholder="Enter a state" autocomplete="off">
+                                            </div>
+                                          </div><br>
+
+                                          <div class="row g-3">
+                                            <div class="col">
+                                              <input required type="text" id="addressSearch" name="aria" class="form-control pac-target-input" placeholder="Enter a Aria" autocomplete="off">
+                                            </div>
+                                            <div class="col">
+                                              <input required type="text" id="addressSearch" name="type" class="form-control pac-target-input" placeholder="saloon type" autocomplete="off">
+                                            </div>
+                                          </div><br>
+
+                                          <div class="row g-3">
+                                            <div class="col">
+                                              <textarea class="form-control" name="description" placeholder="Description" style="height: 100px" required></textarea>
+                                            </div>
+                                            <div class="col">
+                                              <input  class="form-control" type="file" name="image" id="formFile" multiple>
+                                            </div>
+                                          </div><br>
+
+                                          <div class="row mb-3">
+                                            <label class="col-sm-2 col-form-label">Select category</label>
+                                            <div class="col-sm-10">
+                                              <select class="form-select" multiple="" name="category[]"aria-label="multiple select example" required>
                                                 <option selected="">Open this select menu</option>
+                                                <option value="spa">Spa</option>
+                                                <option value="parlour">Parlour</option>
                                                 <option value="spa">Spa</option>
                                                 <option value="parlour">Parlour</option>
                                               </select>
                                             </div>
                                           </div>
-                    
-                    
-                                        <div class="row mb-3">
-                                          <label for="inputNumber" class="col-sm-2 col-form-label">Image</label>
-                                          <div class="col-sm-10">
-                                            <input required class="form-control" type="file" name="image" id="formFile" multiple>
-                                          </div>
-                                        </div>
-                    
-                                        <div class="row mb-3">
-                                          <label for="inputText" class="col-sm-2 col-form-label">Email</label>
-                                          <div class="col-sm-10">
-                                            <input required type="text" name="Email" value="<%= saloon_data.Email%>" class="form-control" placeholder="Enter a Email">
-                                          </div>
-                                        </div>
-                    
-                                        <div class="row mb-3">
-                                          <label for="inputText" class="col-sm-2 col-form-label">Password</label>
-                                          <div class="col-sm-10">
-                                            <input required type="text" name="password" class="form-control" placeholder="Enter a Password">
-                                          </div>
-                                        </div>
-                  
-                                        <div class="row mb-3">
-                                          <label for="inputText" class="col-sm-2 col-form-label">Number</label>
-                                          <div class="col-sm-10">
-                                            <input required type="number" id="addressSearch" name="PhoneNumber" value="<%= saloon_data.PhoneNumber%>" class="form-control pac-target-input" placeholder="Enter a number" autocomplete="off">
-                                          </div>
-                                        </div>
 
-                                        <div class="row mb-3">
-                                            <label for="inputText" class="col-sm-2 col-form-label">Shop Number</label>
-                                            <div class="col-sm-10">
-                                              <input required type="number" id="addressSearch" name="shopNumber" value="<%= saloon_data.shopNumber%>" class="form-control pac-target-input" placeholder="Enter a shopNumber" autocomplete="off">
-                                            </div>
-                                          </div>
-                                        
-                                          <div class="row mb-3">
-                                            <label for="inputText" class="col-sm-2 col-form-label">Pin Code</label>
-                                            <div class="col-sm-10">
-                                              <input required type="text" id="addressSearch" name="pincode"  value="<%= saloon_data.pincode%>"class="form-control pac-target-input"  placeholder="Enter a Pin Code" autocomplete="off">
-                                            </div>
-                                          </div>
-
-                                          <div class="row mb-3">
-                                            <label for="inputText" class="col-sm-2 col-form-label">city</label>
-                                            <div class="col-sm-10">
-                                              <input required type="text" id="addressSearch" name="city"  value="<%= saloon_data.city%>"class="form-control pac-target-input" placeholder="Enter a city"  autocomplete="off">
-                                            </div>
-                                          </div>
-
-                                          <div class="row mb-3">
-                                            <label for="inputText" class="col-sm-2 col-form-label">State</label>
-                                            <div class="col-sm-10">
-                                              <input required type="text" id="addressSearch" name="state" value="<%= saloon_data.state%>" class="form-control pac-target-input" placeholder="Enter a state" autocomplete="off">
-                                            </div>
-                                          </div>
-
-                                          <div class="row mb-3">
-                                            <label for="inputText" class="col-sm-2 col-form-label">Aria</label>
-                                            <div class="col-sm-10">
-                                              <input required type="text" id="addressSearch" name="aria"  value="<%= saloon_data.aria%>"class="form-control pac-target-input" placeholder="Enter a Aria" autocomplete="off">
-                                            </div>
-                                          </div>
-
-                                          
-                                          <div class="row mb-3">
-                                            <label for="inputText" class="col-sm-2 col-form-label">Type</label>
-                                            <div class="col-sm-10">
-                                              <input required type="text" id="addressSearch" name="type" value="<%= saloon_data.type%>" class="form-control pac-target-input" placeholder="saloon type" autocomplete="off">
-                                            </div>
-                                          </div>
-
-                                          <div class="row mb-3">
-                                            <label for="inputPassword" class="col-sm-2 col-form-label">Desciption</label>
-                                            <div class="col-sm-10">
-                                              <textarea class="form-control" name="description" style="height: 100px"><%= saloon_data.description%></textarea>
-                                            </div>
-                                          </div>
-                                        
-                                        <div class="row mb-3">
-                                          <label class="col-sm-2 col-form-label">Submit Button</label>
-                                          <div class="col-sm-10">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                          </div>
-                                        </div>
-                        
-                                      </form>
-                                      <%}else{%>
-                                        <form action="/add_saloon_store" method="post" enctype="multipart/form-data">
-                                            <div class="row mb-3">
-                                              <label for="inputText" class="col-sm-2 col-form-label">Store Name</label>
-                                              <div class="col-sm-10">
-                                                <input required type="text" name="storeName" class="form-control" placeholder="Enter a Store Name">
-                                              </div>
-                                            </div>
-                                            
-                                            <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label">Multi Select</label>
-                                                <div class="col-sm-10">
-                                                  <select class="form-select" multiple="" name="category[]"aria-label="multiple select example">
-                                                    <option selected="">Open this select menu</option>
-                                                    <option value="spa">Spa</option>
-                                                    <option value="parlour">Parlour</option>
-                                                  </select>
-                                                </div>
-                                              </div>
-                        
-                        
-                                            <div class="row mb-3">
-                                              <label for="inputNumber" class="col-sm-2 col-form-label">Image</label>
-                                              <div class="col-sm-10">
-                                                <input required class="form-control" type="file" name="image" id="formFile" multiple>
-                                              </div>
-                                            </div>
-                        
-                                            <div class="row mb-3">
-                                              <label for="inputText" class="col-sm-2 col-form-label">Email</label>
-                                              <div class="col-sm-10">
-                                                <input required type="text" name="Email" class="form-control" placeholder="Enter a Email">
-                                              </div>
-                                            </div>
-                        
-                                            <div class="row mb-3">
-                                              <label for="inputText" class="col-sm-2 col-form-label">Password</label>
-                                              <div class="col-sm-10">
-                                                <input required type="text" name="password" class="form-control" placeholder="Enter a Password">
-                                              </div>
-                                            </div>
-                      
-                                            <div class="row mb-3">
-                                              <label for="inputText" class="col-sm-2 col-form-label">Number</label>
-                                              <div class="col-sm-10">
-                                                <input required type="number" id="addressSearch" name="PhoneNumber" class="form-control pac-target-input" placeholder="Enter a number" autocomplete="off">
-                                              </div>
-                                            </div>
-    
-                                            <div class="row mb-3">
-                                                <label for="inputText" class="col-sm-2 col-form-label">Shop Number</label>
-                                                <div class="col-sm-10">
-                                                  <input required type="number" id="addressSearch" name="shopNumber" class="form-control pac-target-input" placeholder="Enter a shopNumber" autocomplete="off">
-                                                </div>
-                                              </div>
-                                            
-                                              <div class="row mb-3">
-                                                <label for="inputText" class="col-sm-2 col-form-label">Pin Code</label>
-                                                <div class="col-sm-10">
-                                                  <input required type="text" id="addressSearch" name="pincode" class="form-control pac-target-input"  placeholder="Enter a Pin Code" autocomplete="off">
-                                                </div>
-                                              </div>
-    
-                                              <div class="row mb-3">
-                                                <label for="inputText" class="col-sm-2 col-form-label">city</label>
-                                                <div class="col-sm-10">
-                                                  <input required type="text" id="addressSearch" name="city" class="form-control pac-target-input" placeholder="Enter a city"  autocomplete="off">
-                                                </div>
-                                              </div>
-    
-                                              <div class="row mb-3">
-                                                <label for="inputText" class="col-sm-2 col-form-label">State</label>
-                                                <div class="col-sm-10">
-                                                  <input required type="text" id="addressSearch" name="state" class="form-control pac-target-input" placeholder="Enter a state" autocomplete="off">
-                                                </div>
-                                              </div>
-    
-                                              <div class="row mb-3">
-                                                <label for="inputText" class="col-sm-2 col-form-label">Aria</label>
-                                                <div class="col-sm-10">
-                                                  <input required type="text" id="addressSearch" name="aria" class="form-control pac-target-input" placeholder="Enter a Aria" autocomplete="off">
-                                                </div>
-                                              </div>
-    
-                                              
-                                              <div class="row mb-3">
-                                                <label for="inputText" class="col-sm-2 col-form-label">Type</label>
-                                                <div class="col-sm-10">
-                                                  <input required type="text" id="addressSearch" name="type" class="form-control pac-target-input" placeholder="saloon type" autocomplete="off">
-                                                </div>
-                                              </div>
-    
-                                              <div class="row mb-3">
-                                                <label for="inputPassword" class="col-sm-2 col-form-label">Desciption</label>
-                                                <div class="col-sm-10">
-                                                  <textarea class="form-control" name="description" style="height: 100px"></textarea>
-                                                </div>
-                                              </div>
-                                            
+      
                                             <div class="row mb-3">
                                               <label class="col-sm-2 col-form-label">Submit Button</label>
                                               <div class="col-sm-10">
