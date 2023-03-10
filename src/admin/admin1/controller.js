@@ -9,14 +9,14 @@ exports.admin = async (req, res) => {
             const user = await userModel.findOne({ _id })
             res.locals.message = req.flash();
             if (user) {
-                res.render("dashboard", { user })
+                res.render("users/dashboard", { user })
             } else {
                 res.locals.message = req.flash();
-                res.render("login")
+                res.render("users/login")
             }
         } else {
             res.locals.message = req.flash();
-            res.render("login")
+            res.render("users/login")
         }
     } catch (error) {
         console.log(error);
@@ -27,7 +27,7 @@ exports.admin = async (req, res) => {
 exports.register = async (req, res) => {
     try {
         res.locals.message = req.flash();
-        res.render("register");
+        res.render("users/register");
     } catch (error) {
         console.log(error);
         throw error;
@@ -66,7 +66,7 @@ exports.adminRegisterData = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         res.locals.message = req.flash();
-        res.render("login");
+        res.render("users/login");
     } catch (error) {
         console.log(error);
         throw error;
@@ -114,7 +114,7 @@ exports.loginData = async (req, res) => {
 exports.usersProfile = async (req, res) => {
     try {
         res.locals.message = req.flash();
-        res.render("usersProfile");
+        res.render("users/usersProfile");
     } catch (error) {
         console.log(error);
         throw error;

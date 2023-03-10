@@ -40,7 +40,7 @@
                                         <div class="row mb-3">
                                           <label for="inputText" class="col-sm-2 col-form-label">Store Name</label>
                                           <div class="col-sm-10">
-                                            <input type="text" name="storeName" class="form-control" value="<%= saloon_data.name%>" placeholder="Enter a Store Name">
+                                            <input required type="text" name="storeName" class="form-control" value="<%= saloon_data.name%>" placeholder="Enter a Store Name">
                                           </div>
                                         </div>
                                         
@@ -59,63 +59,63 @@
                                         <div class="row mb-3">
                                           <label for="inputNumber" class="col-sm-2 col-form-label">Image</label>
                                           <div class="col-sm-10">
-                                            <input class="form-control" type="file" name="image" id="formFile" multiple>
+                                            <input required class="form-control" type="file" name="image" id="formFile" multiple>
                                           </div>
                                         </div>
                     
                                         <div class="row mb-3">
                                           <label for="inputText" class="col-sm-2 col-form-label">Email</label>
                                           <div class="col-sm-10">
-                                            <input type="text" name="Email" value="<%= saloon_data.Email%>" class="form-control" placeholder="Enter a Email">
+                                            <input required type="text" name="Email" value="<%= saloon_data.Email%>" class="form-control" placeholder="Enter a Email">
                                           </div>
                                         </div>
                     
                                         <div class="row mb-3">
                                           <label for="inputText" class="col-sm-2 col-form-label">Password</label>
                                           <div class="col-sm-10">
-                                            <input type="text" name="password" class="form-control" placeholder="Enter a Password">
+                                            <input required type="text" name="password" class="form-control" placeholder="Enter a Password">
                                           </div>
                                         </div>
                   
                                         <div class="row mb-3">
                                           <label for="inputText" class="col-sm-2 col-form-label">Number</label>
                                           <div class="col-sm-10">
-                                            <input type="number" id="addressSearch" name="PhoneNumber" value="<%= saloon_data.PhoneNumber%>" class="form-control pac-target-input" placeholder="Enter a number" autocomplete="off">
+                                            <input required type="number" id="addressSearch" name="PhoneNumber" value="<%= saloon_data.PhoneNumber%>" class="form-control pac-target-input" placeholder="Enter a number" autocomplete="off">
                                           </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="inputText" class="col-sm-2 col-form-label">Shop Number</label>
                                             <div class="col-sm-10">
-                                              <input type="number" id="addressSearch" name="shopNumber" value="<%= saloon_data.shopNumber%>" class="form-control pac-target-input" placeholder="Enter a shopNumber" autocomplete="off">
+                                              <input required type="number" id="addressSearch" name="shopNumber" value="<%= saloon_data.shopNumber%>" class="form-control pac-target-input" placeholder="Enter a shopNumber" autocomplete="off">
                                             </div>
                                           </div>
                                         
                                           <div class="row mb-3">
                                             <label for="inputText" class="col-sm-2 col-form-label">Pin Code</label>
                                             <div class="col-sm-10">
-                                              <input type="text" id="addressSearch" name="pincode"  value="<%= saloon_data.pincode%>"class="form-control pac-target-input"  placeholder="Enter a Pin Code" autocomplete="off">
+                                              <input required type="text" id="addressSearch" name="pincode"  value="<%= saloon_data.pincode%>"class="form-control pac-target-input"  placeholder="Enter a Pin Code" autocomplete="off">
                                             </div>
                                           </div>
 
                                           <div class="row mb-3">
                                             <label for="inputText" class="col-sm-2 col-form-label">city</label>
                                             <div class="col-sm-10">
-                                              <input type="text" id="addressSearch" name="city"  value="<%= saloon_data.city%>"class="form-control pac-target-input" placeholder="Enter a city"  autocomplete="off">
+                                              <input required type="text" id="addressSearch" name="city"  value="<%= saloon_data.city%>"class="form-control pac-target-input" placeholder="Enter a city"  autocomplete="off">
                                             </div>
                                           </div>
 
                                           <div class="row mb-3">
                                             <label for="inputText" class="col-sm-2 col-form-label">State</label>
                                             <div class="col-sm-10">
-                                              <input type="text" id="addressSearch" name="state" value="<%= saloon_data.state%>" class="form-control pac-target-input" placeholder="Enter a state" autocomplete="off">
+                                              <input required type="text" id="addressSearch" name="state" value="<%= saloon_data.state%>" class="form-control pac-target-input" placeholder="Enter a state" autocomplete="off">
                                             </div>
                                           </div>
 
                                           <div class="row mb-3">
                                             <label for="inputText" class="col-sm-2 col-form-label">Aria</label>
                                             <div class="col-sm-10">
-                                              <input type="text" id="addressSearch" name="aria"  value="<%= saloon_data.aria%>"class="form-control pac-target-input" placeholder="Enter a Aria" autocomplete="off">
+                                              <input required type="text" id="addressSearch" name="aria"  value="<%= saloon_data.aria%>"class="form-control pac-target-input" placeholder="Enter a Aria" autocomplete="off">
                                             </div>
                                           </div>
 
@@ -123,7 +123,7 @@
                                           <div class="row mb-3">
                                             <label for="inputText" class="col-sm-2 col-form-label">Type</label>
                                             <div class="col-sm-10">
-                                              <input type="text" id="addressSearch" name="type" value="<%= saloon_data.type%>" class="form-control pac-target-input" placeholder="saloon type" autocomplete="off">
+                                              <input required type="text" id="addressSearch" name="type" value="<%= saloon_data.type%>" class="form-control pac-target-input" placeholder="saloon type" autocomplete="off">
                                             </div>
                                           </div>
 
@@ -147,7 +147,7 @@
                                             <div class="row mb-3">
                                               <label for="inputText" class="col-sm-2 col-form-label">Store Name</label>
                                               <div class="col-sm-10">
-                                                <input type="text" name="storeName" class="form-control" placeholder="Enter a Store Name">
+                                                <input required type="text" name="storeName" class="form-control" placeholder="Enter a Store Name">
                                               </div>
                                             </div>
                                             
@@ -166,63 +166,63 @@
                                             <div class="row mb-3">
                                               <label for="inputNumber" class="col-sm-2 col-form-label">Image</label>
                                               <div class="col-sm-10">
-                                                <input class="form-control" type="file" name="image" id="formFile" multiple>
+                                                <input required class="form-control" type="file" name="image" id="formFile" multiple>
                                               </div>
                                             </div>
                         
                                             <div class="row mb-3">
                                               <label for="inputText" class="col-sm-2 col-form-label">Email</label>
                                               <div class="col-sm-10">
-                                                <input type="text" name="Email" class="form-control" placeholder="Enter a Email">
+                                                <input required type="text" name="Email" class="form-control" placeholder="Enter a Email">
                                               </div>
                                             </div>
                         
                                             <div class="row mb-3">
                                               <label for="inputText" class="col-sm-2 col-form-label">Password</label>
                                               <div class="col-sm-10">
-                                                <input type="text" name="password" class="form-control" placeholder="Enter a Password">
+                                                <input required type="text" name="password" class="form-control" placeholder="Enter a Password">
                                               </div>
                                             </div>
                       
                                             <div class="row mb-3">
                                               <label for="inputText" class="col-sm-2 col-form-label">Number</label>
                                               <div class="col-sm-10">
-                                                <input type="number" id="addressSearch" name="PhoneNumber" class="form-control pac-target-input" placeholder="Enter a number" autocomplete="off">
+                                                <input required type="number" id="addressSearch" name="PhoneNumber" class="form-control pac-target-input" placeholder="Enter a number" autocomplete="off">
                                               </div>
                                             </div>
     
                                             <div class="row mb-3">
                                                 <label for="inputText" class="col-sm-2 col-form-label">Shop Number</label>
                                                 <div class="col-sm-10">
-                                                  <input type="number" id="addressSearch" name="shopNumber" class="form-control pac-target-input" placeholder="Enter a shopNumber" autocomplete="off">
+                                                  <input required type="number" id="addressSearch" name="shopNumber" class="form-control pac-target-input" placeholder="Enter a shopNumber" autocomplete="off">
                                                 </div>
                                               </div>
                                             
                                               <div class="row mb-3">
                                                 <label for="inputText" class="col-sm-2 col-form-label">Pin Code</label>
                                                 <div class="col-sm-10">
-                                                  <input type="text" id="addressSearch" name="pincode" class="form-control pac-target-input"  placeholder="Enter a Pin Code" autocomplete="off">
+                                                  <input required type="text" id="addressSearch" name="pincode" class="form-control pac-target-input"  placeholder="Enter a Pin Code" autocomplete="off">
                                                 </div>
                                               </div>
     
                                               <div class="row mb-3">
                                                 <label for="inputText" class="col-sm-2 col-form-label">city</label>
                                                 <div class="col-sm-10">
-                                                  <input type="text" id="addressSearch" name="city" class="form-control pac-target-input" placeholder="Enter a city"  autocomplete="off">
+                                                  <input required type="text" id="addressSearch" name="city" class="form-control pac-target-input" placeholder="Enter a city"  autocomplete="off">
                                                 </div>
                                               </div>
     
                                               <div class="row mb-3">
                                                 <label for="inputText" class="col-sm-2 col-form-label">State</label>
                                                 <div class="col-sm-10">
-                                                  <input type="text" id="addressSearch" name="state" class="form-control pac-target-input" placeholder="Enter a state" autocomplete="off">
+                                                  <input required type="text" id="addressSearch" name="state" class="form-control pac-target-input" placeholder="Enter a state" autocomplete="off">
                                                 </div>
                                               </div>
     
                                               <div class="row mb-3">
                                                 <label for="inputText" class="col-sm-2 col-form-label">Aria</label>
                                                 <div class="col-sm-10">
-                                                  <input type="text" id="addressSearch" name="aria" class="form-control pac-target-input" placeholder="Enter a Aria" autocomplete="off">
+                                                  <input required type="text" id="addressSearch" name="aria" class="form-control pac-target-input" placeholder="Enter a Aria" autocomplete="off">
                                                 </div>
                                               </div>
     
@@ -230,7 +230,7 @@
                                               <div class="row mb-3">
                                                 <label for="inputText" class="col-sm-2 col-form-label">Type</label>
                                                 <div class="col-sm-10">
-                                                  <input type="text" id="addressSearch" name="type" class="form-control pac-target-input" placeholder="saloon type" autocomplete="off">
+                                                  <input required type="text" id="addressSearch" name="type" class="form-control pac-target-input" placeholder="saloon type" autocomplete="off">
                                                 </div>
                                               </div>
     
