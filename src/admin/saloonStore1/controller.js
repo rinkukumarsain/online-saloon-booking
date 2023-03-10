@@ -18,7 +18,7 @@ exports.add_Saloon_View = async (req, res) => {
         throw error
     }
 }
-
+//saloon requist 
 exports.viewssaloonrequest = async (req, res) => {
     try {
         res.locals.message = req.flash();
@@ -59,7 +59,7 @@ exports.saloonAllRequistDatatable = async (req, res) => {
                         "state": index.location.state,
                         "type": index.type,
                         "category": index.category,
-                        "Action": `<a href="/saloon-requist-approval/?id=${index._id}">approval</a> ||<a href="/Delete-Product/${index._id}">delete</a> `,
+                        "Action": `<a href="/saloon-requist-approval?id=${index._id}">approval</a> <a href="/saloon-request-delete?id=${index._id}">delete</a>`
                     });
                     count++;
                 };
@@ -79,13 +79,57 @@ exports.saloonAllRequistDatatable = async (req, res) => {
 }
 
 
-exports.saloonApproval = async ({ query }) => {
+exports.saloonApproval = async (req, res) => {
     try {
-        if (query.id != undefined && query.id != "") {
-            const _id = mongoose.Types.ObjectId(query.id)
+        console.log("saloonApproval", req.query)
+        if (req.query.id != undefined && req.query.id != "") {
+            const _id = mongoose.Types.ObjectId(req.query.id)
             const findSloonRequist = await saloonRequst.findOne({ _id })
             console.log("findSloonRequist", findSloonRequist)
-            this.saloonRegistration(findSloonRequist);
+
+            let saloon_details = new saloon({
+                storeName: findSloonRequist.storeName,
+                Email: findSloonRequist.Email,
+                PhoneNumber: findSloonRequist.PhoneNumber,
+                location: {
+                    shopNumber: findSloonRequist.shopNumber,
+                    aria: findSloonRequist.aria,
+                    pincode: findSloonRequist.pincode,
+                    city: findSloonRequist.city,
+                    state: findSloonRequist.state,
+                },
+                description: findSloonRequist.description,
+                userId: findSloonRequist.userId,
+                image: findSloonRequist.image,
+                type: findSloonRequist.type,
+                category: findSloonRequist.category,
+
+            });
+            const result = await saloon_details.save();
+            if (result) {
+                
+                await this.saloonRequistDelete(req, res)
+                // console.log("---->", result, " apporove <---")
+                // res.redirect("/views-saloon-request")
+            };
+        } else {
+            res.redirect("/views-saloon-request")
+        }
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+exports.saloonRequistDelete = async (req, res) => {
+    try {
+        console.log(req.url)
+        if (req.query.id != undefined && req.query.id != "") {
+            const _id = mongoose.Types.ObjectId(req.query.id)
+            const findSaloonAndDelete = await saloonRequst.findOneAndDelete({ _id })
+            if (findSaloonAndDelete) {
+                res.redirect("/views-saloon-request")
+            }
         } else {
             res.redirect("/views-saloon-request")
         }
