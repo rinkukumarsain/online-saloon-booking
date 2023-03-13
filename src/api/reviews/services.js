@@ -25,18 +25,27 @@ exports.getreviews = async (query) => {
                 ],
                 'as': 'user'
             }
-        }, {
+        })
+
+        condition.push({
             '$unwind': {
                 'path': '$user'
             }
         });
         const findData = await review.aggregate(condition);
-        if (findData) {
+        if (findData.length > 0) {
             return {
                 statusCode: 200,
                 status: true,
                 message: "reviews  find successfull !",
                 data: findData
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "reviews  not find  !",
+                data: []
             };
         }
     } catch (error) {
