@@ -475,6 +475,7 @@ exports.getServiceByCategory = async ({ query }) => {
                                 }
                             })
                         }
+
                         const findService = await saloonService.aggregate(condition);
                         if (findService) {
                             arrr.push(findService)
@@ -526,8 +527,8 @@ exports.getServiceByCategory = async ({ query }) => {
         throw error;
     };
 };
-
-exports.getServiceByLocation = async ({ query }) => {
+/*
+exports.getSaloonByLocation = async ({ query }) => {
     try {
         let findSaloon;
         if (query.State != "" && query.State != undefined && !query.city) {
@@ -569,6 +570,109 @@ exports.getServiceByLocation = async ({ query }) => {
             status: false,
             message: "Please Enter Location Name !",
             data: []
+        };
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
+};*/
+
+
+
+exports.getSaloonByLocation = async ({ query }) => {
+    try {
+        let obj = {};
+        let condition = [];
+        if (query.State != "" && query.State != undefined && !query.city) {
+            obj['location.state'] = query.State;
+        };
+        if (query.city != "" && query.city != undefined && query.State != "" && query.State != undefined) {
+            obj["location.state"] = query.State;
+            obj["location.city"] = query.city;
+        };
+
+        if (query.city != "" && query.city != undefined && !query.State) {
+            obj['location.city'] = query.city;
+        };
+        if (query.type != undefined && query.type != "") {
+            obj["type"] = query.type;
+        };
+        condition.push({
+            '$match': obj
+        });
+
+        condition.push({
+            '$lookup': {
+                'from': 'saloonservices',
+                'localField': '_id',
+                'foreignField': 'saloonStore',
+                'pipeline': [
+                    {
+                        '$project': {
+                            'Price': '$ServicePrice'
+                        }
+                    }, {
+                        '$group': {
+                            '_id': null,
+                            'data': {
+                                '$avg': '$Price'
+                            }
+                        }
+                    }
+                ],
+                'as': 'sarvice'
+            }
+        });
+        condition.push({
+            '$unwind': {
+                'path': '$sarvice'
+            }
+        });
+        if (query.ServicePrice_lt != undefined && query.ServicePrice_lt != "" && query.ServicePrice_gt != undefined && query.ServicePrice_gt != "") {
+            condition.push({
+                '$match': {
+                    '$and': [
+                        {
+                            'sarvice.data': {
+                                '$lte': Number(query.ServicePrice_lt)
+                            }
+                        }, {
+                            'sarvice.data': {
+                                '$gte': Number(query.ServicePrice_gt)
+                            }
+                        }
+                    ]
+                }
+            })
+        }
+        if (query.sort != undefined && query.sort != "") {
+            condition.push({
+                '$sort': {
+                    'sarvice.data': Number(query.sort)
+                }
+            });
+        };
+        condition.push({
+            '$project': {
+                'sarvice': 0
+            }
+        });
+
+        const findSaloon = await saloonstore.aggregate(condition);
+        if (findSaloon.length > 0) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "Saloons find successfull by  Location Name !",
+                data: findSaloon
+            };
+        } else {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "data not found !",
+                data: findSaloon
+            };
         };
     } catch (error) {
         console.log(error);
