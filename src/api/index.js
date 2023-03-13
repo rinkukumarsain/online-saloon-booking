@@ -12,7 +12,8 @@ const blog = require("./blogs/route")
 const ContactUs = require("./Contact-Us/route")
 const payment = require("./payment/route")
 const Partner = require("./Partner/route")
+const reviews = require("./reviews/route")
 
 module.exports = [userRoutes, category, saloonstore, saloonService,
     cart, schedule, address, checkOut,
-    order, userWishlist, blog, ContactUs, payment, Partner];
+    order, userWishlist, blog, ContactUs, payment, Partner, reviews];
