@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const responseHandler = require("../../utils/responseHandlers");
-const { saloonService, add_Service, getAllSaloonServiceByCatogory, getServiceByCategory, getServiceByLocation } = require('./controller');
+const { saloonService, add_Service, getAllSaloonServiceByCatogory, getServiceByCategory, getSaloonByLocation } = require('./controller');
 const Upload = require("../../middleware/img");
 const app = Router();
 const auth = require("../../middleware/auth")
@@ -10,7 +10,7 @@ app.post("/add-Service", auth, Upload.single("file"), responseHandler(add_Servic
 app.get("/get-all-saloon-Service-by-catogory", auth, responseHandler(getAllSaloonServiceByCatogory))
 app.get("/get-Service-By-Category", auth, responseHandler(getServiceByCategory))
 
-app.get("/get-saloon-by-location", auth, responseHandler(getServiceByLocation))
+app.get("/get-saloon-by-location", auth, responseHandler(getSaloonByLocation))
 
 
 module.exports = app;
