@@ -23,61 +23,42 @@ exports.viewssaloonrequest = async (req, res) => {
     try {
         res.locals.message = req.flash();
         const user = req.user
-        res.render("views-saloon-request", { user })
+        const data = await saloonRequst.aggregate([
+            {
+                '$lookup': {
+                    'from': 'users',
+                    'localField': 'userId',
+                    'foreignField': '_id',
+                    'pipeline': [
+                        {
+                            '$project': {
+                                'name': 1
+                            }
+                        }
+                    ],
+                    'as': 'result'
+                }
+            }, {
+                '$addFields': {
+                    'name': {
+                        '$getField': {
+                            'field': 'name',
+                            'input': {
+                                '$arrayElemAt': [
+                                    '$result', 0
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        ])
+        res.render("views-saloon-request", { user, data })
     } catch (error) {
         console.log(error)
         throw error
     }
 }
-
-exports.saloonAllRequistDatatable = async (req, res) => {
-    try {
-        saloonRequst.countDocuments().exec(async (err, row) => {
-            if (err) console.log(err);
-            let newData = row
-            let data = [];
-            let count = 1;
-            await saloonRequst.find().exec(async (err, row1) => {
-                for await (const index of row1) {
-                    let piture = []
-
-                    index.image.forEach(element => {
-                        piture.push(`<img src="/uploads/${element}" alt="pic" width="50" height="60">`)
-                    });
-                    const findUser = await user.findOne({ _id: index.userId })
-                    data.push({
-                        "count": count,
-                        "storeName": index.storeName,
-                        "owerName": findUser.name,
-                        "Email": index.Email,
-                        "phone": index.PhoneNumber,
-                        // "image": piture[0],
-                        "shopNumber": index.location.shopNumber,
-                        "aria": index.location.aria,
-                        "pincode": index.location.pincode,
-                        "city": index.location.city,
-                        "state": index.location.state,
-                        "type": index.type,
-                        "category": index.category,
-                        "Action": `<a href="/saloon-requist-approval?id=${index._id}">approval</a> <a href="/saloon-request-delete?id=${index._id}">delete</a>`
-                    });
-                    count++;
-                };
-                if (count > row1.length) {
-                    let jsonValue = JSON.stringify({
-                        recordsTotal: row,
-                        recordsFiltered: newData,
-                        data: data
-                    });
-                    res.send(jsonValue);
-                }
-            });
-        });
-    } catch (error) {
-
-    }
-}
-
 
 exports.saloonApproval = async (req, res) => {
     try {
@@ -87,16 +68,24 @@ exports.saloonApproval = async (req, res) => {
             const findSloonRequist = await saloonRequst.findOne({ _id })
             console.log("findSloonRequist", findSloonRequist)
 
+            let ovh = {};
+            ovh.shopNumber = findSloonRequist.shopNumber
+            ovh.aria = findSloonRequist.aria
+            ovh.pincode = findSloonRequist.pincode
+            ovh.city = findSloonRequist.city
+            ovh.state = findSloonRequist.state
+            console.log("findSloonRequist", findSloonRequist)
+
             let saloon_details = new saloon({
                 storeName: findSloonRequist.storeName,
                 Email: findSloonRequist.Email,
                 PhoneNumber: findSloonRequist.PhoneNumber,
                 location: {
-                    shopNumber: findSloonRequist.shopNumber,
-                    aria: findSloonRequist.aria,
-                    pincode: findSloonRequist.pincode,
-                    city: findSloonRequist.city,
-                    state: findSloonRequist.state,
+                    shopNumber: findSloonRequist.location.shopNumber,
+                    aria: findSloonRequist.location.aria,
+                    pincode: findSloonRequist.location.pincode,
+                    city: findSloonRequist.location.city,
+                    state: findSloonRequist.location.state,
                 },
                 description: findSloonRequist.description,
                 userId: findSloonRequist.userId,
@@ -106,8 +95,9 @@ exports.saloonApproval = async (req, res) => {
 
             });
             const result = await saloon_details.save();
+            console.log("result", result)
             if (result) {
-                
+
                 await this.saloonRequistDelete(req, res)
                 // console.log("---->", result, " apporove <---")
                 // res.redirect("/views-saloon-request")

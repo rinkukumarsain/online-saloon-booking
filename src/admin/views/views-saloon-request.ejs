@@ -1,138 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-    <title>saloon-Registration</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>view-saloon</title>
     <%- include('../partials/headlink.ejs') %>
-</head>
+  </head>
 
-<body>
+  <body>
+    <%- include('../partials/Header.ejs') %> 
+    <%- include("../partials/sidebar.ejs") %>
 
-    <main>
-        <div class="container">
-            <%- include("../partials/alertMsg") %>
-                <%- include("../partials/Header.ejs") %>
-                    <%- include("../partials/sidebar.ejs") %>
-
-                        <section
-                            class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-                            <div class="container">
-                                <div class="row justify-content-end">
-                                    <div
-                                        class="col-lg-10 col-md-6 d-flex flex-column align-items-center justify-content-center">
-                                        <div class="card mb-3">
-
-                                            <div class="card-body">
-
-                                                <div class="pt-4 pb-2">
-                                                    <div class="d-flex justify-content-center py-4">
-                                                        <a href="index.html"
-                                                            class="logo d-flex align-items-center w-auto">
-                                                            <img src="assets/img/logo.png" alt="">
-                                                            <span class="d-none d-lg-block">online saloon</span>
-                                                        </a>
-                                                    </div><!-- End Logo -->
-                                                </div>
-                                                <table class="content-table" id="mytable" border="3px">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Sno</th>
-                                                            <th>storeName</th>
-                                                            <th>owerName</th>
-                                                            <th>Email</th>
-                                                            <th>phone</th>
-                                                            <th>shopN</th>
-                                                            <th>aria</th>
-                                                            <th>pincode</th>
-                                                            <th>city</th>
-                                                            <th>state</th>
-                                                            <th>type</th>
-                                                            <th>category</th>
-                                                            <!-- <th>Image</th> -->
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                                <input type="text" id="myText" value="<%-user.type %>">
-                                            </div>
-                                        </div>
-
-                                        <div class="credits">
-                                            <!-- All the links in the footer should remain intact. -->
-                                            <!-- You can delete the links only if you purchased the pro version. -->
-                                            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                                            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                                            Designed by <a href="#">:</a>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </section>
-                        <script type="text/javascript">
-                            // function GetReqForSubCatagory(_id) {
-                            //     console.log("idddd", _id)
-                            // }
-
-                            $(document).ready(function () {
-                                // let id = document.getElementById("myText").value;
-                                // let fff;
-                                // if (id) {
-                                //     fff = `/?id=${id}`
-                                //     console.log("if ", id, fff)
-                                // }
-                                // else {
-                                //     fff = `/`
-                                //     console.log("else ", id, fff)
-                                // }
-
-                                // $.fn.dataTable.ext.errMode = 'none';
-                                // console.log("kkkkk")
-                                $('#mytable').DataTable({
-                                    "lengthMenu": [2, 4, 6, 8, 15],
-                                    "pageLength": 5,
-                                    serverSide: true,
-                                    "ajax": {
-                                        "type": 'GET',
-                                        "url": "/saloon-all-requist-datatable",
-                                        "dataSrc": 'data',
-                                        error: function () { console.log(error) }
-                                    },
-                                    "columns": [
-                                        { "data": "count" },
-                                        { "data": "storeName" },
-                                        { "data": "owerName" },
-                                        { "data": "Email" },
-                                        { "data": "phone" },
-                                        { "data": "shopNumber" },
-                                        { "data": "aria" },
-                                        { "data": "pincode" },
-                                        { "data": "city" },
-                                        { "data": "state" },
-                                        { "data": "type" },
-                                        { "data": "category" },
-                                        // { "data": "image" },
-                                        { "data": "Action" },
-                                        //{ "data": "delete" },
-                                    ]
-                                }
-                                )
-                            })
-                            //console.log("hello id ", x)
-                        </script>
-
+    <main id="main" class="main">
+      <div class="pagetitle">
+        <h1><%-user.type %></h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
+     <section class="section dashboard">
+      <div class="row">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Saloon List</h5>
+  
+                <!-- Table with stripped rows -->
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Store Name</th>
+                      <th scope="col">Owner Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Phone Number</th>
+                      <th scope="col">Shop Number</th>
+                      <th scope="col">Pin Code</th>
+                      <th scope="col">City</th>
+                      <th scope="col">State</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% let i= 0 %>
+                    <% for( data of data) { %>
+                    <tr>
+                      <th scope="row"><%= ++i %></th>
+                      <td><%= data.storeName %></td>
+                      <td><%= data.name %></td>
+                      <td><%= data.Email %></td>
+                      <td><%= data.PhoneNumber %></td>
+                      <td><%= data.location.shopNumber %></td>
+                      <td><%= data.location.pincode %></td>
+                      <td><%= data.location.city %></td>
+                      <td><%= data.location.state %></td>
+                      <td><a href="/saloon-requist-approval?id=<%= data._id%>" class="btn btn-dark">Approval</a>
+                        <a href="/saloon-request-delete?id=<%= data._id%>" class="btn btn-danger">Delete</a></td>
+                    </tr>
+                    <%}%>
+                  </tbody>
+                </table>
+                <!-- End Table with stripped rows -->
+  
+              </div>
+            </div>
+          </div>
         </div>
-    </main><!-- End #main -->
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
+      </div>
+    </section>
+     
+    </main>
+
     <%- include("../partials/script.ejs") %>
-</body>
-
+  </body>
 </html>
