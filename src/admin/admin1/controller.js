@@ -110,11 +110,44 @@ exports.loginData = async (req, res) => {
         throw error;
     };
 };
+exports.forgetPassword = async (req, res) => {
+    try {
+        res.render("users/Forget-Password", { user: req.user })
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
+}
+
+exports.ForgetPassword = async ({ body, user }, res) => {
+    try {
+        if (body.Cpassword === body.password) {
+            const match = await bcrypt.compare(body.OldPassword, user.password);
+            if (match) {
+                const pp = await bcrypt.hash(body.password, 10);
+                const result = await userModel.findByIdAndUpdate({ _id: user._id }, { password: pp });
+                if (result) {
+                    res.redirect("/");
+                }
+            } else {
+                res.redirect("/forget-password");
+            }
+
+        } else {
+            res.redirect("/forget-password");
+        }
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
+};
 
 exports.usersProfile = async (req, res) => {
     try {
         res.locals.message = req.flash();
-        res.render("users/usersProfile");
+        const user = req.user;
+        console.log("user", user)
+        res.render("users/usersProfile", { user });
     } catch (error) {
         console.log(error);
         throw error;

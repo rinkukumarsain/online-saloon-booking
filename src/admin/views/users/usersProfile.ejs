@@ -5,11 +5,79 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>usersProfile</title>
+    <title>view-saloon</title>
+
+    <%- include('../../partials/headlink.ejs') %>
 </head>
 
 <body>
-    <h1>usersProfile</h1>
+
+    <%- include('../../partials/Header.ejs') %>
+        <%- include("../../partials/sidebar.ejs") %>
+
+            <main id="main" class="main">
+                <div class="pagetitle">
+                    <h1>
+                        <%-user.type %>
+                    </h1>
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                    </nav>
+                </div><!-- End Page Title -->
+
+                <section class="section dashboard">
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Add profile</h5>
+
+                                        <form action="/add_service_store?id=<%= user._id%>" method="post"
+                                            enctype="multipart/form-data">
+                                            <div class="row g-3">
+                                                <div class="col">
+                                                    <input required type="text" name="name" value="<%= user.name%>"
+                                                        class="form-control" placeholder="Enter Your  Name">
+                                                </div>
+                                                <div class="col">
+                                                    <input required type="number" name="phone" value="<%= user.phone%>"
+                                                        class="form-control" placeholder="Enter a phone">
+                                                </div>
+                                            </div><br>
+
+                                            <div class="row g-3">
+                                                <div class="col">
+                                                    <textarea class="form-control" name="description"
+                                                        placeholder="Description" style="height: 100px"
+                                                        required><%= user.description%></textarea>
+                                                </div>
+                                                <div class="col">
+                                                    <input class="form-control" type="file" name="image" id="formFile"
+                                                        multiple>
+                                                </div>
+                                            </div><br>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label">Submit Button</label>
+                                                <div class="col-sm-10">
+                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <%- include("../../partials/script.ejs") %>
 </body>
 
 </html>
