@@ -179,33 +179,19 @@ exports.getUserOrder = async ({ user, query }) => {
     };
 };
 
-exports.orderCancel = async (req, res) => {
+exports.orderCancel = async (req) => {
     try {
         if (req.query.id) {
-            let query = {};
-            let addserviceincart;
             const _id = mongoose.Types.ObjectId(req.query.id);
             const findOrder = await order.findOne({ _id });
             if (findOrder) {
-                const user = req.user;
-                let i = 0;
-                for (const services of findOrder.cartdata) {
-                    query.saloonId = findOrder.saloonId;
-                    query.serviceId = services.serviceId;
-                    addserviceincart = await addcart({ user, query });
-                    if (addserviceincart.status) {
-                        i++;
-                    }
-                }
-                if (i > 0) {
-                    const findOrder = await order.findOneAndRemove({ _id });
-                    if (findOrder) {
-                        return {
-                            statusCode: 200,
-                            status: true,
-                            message: `order cansel and  !${i}service added in cart !!`,
-                            data: [addserviceincart]
-                        };
+                const orderCencal = await order.findByIdAndUpdate({ _id }, { status: "cancel" }, { new: true })
+                if (orderCencal) {
+                    return {
+                        statusCode: 200,
+                        status: true,
+                        message: `censal order successful `,
+                        data: [orderCencal]
                     };
                 };
             } else {
