@@ -597,10 +597,20 @@ exports.getSaloonByLocation = async ({ query }) => {
         if (query.type != undefined && query.type != "") {
             obj["type"] = query.type;
         };
-        condition.push({
-            '$match': obj
-        });
-
+        if (obj.location != undefined && obj.location != "") {
+            console.log("obj", 1, obj)
+            condition.push({
+                '$match': obj
+            });
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "please Enter Location !",
+                data: []
+            };
+        };
+        console.log("obj   --->", obj)
         condition.push({
             '$lookup': {
                 'from': 'saloonservices',
