@@ -59,14 +59,21 @@ exports.addReviews = async ({ body, user, query }) => {
 exports.getReviews = async ({ query }) => {
     try {
         const result = await getreviews(query);
-        if (result.status) {
+        if (result.status === true) {
             return {
                 statusCode: 200,
                 status: true,
                 message: "review  get successfull !",
                 data: result.data
             };
-        };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "reviews  not find  !",
+                data: []
+            };
+        }
     } catch (error) {
         console.log(error);
         throw error;
