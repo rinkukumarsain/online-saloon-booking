@@ -32,6 +32,7 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                     if (body.city) { locations.city = body.city };
                     if (body.state) { locations.state = body.state };
                     if (body.description) { obj.description = body.description };
+                    if(body.type){obj.type=body.type}
                 if (files.length>0) {
                         console.log("666666")
                         img = []
@@ -85,6 +86,7 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                 body.image = ""
             }
             body.password = bcrypt.hashSync(body.password, 10);
+            console.log("body",body)
             let saloon_details = new saloon({
                 storeName: body.storeName,
                 Email: body.Email,
@@ -98,6 +100,7 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                     state: body.state
 
                 },
+                type:body.type,
                 description: body.description,
                 userId: body.userId,
                 image: body.image,
