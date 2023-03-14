@@ -263,153 +263,51 @@ exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
 exports.getServiceByCategory = async ({ query }) => {
     try {
         console.log("query--->", query)
-        let Ltprice;
-        let Gtprice;
+        let obj = {};
         const condition = [];
         if (query.id) {
+            obj.$and = [];
             if (query.ServicePrice_lt != undefined && query.ServicePrice_lt != "" && query.ServicePrice_gt != undefined && query.ServicePrice_gt != "") {
-                Ltprice = Number(query.ServicePrice_lt)
-                Gtprice = Number(query.ServicePrice_gt)
-            }
-            // console.log("ServicePrice_lt", typeof (Ltprice))
-            let arrr = []
+                obj.$and.push({ ServicePrice: { $lte: Number(query.ServicePrice_lt) } },
+                    { ServicePrice: { $gte: Number(query.ServicePrice_gt) } });
+            };
+
+            if (query.type != undefined && query.type != "" && typeof (query.type) == "string") {
+                obj.$and.push({ type: query.type });
+            };
+
+            if (typeof (query.type) == "object" && query.type != undefined && query.type != "") {
+                console.log("typeof objext--", typeof (query.type));
+                let aaaa = [];
+                query.type.forEach(element => {
+                    aaaa.push(element)
+                });
+                obj.$and.push({ type: { $in: aaaa } });
+            };
+
+            if (query.timePeriod_in_minits != undefined && query.timePeriod_in_minits != "") {
+                obj.$and.push({ timePeriod_in_minits: Number(query.timePeriod_in_minits) });
+            };
+
+
+            let arrr = [];
             let _id = query.id;
             const findCategory = await category.findOne({ _id });
             if (findCategory) {
                 const findsubCategory = await category.find({ parent_Name: findCategory._id });
+
                 if (findsubCategory.length > 0) {
+                    let i = 1;
                     for (const item of findsubCategory) {
+                        if (i > 1) {
+                            obj.$and.pop()
+                        };
+                        obj.$and.push({ last_category: item._id });
+                        i++;
 
-                        if (Ltprice && Gtprice) {
-                            if (Ltprice && Gtprice && query.timePeriod_in_minits != undefined && query.timePeriod_in_minits != "") {
-                                if (Ltprice && Gtprice && query.timePeriod_in_minits != undefined && query.timePeriod_in_minits != "" && query.type != undefined && query.type != "") {
-                                    let aaaa = []
-                                    console.log("hello", 11, query.type, query.type.length)
-                                    console.log(typeof (query.type))
-                                    if (typeof (query.type) == "object") {
-                                        query.type.forEach(element => {
-                                            aaaa.push(element)
-                                        });
-                                    } else {
-                                        aaaa.push(query.type)
-                                    }
-                                    condition.push({
-                                        '$match': {
-                                            '$and': [
-                                                {
-                                                    'last_category': item._id
-                                                },
-                                                {
-                                                    'ServicePrice': {
-                                                        '$lte': Ltprice
-                                                    }
-                                                },
-                                                {
-                                                    'ServicePrice': {
-                                                        '$gte': Gtprice
-                                                    }
-                                                },
-                                                {
-                                                    'timePeriod_in_minits': Number(query.timePeriod_in_minits)
-                                                }, {
-                                                    'type': { $in: aaaa }
-                                                }
-                                            ]
-                                        }
-                                    });
-                                } else {
-                                    console.log("Ltprice && Gtprice query.timePeriod_in_minits")
-                                    condition.push({
-                                        '$match': {
-                                            '$and': [
-                                                {
-                                                    'last_category': item._id
-                                                },
-                                                {
-                                                    'ServicePrice': {
-                                                        '$lte': Ltprice
-                                                    }
-                                                },
-                                                {
-                                                    'ServicePrice': {
-                                                        '$gte': Gtprice
-                                                    }
-                                                },
-                                                {
-                                                    'timePeriod_in_minits': Number(query.timePeriod_in_minits)
-                                                },
-                                            ]
-                                        }
-                                    });
-                                }
-                            } else {
-                                console.log("Ltprice && Gtprice")
-                                condition.push({
-                                    '$match': {
-                                        '$and': [
-                                            {
-                                                'last_category': item._id
-                                            },
-                                            {
-                                                'ServicePrice': {
-                                                    '$lte': Ltprice
-                                                }
-                                            },
-                                            {
-                                                'ServicePrice': {
-                                                    '$gte': Gtprice
-                                                }
-                                            }
-                                        ]
-                                    }
-                                });
-                            }
-                        } else if (query.timePeriod_in_minits != undefined && query.timePeriod_in_minits != "") {
-                            console.log("query.timePeriod_in_minits0", query.timePeriod_in_minits)
-                            const number = Number(query.timePeriod_in_minits)
-                            condition.push({
-                                '$match': {
-                                    '$and': [
-                                        {
-                                            'last_category': item._id
-                                        },
-
-                                        {
-                                            'timePeriod_in_minits': number
-                                        },
-                                    ]
-                                }
-                            });
-                        } else if (query.type != undefined && query.type != "") {
-                            let aaaa = []
-                            console.log("hello", 11, query.type, query.type.length)
-                            console.log(typeof (query.type))
-                            if (typeof (query.type) == "object") {
-                                query.type.forEach(element => {
-                                    aaaa.push(element)
-                                });
-                            } else {
-                                aaaa.push(query.type)
-                            }
-                            condition.push({
-                                '$match': {
-                                    '$and': [
-                                        {
-                                            'last_category': item._id
-                                        },
-                                        {
-                                            'type': { $in: aaaa }
-                                        }
-                                    ]
-                                }
-                            });
-                        } else {
-                            condition.push({
-                                '$match': {
-                                    'last_category': item._id
-                                }
-                            });
-                        }
+                        condition.push({
+                            '$match': obj
+                        });
 
                         condition.push({
                             '$lookup': {
@@ -433,48 +331,48 @@ exports.getServiceByCategory = async ({ query }) => {
                                 'storeName': '$result.storeName',
                                 'ServiceName': 1,
                                 'ServicePrice': 1,
-                                'image': "$result.image",
+                                'image': '$result.image',
                                 'description': 1,
                                 'last_category': 1,
                                 'category': 1,
                                 'timePeriod': 1,
                                 'timePeriod_in_minits': 1,
-                                // 'serviceProvider': 1,
                                 'updatedA': 1,
                                 'type': 1
                             }
                         });
+
                         condition.push({
-                            $group: {
-                                _id: "$saloonStore",
-                                data: {
-                                    $first: {
-                                        saloonStore: "$saloonStore",
-                                        storeLOcation: "$storeLOcation",
-                                        storeName: "$storeName",
-                                        ServiceName: "$ServiceName",
-                                        ServicePrice: "$ServicePrice",
-                                        image: "$image",
-                                        description: "$description",
-                                        last_category: "$last_category",
-                                        category: "$category",
-                                        timePeriod: "$timePeriod",
-                                        timePeriod_in_minits:
-                                            "$timePeriod_in_minits",
-                                        updatedA: "$updatedA",
-                                        type: "$type",
-                                    },
-                                },
+                            '$group': {
+                                '_id': '$saloonStore',
+                                'data': {
+                                    '$first': {
+                                        'saloonStore': '$saloonStore',
+                                        'storeLOcation': '$storeLOcation',
+                                        'storeName': '$storeName',
+                                        'ServiceName': '$ServiceName',
+                                        'ServicePrice': '$ServicePrice',
+                                        'image': '$image',
+                                        'description': '$description',
+                                        'last_category': '$last_category',
+                                        'category': '$category',
+                                        'timePeriod': '$timePeriod',
+                                        'timePeriod_in_minits': '$timePeriod_in_minits',
+                                        'updatedA': '$updatedA',
+                                        'type': '$type'
+                                    }
+                                }
                             }
-                        })
+                        });
+
                         if (query.sort != undefined && query.sort != "") {
                             const num = Number(query.sort)
                             condition.push({
                                 '$sort': {
-                                    'ServicePrice': num
+                                    'data.ServicePrice': num
                                 }
-                            })
-                        }
+                            });
+                        };
 
                         const findService = await saloonService.aggregate(condition);
                         if (findService) {
@@ -482,6 +380,7 @@ exports.getServiceByCategory = async ({ query }) => {
                             // console.log("findService", findService)
                         };
                     }
+
                     if (arrr && arrr.length > 0) {
                         return {
                             statusCode: 200,
