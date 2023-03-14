@@ -112,12 +112,15 @@ exports.saloonApproval = async (req, res) => {
 }
 
 exports.saloonRequistDelete = async (req, res) => {
-    try {
+    try {res.locals.message=req.flash();
         console.log(req.url)
         if (req.query.id != undefined && req.query.id != "") {
             const _id = mongoose.Types.ObjectId(req.query.id)
             const findSaloonAndDelete = await saloonRequst.findOneAndDelete({ _id })
             if (findSaloonAndDelete) {
+                console.log("res.locals.message",res.locals.message)
+                req.flash("success", " request approve succesfully !")
+                console.log("res.locals.message",res.locals.message)
                 res.redirect("/views-saloon-request")
             }
         } else {

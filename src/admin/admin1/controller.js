@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const userModel = require("../../api/user/model");
+const { findByIdAndUpdate } = require('./model');
 
 exports.admin = async (req, res) => {
     try {
@@ -148,6 +149,30 @@ exports.usersProfile = async (req, res) => {
         const user = req.user;
         console.log("user", user)
         res.render("users/usersProfile", { user });
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
+};
+exports.add_profile_data = async (req, res) => {
+    try {console.log("sdaa")
+        res.locals.message = req.flash();
+        const user = req.user;
+        const id=req.query.id;
+        let obj={};
+        console.log("body",req.body)
+        if(req.body.name){obj.name=req.body.name}
+        if(req.body.phone){obj.phone=req.body.phone}
+        if(req.body.description){obj.description=req.body.description}
+        if(req.file){obj.image=`http://159.89.164.11:7070/uploads/${req.file.filename}`}
+        console.log("obj",obj)
+        const updatedata=await userModel.findByIdAndUpdate(id,obj,{new:true});
+         console.log("updatedat",updatedata)
+         req.flash("success","profile updated successfully")
+          
+        res.redirect("/")
+        // console.log("user", user)
+        //res.render("users/usersProfile", { user });
     } catch (error) {
         console.log(error);
         throw error;
