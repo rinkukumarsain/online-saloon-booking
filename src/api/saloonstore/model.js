@@ -40,16 +40,22 @@ const saloon_Store = new mongoose.Schema({
         state: {
             type: String
         },
-        
+
     },
     category: {
         type: [String]
     },
     type: {
         type: String,
-        default: "Unisex"
+        default: "unisex"
     },
     description: {
+        type: String
+    },
+    weekRange: {
+        type: String
+    },
+    TimeRange: {
         type: String
     }
 }, { timestamps: true });
