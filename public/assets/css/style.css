@@ -17,6 +17,9 @@ body {
   background: #f6f9ff;
   color: #444444;
 }
+.dataTable-container{
+  overflow: auto;
+}
 
 a {
   color: #4154f1;
