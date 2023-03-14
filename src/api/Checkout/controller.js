@@ -13,10 +13,18 @@ exports.Checkout = async ({ user, query }) => {
         })
         condition.push({
             '$lookup': {
-                'from': 'carts',
-                'localField': '_id',
-                'foreignField': 'userId',
-                'as': 'cartData'
+                from: "carts",
+                localField: "_id",
+                foreignField: "userId",
+                pipeline: [
+                    {
+                        $match: {
+                            userId: user._id,
+                            saloonId: mongoose.Types.ObjectId(query.saloonId)
+                        },
+                    },
+                ],
+                as: "cartData",
             }
         })
         condition.push({
@@ -95,31 +103,31 @@ exports.Checkout = async ({ user, query }) => {
             '$unwind': {
                 'path': '$saloon'
             }
-        },
-            {
-                '$unwind': {
-                    'path': '$schedule'
+        })
+        condition.push({
+            '$unwind': {
+                'path': '$schedule'
+            }
+        })
+        condition.push({
+            '$project': {
+                '_id': 0,
+                'name': 1,
+                'phone': 1,
+                'email': 1,
+                'totalamount': 1,
+                'Time': '$schedule.timeslot',
+                'Date': '$schedule.date',
+                'cartdata': 1,
+                'userAddress': '$Address.location',
+                'storedetail': {
+                    'storeName': '$saloon.storeName',
+                    'location': '$saloon.location',
+                    'PhoneNumber': '$saloon.PhoneNumber',
+                    'Email': '$saloon.Email'
                 }
-            },
-            {
-                '$project': {
-                    '_id': 0,
-                    'name': 1,
-                    'phone': 1,
-                    'email': 1,
-                    'totalamount': 1,
-                    'Time': '$schedule.timeslot',
-                    'Date': '$schedule.date',
-                    'cartdata': 1,
-                    'userAddress': '$Address.location',
-                    'storedetail': {
-                        'storeName': '$saloon.storeName',
-                        'location': '$saloon.location',
-                        'PhoneNumber': '$saloon.PhoneNumber',
-                        'Email': '$saloon.Email'
-                    }
-                }
-            })
+            }
+        })
 
         // ];
 
