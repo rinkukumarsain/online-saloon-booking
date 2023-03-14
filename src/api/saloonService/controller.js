@@ -597,7 +597,8 @@ exports.getSaloonByLocation = async ({ query }) => {
         if (query.type != undefined && query.type != "") {
             obj["type"] = query.type;
         };
-        if (obj.location != undefined && obj.location != "") {
+        console.log("obj", obj)
+        if (obj['location.state'] != undefined && obj['location.state'] != "" || obj['location.city'] != undefined && obj['location.city'] != "") {
             console.log("obj", 1, obj)
             condition.push({
                 '$match': obj
