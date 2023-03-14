@@ -25,6 +25,9 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                 if (body.description != undefined && body.description != "") { obj.description = body.description };
                 if (user) { obj.userId = user._id };
                 if (body.type != undefined && body.type != "") { obj.type = body.type };
+                if (body.TimeRange != undefined && body.TimeRange != "") { obj.TimeRange = body.TimeRange }
+                if (body.weekRange != undefined && body.weekRange != "") { obj.weekRange = body.weekRange }
+
                 if (files != undefined && files.length > 0) {
                     img = [];
                     files.forEach(element => {
@@ -43,7 +46,7 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                         catogoryarr.push(index)
                     }
                 }
-                if (locations) {
+                if (locations.city != undefined && locations.city != "") {
                     obj.location = locations;
                 }
                 const result = await saloon.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
@@ -131,7 +134,8 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                 image: body.image,
                 type: body.type,
                 category: catogoryarr,
-
+                TimeRange: body.TimeRange,
+                weekRange: body.weekRange,
             });
             const result = await saloon_details.save();
             if (result) {

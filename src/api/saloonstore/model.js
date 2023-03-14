@@ -40,7 +40,7 @@ const saloon_Store = new mongoose.Schema({
         state: {
             type: String
         },
-        
+
     },
     category: {
         type: [String]
@@ -50,6 +50,12 @@ const saloon_Store = new mongoose.Schema({
         default: "Unisex"
     },
     description: {
+        type: String
+    },
+    weekRange: {
+        type: String
+    },
+    TimeRange: {
         type: String
     }
 }, { timestamps: true });
