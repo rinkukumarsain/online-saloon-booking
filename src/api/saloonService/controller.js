@@ -278,11 +278,7 @@ exports.getServiceByCategory = async ({ query }) => {
 
             if (typeof (query.type) == "object" && query.type != undefined && query.type != "") {
                 console.log("typeof objext--", typeof (query.type));
-                let aaaa = [];
-                query.type.forEach(element => {
-                    aaaa.push(element)
-                });
-                obj.$and.push({ type: { $in: aaaa } });
+                obj.$and.push({ type: { $in: query.type } });
             };
 
             if (query.timePeriod_in_minits != undefined && query.timePeriod_in_minits != "") {
@@ -344,7 +340,7 @@ exports.getServiceByCategory = async ({ query }) => {
 
                         condition.push({
                             '$group': {
-                                '_id': '$saloonStore',
+                                '_id':{'saloonStore': '$saloonStore','type': '$type' },
                                 'data': {
                                     '$first': {
                                         'saloonStore': '$saloonStore',
