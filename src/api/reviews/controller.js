@@ -82,67 +82,124 @@ exports.getReviews = async ({ query }) => {
 
 
 exports.updateLikeDislike = async ({ user, query }) => {
-    if (query.id != undefined && query.id != "") {
-        let obj = {};
-        like = []
-        const _id = mongoose.Types.ObjectId(query.id)
-        const findData = await review.findOne({ _id })
-        if (findData) {
-            if (query.like != undefined && query.like != "") {
-                if (findData.like.length > 0) {
-                    console.log("findData-like-->", findData.like)
-                    const chake = findData.like.includes(user._id);
-                    if (chake) {
-                        return {
-                            statusCode: 400,
-                            status: false,
-                            message: "you are allredy like this   !",
-                            data: []
-                        };
+    try {
+        if (query.id != undefined && query.id != "") {
+            let obj = {};
+            let like = []
+            const _id = mongoose.Types.ObjectId(query.id)
+            const findData = await review.findOne({ _id })
+            if (findData) {
+                //dislike me hai to remove aur like me add 
+                if (query.like != undefined && query.like != "") {
+                    // console.log("findData-like-->", findData.like)
+                    const opchake = findData.dislike.includes(user._id)
+                    // console.log("opchake like-->", opchake)
+                    if (opchake) {
+                        var idx = findData.dislike.indexOf(user._id);
+                        if (idx != -1) {
+                            // console.log("remove from dislike findData.dislike", findData.dislike)
+                            const rrr = findData.dislike.splice(idx, 1);
+                            // console.log("remove from dislike ", findData.dislike)
+                            obj.dislike = findData.dislike
+                        }
+                    }
+                    if (findData.like.length > 0) {
+                        const chake = findData.like.includes(user._id);
+                        if (chake) {
+                            // console.log("chake-like-->", chake)
+                            return {
+                                statusCode: 400,
+                                status: false,
+                                message: "you are allredy like this   !",
+                                data: [findData]
+                            };
+                        } else {
+                            let arr = []
+                            findData.like.forEach(element => {
+                                arr.push(element)
+                            });
+
+                            arr.push(user._id)
+                            // console.log("arr like-->", arr)
+                            obj.like = arr
+                        }
                     } else {
                         like.push(user._id)
-                        let spebhb = [findData.like, ...like]
-                        console.log("spebhb", spebhb)
-                        jhgh
-                        obj.like = [findData.like, ...like]
+                        obj.like = like
                     }
-                    hgfgv
-                } else {
-                    like.push(user._id)
-                    obj.like = like
                 }
-            }
 
 
-            if (query.dislike != undefined && query.dislike != "") {
-                obj.dislike = user._id
-            }
-            console.log("obbj", obj)
-            const update = await review.findByIdAndUpdate({ _id }, obj, { new: true })
-            console.log("update", update)
-            if (update) {
+                let dislike = []
+                if (query.dislike != undefined && query.dislike != "") {
+                    const opchake = findData.like.includes(user._id)
+                    if (opchake) {
+                        //   console.log("opchake", opchake)
+                        var idx = findData.like.indexOf(user._id);
+                        if (idx != -1) {
+                            findData.like.splice(idx, 1);
+                            //   console.log("remove from like ", findData.like)
+                            obj.like = findData.like
+                        }
+
+                    }
+
+                    if (findData.dislike.length > 0) {
+                        //   console.log("findData-dislike-->", findData.dislike)
+                        const chake = findData.dislike.includes(user._id);
+                        if (chake) {
+                            return {
+                                statusCode: 400,
+                                status: false,
+                                message: "you are allredy dislike this   !",
+                                data: [findData]
+                            };
+                        } else {
+                            let arr = []
+                            findData.dislike.forEach(element => {
+                                arr.push(element)
+                            });
+
+                            arr.push(user._id)
+                            //   console.log("arr", arr)
+                            obj.dislike = arr
+                        }
+                    } else {
+                        dislike.push(user._id)
+                        obj.dislike = dislike
+                    }
+                }
+
+
+                // console.log("obbj", obj)
+                const update = await review.findByIdAndUpdate({ _id }, obj, { new: true })
+                // console.log("update--->", update)
+                if (update) {
+                    return {
+                        statusCode: 200,
+                        status: true,
+                        message: "updateed   !",
+                        data: [update]
+                    };
+                }
+            } else {
                 return {
-                    statusCode: 200,
-                    status: true,
-                    message: "updateed   !",
-                    data: [update]
+                    statusCode: 400,
+                    status: false,
+                    message: "Enter a valid reviews Id find  !",
+                    data: []
                 };
             }
         } else {
             return {
                 statusCode: 400,
                 status: false,
-                message: "Enter a valid reviews Id find  !",
+                message: "Enter a reviews Id find  !",
                 data: []
             };
         }
-    } else {
-        return {
-            statusCode: 400,
-            status: false,
-            message: "Enter a reviews Id find  !",
-            data: []
-        };
-    }
-
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
 }
