@@ -80,3 +80,69 @@ exports.getReviews = async ({ query }) => {
     };
 };
 
+
+exports.updateLikeDislike = async ({ user, query }) => {
+    if (query.id != undefined && query.id != "") {
+        let obj = {};
+        like = []
+        const _id = mongoose.Types.ObjectId(query.id)
+        const findData = await review.findOne({ _id })
+        if (findData) {
+            if (query.like != undefined && query.like != "") {
+                if (findData.like.length > 0) {
+                    console.log("findData-like-->", findData.like)
+                    const chake = findData.like.includes(user._id);
+                    if (chake) {
+                        return {
+                            statusCode: 400,
+                            status: false,
+                            message: "you are allredy like this   !",
+                            data: []
+                        };
+                    } else {
+                        like.push(user._id)
+                        let spebhb = [findData.like, ...like]
+                        console.log("spebhb", spebhb)
+                        jhgh
+                        obj.like = [findData.like, ...like]
+                    }
+                    hgfgv
+                } else {
+                    like.push(user._id)
+                    obj.like = like
+                }
+            }
+
+
+            if (query.dislike != undefined && query.dislike != "") {
+                obj.dislike = user._id
+            }
+            console.log("obbj", obj)
+            const update = await review.findByIdAndUpdate({ _id }, obj, { new: true })
+            console.log("update", update)
+            if (update) {
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "updateed   !",
+                    data: [update]
+                };
+            }
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "Enter a valid reviews Id find  !",
+                data: []
+            };
+        }
+    } else {
+        return {
+            statusCode: 400,
+            status: false,
+            message: "Enter a reviews Id find  !",
+            data: []
+        };
+    }
+
+}

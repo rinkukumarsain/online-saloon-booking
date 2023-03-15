@@ -152,12 +152,15 @@ exports.login = async ({ body }) => {
                 const match = await bcrypt.compare(password, user.password);
                 if (match) {
                     const token = jwt.sign({ _id: user._id }, process.env.SECRET);
-                    return {
-                        statusCode: 200,
-                        status: true,
-                        message: "Login successfull !",
-                        data: [user, { auth: token }]
-                    };
+                    const up = await userModel.findOneAndUpdate({ _id: user._id }, { auth: token }, { new: true });
+                    if (up) {
+                        return {
+                            statusCode: 200,
+                            status: true,
+                            message: "Login successfull !",
+                            data: [user, { auth: token }]
+                        };
+                    }
                 } else {
                     return {
                         statusCode: 400,
@@ -210,12 +213,15 @@ exports.loginOtpVerify = async ({ body }) => {
                 const user = await userModel.findOneAndUpdate({ phone: body.phone }, { $set: { otp: "" } }, { new: true });
                 const token = jwt.sign({ _id: user._id }, process.env.SECRET);
                 if (user) {
+                    const up = await userModel.findOneAndUpdate({ _id: user._id }, { auth: token }, { new: true });
+                    if (up) {
                     return {
                         statusCode: 200,
                         status: true,
                         message: "Phone Login successfull !",
                         data: [user, { auth: token }]
                     };
+                }
                 };
             } else {
                 return {
