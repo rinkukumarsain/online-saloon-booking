@@ -173,7 +173,7 @@ exports.add_profile_data = async (req, res) => {
         if(req.body.description){obj.description=req.body.description}
         if(req.file){
             if(user.image){
-            fs.unlinkSync(`public/uploads/${imagepath[4]}`)}
+            fs.unlinkSync(`./public/uploads/${imagepath[4]}`)}
             obj.image=`http://159.89.164.11:7070/uploads/${req.file.filename}`
         }
         console.log("obj",obj)
