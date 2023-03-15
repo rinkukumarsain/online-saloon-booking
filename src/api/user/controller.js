@@ -215,13 +215,13 @@ exports.loginOtpVerify = async ({ body }) => {
                 if (user) {
                     const up = await userModel.findOneAndUpdate({ _id: user._id }, { auth: token }, { new: true });
                     if (up) {
-                    return {
-                        statusCode: 200,
-                        status: true,
-                        message: "Phone Login successfull !",
-                        data: [user, { auth: token }]
-                    };
-                }
+                        return {
+                            statusCode: 200,
+                            status: true,
+                            message: "Phone Login successfull !",
+                            data: [user, { auth: token }]
+                        };
+                    }
                 };
             } else {
                 return {
@@ -315,6 +315,41 @@ exports.logOut = async (req, res) => {
             status: true,
             message: "User log-Out successfull !",
             data: []
+        };
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
+};
+
+
+exports.EditUserProfile = async ({ user, file }) => {
+    try {
+        if (file.filename != undefined && file.filename != "") {
+
+            const result = await userModel.findByIdAndUpdate({ _id: user._id }, { image: `http://159.89.164.11:7070/uploads/${file.filename}` }, { new: true });
+            if (result) {
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "User Profile Update successfull !",
+                    data: [result]
+                };
+            } else {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "User Profile Not Update !",
+                    data: []
+                };
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "input Profile photo !",
+                data: []
+            };
         };
     } catch (error) {
         console.log(error);
