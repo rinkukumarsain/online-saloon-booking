@@ -32,6 +32,39 @@ exports.getreviews = async (query) => {
                 'path': '$user'
             }
         });
+        condition.push({
+            '$project': {
+                '_id': 1,
+                'userId': 1,
+                'saloonId': 1,
+                'Rating': 1,
+                'Date': 1,
+                'Description': 1,
+                'dislike': {
+                    '$cond': {
+                        'if': {
+                            '$isArray': '$dislike'
+                        },
+                        'then': {
+                            '$size': '$dislike'
+                        },
+                        'else': 0
+                    }
+                },
+                'like': {
+                    '$cond': {
+                        'if': {
+                            '$isArray': '$like'
+                        },
+                        'then': {
+                            '$size': '$like'
+                        },
+                        'else': 0
+                    }
+                },
+                'user': 1
+            }
+        })
         const findData = await review.aggregate(condition);
         if (findData.length > 0) {
             return {
