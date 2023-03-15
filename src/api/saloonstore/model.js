@@ -55,11 +55,19 @@ const saloon_Store = new mongoose.Schema({
     weekRange: {
         type: String
     },
+    startingweek:{type: String},
+    endingweek:{type: String},
+    starting_time:{type: String},
+    ending_time:{type: String},
     TimeRange: {
         type: String
     }
 }, { timestamps: true });
 
+//   'starting-time': '22:14',
+//   'ending-time': '20:10',
+//   startingweek: 'Saturday',
+//   endingweek: 'Sunday',
 
 const saloon = new mongoose.model("saloon", saloon_Store);
 module.exports = saloon;

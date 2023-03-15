@@ -63,8 +63,9 @@ exports.optiongeturl = async (req, res) => {
 
 exports.ADD_SERVICE_STORE = async (req, res) => {
     try {
-        console.log("body", req.body)
+        //console.log("body", req.body)
         let { body, files, query } = req
+        //console.log("body",body)
         res.locals.message = req.flash();
         if (query.id) {
 

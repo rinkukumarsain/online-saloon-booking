@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    // unique: true
+    // unique: true                                          
   },
   phone: {
     type: Number,
@@ -41,5 +41,10 @@ const userSchema = new mongoose.Schema({
     default: ""
   }
 }, { timestamps: true });
+
+
+
+
+
 
 module.exports = mongoose.model("user", userSchema);
