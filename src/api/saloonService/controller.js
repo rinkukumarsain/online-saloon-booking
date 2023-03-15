@@ -340,7 +340,7 @@ exports.getServiceByCategory = async ({ query }) => {
 
                         condition.push({
                             '$group': {
-                                '_id':{'saloonStore': '$saloonStore','type': '$type' },
+                                '_id': { 'saloonStore': '$saloonStore', 'type': '$type' },
                                 'data': {
                                     '$first': {
                                         'saloonStore': '$saloonStore',
@@ -489,8 +489,16 @@ exports.getSaloonByLocation = async ({ query }) => {
         if (query.city != "" && query.city != undefined && !query.State) {
             obj['location.city'] = query.city;
         };
-        if (query.type != undefined && query.type != "") {
-            obj["type"] = query.type;
+        /* if (query.type != undefined && query.type != "") {
+             obj["type"] = query.type;
+         };*/
+        if (query.type != undefined && query.type != "" && typeof (query.type) == "string") {
+            obj.type = query.type
+        };
+
+        if (typeof (query.type) == "object" && query.type != undefined && query.type != "") {
+            console.log("typeof objext--", typeof (query.type));
+            obj.type = { $in: query.type }
         };
         console.log("obj", obj)
         if (obj['location.state'] != undefined && obj['location.state'] != "" || obj['location.city'] != undefined && obj['location.city'] != "") {
