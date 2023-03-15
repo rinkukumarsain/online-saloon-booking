@@ -11,8 +11,9 @@ exports.ADD_SALOON = async (req, res) => {
 
 exports.ADD_SALOON_STORE = async (req, res) => { 
     try {
-        console.log("body", req.body)
+        //console.log("body", req.body)
         let { body, user, files, query } = req
+        console.log("body",body)
 
         console.log("=====>",files)
         res.locals.message = req.flash();
@@ -33,6 +34,7 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                     if (body.state) { locations.state = body.state };
                     if (body.description) { obj.description = body.description };
                     if(body.type){obj.type=body.type}
+                    if(body.category){obj.category=body.category}
                 if (files.length>0) {
                         console.log("666666")
                         img = []
@@ -104,7 +106,12 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                 description: body.description,
                 userId: body.userId,
                 image: body.image,
-                category:body.category
+                category:body.category,
+                starting_time:body.starting_time,
+                ending_time:body.ending_time,
+                startingweek:body.startingweek,
+                endingweek:body.endingweek
+
             });
             const result = await saloon_details.save();
             if (result) {
