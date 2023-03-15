@@ -186,7 +186,7 @@ exports.add_profile_data = async (req, res) => {
         //res.render("users/usersProfile", { user });
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };
 
