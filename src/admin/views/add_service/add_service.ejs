@@ -106,7 +106,9 @@
                                                   <div class="col">
                                                     <input required type="number" name="ServicePrice" class="form-control" placeholder="Enter a Service Price">
                                                   </div>
+                                                  
                                                 </div><br>
+                                                
       
                                                 <div class="row g-3">
                                                   <div class="col">
@@ -132,27 +134,32 @@
                                                 </div><br>
       
                                                 <div class="row g-3">
+                                                  
                                                   <div class="col">
-                                                      <select class="form-select"name="saloonStore" aria-label="Default select example" required>
-                                                          <option selected="">Select Saloon</option>
-                                                          <% for(saloon of saloon_data){%>
-                                                          <option value="<%= saloon._id%>"><%= saloon.storeName%></option>
-                                                          <%}%>
-                                                        </select>
-                                                  </div>
-                                                  <div class="col">
-                                                      <select class="form-select" multiple="" name="category[]"aria-label="multiple select example" required>
-                                                          <option selected="">Select Category</option>
+                                                      <select class="form-select"  name="category[]"aria-label="multiple select example" required onchange="clickMe(this)">
+                                                          <option selected="" >Select Category</option>
                                                               <% for(data of category){%>
                                                               <option value="<%= data._id%>"><%= data.Name%></option>
                                                               <%}%>
                                                         </select>
                                                   </div>
+                                                  <div class="col">
+                                                    <select class="form-select"name="saloonStore" aria-label="Default select example" required>
+                                                        <option selected="">Select Saloon</option>
+                                                        <% for(saloon of saloon_data){%>
+                                                        <option value="<%= saloon._id%>"><%= saloon.storeName%></option>
+                                                        <%}%>
+                                                      </select>
+                                                </div>
+                                                  <div id="myselect" class="col-md-12">
+
+                                                  </div>
+                                                  
                                                 </div><br>
                                                   <div class="row mb-3">
                                                     
                                                     <div class="col-sm-10">
-                                                      <button type="submit" class="btn btn-primary">Submit</button>
+                                                      <button type="submit" id='mySubmit'class="btn btn-primary">Submit</button>
                                                     </div>
                                                   </div>
                                                 </form>
@@ -165,8 +172,53 @@
                         </div>
                       </section>
                 </main>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+    <script>
+      document.getElementById("mySubmit").disabled = true;
+      function clickMe(select) {
+        console.log("se", select)
+        let num = Number(select.id)
+        let category = select.value
+        $.ajax({
+          type: 'get',
+          data: { "select": category },
+          url: '/optiongeturl',// nandlal
+          success: function (data) {
+            if (data.length > 0) {
+              console.log(data)
+              let abc = `<div id="subcategory-${num + 1}"><label for="inputAddress" class="form-label">Sub Category</label>`
+              abc += `<select style="width:50%;margin-bottom:20px"   class="form-select" onchange="clickMe(this )" name="category" id="${num + 1}">`
+              abc += `<option>select Sub Category</option>`
+
+              data.forEach((item) => {
+                abc += `<option value=${item._id}>${item.Name}</option>`
+              })
+
+              abc += `</select></div>`
+              let num2 = num + 1
+              while (true) {
+                let cat = $(`#subcategory-${num2}`)
+                if (cat.html()) {
+                  cat.remove();
+                }
+                else {
+                  break;
+                }
+                ++num2
+              }
+              $('#myselect').append(abc)
+            } else {
+              document.getElementById("mySubmit").disabled = false;
+            }
+          }
+        })
+      }
+    </script>
+
 
                 <%- include("../../partials/script.ejs") %>
 </body>
+
 
 </html>

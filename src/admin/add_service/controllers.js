@@ -6,9 +6,10 @@ const service = require("./service")
 exports.ADD_SERVICE = async (req, res) => {
     try {
     const user = req.user
-        const category = await Category.find()
+        const category = await Category.find({parent_Name:null})
         const saloon_data = await saloon.find()
         const _id = req.query.id
+        console.log("id",_id)
         let pipeline = []
         pipeline.push({
             $match: {
@@ -33,6 +34,31 @@ exports.ADD_SERVICE = async (req, res) => {
     } catch (err) {
         console.log(err)
    }
+}
+exports.optiongeturl = async (req, res) => {
+    try {
+        const parent_id = req.query.select
+        console.log("req.query", parent_id);
+        // console.log(`=======${req.url}`)
+        if (parent_id != undefined && parent_id.length == 24) {
+            const _id = mongoose.Types.ObjectId(parent_id)
+
+            const sub_category = await Category.find({ parent_Name: _id })
+            const userdata = []
+            sub_category.forEach((index) => {
+                userdata.push({
+                    "_id": index._id,
+                    "Name": index.Name,
+                    "parent_Name": index.parent_Name,
+                });
+            });
+            // console.log("userdata", userdata)
+            res.send(userdata);
+
+        }
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 exports.ADD_SERVICE_STORE = async (req, res) => {

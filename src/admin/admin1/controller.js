@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 const userModel = require("../../api/user/model");
 const { findByIdAndUpdate } = require('./model');
 
@@ -161,10 +162,18 @@ exports.add_profile_data = async (req, res) => {
         const id=req.query.id;
         let obj={};
         console.log("body",req.body)
+        console.log("user",user)
+        let imagepath=user.image.split("/");
+        console.log("imagepath",imagepath)
+        
         if(req.body.name){obj.name=req.body.name}
         if(req.body.phone){obj.phone=req.body.phone}
         if(req.body.description){obj.description=req.body.description}
-        if(req.file){obj.image=`http://159.89.164.11:7070/uploads/${req.file.filename}`}
+        if(req.file){
+            if(user.image){
+            fs.unlinkSync(`public/uploads/${imagepath[4]}`)}
+            obj.image=`http://159.89.164.11:7070/uploads/${req.file.filename}`
+        }
         console.log("obj",obj)
         const updatedata=await userModel.findByIdAndUpdate(id,obj,{new:true});
          console.log("updatedat",updatedata)
