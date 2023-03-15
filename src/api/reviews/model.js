@@ -15,6 +15,14 @@ const reviews = new mongoose.Schema({
     },
     Description: {
         type: String,
+    },
+    like: {
+        type: [mongoose.Types.ObjectId],
+
+    },
+    dislike: {
+        type: [mongoose.Types.ObjectId],
+
     }
 }, { timestamps: true });
 
