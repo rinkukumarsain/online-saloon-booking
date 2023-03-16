@@ -260,7 +260,6 @@ exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
 
 exports.getServiceByCategory = async ({ query }) => {
     try {
-        console.log("query--->", query)
         let obj = {};
         const condition = [];
         if (query.id) {
@@ -302,7 +301,6 @@ exports.getServiceByCategory = async ({ query }) => {
                         condition.push({
                             '$match': obj
                         });
-
                         condition.push({
                             '$lookup': {
                                 'from': 'saloons',
@@ -318,6 +316,23 @@ exports.getServiceByCategory = async ({ query }) => {
                             }
                         });
 
+                        if (query.city != undefined && query.city != "") {
+                            const findData = await saloonstore.find({ "location.city": query.city })
+                            if (findData.length > 0) {
+                                condition.push({
+                                    '$match': {
+                                        'result.location.city': query.city
+                                    }
+                                });
+                            } else {
+                                return {
+                                    statusCode: 400,
+                                    status: false,
+                                    message: "please Enter valid city name !",
+                                    data: []
+                                };
+                            }
+                        }
                         condition.push({
                             '$project': {
                                 'saloonStore': 1,
