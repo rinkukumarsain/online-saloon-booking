@@ -24,6 +24,16 @@ const orderSchema = new mongoose.Schema({
     totalamount: {
         type: Number,
     },
+    couponId: {
+        type: mongoose.Types.ObjectId,
+        default: null
+    },
+    Discount: {
+        type: Number,
+    },
+    finalTotalAmount: {
+        type: Number,
+    },
     addressId: {
         type: mongoose.Types.ObjectId
     },
