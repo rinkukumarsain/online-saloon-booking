@@ -52,7 +52,6 @@ exports.userWishlist = async ({ user, query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -129,7 +128,6 @@ exports.getWishlist = async ({ user, query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -166,7 +164,6 @@ exports.removeStoreFromWishlist = async ({ query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 

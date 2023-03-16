@@ -3,9 +3,11 @@ const order = require("./model");
 const Schedule = require("../Schedule/model");
 const mongoose = require("mongoose")
 const saloon = require("../saloonstore/model")
-const { addcart } = require("../cart/controller")
+const { addcart } = require("../cart/controller");
+const { query } = require("express");
+const coupon = require("../coupon/model")
 
-exports.userOrder = async ({ user }) => {
+exports.userOrder = async ({ query, user }) => {
     try {
         let userId;
         let obj = {};
@@ -13,7 +15,9 @@ exports.userOrder = async ({ user }) => {
             userId = user._id;
             const findcart = await cart.findOne({ userId });
             if (findcart) {
-                obj.addressId = findcart.addressId;
+                if (findcart.addressId != undefined) {
+                    obj.addressId = findcart.addressId;
+                }
                 obj.saloonId = findcart.saloonId;
                 obj.cartdata = findcart.cartdata;
                 obj.totalamount = findcart.totalamount;
@@ -41,6 +45,12 @@ exports.userOrder = async ({ user }) => {
         obj.userId = userId;
         obj.orderId = orderId;
         // obj.paymentStatus = "Payment successful"
+        if (query.couponId != undefined && query.couponId != "") {
+            const findCoupon = await coupon.findOne({ _id: mongoose.Types.ObjectId(query.couponId) })
+            obj.couponId = findCoupon._id;
+            obj.Discount = findCoupon.Discount
+            obj.finalTotalAmount = obj.totalamount - findCoupon.Discount
+        }
         const orderdetails = new order(obj);
         const result = await orderdetails.save();
         if (result) {
@@ -175,7 +185,6 @@ exports.getUserOrder = async ({ user, query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -212,7 +221,6 @@ exports.orderCancel = async (req) => {
         }
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
