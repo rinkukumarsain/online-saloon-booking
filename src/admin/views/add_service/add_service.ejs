@@ -65,9 +65,9 @@
                                                 <textarea class="form-control" name="description" placeholder="Description" style="height: 100px" required><%= service_data.description%></textarea>
                                               </div>
                                               <div class="col">
-                                                <input  class="form-control" type="file" name="image" id="formFile" multiple>
+                                                <input  class="form-control" type="file" name="image" id="formFile" multiple required>
                                                     <%for(image of service_data.image){%>
-                                                    <img src="../../../../uploads/<%=image%>" width="70px">
+                                                    <img  src="../../../../uploads/<%=image%>" width="70px">
                                                     <%}%>
                                               </div>
                                             </div><br>
@@ -129,7 +129,7 @@
                                                     <textarea class="form-control" name="description" placeholder="Description" style="height: 100px" required></textarea>
                                                   </div>
                                                   <div class="col">
-                                                    <input  class="form-control" type="file" name="image" id="formFile" multiple>
+                                                    <input  class="form-control" type="file" name="image" id="formFile" multiple required>
                                                   </div>
                                                 </div><br>
       
