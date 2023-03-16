@@ -1,8 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 const userModel = require("../../api/user/model");
 const { findByIdAndUpdate } = require('./model');
-
+const path=require("path")
 exports.admin = async (req, res) => {
     try {
         if (req.cookies.accessToken) {
@@ -83,6 +84,7 @@ exports.loginData = async (req, res) => {
             if (user) {
                 const match = await bcrypt.compare(password, user.password);
                 if (match) {
+                    console.log("user",user)
                     const accessToken = jwt.sign({ _id: user._id }, process.env.accessToken);
                     const refreshToken = jwt.sign({ _id: user._id }, process.env.refreshToken);
 
@@ -148,6 +150,7 @@ exports.usersProfile = async (req, res) => {
         res.locals.message = req.flash();
         const user = req.user;
         console.log("user", user)
+        console.log("------------------>")
         res.render("users/usersProfile", { user });
     } catch (error) {
         console.log(error);
@@ -161,10 +164,24 @@ exports.add_profile_data = async (req, res) => {
         const id=req.query.id;
         let obj={};
         console.log("body",req.body)
+        console.log("user",user)
+        let imagepath=user.image.split("/");
+        console.log("imagepath",imagepath)
+        
         if(req.body.name){obj.name=req.body.name}
         if(req.body.phone){obj.phone=req.body.phone}
         if(req.body.description){obj.description=req.body.description}
-        if(req.file){obj.image=`http://159.89.164.11:7070/uploads/${req.file.filename}`}
+        //console.log()
+        if(req.file){
+            if (user.image) {
+                try{
+                fs.unlinkSync(`${path.join(__dirname, `/../../../public/uploads/${imagepath[4]}`)}`)
+                 }catch(error)
+                {
+                   console.log(error) 
+                } }
+            obj.image = `http://159.89.164.11:7070/uploads/${req.file.filename}`
+        }
         console.log("obj",obj)
         const updatedata=await userModel.findByIdAndUpdate(id,obj,{new:true});
          console.log("updatedat",updatedata)
@@ -175,7 +192,7 @@ exports.add_profile_data = async (req, res) => {
         //res.render("users/usersProfile", { user });
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };
 

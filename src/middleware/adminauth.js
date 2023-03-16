@@ -5,12 +5,17 @@ module.exports = async (req, res, next) => {
     try {
         if (req.cookies.accessToken) {
             const token = req.cookies.accessToken
+            //console.log("access",token)
             const { _id } = jwt.verify(token, process.env.accessToken);
-            req.user = await userModel.findOneAndUpdate({ _id, auth: token, isDeleted: false }, { new: true })
+            
+            req.user = await userModel.findOneAndUpdate({ _id},{ auth: token, isDeleted: false }, { new: true })
             if (req.user) {
                 next()
+                
             } else {
-                res.render("login")
+                console.log("req.user abcdes",req.user)
+                res.render("users/login")
+                
             }
         } else if (req.cookies.refreshToken) {
             const varifyRefreshToken = jwt.verify(req.cookies.refreshToken, process.env.refreshToken)

@@ -138,6 +138,7 @@
                                             <div class="col">
                                               <input required type="text" name="Email" class="form-control" placeholder="Enter a Email">
                                             </div>
+                                            
                                           </div><br>
 
                                           <div class="row g-3">
@@ -147,6 +148,7 @@
                                             <div class="col">
                                               <input required type="number" id="addressSearch" name="PhoneNumber" class="form-control pac-target-input" placeholder="Enter Your Mobile Number" autocomplete="off">
                                             </div>
+                                            
                                           </div><br>
 
                                           <div class="row g-3">
@@ -177,12 +179,81 @@
                                           </div><br>
 
                                           <div class="row g-3">
-                                            <div class="col">
+                                            <div class="col-6">
                                               <textarea class="form-control" name="description" placeholder="Description" style="height: 100px" required></textarea>
                                             </div>
-                                            <div class="col">
+                                            <div class="col-6">
+                                              <label for="appt-time">Choose Image </label>
                                               <input  class="form-control" type="file" name="image" id="formFile" multiple>
+
                                             </div>
+                                          <div class="row g-3">
+
+                                            <div class="col-6">
+                                              <label for="starting-time">Starting Time </label>
+                                              <input id="starting_time" type="time" class="form-control pac-target-input" name="starting_time" />
+                                            </div>
+                                            <div class="col-6">
+                                              <label for="ending-time">Ending Time </label>
+                                              <input id="ending_time" type="time" class="form-control pac-target-input" name="ending_time" />
+                                            </div>
+                                            
+                                            <!-- <div class="col-4">
+                                              <label for="appt-time">Choose Image </label>
+                                              <input  class="form-control" type="file" name="image" id="formFile" multiple>
+
+                                            </div> -->
+                                            <!-- <div class="col-4">
+                                            <label for="week">Choose a week in May or June:</label>
+
+                                            <input type="week" name="week" id="camp-week"
+                                                   min="2018-W18" class="form-control pac-target-input" max="2018-W26" required>
+                                                  </div> -->
+                                          </div>
+                                          <div class="row g-3">
+
+                                            <div class="col-6">
+                                              
+                                           
+                                              <select class="form-select"  name="startingweek"aria-label="multiple select example" required>
+                                                <option selected="" disabled>Select Starting Day</option>
+                                                <option value="Sunday">Sunday</option>
+                                                <option value="Monday">Monday</option>
+                                                <option value="Tuesday">Tuesday</option>
+                                                <option value="Wenesday">Wenesday</option>
+                                                <option value="Thursday">Thursday</option>
+                                                <option value="Friday">Friday</option>
+                                                <option value="Saturday">Saturday</option>
+                                              </select>       
+                                  </div>
+                                  <div class="col-6">
+                                              
+                                           
+                                    <select class="form-select"  name="endingweek"aria-label="multiple select example" required>
+                                      <option selected="" disabled>Select Ending Day</option>
+                                      <option value="Sunday">Sunday</option>
+                                      <option value="Monday">Monday</option>
+                                      <option value="Tuesday">Tuesday</option>
+                                      <option value="Wenesday">Wenesday</option>
+                                      <option value="Thursday">Thursday</option>
+                                      <option value="Friday">Friday</option>
+                                      <option value="Saturday">Saturday</option>
+                                    </select>       
+                        </div>                                            
+                                            <!-- <div class="col-4">
+                                              <label for="appt-time">Choose Image </label>
+                                              <input  class="form-control" type="file" name="image" id="formFile" multiple>
+
+                                            </div> -->
+                                            <!-- <div class="col-4">
+                                            <label for="week">Choose a week in May or June:</label>
+
+                                            <input type="week" name="week" id="camp-week"
+                                                   min="2018-W18" class="form-control pac-target-input" max="2018-W26" required>
+                                                  </div> -->
+                                          </div>
+                                          
+                                            
                                           </div><br>
 
                                           <div class="row mb-3">
@@ -196,6 +267,7 @@
                                                 
                                               </select>
                                             </div>
+                                            
                                           </div>
 
       
