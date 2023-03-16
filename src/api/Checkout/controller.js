@@ -2,16 +2,16 @@ const users = require("../user/model");
 const servish = require("../saloonService/model");
 const { default: mongoose } = require("mongoose");
 const coupon = require("../coupon/model")
+const order = require("../order/model")
 
 exports.Checkout = async ({ user, query }) => {
     try {
         let condition = [];
-        // let condition = [
         condition.push({
             '$match': {
                 '_id': user._id
             }
-        })
+        });
         condition.push({
             '$lookup': {
                 from: "carts",
@@ -27,23 +27,13 @@ exports.Checkout = async ({ user, query }) => {
                 ],
                 as: "cartData",
             }
-        })
+        });
         condition.push({
             '$unwind': {
                 'path': '$cartData'
             }
-        })
-        // condition.push({
-        //     '$project': {
-        //         'name': 1,
-        //         'phone': 1,
-        //         'email': 1,
-        //         'saloonId': '$cartData.saloonId',
-        //         'cartdata': '$cartData.cartdata',
-        //         'totalamount': '$cartData.totalamount',
-        //         // 'addressId': '$cartData.addressId'
-        //     }
-        // })
+        });
+
         if (query.Home != undefined && query.Home != "") {
             condition.push({
                 '$project': {
@@ -55,7 +45,7 @@ exports.Checkout = async ({ user, query }) => {
                     'totalamount': '$cartData.totalamount',
                     'addressId': mongoose.Types.ObjectId(query.Home)
                 }
-            })
+            });
         } else {
             condition.push({
                 '$project': {
@@ -65,10 +55,9 @@ exports.Checkout = async ({ user, query }) => {
                     'saloonId': '$cartData.saloonId',
                     'cartdata': '$cartData.cartdata',
                     'totalamount': '$cartData.totalamount',
-                    // 'addressId': '$cartData.addressId'
                 }
-            })
-        }
+            });
+        };
         condition.push({
             '$lookup': {
                 'from': 'saloons',
@@ -76,7 +65,7 @@ exports.Checkout = async ({ user, query }) => {
                 'foreignField': '_id',
                 'as': 'saloon'
             }
-        })
+        });
         if (query.Home != undefined && query.Home != "") {
             condition.push({
                 '$lookup': {
@@ -89,8 +78,8 @@ exports.Checkout = async ({ user, query }) => {
                 '$unwind': {
                     'path': '$Address'
                 }
-            })
-        }
+            });
+        };
 
         condition.push({
             '$lookup': {
@@ -99,25 +88,31 @@ exports.Checkout = async ({ user, query }) => {
                 'foreignField': 'userId',
                 'as': 'schedule'
             }
-        })
+        });
         condition.push({
             '$unwind': {
                 'path': '$saloon'
             }
-        })
+        });
         condition.push({
             '$unwind': {
                 'path': '$schedule'
             }
-        })
-        let o;
+        });
+
         if (query.couponId != undefined && query.couponId != "") {
 
-            const findCoupon = await coupon.findOne({ _id: mongoose.Types.ObjectId(query.couponId) })
+            const findCoupon = await coupon.findOne({ _id: mongoose.Types.ObjectId(query.couponId) });
             if (findCoupon) {
-
-                console.log("findCoupon", findCoupon.Amount)
-
+                const findOrder = await order.find({ userId: user._id, couponId: mongoose.Types.ObjectId(query.couponId) });
+                if (findOrder.length > findCoupon.Limit) {
+                    return {
+                        statusCode: 400,
+                        status: false,
+                        message: "you are use this coupon over limit  !",
+                        data: []
+                    };
+                };
                 condition.push({
                     '$lookup': {
                         'from': 'coupons',
@@ -140,7 +135,7 @@ exports.Checkout = async ({ user, query }) => {
                     '$unwind': {
                         'path': '$coupon'
                     }
-                })
+                });
                 condition.push({
                     '$project': {
                         _id: 0,
@@ -158,7 +153,13 @@ exports.Checkout = async ({ user, query }) => {
                             Email: "$saloon.Email",
                         },
                         totalamount: 1,
-                        Discount: "$coupon.Discount",
+                        Discount: {
+                            $cond: [
+                                { $gte: ["$totalamount", '$coupon.Amount'] },
+                                "$coupon.Discount",
+                                0,
+                            ],
+                        },
                         finalTotalAmount: {
                             $cond: [
                                 { $gte: ["$totalamount", '$coupon.Amount'] },
@@ -168,11 +169,11 @@ exports.Checkout = async ({ user, query }) => {
                                         "$coupon.Discount",
                                     ],
                                 },
-                                "amount limit lt 2000",
+                                0,
                             ],
                         },
                     }
-                })
+                });
             } else {
                 return {
                     statusCode: 400,
@@ -180,7 +181,7 @@ exports.Checkout = async ({ user, query }) => {
                     message: "please Enter valid coupon code  !",
                     data: []
                 };
-            }
+            };
         } else {
             condition.push({
                 '$project': {
@@ -200,27 +201,12 @@ exports.Checkout = async ({ user, query }) => {
                         'Email': '$saloon.Email'
                     }
                 }
-            })
-        }
-
-        // ];
+            });
+        };
 
         const findData = await users.aggregate(condition);
-        if (findData.length > 0) {
-            // if (query.couponId != undefined && query.couponId != "") {
-            /* const findCoupon = await coupon.findOne({ _id: mongoose.Types.ObjectId(query.couponId) })
-             if (findCoupon) {
 
-                 console.log("findCoupon--->", 1, findCoupon)
-             } else {
-                 return {
-                     statusCode: 400,
-                     status: false,
-                     message: "please enter valide coupon code Succesfuuly !",
-                     data: [Checkout]
-                 };
-             }*/
-            // } else {
+        if (findData.length > 0) {
             const { cartdata, ...Checkout } = findData[0];
             const cartitem = findData[0].cartdata;
             let cart = [];
@@ -234,15 +220,12 @@ exports.Checkout = async ({ user, query }) => {
                 cart.push(userServish);
             };
             Checkout.cart = cart;
-            // console.log("Checkout", Checkout)
-
             return {
                 statusCode: 200,
                 status: true,
                 message: "Checkout  Succesfuuly !",
                 data: [Checkout]
             };
-            // }
         } else {
             return {
                 statusCode: 400,
