@@ -112,9 +112,12 @@ exports.Checkout = async ({ user, query }) => {
         })
         let o;
         if (query.couponId != undefined && query.couponId != "") {
-            
+
             const findCoupon = await coupon.findOne({ _id: mongoose.Types.ObjectId(query.couponId) })
             if (findCoupon) {
+
+                console.log("findCoupon", findCoupon.Amount)
+
                 condition.push({
                     '$lookup': {
                         'from': 'coupons',
@@ -155,9 +158,10 @@ exports.Checkout = async ({ user, query }) => {
                             Email: "$saloon.Email",
                         },
                         totalamount: 1,
+                        Discount: "$coupon.Discount",
                         finalTotalAmount: {
                             $cond: [
-                                { $gte: ["$totalamount", 2000] },
+                                { $gte: ["$totalamount", '$coupon.Amount'] },
                                 {
                                     $subtract: [
                                         "$totalamount",
@@ -236,7 +240,7 @@ exports.Checkout = async ({ user, query }) => {
                 statusCode: 200,
                 status: true,
                 message: "Checkout  Succesfuuly !",
-                data: [condition]
+                data: [Checkout]
             };
             // }
         } else {
