@@ -68,7 +68,7 @@ exports.scheduleYourVisit = async ({ body, user }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };
 

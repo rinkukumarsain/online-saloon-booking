@@ -31,7 +31,7 @@ exports.saloonService = async (req) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };
 
@@ -169,7 +169,7 @@ exports.add_Service = async ({ body, file, query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };
 
@@ -255,7 +255,7 @@ exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };
 
@@ -419,7 +419,7 @@ exports.getServiceByCategory = async ({ query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };
 /*
@@ -468,7 +468,7 @@ exports.getSaloonByLocation = async ({ query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };*/
 
@@ -590,6 +590,6 @@ exports.getSaloonByLocation = async ({ query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };

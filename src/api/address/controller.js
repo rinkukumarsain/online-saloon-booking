@@ -67,7 +67,7 @@ exports.addUserAddress = async ({ user, body }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };
 
@@ -111,7 +111,7 @@ exports.getUserAddress = async ({ user, query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };
 
@@ -174,6 +174,6 @@ exports.addAddresssInUserCart = async ({ user, query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 }

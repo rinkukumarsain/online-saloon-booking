@@ -84,7 +84,7 @@ exports.creatBlog = async ({ body, file }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };
 
@@ -124,6 +124,6 @@ exports.getAllBlog = async ({ query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };

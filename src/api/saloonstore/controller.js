@@ -149,7 +149,7 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };
 
@@ -179,7 +179,7 @@ exports.getSaloonStore = async ({ query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };
 
@@ -209,6 +209,6 @@ exports.getAllSaloonCity = async ({ query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+        
     };
 };
