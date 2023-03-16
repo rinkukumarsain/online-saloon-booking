@@ -173,9 +173,14 @@ exports.add_profile_data = async (req, res) => {
         if(req.body.description){obj.description=req.body.description}
         //console.log()
         if(req.file){
-            if(user.image){
-            fs.unlinkSync(`${path.join(__dirname,`/../../../public/uploads/${imagepath[4]}`)}`)}
-            obj.image=`http://159.89.164.11:7070/uploads/${req.file.filename}`
+            if (user.image) {
+                try{
+                fs.unlinkSync(`${path.join(__dirname, `/../../../public/uploads/${imagepath[4]}`)}`)
+                 }catch(error)
+                {
+                   console.log(error) 
+                } }
+            obj.image = `http://159.89.164.11:7070/uploads/${req.file.filename}`
         }
         console.log("obj",obj)
         const updatedata=await userModel.findByIdAndUpdate(id,obj,{new:true});
