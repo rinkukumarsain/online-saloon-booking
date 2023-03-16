@@ -52,7 +52,6 @@ exports.addReviews = async ({ body, user, query }) => {
         };
     } catch (error) {
         console.log(error);
-        
     };
 };
 
@@ -77,7 +76,6 @@ exports.getReviews = async ({ query, user }) => {
         }
     } catch (error) {
         console.log(error);
-        
     };
 };
 
@@ -201,6 +199,5 @@ exports.updateLikeDislike = async ({ user, query }) => {
         }
     } catch (error) {
         console.log(error);
-        
     };
 }

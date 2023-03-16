@@ -175,7 +175,6 @@ exports.getUserOrder = async ({ user, query }) => {
         };
     } catch (error) {
         console.log(error);
-        
     };
 };
 
@@ -212,7 +211,6 @@ exports.orderCancel = async (req) => {
         }
     } catch (error) {
         console.log(error);
-        
     };
 };
 

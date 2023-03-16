@@ -56,6 +56,5 @@ exports.ContactUs = async ({ user, body }) => {
         }
     } catch (error) {
         console.log(error);
-        
     };
 };

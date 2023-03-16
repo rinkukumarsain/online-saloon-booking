@@ -8,7 +8,7 @@ exports.creatBlog = async ({ body, file }) => {
         let obj = {};
         if (file) {
             obj.image = `http://159.89.164.11:7070/uploads/${file.filename}`;
-            
+
         }
         if (body.category != "" && body.category != undefined) {
             let _id = mongoose.Types.ObjectId(body.category);
@@ -84,7 +84,6 @@ exports.creatBlog = async ({ body, file }) => {
         };
     } catch (error) {
         console.log(error);
-        
     };
 };
 
@@ -124,6 +123,5 @@ exports.getAllBlog = async ({ query }) => {
         };
     } catch (error) {
         console.log(error);
-        
     };
 };

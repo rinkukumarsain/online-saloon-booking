@@ -33,7 +33,6 @@ exports.createCoupon = async ({ body }) => {
         };
     } catch (error) {
         console.log(error);
-        
     };
 };
 
@@ -63,7 +62,6 @@ exports.editCoupon = async ({ query, body }) => {
 
     } catch (error) {
         console.log(error);
-        
     };
 };
 
@@ -90,6 +88,5 @@ exports.getCoupon = async (req) => {
         };
     } catch (error) {
         console.log(error);
-        
     };
 };

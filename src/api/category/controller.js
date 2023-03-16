@@ -26,7 +26,6 @@ exports.getCategoryListing = async ({ query }) => {
         };
     } catch (error) {
         console.log(error);
-        
     };
 };
 
@@ -63,6 +62,5 @@ exports.getAllCategoryListing = async () => {
         };
     } catch (error) {
         console.log(error);
-        
     };
 };
