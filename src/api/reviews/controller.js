@@ -52,12 +52,12 @@ exports.addReviews = async ({ body, user, query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
-exports.getReviews = async ({ query }) => {
+exports.getReviews = async ({ query, user }) => {
     try {
+        query.user = user
         const result = await getreviews(query);
         if (result.status === true) {
             return {
@@ -76,7 +76,6 @@ exports.getReviews = async ({ query }) => {
         }
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -200,6 +199,5 @@ exports.updateLikeDislike = async ({ user, query }) => {
         }
     } catch (error) {
         console.log(error);
-        throw error;
     };
 }

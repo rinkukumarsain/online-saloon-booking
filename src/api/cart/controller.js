@@ -76,7 +76,6 @@ exports.removeserviceFromCart = async ({ body, user, query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -195,7 +194,6 @@ exports.getcart = async ({ user, query }) => {
         };
     } catch (error) {
         console.log(error)
-        throw error;
     };
 };
 
@@ -370,7 +368,6 @@ exports.addcart = async ({ user, query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -388,6 +385,5 @@ exports.removeCart = async ({ query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     }
 }

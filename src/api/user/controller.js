@@ -30,7 +30,6 @@ exports.otpSent = async ({ body }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -68,7 +67,6 @@ exports.otpVerify = async ({ body }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -104,7 +102,6 @@ exports.register = async ({ body }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 /*
@@ -139,7 +136,7 @@ exports.otplogin = async ({ body }) => {
             }
         }
     } catch (error) {
-        throw error;
+        
     }
 }*/
 
@@ -200,7 +197,6 @@ exports.login = async ({ body }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -241,7 +237,6 @@ exports.loginOtpVerify = async ({ body }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -257,7 +252,6 @@ exports.user_Profile = async ({ user }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -301,7 +295,6 @@ exports.userEditProfile = async ({ body, user, file }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -318,7 +311,6 @@ exports.logOut = async (req, res) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -353,6 +345,5 @@ exports.EditUserProfile = async ({ user, file }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };

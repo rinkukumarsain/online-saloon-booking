@@ -15,7 +15,7 @@ exports.add_Saloon_View = async (req, res) => {
     }
     catch (error) {
         console.log(error)
-        throw error
+        
     }
 }
 //saloon requist 
@@ -56,7 +56,7 @@ exports.viewssaloonrequest = async (req, res) => {
         res.render("views-saloon-request", { user, data })
     } catch (error) {
         console.log(error)
-        throw error
+        
     }
 }
 
@@ -107,7 +107,7 @@ exports.saloonApproval = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        throw error;
+        ;
     }
 }
 
@@ -128,7 +128,7 @@ exports.saloonRequistDelete = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        throw error;
+        ;
     }
 }
 
@@ -141,7 +141,7 @@ exports.viewSaloon = async (req, res) => {
         res.render("view-saloon", { user })
     } catch (error) {
         console.log(error)
-        throw error
+        
     }
 }
 exports.getSaloonsDataTable = async (req, res) => {
@@ -361,6 +361,6 @@ exports.saloonRegistration = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        throw error;
+        ;
     }
 }
