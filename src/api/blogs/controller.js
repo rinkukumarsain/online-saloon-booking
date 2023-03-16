@@ -89,9 +89,8 @@ exports.creatBlog = async ({ body, file }) => {
 
 exports.getAllBlog = async ({ query }) => {
     try {
-        let condition = {};
+        let condition = [];
         if (query.categoryId) {
-            condition.category = mongoose.Types.ObjectId(query.categoryId);
             const findCategory = await category.findOne({ _id: mongoose.Types.ObjectId(query.categoryId) });
             if (!findCategory) {
                 return {
@@ -101,11 +100,31 @@ exports.getAllBlog = async ({ query }) => {
                     data: []
                 };
             };
+
+            condition.push({
+                '$match': {
+                    'category': findCategory._id
+                }
+            })
         };
         if (query.id) {
-            condition._id = mongoose.Types.ObjectId(query.id);
+            condition.push({
+                '$match': {
+                    '_id': mongoose.Types.ObjectId(query.id)
+                }
+            }, {
+                '$lookup': {
+                    'from': 'blogs',
+                    'pipeline': [
+                        {
+                            '$limit': 4
+                        }
+                    ],
+                    'as': 'Related Posts'
+                }
+            })
         };
-        const result = await blog.find(condition);
+        const result = await blog.aggregate(condition);
         if (result) {
             return {
                 statusCode: 200,
