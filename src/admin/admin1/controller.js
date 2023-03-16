@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const userModel = require("../../api/user/model");
 const { findByIdAndUpdate } = require('./model');
-
+const path=require("path")
 exports.admin = async (req, res) => {
     try {
         if (req.cookies.accessToken) {
@@ -171,9 +171,10 @@ exports.add_profile_data = async (req, res) => {
         if(req.body.name){obj.name=req.body.name}
         if(req.body.phone){obj.phone=req.body.phone}
         if(req.body.description){obj.description=req.body.description}
+        //console.log()
         if(req.file){
             if(user.image){
-            fs.unlinkSync(`./public/uploads/${imagepath[4]}`)}
+            fs.unlinkSync(`${path.join(__dirname,`/../../../public/uploads/${imagepath[4]}`)}`)}
             obj.image=`http://159.89.164.11:7070/uploads/${req.file.filename}`
         }
         console.log("obj",obj)
