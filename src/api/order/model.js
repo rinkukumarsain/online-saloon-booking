@@ -1,3 +1,4 @@
+const { string } = require("joi");
 const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema({
     userId: {
@@ -37,8 +38,13 @@ const orderSchema = new mongoose.Schema({
     addressId: {
         type: mongoose.Types.ObjectId
     },
-    ScheduleId: {
-        type: mongoose.Types.ObjectId
+    Schedule: {
+        date: {
+            type: String
+        },
+        timeslot: {
+            type: String
+        },
     },
     paymentStatus: {
         type: String,

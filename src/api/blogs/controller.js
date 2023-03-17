@@ -22,7 +22,7 @@ exports.creatBlog = async ({ body, file }) => {
                         return {
                             statusCode: 400,
                             status: false,
-                            message: `Tital Name Is Allready Exit In This Catogory(${findCategory.Name}) !`,
+                            message: `Title Name Is Already Exist In This Category(${findCategory.Name}) !`,
                             data: []
                         };
                     } else {
@@ -37,7 +37,7 @@ exports.creatBlog = async ({ body, file }) => {
                                     return {
                                         statusCode: 200,
                                         status: true,
-                                        message: "Blog  Register successfull !",
+                                        message: "Blog Register successfull !",
                                         data: [result]
                                     };
                                 };
@@ -53,7 +53,7 @@ exports.creatBlog = async ({ body, file }) => {
                             return {
                                 statusCode: 400,
                                 status: false,
-                                message: "Please Enter Valid WriterName !",
+                                message: "Please Enter Valid Writer Name !",
                                 data: []
                             };
                         };
@@ -96,7 +96,7 @@ exports.getAllBlog = async ({ query }) => {
                 return {
                     statusCode: 200,
                     status: true,
-                    message: "Plese enter Valid category Id !",
+                    message: "Please enter Valid category Id !",
                     data: []
                 };
             };
@@ -129,7 +129,7 @@ exports.getAllBlog = async ({ query }) => {
             return {
                 statusCode: 200,
                 status: true,
-                message: "blog is hare successfull!",
+                message: "blog is here successfull!",
                 data: [result]
             };
         } else {

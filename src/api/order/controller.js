@@ -31,7 +31,11 @@ exports.userOrder = async ({ query, user }) => {
             };
             const findSchedule = await Schedule.findOne({ userId });
             if (findSchedule) {
-                obj.ScheduleId = findcart._id;
+                Schedule = {}
+                Schedule.date = findSchedule.date
+                Schedule.timeslot = findSchedule.timeslot
+                obj.Schedule = Schedule;
+
             } else {
                 return {
                     statusCode: 400,

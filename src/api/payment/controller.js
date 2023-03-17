@@ -98,4 +98,53 @@ exports.apiPaymentVerify = async (req, res) => {
     };
 };
 
-
+exports.paymentsRefund = async ({ query }) => {
+    try {
+        if (query.id != undefined && query.id != "") {
+            const result = await payments.findOne({ "payment_detail.razorpay_payment_id": query.id })
+            if (result) {
+                if (result.payment == "Payment Refund") {
+                    return {
+                        statusCode: 400,
+                        status: false,
+                        message: "Your payment allready Refund !",
+                        data: []
+                    };
+                };
+                let Refund = await instance.payments.refund(result.payment_detail.razorpay_payment_id, {
+                    "amount": result.orderData.amount,
+                    "speed": "optimum"
+                });
+                if (Refund) {
+                    const result = await payments.findOneAndUpdate({ "payment_detail.razorpay_payment_id": query.id }, {
+                        payment: "Payment Refund",
+                    }, { new: true });
+                    if (result) {
+                        return {
+                            statusCode: 200,
+                            status: true,
+                            message: "User Refund  successfull !",
+                            data: [result]
+                        };
+                    };
+                };
+            } else {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "Enter valid razorpay_payment_id !",
+                    data: []
+                };
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "Enter razorpay_payment_id ! !",
+                data: []
+            };
+        };
+    } catch (error) {
+        console.log(error);
+    };
+};
