@@ -35,6 +35,29 @@
                               <div class="card">
                                 <div class="card-body">
                                   <h5 class="card-title">Add Frequent</h5>
+                                 <% if(faqData){%>
+                                    <div class="row mb-3">
+                                      <label for="inputText" class="col-sm-2 col-form-label">Question</label>
+                                      <div class="col-sm-10"  >
+                                        <input type="text" id="question" name="que" value="<%=faqData.question%>" class="form-control" required>
+                                      </div>
+                                    </div>
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <h5 class="card-title">Answer</h5>
+                          
+                                        <!-- Quill Editor Full -->
+                                        <div class="quill-editor-full" required>
+                                          <div id="answer"></div>
+                                        </div>
+                                       
+                                      </div>
+                                    </div>
+  
+
+                                  <%}
+                                  else{%>
+
                                   
                                   <div class="row mb-3">
                                     <label for="inputText" class="col-sm-2 col-form-label">Question</label>
@@ -42,8 +65,6 @@
                                       <input type="text" id="question" name="que" class="form-control" required>
                                     </div>
                                   </div>
-                            
-                                
                                   <div class="card">
                                     <div class="card-body">
                                       <h5 class="card-title">Answer</h5>
@@ -57,6 +78,10 @@
                                     </div>
                                   </div>
 
+                                <%}%>
+                                
+                                
+                                  
                                   <div class="row mb-3">
                                     
                                     <div class="col-sm-10">
@@ -74,19 +99,35 @@
 
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
+                
+                <script>
+                  let div;
+                 <%if(faqData){%>
+                      
+                          div = document.createElement("div")
+                          div.innerHTML = `<%= faqData.answer %>`
+                          document.getElementById(`answer`).innerHTML = div.innerText
+                          <%}%>
+                  </script>
+                
+                
+                
+                
                 <script>
                   
 
                   
                   function clickMe(select) {
+
                     let answer=document.querySelector(".ql-editor").innerHTML
                     let question=document.getElementById("question").value
-                  console.log("answer",answer.innerHTML,"question",question.value)
+                  
                   
                     
                                         $.ajax({
-                      type: 'get',
-                      url: `/addfrequentdata?answer="${answer}"&question="${question}"`,// nandlal
+                      type: 'post',
+                      url: `/addfrequentdata`,// nandlal
+                      data: {question,answer,faqData: `<%=faqData?._id.toString()%>`},
                       success: function (data) {
                         console.log("hii")
                         window.location.replace("/");
