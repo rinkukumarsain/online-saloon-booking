@@ -50,7 +50,7 @@
                                         <div class="row g-3">
                                       
                                           <div class="col">
-                                            <input required type="number" id="addressSearch" name="PhoneNumber" value="<%= saloon_data.PhoneNumber%>"class="form-control pac-target-input" placeholder="Enter Your Mobile Number"  autocomplete="off">
+                                            <input required type="number" id="addressSearch" name="PhoneNumber" value="<%= saloon_data.PhoneNumber%>"class="form-control pac-target-input" placeholder="Enter Your Mobile Number"  autocomplete="off" >
                                           </div>
                                         </div><br>
 
@@ -191,11 +191,11 @@
 
                                             <div class="col-6">
                                               <label for="starting-time">Starting Time </label>
-                                              <input id="starting_time" type="time" class="form-control pac-target-input" name="starting_time" />
+                                              <input id="starting_time" type="time" class="form-control pac-target-input" name="starting_time" required/>
                                             </div>
                                             <div class="col-6">
                                               <label for="ending-time">Ending Time </label>
-                                              <input id="ending_time" type="time" class="form-control pac-target-input" name="ending_time" />
+                                              <input id="ending_time" type="time" class="form-control pac-target-input" name="ending_time" required/>
                                             </div>
                                             
                                             <!-- <div class="col-4">
@@ -260,7 +260,7 @@
                                             <label class="col-sm-2 col-form-label">Select category</label>
                                             <div class="col-sm-10">
                                               <select class="form-select" multiple="" name="category[]"aria-label="multiple select example" required>
-                                                <option selected="">Open this select menu</option>
+                                                <option selected="" disabled>Open this select menu</option>
                                                 <option value="spa">Spa</option>
                                                 <option value="parlour">Parlour</option>
                                                 <option value="Saloon">Saloon</option>
