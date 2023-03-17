@@ -75,7 +75,7 @@
                                             <div class="row g-3">
                                               <div class="col">
                                                   <select class="form-select"name="saloonStore" aria-label="Default select example" required>
-                                                    <% console.log(000,service_data.saloonStore)%>
+                                  
                                                       <% for(saloon of saloon_data){%>
                                                       <option value="<%= saloon?._id%>"  <%= service_data?.saloonStore.toString()===saloon?._id.toString() ? "selected" : "" %>><%= saloon?.storeName%></option>
                                                       <%}%>

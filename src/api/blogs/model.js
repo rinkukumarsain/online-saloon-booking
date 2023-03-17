@@ -15,8 +15,7 @@ const Blog = new mongoose.Schema({
         type: String,
     },
     WriteDate: {
-        type: Date,
-        default: Date()
+        type: String
     },
     Description: {
         type: String,
