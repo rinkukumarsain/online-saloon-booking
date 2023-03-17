@@ -43,14 +43,14 @@
                   </thead>
                   <tbody>
                     <% let i= 0 %>
-                    <% for( data of data) { %>
+                    <% for( singleData of data) { %>
                     <tr>
                       <th scope="row"><%= ++i %></th>
-                      <td><%= data.question %></td>
-                      <td><%= data.answer %></td>
+                      <td><%= singleData.question %></td>
+                      <td id=<%= `answer-${i}` %>></td>
                       
-                      <td><a href="/add_service?id=<%= data._id%>" class="btn btn-dark">Edit</a>
-                        <a href="/delete_service?id=<%= data._id%>" class="btn btn-danger">Delete</a></td>
+                      <td><a href="/add_frequent?id=<%= singleData._id%>" class="btn btn-dark">Edit</a>
+                        <a href="/delete_frequent?id=<%= singleData._id%>" class="btn btn-danger">Delete</a></td>
                     </tr>
                     <%}%>
                   </tbody>
@@ -68,5 +68,15 @@
     </main>
 
     <%- include("../../partials/script.ejs") %>
+    <script>
+        let div;
+        let i = 1;
+            <%for (singleData of data) {%>
+                div = document.createElement("div")
+                div.innerHTML = `<%= singleData.answer %>`
+                document.getElementById(`answer-${i}`).innerHTML = div.innerText
+                i++
+            <%}%>
+    </script>
   </body>
 </html>

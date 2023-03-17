@@ -18,7 +18,7 @@
                 <main id="main" class="main">
                     <div class="pagetitle">
                         <h1>
-                            <%-user.type %>
+                            <%-user?.type %>
                         </h1>
                         <nav>
                             <ol class="breadcrumb">
@@ -40,29 +40,29 @@
                                         <form action="/add_service_store?id=<%= service_data._id%>"  method="post" enctype="multipart/form-data">
                                             <div class="row g-3">
                                               <div class="col">
-                                                <input required type="text" name="ServiceName" value="<%= service_data.ServiceName%>" class="form-control" placeholder="Enter Your Service Name">
+                                                <input required type="text" name="ServiceName" value="<%= service_data?.ServiceName%>" class="form-control" placeholder="Enter Your Service Name">
                                               </div>
                                               <div class="col">
-                                                <input required type="number" name="ServicePrice" value="<%= service_data.ServicePrice%>" class="form-control" placeholder="Enter a Service Price">
+                                                <input required type="number" name="ServicePrice" value="<%= service_data?.ServicePrice%>" class="form-control" placeholder="Enter a Service Price">
                                               </div>
                                             </div><br>
   
                                             <div class="row g-3">
                                               <div class="col">
-                                                <input required type="number" name="timePeriod_in_minits" value="<%= service_data.timePeriod_in_minits%>" class="form-control" placeholder="Enter a Time Period">
+                                                <input required type="number" name="timePeriod_in_minits" value="<%= service_data?.timePeriod_in_minits%>" class="form-control" placeholder="Enter a Time Period">
                                               </div>
                                               <div class="col">
                                                   <select class="form-select"name="type" aria-label="Default select example" required>
-                                                      <option value="male"<%= service_data.type==="male" ? "selected" : "" %> >Male</option>
-                                                      <option value="female" <%= service_data.type==="female" ? "selected" : "" %>>Female</option>
-                                                      <option value="unisex" <%= service_data.type==="unisex" ? "selected" : "" %>>Unisex</option>
+                                                      <option value="male"<%= service_data?.type==="male" ? "selected" : "" %> >Male</option>
+                                                      <option value="female" <%= service_data?.type==="female" ? "selected" : "" %>>Female</option>
+                                                      <option value="unisex" <%= service_data?.type==="unisex" ? "selected" : "" %>>Unisex</option>
                                                     </select>
                                               </div>
                                             </div><br>
   
                                             <div class="row g-3">
                                               <div class="col">
-                                                <textarea class="form-control" name="description" placeholder="Description" style="height: 100px" required><%= service_data.description%></textarea>
+                                                <textarea class="form-control" name="description" placeholder="Description" style="height: 100px" required><%= service_data?.description%></textarea>
                                               </div>
                                               <div class="col">
                                                 <input  class="form-control" type="file" name="image" id="formFile" multiple required>
@@ -77,14 +77,14 @@
                                                   <select class="form-select"name="saloonStore" aria-label="Default select example" required>
                                   
                                                       <% for(saloon of saloon_data){%>
-                                                      <option value="<%= saloon._id%>"  <%= service_data.saloonStore.toString()===saloon._id.toString() ? "selected" : "" %>><%= saloon.storeName%></option>
+                                                      <option value="<%= saloon?._id%>"  <%= service_data?.saloonStore.toString()===saloon?._id.toString() ? "selected" : "" %>><%= saloon?.storeName%></option>
                                                       <%}%>
                                                     </select>
                                               </div>
                                               <div class="col">
                                                   <select class="form-select" multiple="" name="category[]"aria-label="multiple select example" required>
                                                           <% for(data of category){%>
-                                                          <option value="<%= data._id%>"<%= service_data.category.includes(data._id.toString()) ? "selected" : "" %> ><%= data.Name%></option>
+                                                          <option value="<%= data?._id%>"<%= service_data?.category.includes(data._id.toString()) ? "selected" : "" %> ><%= data?.Name%></option>
                                                           <%}%>
                                                          
                                                     </select>
@@ -139,7 +139,7 @@
                                                       <select class="form-select"  name="category[]"aria-label="multiple select example" required onchange="clickMe(this)">
                                                           <option selected="" >Select Category</option>
                                                               <% for(data of category){%>
-                                                              <option value="<%= data._id%>"><%= data.Name%></option>
+                                                              <option value="<%= data?._id%>"><%= data?.Name%></option>
                                                               <%}%>
                                                         </select>
                                                   </div>
@@ -147,7 +147,7 @@
                                                     <select class="form-select"name="saloonStore" aria-label="Default select example" required>
                                                         <option selected="">Select Saloon</option>
                                                         <% for(saloon of saloon_data){%>
-                                                        <option value="<%= saloon._id%>"><%= saloon.storeName%></option>
+                                                        <option value="<%= saloon?._id%>"><%= saloon?.storeName%></option>
                                                         <%}%>
                                                       </select>
                                                 </div>
