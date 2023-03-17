@@ -50,7 +50,7 @@
                                         <div class="row g-3">
                                       
                                           <div class="col">
-                                            <input required type="number" id="addressSearch" name="PhoneNumber" value="<%= saloon_data.PhoneNumber%>"class="form-control pac-target-input" placeholder="Enter Your Mobile Number"  autocomplete="off" >
+                                            <input required type="number" id="addressSearch" name="PhoneNumber" patter=".{10,10}" value="<%= saloon_data.PhoneNumber%>"class="form-control pac-target-input" placeholder="Enter Your Mobile Number"  autocomplete="off">
                                           </div>
                                         </div><br>
 
@@ -86,9 +86,9 @@
                                             <textarea class="form-control" name="description" placeholder="Description" style="height: 100px" required><%= saloon_data.description%></textarea>
                                           </div>
                                           <div class="col">
-                                            <input  class="form-control" type="file" name="image" id="formFile" multiple>
+                                            <input  class="form-control" type="file" name="image" id="formFile" multiple required>
                                             <%for(image of saloon_data.image){%>
-                                            <img src="/uploads/<%=image%>" width="70px">
+                                            <img  src="/uploads/<%=image%>" width="70px">
                                             <%}%>
                                           </div>
                                         </div><br>
@@ -184,7 +184,7 @@
                                             </div>
                                             <div class="col-6">
                                               <label for="appt-time">Choose Image </label>
-                                              <input  class="form-control" type="file" name="image" id="formFile" multiple>
+                                              <input  class="form-control" type="file" name="image" id="formFile" multiple required>
 
                                             </div>
                                           <div class="row g-3">

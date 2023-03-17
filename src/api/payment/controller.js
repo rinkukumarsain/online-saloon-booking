@@ -55,7 +55,7 @@ exports.createOrderId = async (req) => {
         };
     } catch (error) {
         console.log("error--", error);
-        throw error;
+
     };
 };
 
@@ -95,7 +95,6 @@ exports.apiPaymentVerify = async (req, res) => {
         };
     } catch (error) {
         console.log("error--", error);
-        throw error;
     };
 };
 

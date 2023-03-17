@@ -31,7 +31,7 @@ exports.saloonService = async (req) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
+
     };
 };
 
@@ -169,7 +169,6 @@ exports.add_Service = async ({ body, file, query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -255,14 +254,12 @@ exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
 
 exports.getServiceByCategory = async ({ query }) => {
     try {
-        console.log("query--->", query)
         let obj = {};
         const condition = [];
         if (query.id) {
@@ -304,7 +301,6 @@ exports.getServiceByCategory = async ({ query }) => {
                         condition.push({
                             '$match': obj
                         });
-
                         condition.push({
                             '$lookup': {
                                 'from': 'saloons',
@@ -320,6 +316,23 @@ exports.getServiceByCategory = async ({ query }) => {
                             }
                         });
 
+                        if (query.city != undefined && query.city != "") {
+                            const findData = await saloonstore.find({ "location.city": query.city })
+                            if (findData.length > 0) {
+                                condition.push({
+                                    '$match': {
+                                        'result.location.city': query.city
+                                    }
+                                });
+                            } else {
+                                return {
+                                    statusCode: 400,
+                                    status: false,
+                                    message: "please Enter valid city name !",
+                                    data: []
+                                };
+                            }
+                        }
                         condition.push({
                             '$project': {
                                 'saloonStore': 1,
@@ -419,7 +432,6 @@ exports.getServiceByCategory = async ({ query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 /*
@@ -468,8 +480,7 @@ exports.getSaloonByLocation = async ({ query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
-    };
+            };
 };*/
 
 
@@ -590,6 +601,5 @@ exports.getSaloonByLocation = async ({ query }) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };

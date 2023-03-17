@@ -4,6 +4,8 @@ const mongoose = require("mongoose")
 exports.getreviews = async (query) => {
     try {
         const saloonId = mongoose.Types.ObjectId(query.saloonId);
+        let x = query.user._id
+        console.log("xxx", x)
         const condition = [];
         condition.push({
             '$match': {
@@ -34,35 +36,59 @@ exports.getreviews = async (query) => {
         });
         condition.push({
             '$project': {
-                '_id': 1,
-                'userId': 1,
-                'saloonId': 1,
-                'Rating': 1,
-                'Date': 1,
-                'Description': 1,
-                'dislike': {
-                    '$cond': {
-                        'if': {
-                            '$isArray': '$dislike'
+                _id: 1,
+                userId: 1,
+                saloonId: 1,
+                Rating: 1,
+                Date: 1,
+                Description: 1,
+                dislike: {
+                    $cond: {
+                        if: {
+                            $isArray: "$dislike",
                         },
-                        'then': {
-                            '$size': '$dislike'
+                        then: {
+                            $size: "$dislike",
                         },
-                        'else': 0
-                    }
+                        else: 0,
+                    },
                 },
-                'like': {
-                    '$cond': {
-                        'if': {
-                            '$isArray': '$like'
+                dislikeStatus: {
+                    $cond: {
+                        if: {
+                            $in: [
+                                x,
+                                "$dislike",
+                            ],
                         },
-                        'then': {
-                            '$size': '$like'
-                        },
-                        'else': 0
-                    }
+                        then: true,
+                        else: false,
+                    },
                 },
-                'user': 1
+                like: {
+                    $cond: {
+                        if: {
+                            $isArray: "$like",
+                        },
+                        then: {
+                            $size: "$like",
+                        },
+                        else: 0,
+                    },
+                },
+                likestatus: {
+                    $cond: {
+                        if: {
+                            $in: [
+                                x,
+                                "$like",
+                            ],
+                        },
+                        then: true,
+                        else: false,
+                    },
+                },
+                user: 1,
             }
         })
         const findData = await review.aggregate(condition);
