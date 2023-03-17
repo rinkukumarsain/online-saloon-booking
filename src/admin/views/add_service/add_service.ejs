@@ -65,9 +65,9 @@
                                                 <textarea class="form-control" name="description" placeholder="Description" style="height: 100px" required><%= service_data.description%></textarea>
                                               </div>
                                               <div class="col">
-                                                <input  class="form-control" type="file" name="image" id="formFile" multiple>
+                                                <input  class="form-control" type="file" name="image" id="formFile" multiple required>
                                                     <%for(image of service_data.image){%>
-                                                    <img src="../../../../uploads/<%=image%>" width="70px">
+                                                    <img  src="../../../../uploads/<%=image%>" width="70px">
                                                     <%}%>
                                               </div>
                                             </div><br>
@@ -75,7 +75,7 @@
                                             <div class="row g-3">
                                               <div class="col">
                                                   <select class="form-select"name="saloonStore" aria-label="Default select example" required>
-                                                    <% console.log(000,service_data.saloonStore)%>
+                                  
                                                       <% for(saloon of saloon_data){%>
                                                       <option value="<%= saloon._id%>"  <%= service_data.saloonStore.toString()===saloon._id.toString() ? "selected" : "" %>><%= saloon.storeName%></option>
                                                       <%}%>
@@ -129,7 +129,7 @@
                                                     <textarea class="form-control" name="description" placeholder="Description" style="height: 100px" required></textarea>
                                                   </div>
                                                   <div class="col">
-                                                    <input  class="form-control" type="file" name="image" id="formFile" multiple>
+                                                    <input  class="form-control" type="file" name="image" id="formFile" multiple required>
                                                   </div>
                                                 </div><br>
       
