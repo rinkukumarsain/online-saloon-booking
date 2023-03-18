@@ -36,7 +36,6 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                     if(body.type){obj.type=body.type}
                     if(body.category){obj.category=body.category}
                 if (files.length>0) {
-                        console.log("666666")
                         img = []
                         files.forEach(element => {
                             img.push(element.filename)

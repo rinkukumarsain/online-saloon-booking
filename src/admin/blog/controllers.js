@@ -14,8 +14,9 @@ exports.ADD_BLOG = async (req, res) => {
 exports.ADD_BLOG_STORE = async (req, res) => {
     try {
         let { body, file, query } = req
+        console.log(file)
         console.log("--->", req.body)
-        console.log("==>", req.file)
+        console.log("==>", req.files)
         console.log(req.query)
         res.locals.message = req.flash();
         if (query.id) {
@@ -29,9 +30,9 @@ exports.ADD_BLOG_STORE = async (req, res) => {
                     if (body.WriteDate) { obj.WriteDate = body.WriteDate };
                     if (body.WriterName) { obj.WriterName = body.WriterName };
                     if (body.Description) { obj.Description = body.Description };
-                     if (file.length>0) {
+                    if (file) {
                         img = []
-                            img.push(file.filename)
+                        img.push(file.filename)
                         obj.image = img
                     }
                     const result = await blog.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
@@ -45,7 +46,6 @@ exports.ADD_BLOG_STORE = async (req, res) => {
                 res.redirect("/")
             };
         } else {
-        
             if (file) {
                 img = []
                 img.push(file.filename)
