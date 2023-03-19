@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>view-saloon</title>
+
+    <%- include('../../partials/headlink.ejs') %>
+</head>
+
+<body>
+   
+        <%- include('../../partials/Header.ejs') %>
+            <%- include("../../partials/sidebar.ejs") %>
+  
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Alerts</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Components</li>
+          <li class="breadcrumb-item active">Alerts</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="card-body">
+          <h5 class="card-title">Vertical Form</h5>
+          <a href="category.html">
+            <h3> add category</h3>
+          </a>
+
+          <!-- Vertical Form -->
+
+
+          <table class="content-table" id="mytable" border="3px">
+            <thead>
+              <tr>
+                <th>Sno</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          <%if(_id)
+          {%>
+          <input type="hidden" id="myText" value=<%=_id%>>
+<%}else{%>
+    
+    <input type="hidden" id="myText" >
+    <%}%>
+          <script type="text/javascript">
+            function GetReqForSubCatagory(_id) {
+              console.log("idddd", _id)
+            }
+
+            $(document).ready(function () {
+              let id = document.getElementById("myText").value;
+              let fff;
+              if (id) {
+                fff = `/?id=${id}`
+                console.log("if ", id, fff)
+              }
+              else {
+                fff = `/`
+                console.log("else ", id, fff)
+              }
+
+              $.fn.dataTable.ext.errMode = 'none';
+              $('#mytable').DataTable({
+                "lengthMenu": [2, 4, 6, 8, 15],
+                "pageLength": 5,
+                serverSide: true,
+                "ajax": {
+                  "type": 'GET',
+                  "url": `/viwes_categoryes${fff}`,
+                  "dataSrc": 'data',
+                  error: function () { console.log(error) }
+                },
+                "columns": [
+                  { "data": "count" },
+                  { "data": "Name" },
+                  { "data": "image" },
+                  { "data": "Action" },
+                  //{ "data": "delete" },
+                ]
+              }
+              )
+            })
+            //console.log("hello id ", x)
+          </script>
+          <!-- <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/r-2.2.1/datatables.min.js"></script>    -->
+
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/vendor/chart.js/chart.min.js"></script>
+  <script src="/assets/vendor/echarts/echarts.min.js"></script>
+  <script src="/assets/vendor/quill/quill.min.js"></script>
+  <script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="/assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="/assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="/assets/js/main.js"></script>
+
+</body>
+
+</html>

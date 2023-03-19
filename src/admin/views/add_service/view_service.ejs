@@ -14,7 +14,7 @@
 
     <main id="main" class="main">
       <div class="pagetitle">
-        <h1><%-user.type %></h1>
+        <h1><%-user?.type %></h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -50,12 +50,12 @@
                     <% for( data of data) { %>
                     <tr>
                       <th scope="row"><%= ++i %></th>
-                      <td><%= data.saloon_name %></td>
-                      <td><%= data.ServiceName %></td>
-                      <td><%= data.ServicePrice %></td>
-                      <td><%= data.timePeriod_in_minits %></td>
-                      <td><%= data.type %></td>
-                      <td><%= data.last_category_name %></td>
+                      <td><%= data?.saloon_name %></td>
+                      <td><%= data?.ServiceName %></td>
+                      <td><%= data?.ServicePrice %></td>
+                      <td><%= data?.timePeriod_in_minits %></td>
+                      <td><%= data?.type %></td>
+                      <td><%= data?.last_category_name %></td>
                       <td><a href="/add_service?id=<%= data._id%>" class="btn btn-dark">Edit</a>
                         <a href="/delete_service?id=<%= data._id%>" class="btn btn-danger">Delete</a></td>
                     </tr>
