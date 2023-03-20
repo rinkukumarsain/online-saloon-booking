@@ -165,7 +165,10 @@ exports.add_profile_data = async (req, res) => {
         let obj={};
         console.log("body",req.body)
         console.log("user",user)
+        if(user.image)
+        {
         let imagepath=user.image.split("/");
+        }
         console.log("imagepath",imagepath)
         
         if(req.body.name){obj.name=req.body.name}
