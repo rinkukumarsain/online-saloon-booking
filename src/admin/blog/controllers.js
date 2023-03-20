@@ -29,7 +29,7 @@ exports.ADD_BLOG_STORE = async (req, res) => {
                     if (body.Title) { obj.Title = body.Title };
                     if (body.WriteDate) { obj.WriteDate = body.WriteDate };
                     if (body.WriterName) { obj.WriterName = body.WriterName };
-                    if (body.Description) { obj.Description = body.Description };
+                    if (body.description) { obj.Description = body.description };
                     if (file) {
                         img = []
                         img.push(file.filename)

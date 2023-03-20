@@ -200,8 +200,8 @@
     $("#form1").submit( 
         function(e){
          e.preventDefault();
-        //  const description = $("#hidden")
-        //  description.val(document.querySelector(".ql-editor").innerHTML)
+         const description = $("#hidden")
+         description.val(document.querySelector(".ql-editor").innerHTML)
          const blog_id = $("#hidden1").val()
          console.log("=============>",blog_id)
         const file = new FormData(this);
@@ -225,7 +225,7 @@
           <%if(blog_data){%>
             div = document.createElement("div")
             div.innerHTML = `<%= blog_data.Description %>`
-            document.getElementById(`description1`).innerHTML = div.innerText
+            document.querySelector(`.ql-editor`).innerHTML = div.innerText
             <%}%>
     </script>
  
