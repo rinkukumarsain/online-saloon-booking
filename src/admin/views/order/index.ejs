@@ -127,9 +127,9 @@
                                   <a href="/add_service?id=<%= data._id%>" class="btn btn-dark">succes</a>
 
                                   <%}else if( data.status=="cancel" ){%>
-                                    noting
+                                    <a href="#" class="btn btn-danger">Cancel</a>
                                     <%}else{%>
-                                      <a href="/add_service?id=<%= data._id%>" class="btn btn-dark">Approve</a>
+                                      <a href="/Admin-Order-Approve?id=<%= data._id%>" class="btn btn-dark">Approve</a>
                                       <a href="/Admin-Order-Cancel?id=<%= data._id%>" class="btn btn-danger">Decline</a>
                                       <%}%>
                               </td>
