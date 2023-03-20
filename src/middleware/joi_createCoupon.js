@@ -10,6 +10,7 @@ exports.joi_createCoupon = (req, res, next) => {
         EndDate: joi.date().required(),
         Limit: joi.string().required(),
         Discount: joi.number().required(),
+        id: joi.optional(),
     })//.unknown(true)
 
     const { error } = shecme.validate(req.body, { abortEarly: false });
