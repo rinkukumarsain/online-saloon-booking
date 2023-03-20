@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>view-saloon</title>
+  <%- include('../../partials/headlink.ejs') %>
+</head>
+
+<body>
+  <%- include("../../partials/alertMsg") %>
+  <%- include('../../partials/Header.ejs') %>
+    <%- include("../../partials/sidebar.ejs") %>
+
+      <main id="main" class="main">
+        <div class="pagetitle">
+          <h1><%-user.type %></h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </nav>
+        </div>
+        <!-- End Page Title -->
+        <section class="section dashboard">
+          <div class="row">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Coupon List</h5>
+
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Titel</th>
+                          <th scope="col">CouponCode</th>
+                          <th scope="col">StartDate</th>
+                          <th scope="col">EndDate</th>
+                          <th scope="col">Amount</th>
+                          <th scope="col">Limit</th>
+                          <th scope="col">Discount</th>
+                          <th scope="col">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% let i=0 %>
+                          <% for( data of data) { %>
+                            <tr>
+                              <th scope="row">
+                                <%= ++i %>
+                              </th>
+                              <td>
+                                <%= data.Titel %>
+                              </td>
+                              <td>
+                                <%= data.CouponCode %>
+                              </td>
+                              <td>
+                                <%= data.StartDate %>
+                              </td>
+                              <td>
+                                <%= data.EndDate %>
+                              </td>
+                              <td>
+                                <%= data.Amount %>
+                              </td>
+                              <td>
+                                <%= data.Limit %>
+                              </td>
+                              <td>
+                                <%= data.Discount %>
+                              </td>
+                              <td><a href="/Coupon?id=<%= data._id%>" class="btn btn-dark">Edit</a>
+                                <a href="/Delete-Coupon?id=<%= data._id%>" class="btn btn-danger">Delete</a>
+                              </td>
+                            </tr>
+                            <%}%>
+                      </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+      <%- include("../../partials/script.ejs") %>
+</body>
+
+</html>

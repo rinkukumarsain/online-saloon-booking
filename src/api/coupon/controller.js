@@ -5,7 +5,7 @@ const saloon = require("../saloonstore/model");
 const { query } = require("express");
 
 
-
+/*
 exports.createCoupon = async ({ body }) => {
     try {
         if (body.CouponCode != undefined && body.CouponCode != "") {
@@ -65,7 +65,7 @@ exports.editCoupon = async ({ query, body }) => {
     };
 };
 
-
+*/
 
 
 exports.getCoupon = async (req) => {

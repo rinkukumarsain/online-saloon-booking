@@ -68,14 +68,19 @@
                                                 <div class="row g-3">
                                                     <div class="col">
                                                      <label for="starting-time">Image</label>
-                                                      <input  class="form-control" type="file" id="image" name="image" id="formFile" multiple required><br>
+                                                      <input  class="form-control" type="file" id="image" name="image" id="formFile">
                                                       <img src="/uploads/<%= blog_data.image[0]%>" width="60px">
                                                     </div>
                                                     <div class="col">
                                                          <input  class="form-control" type="hidden" id="hidden" name="description">
-                                                       </div>
+                                                       </div>  
                                                   </div><br>
                                                 
+                                                 
+                                                    <div class="col">
+                                                      <input  class="form-control" type="hidden" id="hidden1" name="blogid" value="<%= blog_data._id%>">
+                                                    </div> 
+                                                  
 
                                                 <div class="card">
                                                     <div class="card-body">
@@ -129,7 +134,7 @@
                                                 <div class="row g-3">
                                                     <div class="col">
                                                      <label for="starting-time">Image</label>
-                                                      <input  class="form-control" type="file" id="image" name="image" id="formFile" multiple required>
+                                                      <input  class="form-control" type="file" id="image" name="image" id="formFile"  required>
                                                     </div>
                                                     <div class="col">
                                                          <input  class="form-control" type="hidden" id="hidden" name="description">
@@ -177,8 +182,8 @@
          e.preventDefault();
          const description = $("#hidden")
          description.val(document.querySelector(".ql-editor").innerHTML)
-        console.log(description.val())
          const file = new FormData(this);
+         console.log("+++++++++",file)
         $.ajax({
         url: "/add_blog_store",
         type: 'POST',
@@ -192,17 +197,16 @@
     });
     }
     )
-</script>
-<script>
-    $("#form1").submit(
+    $("#form1").submit( 
         function(e){
          e.preventDefault();
          const description = $("#hidden")
          description.val(document.querySelector(".ql-editor").innerHTML)
-        console.log(description.val())
-         const file = new FormData(this);
+         const blog_id = $("#hidden1").val()
+         console.log("=============>",blog_id)
+        const file = new FormData(this);
         $.ajax({
-        url: "/add_blog_store?<%= blog_data._id %>",
+        url: `/add_blog_store?id=${blog_id}`,
         type: 'POST',
         data: file,
         success: function (data) {
@@ -211,17 +215,17 @@
         cache: false,
         contentType: false,
         processData: false
-    });
-    }
+      });
+      }
     )
 </script>
 
 <script>
-         let div;
+          let div;
           <%if(blog_data){%>
             div = document.createElement("div")
             div.innerHTML = `<%= blog_data.Description %>`
-            document.getElementById(`description1`).innerHTML = div.innerText
+            document.querySelector(`.ql-editor`).innerHTML = div.innerText
             <%}%>
     </script>
  
