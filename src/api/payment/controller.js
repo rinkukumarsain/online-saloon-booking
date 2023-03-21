@@ -64,7 +64,7 @@ exports.apiPaymentVerify = async (req, res) => {
     try {
         let body = req.body.response.razorpay_order_id + "|" + req.body.response.razorpay_payment_id;
         console.log("body", body)
-        if (!req.body.response.orderId) {
+        if (!req.body.orderId) {
             return {
                 statusCode: 400,
                 status: false,
@@ -82,7 +82,7 @@ exports.apiPaymentVerify = async (req, res) => {
         if (expectedSignature === req.body.response.razorpay_signature) {
             const result = await payments.findOneAndUpdate({ "orderData.id": req.body.response.razorpay_order_id }, {
                 payment: "Payment successfull",
-                orderId: mongoose.Types.ObjectId(req.body.response.orderId),
+                orderId: mongoose.Types.ObjectId(req.body.orderId),
                 "payment_detail.razorpay_payment_id": req.body.response.razorpay_payment_id,
                 "payment_detail.razorpay_order_id": req.body.response.razorpay_order_id,
                 "payment_detail.razorpay_signature": req.body.response.razorpay_signature

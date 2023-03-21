@@ -3,10 +3,9 @@ const service = require("./services")
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 exports.ADD_SALOON = async (req, res) => {
-    const user = req.user
     const _id = req.query.id
     const saloon_data = await saloon.findOne({ _id })
-    res.render("add_saloon/add_saloon", { user, saloon_data })
+    res.render("add_saloon/add_saloon", { user: req.user, saloon_data })
 }
 
 exports.ADD_SALOON_STORE = async (req, res) => {
@@ -135,4 +134,19 @@ exports.DELETE_SALOON = async (req, res) => {
     const id = req.query.id
     await saloon.findByIdAndDelete({ _id: id })
     res.redirect("/view_saloon")
+}
+
+
+
+
+exports.GetSaloonAddress = async (req, res) => {
+    try {
+        const id = req.query.id
+        const FindData = await saloon.find({ _id: mongoose.Types.ObjectId(id) })
+        if (FindData) {
+            res.send(FindData)
+        }
+    } catch (error) {
+        console.log(error)
+    }
 }
