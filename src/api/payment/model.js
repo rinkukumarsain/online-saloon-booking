@@ -43,6 +43,9 @@ const paymentSchema = new mongoose.Schema({
             type: String
         },
     },
+    orderId: {
+        type: mongoose.Types.ObjectId,
+    },
     payment: {
         type: String,
         default: "pending"

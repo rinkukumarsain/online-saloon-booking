@@ -38,6 +38,9 @@ const orderSchema = new mongoose.Schema({
     addressId: {
         type: mongoose.Types.ObjectId
     },
+    PaymentId: {
+        type: mongoose.Types.ObjectId
+    },
     Schedule: {
         date: {
             type: String
