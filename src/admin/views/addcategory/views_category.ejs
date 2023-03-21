@@ -31,7 +31,13 @@
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title">Saloon List</h5>
+                    <%if(data.parent_Name!=undefined){
+                      console.log("data.parent_Name",data.parent_Name)
+                      %>
+                    <h5 class="card-title">Sub Category</h5>
+                    <%}else{%>
+                      <h5 class="card-title">Category</h5>
+                      <%}%>
 
                     <!-- Table with stripped rows -->
                     <table class="table datatable">
