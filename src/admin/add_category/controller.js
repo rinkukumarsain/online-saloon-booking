@@ -189,7 +189,7 @@ exports.sub_category = async (req, res) => {
 }
 
 exports.add_sub_category = async (req, res) => {
-    try {res.locaks.message=req.flash();
+    try {res.locals.message=req.flash();
         req.body.image = req.file.filename
         // console.log("add_sub_category req.body", req.body)
         await add_sub_categorys(req, res);
