@@ -159,13 +159,17 @@ exports.usersProfile = async (req, res) => {
 };
 exports.add_profile_data = async (req, res) => {
     try {console.log("sdaa")
+    let imagepath;
         res.locals.message = req.flash();
         const user = req.user;
         const id=req.query.id;
         let obj={};
         console.log("body",req.body)
         console.log("user",user)
-        let imagepath=user.image.split("/");
+        if(user.image)
+        {
+         imagepath=user.image.split("/");
+        }
         console.log("imagepath",imagepath)
         
         if(req.body.name){obj.name=req.body.name}
