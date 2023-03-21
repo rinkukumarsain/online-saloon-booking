@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  
+
   <%- include('../../partials/Header.ejs') %>
     <%- include("../../partials/sidebar.ejs") %>
 
@@ -36,17 +36,15 @@
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title">Add Category</h5>
-                    <div class="card-body">
-                     
 
 
-                    </div>
                     <!-- Table with stripped rows -->
                     <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-
-                      <!-- <div class="dataTable-container"> -->
-                        <form class="row g-3" action="add_category" method="post" enctype="multipart/form-data">
+                      <% if(typeof id !=="undefined" && id){%>
+                        <!-- <div class="dataTable-container"> -->
+                        <h5 class="card-title">Add Sub Category</h5>
+                        <form class="row g-3" action="/Add-New-Category?id=<%= id %>" method="post"
+                          enctype="multipart/form-data">
 
                           <div class="col-10">
                             <label for="" class="form-label">Name</label>
@@ -62,7 +60,50 @@
                             <button type="reset" class="btn btn-secondary">Reset</button>
                           </div>
                         </form><!-- Vertical Form -->
-                      <!-- </div> -->
+                        <%}else if(typeof data !="undefined" && data !="" ){%>
+                          <h5 class="card-title">Edit Category</h5>
+                          <form class="row g-3" action="/Add-New-Category?EditId=<%= data._id%>" method="post" enctype="multipart/form-data">
+
+                            <div class="col-8">
+                              <label for="" class="form-label">Name</label>
+                              <input type="text" class="form-control" name="Name" value="<%= data.Name%>" required>
+                            </div>
+                            <div class="col-8">
+                              <label for="inputPassword4" class="form-label">Iamge</label>
+                              <input type="file" name="file" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-4">
+                              <img src="/uploads/<%= data.image%>" alt="" style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
+                            </div>
+
+                            <div class="text-center">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                              <button type="reset" class="btn btn-secondary">Reset</button>
+                            </div>
+                          </form><!-- Vertical Form -->
+                          <% }else{%>
+                            <h5 class="card-title">Add Category</h5>
+
+                            <!-- <div class="dataTable-container"> -->
+                            <form class="row g-3" action="/Add-New-Category" method="post"
+                              enctype="multipart/form-data">
+
+                              <div class="col-10">
+                                <label for="" class="form-label">Name</label>
+                                <input type="text" class="form-control" name="Name" id="" required>
+                              </div>
+                              <div class="col-10">
+                                <label for="inputPassword4" class="form-label">Iamge</label>
+                                <input type="file" name="file" class="form-control" id="inputPassword4" required>
+                              </div>
+
+                              <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
+                              </div>
+                            </form><!-- Vertical Form -->
+                            <!-- </div> -->
+                            <%}%>
 
                     </div>
                     <!-- End Table with stripped rows -->
@@ -80,7 +121,7 @@
           <div class="modal-dialog">
 
             <!-- Modal content-->
-            
+
 
           </div>
         </div>
@@ -88,7 +129,7 @@
       </main>
 
       <!-- ======= Footer ======= -->
-     
+
       <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
           class="bi bi-arrow-up-short"></i></a>
 

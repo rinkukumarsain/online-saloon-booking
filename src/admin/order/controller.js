@@ -13,7 +13,6 @@ exports.getAllOrder = async (req, res) => {
         const findOrder = await getAllOrder(req)
         const FindAllcity = await getAllSaloonCity(req)
         if (findOrder.status == true && FindAllcity.status == true) {
-            
             res.render("order/index", { data: findOrder.data, user, city: FindAllcity.data })
         } else {
             // res.locals.message = req.flash();
@@ -24,7 +23,6 @@ exports.getAllOrder = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        throw error;
     }
 }
 

@@ -5,11 +5,11 @@ const mongoose = require("mongoose");
 const service = require("./service")
 exports.ADD_SERVICE = async (req, res) => {
     try {
-    const user = req.user
-        const category = await Category.find({parent_Name:null})
+        const user = req.user
+        const category = await Category.find({ parent_Name: null })
         const saloon_data = await saloon.find()
         const _id = req.query.id
-        console.log("id",_id)
+        console.log("id", _id)
         let pipeline = []
         pipeline.push({
             $match: {
@@ -19,8 +19,8 @@ exports.ADD_SERVICE = async (req, res) => {
             '$addFields': {
                 'category': {
                     '$map': {
-                        'input': '$category', 
-                        'as': 'elem', 
+                        'input': '$category',
+                        'as': 'elem',
                         'in': {
                             '$toString': '$$elem'
                         }
@@ -30,10 +30,10 @@ exports.ADD_SERVICE = async (req, res) => {
         }
         )
         const service_data = (await saloonService.aggregate(pipeline))[0]
-        res.render("add_service/add_service",{user,category,saloon_data,service_data})
+        res.render("add_service/add_service", { user, category, saloon_data, service_data })
     } catch (err) {
         console.log(err)
-   }
+    }
 }
 exports.optiongeturl = async (req, res) => {
     try {
@@ -73,27 +73,27 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
             const result = await saloonService.findOne({ _id });
             if (result) {
                 let obj = {};
-                    if (body.ServiceName) { obj.ServiceName = body.ServiceName };
-                    if (body.ServicePrice) { obj.ServicePrice = body.ServicePrice };
-                    if (body.timePeriod_in_minits) { obj.timePeriod_in_minits = body.timePeriod_in_minits };
-                    if (body.type) { obj.type = body.type };
-                    if (body.description) { obj.description = body.description };
-                    if (body.category) { obj.category = body.category };
-                    if (body.saloonStore) { obj.saloonStore = mongoose.Types.ObjectId(body.saloonStore) };
-                    if (body.last_category) { obj.last_category = mongoose.Types.ObjectId(body.last_category) };
-                if (files.length>0) {
-                        img = []
-                        files.forEach(element => {
-                            img.push(element.filename)
-                        });
-                        obj.image = img
-                    }
-                    const result = await saloonService.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
-                    if (result) {
-                        req.flash("success", "Saloon Service  is  Update successfull !")
-                        res.redirect("/")
-                    };
-               
+                if (body.ServiceName) { obj.ServiceName = body.ServiceName };
+                if (body.ServicePrice) { obj.ServicePrice = body.ServicePrice };
+                if (body.timePeriod_in_minits) { obj.timePeriod_in_minits = body.timePeriod_in_minits };
+                if (body.type) { obj.type = body.type };
+                if (body.description) { obj.description = body.description };
+                if (body.category) { obj.category = body.category };
+                if (body.saloonStore) { obj.saloonStore = mongoose.Types.ObjectId(body.saloonStore) };
+                if (body.last_category) { obj.last_category = mongoose.Types.ObjectId(body.last_category) };
+                if (files.length > 0) {
+                    img = []
+                    files.forEach(element => {
+                        img.push(element.filename)
+                    });
+                    obj.image = img
+                }
+                const result = await saloonService.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
+                if (result) {
+                    req.flash("success", "Saloon Service  is  Update successfull !")
+                    res.redirect("/")
+                };
+
             } else {
                 req.flash("error", "Saloon Service is Not Found !")
                 res.redirect("/")
@@ -126,7 +126,7 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
                 image: body.image,
                 category: body.category,
                 saloonStore: mongoose.Types.ObjectId(body.saloonStore),
-                last_category:mongoose.Types.ObjectId(last_category)
+                last_category: mongoose.Types.ObjectId(last_category)
             });
             const result = await service_details.save();
             if (result) {
@@ -143,7 +143,7 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
 exports.VIEW_SERVICE = async (req, res) => {
     const data = await service.VIEW_SALOON()
     const user = req.user
-    res.render("add_service/view_service",{user,data})
+    res.render("add_service/view_service", { user, data })
 }
 
 exports.DELETE_SERVICE = async (req, res) => {

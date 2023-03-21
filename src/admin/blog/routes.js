@@ -2,8 +2,8 @@ const auth = require("../../middleware/adminauth")
 const Upload = require("../../middleware/img");
 const { Router } = require("express");
 const app = Router();
-const {ADD_BLOG ,ADD_BLOG_STORE,VIEW_BLOG,DELETE_BLOG} = require('./controllers');
-app.get("/add_blog",auth,ADD_BLOG)
+const { ADD_BLOG, ADD_BLOG_STORE, VIEW_BLOG, DELETE_BLOG } = require('./controllers');
+app.get("/add_blog", auth, ADD_BLOG)
 
 app.post("/add_blog_store", auth, Upload.single("image"), ADD_BLOG_STORE)
 
