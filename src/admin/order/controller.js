@@ -67,3 +67,54 @@ exports.AdminOrderApprove = async (req, res) => {
         console.log(error);
     };
 };
+
+
+
+
+exports.FindDateForAdminModule = async (req, res) => {
+    try {
+        console.log("req.jhgd", req.query, req.query.id, Number(req.query.id))
+        const FindData = await order.aggregate([
+            {
+                '$match': {
+                    '_id': mongoose.Types.ObjectId(req.query.id)
+                }
+            }, {
+                '$project': {
+                    'cartdata': 1
+                }
+            }, {
+                '$unwind': {
+                    'path': '$cartdata'
+                }
+            }, {
+                '$lookup': {
+                    'from': 'saloonservices',
+                    'localField': 'cartdata.serviceId',
+                    'foreignField': '_id',
+                    'pipeline': [
+                        {
+                            '$project': {
+                                '_id': 0,
+                                'ServiceName': 1
+                            }
+                        }
+                    ],
+                    'as': 'service'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$service'
+                }
+            },
+        ])
+        console.log(FindData)
+        // FindData.cartdata.forEach(element => {
+        //     console.log("req.jhgd", element)
+
+        // });
+        res.send(FindData)
+    } catch (error) {
+        console.log(error);
+    }
+}
