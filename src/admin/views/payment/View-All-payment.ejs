@@ -30,20 +30,22 @@
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title">Coupon List</h5>
+                    <h5 class="card-title">Payment List</h5>
 
                     <!-- Table with stripped rows -->
                     <table class="table datatable">
                       <thead>
                         <tr>
                           <th scope="col">#</th>
-                          <th scope="col">Titel</th>
-                          <th scope="col">CouponCode</th>
-                          <th scope="col">StartDate</th>
-                          <th scope="col">EndDate</th>
+
+                          <th scope="col">Customer Name</th>
+                          <th scope="col"> Pay Date</th>
+                          <th scope="col"> Pay Time</th>
+                          <th scope="col">Order</th>
                           <th scope="col">Amount</th>
-                          <th scope="col">Limit</th>
-                          <th scope="col">Discount</th>
+                          <th scope="col">Payment Status</th>
+                          <th scope="col">P O S</th>
+
                           <th scope="col">Action</th>
                         </tr>
                       </thead>
@@ -54,29 +56,48 @@
                               <th scope="row">
                                 <%= ++i %>
                               </th>
+
                               <td>
-                                <%= data.Titel %>
+                                <%= data.user.name %>
                               </td>
                               <td>
-                                <%= data.CouponCode %>
+                                <%= data.Date %>
                               </td>
                               <td>
-                                <%= data.StartDate %>
+                                <%= data.Time %>
                               </td>
                               <td>
-                                <%= data.EndDate %>
+                                <%= data.order %>
                               </td>
                               <td>
-                                <%= data.Amount %>
+                                <%= data.orderData.amount %>
                               </td>
                               <td>
-                                <%= data.Limit %>
+                                <%= data.payment %>
                               </td>
                               <td>
-                                <%= data.Discount %>
+                                <% if(typeof data.payment_detail.razorpay_payment_id !=="undefined" &&
+                                  data.payment_detail.razorpay_payment_id!="" ){%>
+                                  <i class="bi bi-star-fill" style="color: gold;"></i>
+                                  <%}else{%>
+                                    <i class="bi bi-star-fill"></i>
+                                    <%}%>
+                                      <% if(typeof data.payment_detail.razorpay_order_id !=="undefined" &&
+                                        data.payment_detail.razorpay_order_id!="" ){%>
+                                        <i class="bi bi-star-fill" style="color: gold;"></i>
+                                        <%}else{%>
+                                          <i class="bi bi-star-fill"></i>
+                                          <%}%>
+
+                                            <% if(typeof data.payment_detail.razorpay_signature !=="undefined" &&
+                                              data.payment_detail.razorpay_signature!="" ){%>
+                                              <i class="bi bi-star-fill" style="color: gold;"></i>
+                                              <%}else{%>
+                                                <i class="bi bi-star-fill"></i>
+                                                <%}%>
                               </td>
                               <td><a href="/Coupon?id=<%= data._id%>" class="btn btn-dark">Edit</a>
-                                <a href="/Delete-Coupon?id=<%= data._id%>" class="btn btn-danger">Delete</a>
+                                <a href="/Delete-payment?id=<%= data._id%>" class="btn btn-danger">Delete</a>
                               </td>
                             </tr>
                             <%}%>

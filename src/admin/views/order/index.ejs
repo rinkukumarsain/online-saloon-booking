@@ -53,7 +53,7 @@
                           <option selected="" value="succes">succes</option>
                         </select>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-4">
                         <input type="number" name="totalamount" class="form-control" placeholder="Amount">
                       </div>
                       <div class="text-center">
@@ -64,8 +64,7 @@
                     <!-- End No Labels Form -->
 
                   </div>
-                  <hr>
-                  <hr>
+                  <hr id="main" class="main" style="color:#c3d4e5;">
                   <div class="card-body">
                     <h5 class="card-title">Order List</h5>
 
@@ -93,16 +92,15 @@
                                 <%= ++i %>
                               </th>
                               <td>
-                                <p data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                  <%= data.saloon.storeName %>
-                                </p>
-
+                                <%= data.saloon.storeName %>
                               </td>
                               <td>
                                 <%= data.users.name %>
                               </td>
                               <td>
-                                <%= data.ServicePrice %>
+                                <button type="button" value=" <%= data._id %>" onclick="cartData(this)">viwes</button>
+                                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal">viwes</button> -->
                               </td>
                               <td>
                                 <% if(typeof data.Schedule !=="undefined" && data.Schedule){%>
@@ -134,6 +132,7 @@
                                       <%}%>
                               </td>
                             </tr>
+
                             <%}%>
                       </tbody>
                     </table>
@@ -147,55 +146,32 @@
           </div>
         </section>
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Saloon Store Detail</h4>
-              </div>
-              <div class="modal-body">
-                <table border="2">
-                  <tr>
-                    <th>storeName</th>
-                    <th>Email</th>
-                    <th>PhoneNumber</th>
-                    <th>type</th>
-                    <th>description</th>
-                  </tr>
-                  <tr>
-                    <td>
-                      storeName
-                    </td>
-                    <td>
-                      Email
-                    </td>
-                    <td>
-                      PhoneNumber
-                    </td>
-                    <td>
-                      type
-                    </td>
-                    <td>
-                      description
-                    </td>
-                  </tr>
-
-                </table>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
 
       </main>
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
+
+      <script>
+        function cartData(ddd) {
+          console.log("ehello ")
+        }
+      </script>
       <%- include("../../partials/script.ejs") %>
 </body>
 
