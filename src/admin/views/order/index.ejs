@@ -31,7 +31,7 @@
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title">No Labels / Placeholders as labels Form</h5>
+                    <h5 class="card-title">Filter</h5>
 
                     <!-- No Labels Form -->
                     <form class="row g-3" action="/get-All-order">
@@ -64,7 +64,7 @@
                     <!-- End No Labels Form -->
 
                   </div>
-                  <hr id="main" class="main" style="color:#c3d4e5;">
+                  <hr id="main" class="main" style="color:#c3d4e5; width: 100%;">
                   <div class="card-body">
                     <h5 class="card-title">Order List</h5>
 
@@ -76,7 +76,7 @@
                           <th scope="col">Store Name</th>
                           <th scope="col">user Name</th>
                           <th scope="col">Cart Data</th>
-                          <th scope="col">Schedule</th>
+                          <th scope="col">Date And Time</th>
                           <th scope="col">Total Amount</th>
                           <th scope="col">Payment Status</th>
                           <th scope="col">Status</th>
@@ -98,14 +98,14 @@
                                 <%= data.users.name %>
                               </td>
                               <td>
-                                <button type="button" value=" <%= data._id %>" onclick="cartData(this)">viwes</button>
-                                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                  data-bs-target="#exampleModal">viwes</button> -->
+                                <button type="button" value="<%=data._id%>" onclick="cartData(this)"
+                                  class="btn btn-info"><i class="bi bi-eye"></i></button>
+
                               </td>
                               <td>
                                 <% if(typeof data.Schedule !=="undefined" && data.Schedule){%>
-                                  date :<%= data.Schedule.date %>
-                                    timeslot :<%= data.Schedule.timeslot %>
+                                  <%= data.Schedule.date %>
+                                    <%= data.Schedule.timeslot %>
                                       <%}else{%>
                                         date :<br>
                                         timeslot :
@@ -152,15 +152,15 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <h5 class="modal-title" id="exampleModalLabel">User Service Data</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="moduleDataAppend">
               ...
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
           </div>
         </div>
@@ -168,8 +168,68 @@
 
 
       <script>
-        function cartData(ddd) {
-          console.log("ehello ")
+        function cartData(data) {
+          let num = data.value
+          console.log("se", num)
+
+          $.ajax({
+            type: 'get',
+            data: { "id": num },
+            url: '/Find-date-for-admin-module',
+            success: function (data) {
+              if (data.length > 0) {
+                $('#moduleDataAppend').empty()
+
+                console.log(data)
+                let abc = ` <table class="table datatable">
+                          <thead>
+                            <tr>
+                              <th scope="col">serviceId</th>
+                              <th scope="col">quantity</th>
+                              <th scope="col">Amount</th>
+                              <th scope="col">timePeriod </th>
+                            </tr>
+                          </thead>
+                          <tbody>`
+                data.forEach((item) => {
+                  abc += `<tr>
+                            <td scope="row">${item.service.ServiceName}</td>
+                            <td>${item.cartdata.quantity}</td>
+                            <td>${item.cartdata.Amount}</td>
+                            <td>${item.cartdata.timePeriod_in_minits}</td>
+                          </tr>`
+                })
+                abc += `</tbody> </table >`
+                console.log("abc", abc)
+                // abc += `</select></div>`
+                // let num2 = num + 1
+                // while (true) {
+                //   let cat = $(`#subcategory-${num2}`)
+                //   if (cat.html()) {
+                //     cat.remove();
+                //   }
+                //   else {
+                //     break;
+                //   }
+                //   ++num2
+                // }
+                $('#moduleDataAppend').append(abc)
+
+                $("#exampleModal").modal("toggle");
+                // $("#getCode").html(msg);
+              } else {
+                console.log("not Data Found")
+                // document.getElementById("mySubmit").disabled = false;
+              }
+            }
+          })
+
+
+
+
+
+
+
         }
       </script>
       <%- include("../../partials/script.ejs") %>
