@@ -29,6 +29,16 @@ exports.userOrder = async ({ query, user }) => {
                     data: []
                 };
             };
+            if (query.PaymentId != undefined && query.PaymentId != "") {
+                obj.PaymentId = findcart.PaymentId;
+            } else {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "PaymentId is must !",
+                    data: []
+                };
+            }
             const findSchedule = await Schedule.findOne({ userId });
             if (findSchedule) {
                 let Schedule = {}
