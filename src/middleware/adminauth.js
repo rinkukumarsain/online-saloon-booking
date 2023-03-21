@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
                 next()
                 
             } else {
-                console.log("req.user abcdes",req.user)
+                
                 res.render("users/login")
                 
             }

@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  
+
   <%- include('../../partials/Header.ejs') %>
     <%- include("../../partials/sidebar.ejs") %>
 
@@ -46,22 +46,33 @@
                     <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
 
                       <!-- <div class="dataTable-container"> -->
-                        <form class="row g-3" action="add_category" method="post" enctype="multipart/form-data">
-
-                          <div class="col-10">
-                            <label for="" class="form-label">Name</label>
-                            <input type="text" class="form-control" name="Name" id="" required>
-                          </div>
-                          <div class="col-10">
-                            <label for="inputPassword4" class="form-label">Iamge</label>
-                            <input type="file" name="file" class="form-control" id="inputPassword4" required>
-                          </div>
-
-                          <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-secondary">Reset</button>
-                          </div>
-                        </form><!-- Vertical Form -->
+                        <form class="row g-3" action="create_sub2_category" method="post" enctype="multipart/form-data">
+                            <div class="col-12">
+                              <label for="inputNanme4" class="form-label">parent Name</label>
+                              <select name="parent_Name" id="">
+                                <%for(const data of findcategory){%>
+                                
+                                <option value=<%=data._id%>><%=data.Name%></option>
+                                <%}%>
+                                
+                              </select>
+                            </div>
+                            
+                        
+                            <div class="col-12">
+                              <label for="" class="form-label">Name</label>
+                              <input type="text" class="form-control" name="Name" id="">
+                            </div>
+                            <div class="col-12">
+                              <label for="inputPassword4" class="form-label">Image</label>
+                              <input type="file" name="file" class="form-control" id="inputPassword4">
+                            </div>
+                        
+                            <div class="text-center">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                              <button type="reset" class="btn btn-secondary">Reset</button>
+                            </div>
+                          </form><!-- Vertical Form -->
                       <!-- </div> -->
 
                     </div>
@@ -108,3 +119,15 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
