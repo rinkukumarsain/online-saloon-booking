@@ -6,16 +6,16 @@ exports.ADD_SALOON = async (req, res) => {
     const user = req.user
     const _id = req.query.id
     const saloon_data = await saloon.findOne({ _id })
-    res.render("add_saloon/add_saloon",{user,saloon_data})
+    res.render("add_saloon/add_saloon", { user, saloon_data })
 }
 
-exports.ADD_SALOON_STORE = async (req, res) => { 
+exports.ADD_SALOON_STORE = async (req, res) => {
     try {
         //console.log("body", req.body)
         let { body, user, files, query } = req
-        console.log("body",body)
+        // console.log("body",body)
 
-        console.log("=====>",files)
+        // console.log("=====>",files)
         res.locals.message = req.flash();
         if (query.id) {
 
@@ -24,37 +24,37 @@ exports.ADD_SALOON_STORE = async (req, res) => {
             if (result) {
                 let obj = {};
                 let locations = {};
-                    if (body.storeName) { obj.storeName = body.storeName };
-                    if (body.Email) { obj.Email = body.Email };
-                    if (body.PhoneNumber) { obj.PhoneNumber = body.PhoneNumber };
-                    if (body.shopNumber) { locations.shopNumber = body.shopNumber };
-                    if (body.aria) { locations.aria = body.aria };
-                    if (body.pincode) { locations.pincode = body.pincode };
-                    if (body.city) { locations.city = body.city };
-                    if (body.state) { locations.state = body.state };
-                    if (body.description) { obj.description = body.description };
-                    if(body.type){obj.type=body.type}
-                    if(body.category){obj.category=body.category}
-                if (files.length>0) {
-                        img = []
-                        files.forEach(element => {
-                            img.push(element.filename)
-                        });
-                        obj.image = img
-                    }
-                    obj.location = locations;
-                    const result = await saloon.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
-                    if (result) {
-                        req.flash("success", "Saloon-Store is  Update successfull !")
-                        res.redirect("/")
-                    };
-               
+                if (body.storeName) { obj.storeName = body.storeName };
+                if (body.Email) { obj.Email = body.Email };
+                if (body.PhoneNumber) { obj.PhoneNumber = body.PhoneNumber };
+                if (body.shopNumber) { locations.shopNumber = body.shopNumber };
+                if (body.aria) { locations.aria = body.aria };
+                if (body.pincode) { locations.pincode = body.pincode };
+                if (body.city) { locations.city = body.city };
+                if (body.state) { locations.state = body.state };
+                if (body.description) { obj.description = body.description };
+                if (body.type) { obj.type = body.type }
+                if (body.category) { obj.category = body.category }
+                if (files.length > 0) {
+                    img = []
+                    files.forEach(element => {
+                        img.push(element.filename)
+                    });
+                    obj.image = img
+                }
+                obj.location = locations;
+                const result = await saloon.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
+                if (result) {
+                    req.flash("success", "Saloon-Store is  Update successfull !")
+                    res.redirect("/")
+                };
+
             } else {
                 req.flash("error", "Saloon-Store is Not Found !")
                 res.redirect("/")
             };
         } else {
-            const { storeName, Email, PhoneNumber,category } = body;
+            const { storeName, Email, PhoneNumber, category } = body;
             body.userId = user._id;
             if (storeName) {
                 const result = await saloon.findOne({ storeName });
@@ -87,7 +87,7 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                 body.image = ""
             }
             body.password = bcrypt.hashSync(body.password, 10);
-            console.log("body",body)
+            // console.log("body",body)
             let saloon_details = new saloon({
                 storeName: body.storeName,
                 Email: body.Email,
@@ -101,15 +101,15 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                     state: body.state
 
                 },
-                type:body.type,
+                type: body.type,
                 description: body.description,
                 userId: body.userId,
                 image: body.image,
-                category:body.category,
-                starting_time:body.starting_time,
-                ending_time:body.ending_time,
-                startingweek:body.startingweek,
-                endingweek:body.endingweek
+                category: body.category,
+                starting_time: body.starting_time,
+                ending_time: body.ending_time,
+                startingweek: body.startingweek,
+                endingweek: body.endingweek
 
             });
             const result = await saloon_details.save();
@@ -120,14 +120,13 @@ exports.ADD_SALOON_STORE = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        throw error;
     }
 }
 
 exports.VIEW_SALOON = async (req, res) => {
     const data = await service.VIEW_SALOON()
     const user = req.user
-    res.render("add_saloon/view_saloon",{user,data})
+    res.render("add_saloon/view_saloon", { user, data })
 }
 
 
