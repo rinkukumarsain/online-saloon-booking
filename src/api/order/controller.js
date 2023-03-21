@@ -31,7 +31,7 @@ exports.userOrder = async ({ query, user }) => {
             };
             const findSchedule = await Schedule.findOne({ userId });
             if (findSchedule) {
-                Schedule = {}
+                let Schedule = {}
                 Schedule.date = findSchedule.date
                 Schedule.timeslot = findSchedule.timeslot
                 obj.Schedule = Schedule;
