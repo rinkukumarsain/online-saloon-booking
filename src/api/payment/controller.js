@@ -64,7 +64,7 @@ exports.apiPaymentVerify = async (req, res) => {
     try {
         let body = req.body.response.razorpay_order_id + "|" + req.body.response.razorpay_payment_id;
         console.log("body", body)
-        if (!req.body.response.orderId) {
+        if (!req.body.orderId) {
             return {
                 statusCode: 400,
                 status: false,
