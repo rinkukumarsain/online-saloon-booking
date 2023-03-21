@@ -35,36 +35,39 @@
 
                     <!-- No Labels Form -->
                     <form class="row g-3" action="/get-All-order">
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                         <select id="inputState" name="city" class="form-select">
                           <option selected="" value="">Choose Status</option>
                           <% city.forEach(function(citys) { %>
-                            <option selected="" value=" <%= citys %>">
+                            <option value="<%=citys%>">
                               <%= citys %>
                             </option>
                             <% }); %>
                         </select>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                         <select id="inputState" name="status" class="form-select">
                           <option selected="" value="">Choose Status</option>
-                          <option selected="" value="pending">pending</option>
-                          <option selected="" value="cancel">cancel</option>
-                          <option selected="" value="succes">succes</option>
+                          <option  value="pending">pending</option>
+                          <option value="cancel">cancel</option>
+                          <option value="succes">succes</option>
                         </select>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                         <input type="number" name="totalamount" class="form-control" placeholder="Amount">
                       </div>
+                      <div class="col-md-3">
                       <div class="text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>
                         <a href="/get-All-order"> <button type="button" class="btn btn-secondary">Reset</button></a>
                       </div>
+                    </div>
                     </form>
                     <!-- End No Labels Form -->
 
                   </div>
-                  <hr id="main" class="main" style="color:#c3d4e5; width: 100%;">
+                </div>
+                  <div class="card">
                   <div class="card-body">
                     <h5 class="card-title">Order List</h5>
 
@@ -170,7 +173,6 @@
       <script>
         function cartData(data) {
           let num = data.value
-          console.log("se", num)
 
           $.ajax({
             type: 'get',
@@ -180,7 +182,6 @@
               if (data.length > 0) {
                 $('#moduleDataAppend').empty()
 
-                console.log(data)
                 let abc = ` <table class="table datatable">
                           <thead>
                             <tr>
@@ -200,36 +201,14 @@
                           </tr>`
                 })
                 abc += `</tbody> </table >`
-                console.log("abc", abc)
-                // abc += `</select></div>`
-                // let num2 = num + 1
-                // while (true) {
-                //   let cat = $(`#subcategory-${num2}`)
-                //   if (cat.html()) {
-                //     cat.remove();
-                //   }
-                //   else {
-                //     break;
-                //   }
-                //   ++num2
-                // }
-                $('#moduleDataAppend').append(abc)
 
+                $('#moduleDataAppend').append(abc)
                 $("#exampleModal").modal("toggle");
-                // $("#getCode").html(msg);
               } else {
-                console.log("not Data Found")
-                // document.getElementById("mySubmit").disabled = false;
+                alert("data not Found")
               }
             }
           })
-
-
-
-
-
-
-
         }
       </script>
       <%- include("../../partials/script.ejs") %>

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const userModel = require("../../api/user/model");
 const { findByIdAndUpdate } = require('./model');
-const path=require("path")
+const path = require("path")
 exports.admin = async (req, res) => {
     try {
         if (req.cookies.accessToken) {
@@ -22,7 +22,6 @@ exports.admin = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        throw error;
     }
 }
 
@@ -32,7 +31,6 @@ exports.register = async (req, res) => {
         res.render("users/register");
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -60,7 +58,6 @@ exports.adminRegisterData = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -71,7 +68,6 @@ exports.login = async (req, res) => {
         res.render("users/login");
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -84,16 +80,16 @@ exports.loginData = async (req, res) => {
             if (user) {
                 const match = await bcrypt.compare(password, user.password);
                 if (match) {
-                    console.log("user",user)
+                    console.log("user", user)
                     const accessToken = jwt.sign({ _id: user._id }, process.env.accessToken);
                     const refreshToken = jwt.sign({ _id: user._id }, process.env.refreshToken);
 
                     res.cookie("accessToken", accessToken, {
-                        expires: new Date(Date.now() + 60000 * 60 * 3),//1 minit
+                        expires: new Date(Date.now() + 1000 * 60 * 5),//1 minit
                         httpOnly: true,
                         overwrite: true
                     }).cookie("refreshToken", refreshToken, {
-                        expires: new Date(Date.now() + 60000 * 60 * 24),//10 minit
+                        expires: new Date(Date.now() + 1000 * 60 * 30),//10 minit
                         httpOnly: true,
                         overwrite: true
                     });
@@ -110,7 +106,6 @@ exports.loginData = async (req, res) => {
         };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 exports.forgetPassword = async (req, res) => {
@@ -118,7 +113,6 @@ exports.forgetPassword = async (req, res) => {
         res.render("users/Forget-Password", { user: req.user })
     } catch (error) {
         console.log(error);
-        throw error;
     };
 }
 
@@ -141,7 +135,6 @@ exports.ForgetPassword = async ({ body, user }, res) => {
         }
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 
@@ -154,49 +147,48 @@ exports.usersProfile = async (req, res) => {
         res.render("users/usersProfile", { user });
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
 exports.add_profile_data = async (req, res) => {
-    try {console.log("sdaa")
-    let imagepath;
+    try {
+        console.log("sdaa")
+        let imagepath;
         res.locals.message = req.flash();
         const user = req.user;
-        const id=req.query.id;
-        let obj={};
-        console.log("body",req.body)
-        console.log("user",user)
-        if(user.image)
-        {
-         imagepath=user.image.split("/");
+        const id = req.query.id;
+        let obj = {};
+        console.log("body", req.body)
+        console.log("user", user)
+        if (user.image) {
+            imagepath = user.image.split("/");
         }
-        console.log("imagepath",imagepath)
-        
-        if(req.body.name){obj.name=req.body.name}
-        if(req.body.phone){obj.phone=req.body.phone}
-        if(req.body.description){obj.description=req.body.description}
+        console.log("imagepath", imagepath)
+
+        if (req.body.name) { obj.name = req.body.name }
+        if (req.body.phone) { obj.phone = req.body.phone }
+        if (req.body.description) { obj.description = req.body.description }
         //console.log()
-        if(req.file){
+        if (req.file) {
             if (user.image) {
-                try{
-                fs.unlinkSync(`${path.join(__dirname, `/../../../public/uploads/${imagepath[4]}`)}`)
-                 }catch(error)
-                {
-                   console.log(error) 
-                } }
+                try {
+                    fs.unlinkSync(`${path.join(__dirname, `/../../../public/uploads/${imagepath[4]}`)}`)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
             obj.image = `http://159.89.164.11:7070/uploads/${req.file.filename}`
         }
-        console.log("obj",obj)
-        const updatedata=await userModel.findByIdAndUpdate(id,obj,{new:true});
-         console.log("updatedat",updatedata)
-         req.flash("success","profile updated successfully")
-          
+        console.log("obj", obj)
+        const updatedata = await userModel.findByIdAndUpdate(id, obj, { new: true });
+        console.log("updatedat", updatedata)
+        req.flash("success", "profile updated successfully")
+
         res.redirect("/")
         // console.log("user", user)
         //res.render("users/usersProfile", { user });
     } catch (error) {
         console.log(error);
-        
+
     };
 };
 
@@ -208,7 +200,6 @@ exports.AdminlogOut = async (req, res) => {
             .redirect("/");
     } catch (error) {
         console.log(error);
-        throw error;
     }
 }
 

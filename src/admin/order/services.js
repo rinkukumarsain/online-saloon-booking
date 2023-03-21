@@ -3,9 +3,9 @@ const order = require("../../api/order/model")
 
 exports.getAllOrder = async (req) => {
     try {
-        let obj = {};
-        match = {}
+        let match = {}
         let condition = [];
+        console.log("req.query--->", req.query)
         if (req.query.status != undefined && req.query.status != "") {
             match.status = req.query.status
         }
@@ -23,7 +23,7 @@ exports.getAllOrder = async (req) => {
                 '$match': match
             })
         }
-
+        console.log("match", match)
         condition.push({
             '$lookup': {
                 'from': 'saloons',
@@ -58,6 +58,7 @@ exports.getAllOrder = async (req) => {
         })
 
         if (req.query.city != undefined && req.query.city != "") {
+            console.log("city",454)
             condition.push({
                 '$lookup': {
                     'from': 'saloonId',
@@ -66,7 +67,7 @@ exports.getAllOrder = async (req) => {
                     'pipeline': [
                         {
                             '$match': {
-                                'location.city': 'jaipur'
+                                'location.city': req.query.city
                             }
                         }, {
                             '$project': {

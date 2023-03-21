@@ -55,10 +55,10 @@ const saloon_Store = new mongoose.Schema({
     weekRange: {
         type: String
     },
-    startingweek:{type: String},
-    endingweek:{type: String},
-    starting_time:{type: String},
-    ending_time:{type: String},
+    startingweek: { type: String },
+    endingweek: { type: String },
+    starting_time: { type: String },
+    ending_time: { type: String },
     TimeRange: {
         type: String
     }
