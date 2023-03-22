@@ -48,26 +48,31 @@
                       <div class="col-md-3">
                         <select id="inputState" name="status" class="form-select">
                           <option selected="" value="">Choose Status</option>
-                          <option  value="pending">pending</option>
+                          <option value="pending">pending</option>
                           <option value="cancel">cancel</option>
                           <option value="succes">succes</option>
                         </select>
                       </div>
                       <div class="col-md-3">
-                        <input type="number" name="totalamount" class="form-control" placeholder="Amount">
+                        <% if(typeof quiry.totalamount !=="undefined" && quiry.totalamount!="" ){%>
+                          <input type="number" name="totalamount" class="form-control" value="<%=quiry.totalamount%>"
+                            placeholder="Amount">
+                          <%}else{%>
+                            <input type="number" name="totalamount" class="form-control" placeholder="Amount">
+                            <%}%>
                       </div>
                       <div class="col-md-3">
-                      <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <a href="/get-All-order"> <button type="button" class="btn btn-secondary">Reset</button></a>
+                        <div class="text-center">
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                          <a href="/get-All-order"> <button type="button" class="btn btn-secondary">Reset</button></a>
+                        </div>
                       </div>
-                    </div>
                     </form>
                     <!-- End No Labels Form -->
 
                   </div>
                 </div>
-                  <div class="card">
+                <div class="card">
                   <div class="card-body">
                     <h5 class="card-title">Order List</h5>
 
