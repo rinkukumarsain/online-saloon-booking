@@ -108,6 +108,7 @@ exports.apiPaymentVerify = async (req, res) => {
         };
     } catch (error) {
         console.log("error--", error);
+        throw error;
     };
 };
 

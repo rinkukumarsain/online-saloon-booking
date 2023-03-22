@@ -47,15 +47,33 @@
                       </div>
                       <div class="col-md-3">
                         <select id="inputState" name="status" class="form-select">
-                          <option selected="" value="">Choose Status</option>
-                          <option value="pending">pending</option>
-                          <option value="cancel">cancel</option>
-                          <option value="succes">succes</option>
+                          <% if( query?.status=="pending" ){%>
+                            <option value="">Choose Status</option>
+                            <option selected="" value="pending">pending</option>
+                            <option value="cancel">cancel</option>
+                            <option value="succes">succes</option>
+                            <%}else if( query?.status=="cancel" ){%>
+                              <option value="">Choose Status</option>
+                              <option value="pending">pending</option>
+                              <option selected="" value="cancel">cancel</option>
+                              <option value="succes">succes</option>
+                              <%}else if( query?.status=="succes" ){%>
+                                <option value="">Choose Status</option>
+                                <option value="pending">pending</option>
+                                <option value="cancel">cancel</option>
+                                <option selected="" value="succes">succes</option>
+                                <%}else{%>
+                                  <option selected="" value="">Choose Status</option>
+                                  <option value="pending">pending</option>
+                                  <option value="cancel">cancel</option>
+                                  <option value="succes">succes</option>
+                                  <%}%>
+
                         </select>
                       </div>
                       <div class="col-md-3">
-                        <% if(typeof quiry.totalamount !=="undefined" && quiry.totalamount!="" ){%>
-                          <input type="number" name="totalamount" class="form-control" value="<%=quiry.totalamount%>"
+                        <% if(query?.totalamount!="" ){%>
+                          <input type="number" name="totalamount" class="form-control" value="<%=query?.totalamount%>"
                             placeholder="Amount">
                           <%}else{%>
                             <input type="number" name="totalamount" class="form-control" placeholder="Amount">
