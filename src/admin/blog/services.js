@@ -21,11 +21,6 @@ exports.VIEW_BLOG = async () => {
                     }
                 }
             },
-            'Description': {
-                '$substr': [
-                    '$Description', 0, 100
-                ]
-            }
         }
     })
 

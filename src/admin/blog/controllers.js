@@ -14,10 +14,6 @@ exports.ADD_BLOG = async (req, res) => {
 exports.ADD_BLOG_STORE = async (req, res) => {
     try {
         let { body, file, query } = req
-        console.log(file)
-        console.log("--->", req.body)
-        console.log("==>", req.files)
-        console.log(req.query)
         res.locals.message = req.flash();
         if (query.id) {
 
@@ -38,12 +34,12 @@ exports.ADD_BLOG_STORE = async (req, res) => {
                 const result = await blog.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
                 if (result) {
                     req.flash("success", "Blog  is  Update successfull !")
-                    res.redirect("/")
+                    res.redirect("/view_blog")
                 };
 
             } else {
                 req.flash("error", "Blog is Not Found !")
-                res.redirect("/")
+                res.redirect("/view_blog")
             };
         } else {
             if (file) {
@@ -80,4 +76,16 @@ exports.DELETE_BLOG = async (req, res) => {
     const id = req.query.id
     await blog.findByIdAndDelete({ _id: id })
     res.redirect("/view_blog")
+}
+
+
+
+
+exports.ViwesFindBlog = async (req, res) => {
+    try {
+        const data = await blog.find({ _id: mongoose.Types.ObjectId(req.query.id) });
+        res.send(data)
+    } catch (err) {
+        console.log(err)
+    }
 }

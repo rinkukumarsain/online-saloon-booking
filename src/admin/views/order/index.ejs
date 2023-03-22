@@ -37,12 +37,19 @@
                     <form class="row g-3" action="/get-All-order">
                       <div class="col-md-3">
                         <select id="inputState" name="city" class="form-select">
-                          <option selected="" value="">Choose Status</option>
-                          <% city.forEach(function(citys) { %>
-                            <option value="<%=citys%>">
-                              <%= citys %>
+                          <% if( query.city!=undefined&&query.city!="" ){%>
+                            <option selected="" value="<%=query?.city%>">
+                              <%=query?.city%>
                             </option>
-                            <% }); %>
+                            <option value="">Choose City</option>
+                            <%}else{%>
+                              <option selected="" value="">Choose City</option>
+                              <%}%>
+                                <% city.forEach(function(citys) { %>
+                                  <option value="<%=citys%>">
+                                    <%=citys%>
+                                  </option>
+                                  <% }); %>
                         </select>
                       </div>
                       <div class="col-md-3">

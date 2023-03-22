@@ -91,7 +91,7 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
                 const result = await saloonService.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
                 if (result) {
                     req.flash("success", "Saloon Service  is  Update successfull !")
-                    res.redirect("/")
+                    res.redirect("/view_service")
                 };
 
             } else {
@@ -131,7 +131,7 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
             const result = await service_details.save();
             if (result) {
                 req.flash("success", "Service Add Succesfuuly !")
-                res.redirect("/")
+                res.redirect("/view_service")
             };
         }
     } catch (error) {
