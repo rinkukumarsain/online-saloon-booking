@@ -10,8 +10,6 @@ exports.getAllOrder = async (req) => {
             match.status = req.query.status
         }
 
-
-
         if (req.query.totalamount != undefined && req.query.totalamount != "") {
             match.totalamount = { $gt: Number(req.query.totalamount) }
         } else {
@@ -23,7 +21,6 @@ exports.getAllOrder = async (req) => {
                 '$match': match
             })
         }
-        console.log("match--->", match, "<---match")
         condition.push({
             '$lookup': {
                 'from': 'saloons',
@@ -41,8 +38,7 @@ exports.getAllOrder = async (req) => {
                         '$project': {
                             'name': 1,
                             'phone': 1,
-                            'email': 1,
-                           
+                            'email': 1
                         }
                     }
                 ],
@@ -58,37 +54,14 @@ exports.getAllOrder = async (req) => {
             }
         })
 
-        /*
-                if (req.query.city != undefined && req.query.city != "") {
-                    console.log("city", 454)
-                    condition.push({
-                        '$lookup': {
-                            'from': 'saloons',
-                            'localField': 'saloonId',
-                            'foreignField': '_id',
-                            'pipeline': [
-                                {
-                                    '$match': {
-                                        'location.city': req.query.city
-                                    }
-                                }, {
-                                    '$project': {
-                                        'city': '$location.city'
-                                    }
-                                }
-                            ],
-                            'as': 'saloon'
-                        }
-                    }, {
-                        '$unwind': {
-                            'path': '$saloon'
-                        }
-                    }
-                    )
-                }*/
+        if (req.query.city != undefined && req.query.city != "") {
+            condition.push({
+                '$match': {
+                    'saloon.location.city': req.query.city
+                }
+            })
+        }
         const data = await order.aggregate(condition)
-        console.log("data--->", data)
-        dgrt
         if (data.length > 0) {
             return {
                 statusCode: 200,

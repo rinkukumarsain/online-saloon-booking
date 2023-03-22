@@ -1,79 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>view-saloon</title>
-    <%- include('../../partials/headlink.ejs') %>
-  </head>
 
-  <body>
-    <%- include('../../partials/Header.ejs') %> 
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>view-saloon</title>
+  <%- include('../../partials/headlink.ejs') %>
+</head>
+
+<body>
+  <%- include('../../partials/Header.ejs') %>
     <%- include("../../partials/sidebar.ejs") %>
 
-    <main id="main" class="main">
-      <div class="pagetitle">
-        <h1><%-user?.type %></h1>
-        <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item active">Dashboard</li>
-          </ol>
-        </nav>
-      </div>
-      <!-- End Page Title -->
-     <section class="section dashboard">
-      <div class="row">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Service List</h5>
-  
-                <!-- Table with stripped rows -->
-                <table class="table datatable">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Store Name</th>
-                      <th scope="col">Service Name</th>
-                      <th scope="col">Service Price</th>
-                      <th scope="col">Time Period In Minutes</th>
-                      <th scope="col">Service Type</th>
-                      <th scope="col">Last Category Name</th>
-                      <th scope="col">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% let i= 0 %>
-                    <% for( data of data) { %>
-                    <tr>
-                      <th scope="row"><%= ++i %></th>
-                      <td><%= data?.saloon_name %></td>
-                      <td><%= data?.ServiceName %></td>
-                      <td><%= data?.ServicePrice %></td>
-                      <td><%= data?.timePeriod_in_minits %></td>
-                      <td><%= data?.type %></td>
-                      <td><%= data?.last_category_name %></td>
-                      <td><a href="/add_service?id=<%= data._id%>" class="btn btn-dark">Edit</a>
-                        <a href="/delete_service?id=<%= data._id%>" class="btn btn-danger">Delete</a></td>
-                    </tr>
-                    <%}%>
-                  </tbody>
-                </table>
-                <!-- End Table with stripped rows -->
-  
+      <main id="main" class="main">
+        <div class="pagetitle">
+          <h1><%-user?.type %></h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </nav>
+        </div>
+        <!-- End Page Title -->
+        <section class="section dashboard">
+          <div class="row">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Filter</h5>
+
+                    <!-- No Labels Form -->
+                    <form class="row g-3" action="/get-All-order">
+                      <div class="col-md-3">
+                        <select id="inputState" name="city" class="form-select">
+
+                          <option selected="" value="">Choose City</option>
+
+
+                          <option value="ajmer">
+                            ajmer
+                          </option>
+
+                          <option value="gujrat">
+                            gujrat
+                          </option>
+
+                          <option value="Lucknow">
+                            Lucknow
+                          </option>
+
+                          <option value="Qui consequatur cup">
+                            Qui consequatur cup
+                          </option>
+
+                          <option value="Irure quaerat sit n">
+                            Irure quaerat sit n
+                          </option>
+
+                          <option value="jaipur">
+                            jaipur
+                          </option>
+
+                          <option value="manali">
+                            manali
+                          </option>
+
+                          <option value="Voluptatem labore fa">
+                            Voluptatem labore fa
+                          </option>
+
+                          <option value="">
+
+                          </option>
+
+                          <option value="Est enim tempora do">
+                            Est enim tempora do
+                          </option>
+
+                          <option value="Ut culpa dolores ex">
+                            Ut culpa dolores ex
+                          </option>
+
+                          <option value="Jaipur">
+                            Jaipur
+                          </option>
+
+                          <option value="Quod dolor quia cons">
+                            Quod dolor quia cons
+                          </option>
+
+                          <option value="Necessitatibus alias">
+                            Necessitatibus alias
+                          </option>
+
+                          <option value="324">
+                            324
+                          </option>
+
+                          <option value="churu">
+                            churu
+                          </option>
+
+                          <option value="4543">
+                            4543
+                          </option>
+
+                          <option value="In voluptas quisquam">
+                            In voluptas quisquam
+                          </option>
+
+                        </select>
+                      </div>
+                      <div class="col-md-3">
+                        <select id="inputState" name="status" class="form-select">
+
+                          <option selected="" value="">Choose Status</option>
+                          <option value="pending">pending</option>
+                          <option value="cancel">cancel</option>
+                          <option value="succes">succes</option>
+
+
+                        </select>
+                      </div>
+                      <div class="col-md-3">
+
+                        <input type="number" name="totalamount" class="form-control" value="" placeholder="Amount">
+
+                      </div>
+                      <div class="col-md-3">
+                        <div class="text-center">
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                          <a href="/get-All-order"> <button type="button" class="btn btn-secondary">Reset</button></a>
+                        </div>
+                      </div>
+                    </form>
+                    <!-- End No Labels Form -->
+
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Service List</h5>
+
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Store Name</th>
+                          <th scope="col">Service Name</th>
+                          <th scope="col"> Price</th>
+                          <th scope="col">Time </th>
+                          <th scope="col">Service Type</th>
+                          <th scope="col"> Category </th>
+                          <th scope="col">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% let i=0 %>
+                          <% for( data of data) { %>
+                            <tr>
+                              <th scope="row">
+                                <%= ++i %>
+                              </th>
+                              <td>
+                                <%= data?.saloon_name %>
+                              </td>
+                              <td>
+                                <%= data?.ServiceName %>
+                              </td>
+                              <td>
+                                <%= data?.ServicePrice %>
+                              </td>
+                              <td>
+                                <%= data?.timePeriod_in_minits %>
+                              </td>
+                              <td>
+                                <%= data?.type %>
+                              </td>
+                              <td>
+                                <%= data?.last_category_name %>
+                              </td>
+                              <td>
+                                <a href="/add_service?id=<%= data._id%>" class="btn btn-info"><i
+                                    class="ri-edit-box-line" title="Edit"></i></a>
+                                <a href="/delete_service?id=<%= data._id%>" class="btn btn-danger">
+                                  <i class="ri-delete-bin-5-line" title="delete"></i>
+                                </a>
+                                <!-- <a href="/add_service?id=<%= data._id%>" class="btn btn-dark">Edit</a>
+                                <a href="/delete_service?id=<%= data._id%>" class="btn btn-danger">Delete</a> -->
+                              </td>
+                            </tr>
+                            <%}%>
+                      </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+
+                  </div>
+                </div>
               </div>
             </div>
+
           </div>
-        </div>
+        </section>
 
-      </div>
-    </section>
-     
-    </main>
+      </main>
 
-    <%- include("../../partials/script.ejs") %>
-  </body>
+      <%- include("../../partials/script.ejs") %>
+</body>
+
 </html>

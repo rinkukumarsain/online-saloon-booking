@@ -2,6 +2,7 @@ const saloon = require("../../api/saloonstore/model");
 const service = require("./services")
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const saloonRequst = require("../../api/Partner/model")
 exports.ADD_SALOON = async (req, res) => {
     const _id = req.query.id
     const saloon_data = await saloon.findOne({ _id })
@@ -143,6 +144,137 @@ exports.GetSaloonAddress = async (req, res) => {
     try {
         const id = req.query.id
         const FindData = await saloon.find({ _id: mongoose.Types.ObjectId(id) })
+        if (FindData) {
+            res.send(FindData)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+
+exports.viewsSaloonRequest = async (req, res) => {
+    try {
+        console.log("req.url viewsSaloonRequest-->stor1", req.url, "<--")
+        res.locals.message = req.flash();
+        const user = req.user
+        const data = await saloonRequst.aggregate([
+            {
+                '$lookup': {
+                    'from': 'users',
+                    'localField': 'userId',
+                    'foreignField': '_id',
+                    'pipeline': [
+                        {
+                            '$project': {
+                                'name': 1
+                            }
+                        }
+                    ],
+                    'as': 'result'
+                }
+            }, {
+                '$addFields': {
+                    'name': {
+                        '$getField': {
+                            'field': 'name',
+                            'input': {
+                                '$arrayElemAt': [
+                                    '$result', 0
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        ])
+        res.render("add_saloon/views-saloon-request", { user, data })
+    } catch (error) {
+        console.log(error)
+
+    }
+}
+
+
+exports.saloonApproval = async (req, res) => {
+    try {
+        console.log("req.url saloonApproval-->stor1", req.url, "<--")
+        console.log("saloonApproval", req.query)
+        if (req.query.id != undefined && req.query.id != "") {
+            const _id = mongoose.Types.ObjectId(req.query.id)
+            const findSloonRequist = await saloonRequst.findOne({ _id })
+            console.log("findSloonRequist", findSloonRequist)
+
+            let ovh = {};
+            ovh.shopNumber = findSloonRequist.shopNumber
+            ovh.aria = findSloonRequist.aria
+            ovh.pincode = findSloonRequist.pincode
+            ovh.city = findSloonRequist.city
+            ovh.state = findSloonRequist.state
+            console.log("findSloonRequist", findSloonRequist)
+
+            let saloon_details = new saloon({
+                storeName: findSloonRequist.storeName,
+                Email: findSloonRequist.Email,
+                PhoneNumber: findSloonRequist.PhoneNumber,
+                location: {
+                    shopNumber: findSloonRequist.location.shopNumber,
+                    aria: findSloonRequist.location.aria,
+                    pincode: findSloonRequist.location.pincode,
+                    city: findSloonRequist.location.city,
+                    state: findSloonRequist.location.state,
+                },
+                description: findSloonRequist.description,
+                userId: findSloonRequist.userId,
+                image: findSloonRequist.image,
+                type: findSloonRequist.type,
+                category: findSloonRequist.category,
+
+            });
+            const result = await saloon_details.save();
+            console.log("result", result)
+            if (result) {
+
+                await this.saloonRequistDelete(req, res)
+                // console.log("---->", result, " apporove <---")
+                // res.redirect("/views-saloon-request")
+            };
+        } else {
+            res.redirect("/views-saloon-request")
+        }
+    } catch (error) {
+        console.log(error);
+        ;
+    }
+}
+
+exports.saloonRequistDelete = async (req, res) => {
+    try {
+        console.log("req.url saloonRequistDelete-->stor1", req.url, "<--")
+        res.locals.message = req.flash();
+        console.log(req.url)
+        if (req.query.id != undefined && req.query.id != "") {
+            const _id = mongoose.Types.ObjectId(req.query.id)
+            const findSaloonAndDelete = await saloonRequst.findOneAndDelete({ _id })
+            if (findSaloonAndDelete) {
+                console.log("res.locals.message", res.locals.message)
+                req.flash("success", " request approve succesfully !")
+                console.log("res.locals.message", res.locals.message)
+                res.redirect("/views-saloon-request")
+            }
+        } else {
+            res.redirect("/views-saloon-request")
+        }
+    } catch (error) {
+        console.log(error);
+        ;
+    }
+}
+exports.findAddSaloonRequist = async (req, res) => {
+    try {
+        const id = req.query.id
+        const FindData = await saloonRequst.find({ _id: mongoose.Types.ObjectId(id) })
         if (FindData) {
             res.send(FindData)
         }

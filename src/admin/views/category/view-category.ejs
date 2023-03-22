@@ -31,6 +31,58 @@
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">
+                    <h5 class="card-title">Filter</h5>
+
+                    <!-- No Labels Form -->
+                    <form class="row g-3" action="/get-All-order">
+                      <div class="col-md-3">
+                        <select id="inputState" name="city" class="form-select">
+
+                          <option selected="" value="">Choose City</option>
+
+
+                          <option value="ajmer">
+                            ajmer
+                          </option>
+
+                          <option value="gujrat">
+                            gujrat
+                          </option>
+
+
+
+
+                        </select>
+                      </div>
+                      <div class="col-md-3">
+                        <select id="inputState" name="status" class="form-select">
+
+                          <option selected="" value="">Choose Status</option>
+                          <option value="pending">pending</option>
+                          <option value="cancel">cancel</option>
+                          <option value="succes">succes</option>
+
+
+                        </select>
+                      </div>
+                      <div class="col-md-3">
+
+                        <input type="number" name="totalamount" class="form-control" value="" placeholder="Amount">
+
+                      </div>
+                      <div class="col-md-3">
+                        <div class="text-center">
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                          <a href="/get-All-order"> <button type="button" class="btn btn-secondary">Reset</button></a>
+                        </div>
+                      </div>
+                    </form>
+                    <!-- End No Labels Form -->
+
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-body">
                     <%if(data.parent_Name!=undefined){ console.log("data.parent_Name",data.parent_Name) %>
                       <h5 class="card-title">Sub Category</h5>
                       <%}else{%>
@@ -74,13 +126,14 @@
                                             class="ri-edit-box-line" title="Edit"></i></a>
                                         <a href="/view-category?id=<%= data._id%>" class="btn btn-success"><i
                                             class="bi bi-eye" title="view Sub category"></i></a>
-                                        <a href="/category?id=<%= data._id%>" class="btn btn-success text-warning" ><i
+                                        <a href="/category?id=<%= data._id%>" class="btn btn-success text-warning"><i
                                             class="ri-file-add-line" title="Add Sub Category"></i></a>
                                         <%}else{%>
                                           <a href="/category?EditId=<%= data._id%>" class="btn btn-info"><i
                                               class="ri-edit-box-line" title="Edit"></i></a>
-                                          <a href="/delete-category?id=<%= data._id%>" class="btn btn-danger"><i
-                                              class="ri-delete-bin-5-line" title="delete"></i></a>
+                                          <a href="/delete-category?id=<%= data._id%>" class="btn btn-danger">
+                                            <i class="ri-delete-bin-5-line" title="delete"></i>
+                                          </a>
                                           <a href="/category?id=<%= data._id%>" class="btn btn-success text-warning"><i
                                               class="ri-file-add-line" title="Add Sub Category"></i></a>
                                           <%}%>

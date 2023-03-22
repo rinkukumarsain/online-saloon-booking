@@ -49,8 +49,14 @@
                       <td><%= singleData.question %></td>
                       <td id=<%= `answer-${i}` %>></td>
                       
-                      <td><a href="/add_frequent?id=<%= singleData._id%>" class="btn btn-dark">Edit</a>
-                        <a href="/delete_frequent?id=<%= singleData._id%>" class="btn btn-danger">Delete</a></td>
+                      <td>
+                        <!-- <a href="/add_frequent?id=<%= singleData._id%>" class="btn btn-dark">Edit</a>
+                        <a href="/delete_frequent?id=<%= singleData._id%>" class="btn btn-danger">Delete</a></td> -->
+                        <a href="/add_frequent?id=<%= singleData._id%>" class="btn btn-info"><i
+                          class="ri-edit-box-line" title="Edit"></i></a>
+                      <a href="/delete_frequent?id=<%= singleData._id%>" class="btn btn-danger">
+                        <i class="ri-delete-bin-5-line" title="delete"></i>
+                      </a>
                     </tr>
                     <%}%>
                   </tbody>
