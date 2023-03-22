@@ -23,7 +23,7 @@ exports.getAllOrder = async (req) => {
                 '$match': match
             })
         }
-        console.log("match", match)
+        console.log("match--->", match, "<---match")
         condition.push({
             '$lookup': {
                 'from': 'saloons',
@@ -41,7 +41,8 @@ exports.getAllOrder = async (req) => {
                         '$project': {
                             'name': 1,
                             'phone': 1,
-                            'email': 1
+                            'email': 1,
+                           
                         }
                     }
                 ],
@@ -57,42 +58,43 @@ exports.getAllOrder = async (req) => {
             }
         })
 
-        if (req.query.city != undefined && req.query.city != "") {
-            console.log("city", 454)
-            condition.push({
-                '$lookup': {
-                    'from': 'saloonId',
-                    'localField': 'saloonId',
-                    'foreignField': '_id',
-                    'pipeline': [
-                        {
-                            '$match': {
-                                'location.city': req.query.city
-                            }
-                        }, {
-                            '$project': {
-                                'city': '$location.city'
-                            }
+        /*
+                if (req.query.city != undefined && req.query.city != "") {
+                    console.log("city", 454)
+                    condition.push({
+                        '$lookup': {
+                            'from': 'saloons',
+                            'localField': 'saloonId',
+                            'foreignField': '_id',
+                            'pipeline': [
+                                {
+                                    '$match': {
+                                        'location.city': req.query.city
+                                    }
+                                }, {
+                                    '$project': {
+                                        'city': '$location.city'
+                                    }
+                                }
+                            ],
+                            'as': 'saloon'
                         }
-                    ],
-                    'as': 'saloon'
-                }
-            }, {
-                '$unwind': {
-                    'path': '$saloon'
-                }
-            }
-            )
-        }
-
+                    }, {
+                        '$unwind': {
+                            'path': '$saloon'
+                        }
+                    }
+                    )
+                }*/
         const data = await order.aggregate(condition)
+        console.log("data--->", data)
+        dgrt
         if (data.length > 0) {
             return {
                 statusCode: 200,
                 status: true,
                 message: "service added in cart Succesfuuly !",
                 data: data,
-                quiry: req.query,
             };
         } else {
             return {

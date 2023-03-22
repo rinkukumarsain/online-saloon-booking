@@ -30,7 +30,7 @@ exports.userOrder = async ({ query, user }) => {
                 };
             };
             if (query.PaymentId != undefined && query.PaymentId != "") {
-                obj.PaymentId = findcart.PaymentId;
+                obj.PaymentId = query.PaymentId
             } else {
                 return {
                     statusCode: 400,
