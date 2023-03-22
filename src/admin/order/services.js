@@ -58,7 +58,7 @@ exports.getAllOrder = async (req) => {
         })
 
         if (req.query.city != undefined && req.query.city != "") {
-            console.log("city",454)
+            console.log("city", 454)
             condition.push({
                 '$lookup': {
                     'from': 'saloonId',
@@ -91,7 +91,8 @@ exports.getAllOrder = async (req) => {
                 statusCode: 200,
                 status: true,
                 message: "service added in cart Succesfuuly !",
-                data: data
+                data: data,
+                quiry: req.query,
             };
         } else {
             return {

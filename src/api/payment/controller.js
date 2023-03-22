@@ -64,14 +64,17 @@ exports.apiPaymentVerify = async (req, res) => {
     try {
         let body = req.body.response.razorpay_order_id + "|" + req.body.response.razorpay_payment_id;
         console.log("body", body)
-        if (!req.body.orderId) {
+        let orderID;
+        if (req.query.orderId != undefined && req.query.orderId != "") {
+            orderID = req.query.orderId
+        } else {
             return {
                 statusCode: 400,
                 status: false,
-                message: "orderId must !",
+                message: "orderId is must  !",
                 data: []
-            };
-        };
+            }
+        }
         var crypto = require("crypto");
         var expectedSignature = crypto.createHmac('sha256', process.env.key_secret)
             .update(body.toString())
@@ -82,7 +85,7 @@ exports.apiPaymentVerify = async (req, res) => {
         if (expectedSignature === req.body.response.razorpay_signature) {
             const result = await payments.findOneAndUpdate({ "orderData.id": req.body.response.razorpay_order_id }, {
                 payment: "Payment successfull",
-                orderId: mongoose.Types.ObjectId(req.body.orderId),
+                orderId: orderID,
                 "payment_detail.razorpay_payment_id": req.body.response.razorpay_payment_id,
                 "payment_detail.razorpay_order_id": req.body.response.razorpay_order_id,
                 "payment_detail.razorpay_signature": req.body.response.razorpay_signature

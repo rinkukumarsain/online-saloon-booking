@@ -70,13 +70,19 @@
                                     </td>
                                     <td>
                                       <%if(data._doc.del=="view"){%>
-                                        <a href="/category?EditId=<%= data._id%>" class="btn btn-info"><i class="ri-edit-box-line"></i></a>
-                                        <a href="/view-category?id=<%= data._id%>"class="btn btn-success"><i class="bi bi-eye"></i></a>
-                                        <a href="/category?id=<%= data._id%>" class="btn btn-success"><i class="ri-file-add-line"></i></a>
+                                        <a href="/category?EditId=<%= data._id%>" class="btn btn-info"><i
+                                            class="ri-edit-box-line" title="Edit"></i></a>
+                                        <a href="/view-category?id=<%= data._id%>" class="btn btn-success"><i
+                                            class="bi bi-eye" title="view Sub category"></i></a>
+                                        <a href="/category?id=<%= data._id%>" class="btn btn-success text-warning" ><i
+                                            class="ri-file-add-line" title="Add Sub Category"></i></a>
                                         <%}else{%>
-                                          <a href="/category?EditId=<%= data._id%>" class="btn btn-info"><i class="ri-edit-box-line"></i></a>
-                                          <a href="/delete-category?id=<%= data._id%>" class="btn btn-danger" ><i class="ri-delete-bin-5-line"></i></a>
-                                          <a href="/category?id=<%= data._id%>" class="btn btn-success"><i class="ri-file-add-line"></i></a>
+                                          <a href="/category?EditId=<%= data._id%>" class="btn btn-info"><i
+                                              class="ri-edit-box-line" title="Edit"></i></a>
+                                          <a href="/delete-category?id=<%= data._id%>" class="btn btn-danger"><i
+                                              class="ri-delete-bin-5-line" title="delete"></i></a>
+                                          <a href="/category?id=<%= data._id%>" class="btn btn-success text-warning"><i
+                                              class="ri-file-add-line" title="Add Sub Category"></i></a>
                                           <%}%>
                                     </td>
                                   </tr>
