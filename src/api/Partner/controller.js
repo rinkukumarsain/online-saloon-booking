@@ -237,3 +237,165 @@ exports.businessSignUp = async (req) => {
         console.log(error);
     };
 };
+
+exports.businessProfileInfo = async ({ query, body }) => {
+    try {
+        if (query.id != undefined && query.id != "") {
+            const findData = await saloonRequst.findOne({ _id: mongoose.Types.ObjectId(query.id) })
+            if (!findData) {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "please Enter valide saloon Id ",
+                    data: []
+                };
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "please Enter saloon Id ",
+                data: []
+            };
+        };
+
+        const update = await saloonRequst.findOneAndUpdate({ _id: mongoose.Types.ObjectId(query.id) }, { ProfileInfo: body }, { new: true })
+        if (update) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "saloonRequst update is Succesfuuly ",
+                data: [update]
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "samething is wrong ",
+                data: []
+            };
+        };
+    } catch (error) {
+        console.log(error);
+    };
+};
+
+
+
+exports.businessBankInfo = async ({ query, body }) => {
+    try {
+        if (query.id != undefined && query.id != "") {
+            const findData = await saloonRequst.findOne({ _id: mongoose.Types.ObjectId(query.id) })
+            if (!findData) {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "please Enter valide saloon Id ",
+                    data: []
+                };
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "please Enter saloon Id ",
+                data: []
+            };
+        };
+
+        const update = await saloonRequst.findOneAndUpdate({ _id: mongoose.Types.ObjectId(query.id) }, { BankInfo: body }, { new: true })
+        if (update) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "saloonRequst update is Succesfuuly ",
+                data: [update]
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "samething is wrong ",
+                data: []
+            };
+        };
+    } catch (error) {
+        console.log(error);
+    };
+};
+
+
+
+
+exports.businessUplodeDocument = async (req) => {
+    try {
+        let obj = {};
+        if (req.files.BannerLogo.length > 0) {
+            req.files.BannerLogo.forEach(element => {
+                obj.BannerLogo = element.filename
+            });
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "BannerLogo image is must",
+                data: []
+            };
+        }
+        if (req.files.logoImage.length > 0) {
+            req.files.logoImage.forEach(element => {
+                obj.logoImage = element.filename
+            });
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "logoImage image is must",
+                data: []
+            };
+        }
+        if (req.files.panImage.length > 0) {
+            req.files.panImage.forEach(element => {
+                obj.panImage = element.filename
+            });
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "panImage image is must",
+                data: []
+            };
+        }
+        if (req.files.businessCertificate.length > 0) {
+            req.files.businessCertificate.forEach(element => {
+                obj.businessCertificate = element.filename
+            });
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "businessCertificate image is must",
+                data: []
+            };
+        }
+
+        const update = await saloonRequst.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { uplodeDocuments: obj }, { new: true })
+        if (update) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "saloonRequst update is Succesfuuly ",
+                data: [update]
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "samething is wrong ",
+                data: []
+            };
+        };
+    } catch (error) {
+        console.log(error);
+    };
+};

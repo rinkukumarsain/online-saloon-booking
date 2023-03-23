@@ -1,3 +1,4 @@
+const { string } = require("joi");
 const mongoose = require("mongoose");
 
 var ObjectId = require('mongodb').ObjectId;
@@ -56,6 +57,75 @@ const saloon_Requst = new mongoose.Schema({
     },
     Partner_Size: {
         type: String
+    },
+    ProfileInfo: {
+        yourService: {
+            type: String
+        },
+        alternatePhone: {
+            type: String
+        },
+        starting_time: {
+            type: String
+        },
+        ending_time: {
+            type: String
+        },
+        workingday: {
+            type: [String]
+        },
+        FaceBookProfile: {
+            type: String
+        },
+        instaProfile: {
+            type: String
+        },
+        webProfile: {
+            type: String
+        },
+        amenities: {
+            type: [String]
+        },
+    },
+    BankInfo: {
+        panNo: {
+            type: String
+        },
+        gstNo: {
+            type: String
+        },
+        bankName: {
+            type: String
+        },
+        branchName: {
+            type: String
+        },
+        accountNo: {
+            type: String
+        },
+        accoutHolder: {
+            type: String
+        },
+        ifscCode: {
+            type: String
+        },
+        kyc: {
+            type: String
+        },
+    },
+    uplodeDocuments: {
+        BannerLogo: {
+            type: String
+        },
+        logoImage: {
+            type: String
+        },
+        panImage: {
+            type: String
+        },
+        businessCertificate: {
+            type: String
+        },
     }
 }, { timestamps: true });
 
