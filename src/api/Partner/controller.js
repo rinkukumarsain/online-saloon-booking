@@ -13,12 +13,15 @@ exports.otpSent = async ({ body }) => {
             if (data) user = data;
         };
         if (user) {
-            return {
-                statusCode: 400,
-                status: false,
-                message: "User Already Exists",
-                data: []
-            };
+            const data = await users.findOneAndUpdate({ phone: body.phone }, { otp: '1234' }, { new: true });
+            if (data) {
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "Otp Send 1",
+                    data: [data]
+                };
+            }
         } else {
             body.otp = '1234'
             const userData = await users(body);
@@ -26,7 +29,7 @@ exports.otpSent = async ({ body }) => {
             return {
                 statusCode: 200,
                 status: true,
-                message: "Otp Send",
+                message: "Otp Send 2",
                 data: [result]
             };
         };
