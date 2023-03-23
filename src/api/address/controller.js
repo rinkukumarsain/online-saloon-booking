@@ -2,67 +2,83 @@ const mongoose = require("mongoose");
 const cart = require("../cart/model");
 const userAddress = require("./model");
 
-exports.addUserAddress = async ({ user, body }) => {
+exports.addUserAddress = async ({ user, query, body }) => {
     try {
+        console.log("body", body)
         let obj = {};
         let location = {};
         const findData = await userAddress.find({ userId: user._id });
 
-        for (const item of findData) {
-            if (body.state == item.location.state) {
-                if (body.city == item.location.city) {
-                    if (body.pincode == item.location.pincode) {
-                        if (body.aria == item.location.aria) {
-                            if (body.houseNumber == item.location.houseNumber) {
-                                return {
-                                    statusCode: 200,
-                                    status: true,
-                                    message: "address-is allready in data base  !",
-                                    data: [item]
+        if (user._id) {
+            obj.userId = user._id;
+        };
+
+        if (body.houseNumber != undefined && body.houseNumber != "") {
+            location.houseNumber = body.houseNumber;
+        };
+
+        if (body.aria != undefined && body.aria != "") {
+            location.aria = body.aria;
+        };
+
+        if (body.pincode != undefined && body.pincode != "") {
+            location.pincode = body.pincode;
+        };
+
+        if (body.city != undefined && body.city != "") {
+            location.city = body.city;
+        };
+
+        if (body.state != undefined && body.state != "") {
+            location.state = body.state;
+        };
+
+        if (location != undefined && location != "") {
+            obj.location = location;
+        };
+        if (body.type != undefined && body.type != "") {
+            obj.type = body.type;
+        };
+        console.log("obj", obj)
+        if (query.id != undefined && query.id != "") {
+            const result = await userAddress.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(query.id) }, obj, { new: true })
+            if (result) {
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "address-update-Succesfuuly  !",
+                    data: [result]
+                };
+            };
+        } else {
+            for (const item of findData) {
+                if (body.state == item.location.state) {
+                    if (body.city == item.location.city) {
+                        if (body.pincode == item.location.pincode) {
+                            if (body.aria == item.location.aria) {
+                                if (body.houseNumber == item.location.houseNumber) {
+                                    return {
+                                        statusCode: 200,
+                                        status: true,
+                                        message: "address-is allready in data base  !",
+                                        data: [item]
+                                    };
                                 };
                             };
                         };
                     };
                 };
             };
-        };
 
-        if (user._id) {
-            obj.userId = user._id;
-        };
-
-        if (body.houseNumber) {
-            location.houseNumber = body.houseNumber;
-        };
-
-        if (body.aria) {
-            location.aria = body.aria;
-        };
-
-        if (body.pincode) {
-            location.pincode = body.pincode;
-        };
-
-        if (body.city) {
-            location.city = body.city;
-        };
-
-        if (body.state) {
-            location.state = body.state;
-        };
-
-        if (location) {
-            obj.location = location;
-        };
-
-        let address = new userAddress(obj);
-        const result = await address.save();
-        if (result) {
-            return {
-                statusCode: 200,
-                status: true,
-                message: "address-Succesfuuly added !",
-                data: [result]
+            let address = new userAddress(obj);
+            const result = await address.save();
+            if (result) {
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "address-Succesfuuly added !",
+                    data: [result]
+                };
             };
         };
     } catch (error) {
@@ -174,3 +190,38 @@ exports.addAddresssInUserCart = async ({ user, query }) => {
         console.log(error);
     };
 }
+
+
+
+exports.deleteAddress = async ({ user, query }) => {
+    try {
+        console.log("delete-address")
+        if (query.id) {
+            const findAndDelete = await userAddress.findByIdAndDelete({ _id: mongoose.Types.ObjectId(query.id) });
+            if (findAndDelete) {
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "address delete Succesfuuly !",
+                    data: [findAndDelete]
+                };
+            } else {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "samething is wronge !",
+                    data: []
+                };
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "Enter valide id !",
+                data: []
+            };
+        };
+    } catch (error) {
+        console.log(error);
+    };
+};

@@ -4,6 +4,74 @@ const saloonRequst = require("./model");
 const saloon = require("../saloonstore/model")
 const users = require("../user/model")
 
+exports.otpSent = async ({ body }) => {
+    try {
+        console.log("/business-otp-sent")
+        let user;
+        if (body.phone) {
+            const data = await users.findOne({ phone: body.phone });
+            if (data) user = data;
+        };
+        if (user) {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "User Already Exists",
+                data: []
+            };
+        } else {
+            body.otp = '1234'
+            const userData = await users(body);
+            const result = await userData.save()
+            return {
+                statusCode: 200,
+                status: true,
+                message: "Otp Send",
+                data: [result]
+            };
+        };
+    } catch (error) {
+        console.log(error);
+    };
+};
+
+exports.otpVerify = async ({ body }) => {
+    try {
+        let user;
+        if (body.phone) {
+            const data = await users.findOne({ phone: body.phone });
+            if (data) user = data;
+        };
+        if (user) {
+            if (user.otp === body.otp) {
+                const data = await users.findOneAndUpdate({ phone: body.phone }, { $set: { verify: true } }, { new: true });
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "Otp Matched",
+                    data: [data]
+                };
+            } else {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "Otp Not Matched",
+                    data: []
+                };
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "Phone Number Not Matched!",
+                data: []
+            };
+        };
+    } catch (error) {
+        console.log(error);
+    };
+};
+
 exports.businessSignUp = async (req) => {
     try {
         const { body, user } = req;

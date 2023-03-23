@@ -3,6 +3,9 @@ const address = new mongoose.Schema({
     userId: {
         type: mongoose.Types.ObjectId
     },
+    type: {
+        type: String
+    },
     location: {
         houseNumber: {
             type: Number
@@ -19,6 +22,7 @@ const address = new mongoose.Schema({
         state: {
             type: String
         },
+
     }
 }, { timestamps: true });
 
