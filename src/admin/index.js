@@ -9,6 +9,7 @@ const add_blog = require("./blog/routes");
 const Counpon = require("./Coupon/route");
 const payment = require("./payment/route");
 const category = require("./category/routes")
+const user = require("./users/route")
 
 module.exports = [adminRoutes, add_saloone, add_service,
-    add_frequent, order, add_blog, category, Counpon, payment]
+    add_frequent, order, add_blog, category, Counpon, payment, user]

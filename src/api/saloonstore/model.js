@@ -15,10 +15,10 @@ const saloon_Store = new mongoose.Schema({
     confirmpassword: {
         type: String,
     },
-    Email: {
+    email: {
         type: String,
     },
-    PhoneNumber: {
+    Phone: {
         type: Number
     },
     image: {

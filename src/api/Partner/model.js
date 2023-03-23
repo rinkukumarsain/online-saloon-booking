@@ -4,27 +4,31 @@ var ObjectId = require('mongodb').ObjectId;
 
 const saloon_Requst = new mongoose.Schema({
     userId: {
-        type: ObjectId
+        type: ObjectId,
+        default: null
     },
     storeName: {
+        type: String,
+    },
+    ownerName: {
         type: String,
     },
     password: {
         type: String,
     },
-    Email: {
+    email: {
         type: String,
     },
-    PhoneNumber: {
+    Phone: {
         type: Number
     },
-    image: {
-        type: [String],
-    },
+    // image: {
+    //     type: [String],
+    // },
     location: {
-        shopNumber: {
-            type: Number
-        },
+        // shopNumber: {
+        //     type: Number
+        // },
         aria: {
             type: String
         },
@@ -46,7 +50,11 @@ const saloon_Requst = new mongoose.Schema({
         type: String,
         default: "Unisex"
     },
-    description: {
+    status: {
+        type: String,
+        default: "pending"
+    },
+    Partner_Size: {
         type: String
     }
 }, { timestamps: true });

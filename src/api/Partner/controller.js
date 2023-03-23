@@ -2,13 +2,13 @@ const service = require("../saloonService/model");
 const mongoose = require("mongoose");
 const saloonRequst = require("./model");
 const saloon = require("../saloonstore/model")
+const users = require("../user/model")
 
-exports.PartnerRegistrationForm = async (req, res) => {
+exports.businessSignUp = async (req) => {
     try {
-        const { body, user, files } = req
-        let catogoryarr = []
-        const { storeName, Email, PhoneNumber } = body;
-        body.userId = user._id;
+        const { body, user } = req;
+        const { storeName, email, Phone, confromPassword, password } = body;
+
         if (storeName) {
             const result = await saloon.findOne({ storeName });
             const result1 = await saloonRequst.findOne({ storeName });
@@ -20,65 +20,132 @@ exports.PartnerRegistrationForm = async (req, res) => {
                     data: []
                 };
             };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "Enter storeName ",
+                data: []
+            };
         };
-        if (Email) {
-            const result = await saloon.findOne({ Email });
-            const result1 = await saloonRequst.findOne({ Email });
+
+        if (email) {
+            const result = await saloon.findOne({ email });
+            const result1 = await saloonRequst.findOne({ email });
             if (result || result1) {
                 return {
                     statusCode: 400,
                     status: false,
-                    message: "Email Already Exists",
+                    message: "email Already Exists",
                     data: []
                 };
             };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "Enter store email ",
+                data: []
+            };
         };
-        if (PhoneNumber) {
-            const result = await saloon.findOne({ PhoneNumber });
-            const result1 = await saloonRequst.findOne({ PhoneNumber });
+
+        if (Phone) {
+            const result = await saloon.findOne({ Phone });
+            const result1 = await saloonRequst.findOne({ Phone });
             if (result || result1) {
                 return {
                     statusCode: 400,
                     status: false,
-                    message: "PhoneNumber Already Exists",
+                    message: "Phone Already Exists",
                     data: []
                 };
             };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "Enter store phone number ",
+                data: []
+            };
         };
-        if (files != undefined && files.length > 0) {
-            img = [];
-            files.forEach(element => {
-                img.push(`http://159.89.164.11:7070/uploads/${element.filename}`);
-            });
-            body.image = img;
-        }
-        if (typeof (body.category) == "string") {
-            catogoryarr.push(body.category)
-        }
-        if (typeof (body.category) == "object") {
-            for (const index of body.category) {
-                catogoryarr.push(index)
-            }
-        }
+
+        if (password === confromPassword) {
+            body.password = password;
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "password not match",
+                data: []
+            };
+        };
+
+        if (!body.ownerName) {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "ownerName is must",
+                data: []
+            };
+        };
+        /*  if (files != undefined && files.length > 0) {
+              img = [];
+              files.forEach(element => {
+                  img.push(`http://159.89.164.11:7070/uploads/${element.filename}`);
+              });
+              body.image = img;
+          }*/
+        /* if (typeof (body.category) == "string") {
+             catogoryarr.push(body.category)
+         }
+         if (typeof (body.category) == "object") {
+             for (const index of body.category) {
+                 catogoryarr.push(index)
+             }
+         }*/
+
+        if (user != undefined && user._id != undefined && user._id != "") {
+            body.userId = user._id;
+        } else {
+            if (body.email && body.Phone) {
+                const findUser = await users.findOne({ email: body.email, phone: body.Phone });
+                if (findUser != null) {
+                    console.log("user mil gya")
+                    body.userId = findUser._id;
+                };
+            };
+            if (body.userId == undefined || body.userId == null) {
+                const userData = new users({
+                    email: body.email,
+                    name: body.ownerName,
+                    phone: body.Phone,
+                });
+                const result = await userData.save();
+                if (result) {
+                    console.log("user register succes");
+                    body.userId = result._id;
+                };
+            };
+        };
 
         let saloon_details = new saloonRequst({
             storeName: body.storeName,
-            Email: body.Email,
-            PhoneNumber: body.PhoneNumber,
+            email: body.email,
+            Phone: body.Phone,
+            password: body.password,
+            ownerName: body.ownerName,
+            userId: body.userId,
+            type: body.type,
+            category: body.category,
+            Partner_Size: body.Partner_Size,
             location: {
-                shopNumber: body.shopNumber,
                 aria: body.aria,
                 pincode: body.pincode,
                 city: body.city,
                 state: body.state,
             },
-            description: body.description,
-            userId: body.userId,
-            image: body.image,
-            type: body.type,
-            category: catogoryarr,
-
         });
+
         const result = await saloon_details.save();
         if (result) {
             return {
@@ -86,6 +153,13 @@ exports.PartnerRegistrationForm = async (req, res) => {
                 status: true,
                 message: "Saloon-requist-register Succesfuuly !",
                 data: [result]
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "samething is wrong ",
+                data: []
             };
         };
     } catch (error) {
