@@ -25,8 +25,8 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                 let obj = {};
                 let locations = {};
                 if (body.storeName) { obj.storeName = body.storeName };
-                if (body.Email) { obj.Email = body.Email };
-                if (body.PhoneNumber) { obj.PhoneNumber = body.PhoneNumber };
+                if (body.email) { obj.email = body.email };
+                if (body.Phone) { obj.Phone = body.Phone };
                 if (body.shopNumber) { locations.shopNumber = body.shopNumber };
                 if (body.aria) { locations.aria = body.aria };
                 if (body.pincode) { locations.pincode = body.pincode };
@@ -54,7 +54,7 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                 res.redirect("/")
             };
         } else {
-            const { storeName, Email, PhoneNumber, category } = body;
+            const { storeName, email, Phone, category } = body;
             body.userId = user._id;
             if (storeName) {
                 const result = await saloon.findOne({ storeName });
@@ -63,17 +63,17 @@ exports.ADD_SALOON_STORE = async (req, res) => {
                     res.redirect("/")
                 };
             };
-            if (Email) {
-                const result = await saloon.findOne({ Email });
+            if (email) {
+                const result = await saloon.findOne({ email });
                 if (result) {
-                    req.flash("error", "Email Already Exists")
+                    req.flash("error", "email Already Exists")
                     res.redirect("/")
                 };
             };
-            if (PhoneNumber) {
-                const result = await saloon.findOne({ PhoneNumber });
+            if (Phone) {
+                const result = await saloon.findOne({ Phone });
                 if (result) {
-                    req.flash("error", "PhoneNumber Already Exists")
+                    req.flash("error", "Phone Already Exists")
                     res.redirect("/")
                 };
             };
@@ -90,8 +90,8 @@ exports.ADD_SALOON_STORE = async (req, res) => {
             // console.log("body",body)
             let saloon_details = new saloon({
                 storeName: body.storeName,
-                Email: body.Email,
-                PhoneNumber: body.PhoneNumber,
+                email: body.email,
+                Phone: body.Phone,
                 password: body.password,
                 location: {
                     shopNumber: body.shopNumber,
@@ -216,8 +216,8 @@ exports.saloonApproval = async (req, res) => {
 
             let saloon_details = new saloon({
                 storeName: findSloonRequist.storeName,
-                Email: findSloonRequist.Email,
-                PhoneNumber: findSloonRequist.PhoneNumber,
+                email: findSloonRequist.email,
+                Phone: findSloonRequist.Phone,
                 location: {
                     shopNumber: findSloonRequist.location.shopNumber,
                     aria: findSloonRequist.location.aria,
