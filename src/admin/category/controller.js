@@ -29,7 +29,9 @@ exports.AddCategory = async (req, res) => {
 exports.ViwesCategory = async (req, res) => {
     try {
         let condition = {}
-        if (req.query.id) {
+        if (req.query.CategoryName != undefined && req.query.CategoryName != "") {
+            condition = { Name: { $regex: req.query.CategoryName, $options: 'i' } };
+        } else if (req.query.id != undefined && req.query.id != "") {
             condition = { parent_Name: req.query.id };
         } else {
             condition = { parent_Name: null };
@@ -47,7 +49,7 @@ exports.ViwesCategory = async (req, res) => {
             dele = ""
         }
         if (data) {
-            res.render("category/view-category", { data, user: req.user })
+            res.render("category/view-category", { query: req.query, data, user: req.user })
         } else {
             res.redirect("/")
         }
