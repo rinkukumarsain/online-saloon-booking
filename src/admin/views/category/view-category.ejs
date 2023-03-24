@@ -52,8 +52,17 @@
                         </select>
                       </div> -->
                       <div class="col-md-3">
-                        <input type="number" name="totalamount" class="form-control" value="" placeholder="Amount">
+                        <select id="inputState" name="status" class="form-select">
+                          <% if(query.status!=undefined&&query.status!="" ){%>
+                            <option selected="" value="all"> All </option>
+                            <option value="">Choose Status</option>
+                            <%}else{%>
+                              <option selected="" value="">Choose Status</option>
+                              <option value="all">All</option>
+                              <%}%>
+                        </select>
                       </div>
+
                       <div class="col-md-3">
                         <div class="text-center">
                           <button type="submit" class="btn btn-primary">Submit</button>

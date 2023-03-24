@@ -33,6 +33,8 @@ exports.ViwesCategory = async (req, res) => {
             condition = { Name: { $regex: req.query.CategoryName, $options: 'i' } };
         } else if (req.query.id != undefined && req.query.id != "") {
             condition = { parent_Name: req.query.id };
+        } else if (req.query.status != undefined && req.query.status != "") {
+            condition = {}
         } else {
             condition = { parent_Name: null };
         }
