@@ -3,6 +3,7 @@ const service = require("./services")
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const saloonRequst = require("../../api/Partner/model")
+const { getAllSaloonRequistCity } = require("../../api/saloonstore/controller")
 exports.ADD_SALOON = async (req, res) => {
     const _id = req.query.id
     const saloon_data = await saloon.findOne({ _id })
@@ -156,40 +157,59 @@ exports.GetSaloonAddress = async (req, res) => {
 
 exports.viewsSaloonRequest = async (req, res) => {
     try {
-        console.log("req.url viewsSaloonRequest-->stor1", req.url, "<--")
         res.locals.message = req.flash();
+        let condition = [];
         const user = req.user
-        const data = await saloonRequst.aggregate([
-            {
-                '$lookup': {
-                    'from': 'users',
-                    'localField': 'userId',
-                    'foreignField': '_id',
-                    'pipeline': [
-                        {
-                            '$project': {
-                                'name': 1
-                            }
+        let match = {}
+        if (req.query.city != undefined && req.query.city != "") {
+            match['location.city'] = req.query.city
+        }
+        if (req.query.Phone != undefined && req.query.Phone != "") {
+            match.Phone = { $eq: Number(req.query.Phone) }
+        }
+        if (req.query.email != undefined && req.query.email != "") {
+            match.email = { $regex: req.query.email, $options: 'i' }
+        }
+        condition.push({
+            '$match': match
+        })
+        condition.push({
+            '$lookup': {
+                'from': 'users',
+                'localField': 'userId',
+                'foreignField': '_id',
+                'pipeline': [
+                    {
+                        '$project': {
+                            'name': 1
                         }
-                    ],
-                    'as': 'result'
-                }
-            }, {
-                '$addFields': {
-                    'name': {
-                        '$getField': {
-                            'field': 'name',
-                            'input': {
-                                '$arrayElemAt': [
-                                    '$result', 0
-                                ]
-                            }
+                    }
+                ],
+                'as': 'result'
+            }
+        }, {
+            '$addFields': {
+                'name': {
+                    '$getField': {
+                        'field': 'name',
+                        'input': {
+                            '$arrayElemAt': [
+                                '$result', 0
+                            ]
                         }
                     }
                 }
             }
-        ])
-        res.render("add_saloon/views-saloon-request", { user, data })
+        }
+        )
+        const data = await saloonRequst.aggregate(condition)
+        const FindAllcity = await getAllSaloonRequistCity(req)
+        console.log("data", data)
+        if (data && FindAllcity) {
+            res.render("add_saloon/views-saloon-request", { user, data, query: req.query, city: FindAllcity.data })
+        } else {
+            res.redirect("/")
+        }
     } catch (error) {
         console.log(error)
 
@@ -276,6 +296,7 @@ exports.findAddSaloonRequist = async (req, res) => {
         const id = req.query.id
         const FindData = await saloonRequst.find({ _id: mongoose.Types.ObjectId(id) })
         if (FindData) {
+            console.log("FindData", FindData)
             res.send(FindData)
         }
     } catch (error) {

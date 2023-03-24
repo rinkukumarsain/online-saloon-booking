@@ -34,7 +34,7 @@ exports.Checkout = async ({ user, query }) => {
             }
         });
 
-        if (query.Home != undefined && query.Home != "") {
+        if (query.addressId != undefined && query.addressId != "") {
             condition.push({
                 '$project': {
                     'name': 1,
@@ -43,7 +43,7 @@ exports.Checkout = async ({ user, query }) => {
                     'saloonId': '$cartData.saloonId',
                     'cartdata': '$cartData.cartdata',
                     'totalamount': '$cartData.totalamount',
-                    'addressId': mongoose.Types.ObjectId(query.Home)
+                    'addressId': mongoose.Types.ObjectId(query.addressId)
                 }
             });
         } else {
@@ -66,7 +66,7 @@ exports.Checkout = async ({ user, query }) => {
                 'as': 'saloon'
             }
         });
-        if (query.Home != undefined && query.Home != "") {
+        if (query.addressId != undefined && query.addressId != "") {
             condition.push({
                 '$lookup': {
                     'from': 'useraddresses',

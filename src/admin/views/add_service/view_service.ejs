@@ -33,107 +33,35 @@
                     <h5 class="card-title">Filter</h5>
 
                     <!-- No Labels Form -->
-                    <form class="row g-3" action="/get-All-order">
+                    <form class="row g-3" action="/view_service">
                       <div class="col-md-3">
-                        <select id="inputState" name="city" class="form-select">
-
-                          <option selected="" value="">Choose City</option>
-
-
-                          <option value="ajmer">
-                            ajmer
-                          </option>
-
-                          <option value="gujrat">
-                            gujrat
-                          </option>
-
-                          <option value="Lucknow">
-                            Lucknow
-                          </option>
-
-                          <option value="Qui consequatur cup">
-                            Qui consequatur cup
-                          </option>
-
-                          <option value="Irure quaerat sit n">
-                            Irure quaerat sit n
-                          </option>
-
-                          <option value="jaipur">
-                            jaipur
-                          </option>
-
-                          <option value="manali">
-                            manali
-                          </option>
-
-                          <option value="Voluptatem labore fa">
-                            Voluptatem labore fa
-                          </option>
-
-                          <option value="">
-
-                          </option>
-
-                          <option value="Est enim tempora do">
-                            Est enim tempora do
-                          </option>
-
-                          <option value="Ut culpa dolores ex">
-                            Ut culpa dolores ex
-                          </option>
-
-                          <option value="Jaipur">
-                            Jaipur
-                          </option>
-
-                          <option value="Quod dolor quia cons">
-                            Quod dolor quia cons
-                          </option>
-
-                          <option value="Necessitatibus alias">
-                            Necessitatibus alias
-                          </option>
-
-                          <option value="324">
-                            324
-                          </option>
-
-                          <option value="churu">
-                            churu
-                          </option>
-
-                          <option value="4543">
-                            4543
-                          </option>
-
-                          <option value="In voluptas quisquam">
-                            In voluptas quisquam
-                          </option>
-
-                        </select>
+                        <% if(query?.StoreName!="" ){%>
+                          <input type="text" name="StoreName" class="form-control" value="<%=query?.StoreName%>"
+                            placeholder="StoreName">
+                          <%}else{%>
+                            <input type="text" name="StoreName" class="form-control" placeholder="StoreName">
+                            <%}%>
                       </div>
                       <div class="col-md-3">
-                        <select id="inputState" name="status" class="form-select">
-
-                          <option selected="" value="">Choose Status</option>
-                          <option value="pending">pending</option>
-                          <option value="cancel">cancel</option>
-                          <option value="succes">succes</option>
-
-
-                        </select>
+                        <% if(query?.ServiceName!="" ){%>
+                          <input type="text" name="ServiceName" class="form-control" value="<%=query?.ServiceName%>"
+                            placeholder="ServiceName">
+                          <%}else{%>
+                            <input type="text" name="ServiceName" class="form-control" placeholder="ServiceName">
+                            <%}%>
                       </div>
                       <div class="col-md-3">
-
-                        <input type="number" name="totalamount" class="form-control" value="" placeholder="Amount">
-
+                        <% if(query?.ServicePrice!="" ){%>
+                          <input type="number" name="ServicePrice" class="form-control" value="<%=query?.ServicePrice%>"
+                            placeholder="ServicePrice">
+                          <%}else{%>
+                            <input type="number" name="ServicePrice" class="form-control" placeholder="ServicePrice">
+                            <%}%>
                       </div>
                       <div class="col-md-3">
                         <div class="text-center">
                           <button type="submit" class="btn btn-primary">Submit</button>
-                          <a href="/get-All-order"> <button type="button" class="btn btn-secondary">Reset</button></a>
+                          <a href="/view_service"> <button type="button" class="btn btn-secondary">Reset</button></a>
                         </div>
                       </div>
                     </form>
