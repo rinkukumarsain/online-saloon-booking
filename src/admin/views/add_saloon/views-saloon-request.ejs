@@ -34,46 +34,45 @@
                       <h5 class="card-title">Filter</h5>
 
                       <!-- No Labels Form -->
-                      <form class="row g-3" action="/get-All-order">
+                      <form class="row g-3" action="/views-saloon-request">
                         <div class="col-md-3">
                           <select id="inputState" name="city" class="form-select">
-
-                            <option selected="" value="">Choose City</option>
-
-
-                            <option value="ajmer">
-                              ajmer
-                            </option>
-
-                            <option value="gujrat">
-                              gujrat
-                            </option>
-
-
-
-
+                            <% if( query.city!=undefined&&query.city!="" ){%>
+                              <option selected="" value="<%=query?.city%>">
+                                <%=query?.city%>
+                              </option>
+                              <option value="">Choose City</option>
+                              <%}else{%>
+                                <option selected="" value="">Choose City</option>
+                                <%}%>
+                                  <% city.forEach(function(citys) { %>
+                                    <option value="<%=citys%>">
+                                      <%=citys%>
+                                    </option>
+                                    <% }); %>
                           </select>
                         </div>
                         <div class="col-md-3">
-                          <select id="inputState" name="status" class="form-select">
-
-                            <option selected="" value="">Choose Status</option>
-                            <option value="pending">pending</option>
-                            <option value="cancel">cancel</option>
-                            <option value="succes">succes</option>
-
-
-                          </select>
+                          <% if(query?.email!="" ){%>
+                            <input type="text" name="email" class="form-control" value="<%=query?.email%>"
+                              placeholder="email">
+                            <%}else{%>
+                              <input type="text" name="email" class="form-control" placeholder="email">
+                              <%}%>
                         </div>
                         <div class="col-md-3">
-
-                          <input type="number" name="totalamount" class="form-control" value="" placeholder="Amount">
-
+                          <% if(query?.Phone!="" ){%>
+                            <input type="number" name="Phone" class="form-control" value="<%=query?.Phone%>"
+                              placeholder="Phone">
+                            <%}else{%>
+                              <input type="number" name="Phone" class="form-control" placeholder="Phone">
+                              <%}%>
                         </div>
                         <div class="col-md-3">
                           <div class="text-center">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <a href="/get-All-order"> <button type="button" class="btn btn-secondary">Reset</button></a>
+                            <a href="/views-saloon-request"> <button type="button"
+                                class="btn btn-secondary">Reset</button></a>
                           </div>
                         </div>
                       </form>
@@ -94,9 +93,11 @@
                             <th scope="col">Store Name</th>
                             <th scope="col">Owner Name</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Phone Number</th>
+                            <th scope="col">Phone</th>
                             <th>Location</th>
-                            <th>detail</th>
+                            <th>Profile</th>
+                            <th>Docu ment</th>
+                            <th>Bank Info</th>
                             <th scope="col">Action</th>
                           </tr>
                         </thead>
@@ -120,13 +121,26 @@
                                   <%= data.Phone %>
                                 </td>
                                 <td>
-                                  <button type="button" value="<%= data._id %>" onclick="findAddSaloonRequist(this)"
-                                    class="btn btn-info">
+                                  <button type="button" value="<%= data._id %>" id="location"
+                                    onclick="findAddSaloonRequist(this)" class="btn btn-info">
                                     <i class="bi bi-eye" title="view"></i>
                                   </button>
                                 </td>
                                 <td>
-                                  <button type="button" value="<%= data._id %>" class="btn btn-info">
+                                  <button type="button" value="<%= data._id %>" id="profile"
+                                    onclick="findAddSaloonRequist(this)" class="btn btn-info">
+                                    <i class="bi bi-eye" title="view"></i>
+                                  </button>
+                                </td>
+                                <td>
+                                  <button type="button" value="<%= data._id %>" id="Document"
+                                    onclick="findAddSaloonRequist(this)" class="btn btn-info">
+                                    <i class="bi bi-eye" title="view"></i>
+                                  </button>
+                                </td>
+                                <td>
+                                  <button type="button" value="<%= data._id %>" id="BankInfo"
+                                    onclick="findAddSaloonRequist(this)" class="btn btn-info">
                                     <i class="bi bi-eye" title="view"></i>
                                   </button>
                                 </td>
@@ -153,6 +167,8 @@
           </section>
 
         </main>
+
+        <!-- location -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -170,18 +186,42 @@
             </div>
           </div>
         </div>
+        <!-- profile -->
+        <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">User Service Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="profile">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                
+              </div>
+            </div>
+          </div>
+        </div> -->
+
 
         <script>
-          function findAddSaloonRequist(data) {
-            let num = data.value
+          function findAddSaloonRequist(element) {
+            let num = element.value
+            console.log("datadatadata", element.id)
+            // juyg
             $.ajax({
               type: 'get',
               data: { "id": num },
               url: '/find-Add-Saloon-Requist',
               success: function (data) {
+                console.log("data", data)
+                let abc;
                 if (data.length > 0) {
                   $('#moduleDataAppend').empty()
-                  let abc = ` <table class="table datatable">
+                  if (element.id == "location") {
+                    abc = ` <table class="table datatable">
                             <thead>
                               <tr>
                                 <th scope="col">Shop Number</th>
@@ -191,8 +231,8 @@
                               </tr>
                             </thead>
                             <tbody>`
-                  data.forEach((item) => {
-                    abc += `<tr>
+                    data.forEach((item) => {
+                      abc += `<tr>
                                 <td>
                                   ${item.location.shopNumber}
                                 </td>
@@ -206,12 +246,110 @@
                                   ${item.location.state}
                                 </td>
                             </tr>`
-                  })
+                    })
+                    abc += `</tbody> </table >`
+                  } else if (element.id == "profile") {
+                    abc = ` <table class="table datatable">
+                            <thead>
+                              <tr>
+                                <th scope="col">Service</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">workingday</th>
+                                <th scope="col">
+                                  <i class="bi bi-facebook"></i>
+                                  <i class="bi bi-instagram"></i>
+                                  <i class="bi bi-link-45deg"></i>
+                                <th scope="col">amenities</th>
+                              </tr>
+                            </thead>
+                            <tbody>`
+                    data.forEach((item) => {
+                      abc += `<tr>
+                                <td>
+                                  ${item.ProfileInfo.yourService}
+                                </td>
+                                <td>
+                                  ${item.ProfileInfo.alternatePhone}
+                                </td>
+                                <td>
+                                  view
+                                </td>
+                                <td>
+                                  <a href="${item.ProfileInfo.FaceBookProfile}"><i class="bi bi-facebook"></i></a>
+                                  <a href="${item.ProfileInfo.instaProfile}"><i class="bi bi-instagram"></i></a>
+                                  <a href="${item.ProfileInfo.webProfile}"><i class="bi bi-link-45deg"></i></a>
+                                </td>
+                                <td>
+                                 view
+                                </td>
+                            </tr>`
+                    })
+                    abc += `</tbody> </table >`
+                  } else if (element.id == "Document") {
+                    abc = ` <table class="table datatable">
+                            <thead>
+                              <tr>
+                                <th scope="col">Banner Logo</th>
+                                <th scope="col">logo Image</th>
+                                <th scope="col">pan Image</th>
+                                <th scope="col">business Certificate</th>
+                              </tr>
+                            </thead>
+                            <tbody>`
+                    data.forEach((item) => {
+                      abc += `<tr>
+                                <td>
+                                 <img src="/uploads/${item.uplodeDocuments.BannerLogo}" style="height: 50px; width: 80px alt="">
 
-                  abc += `</tbody> </table >`
+                                </td>
+                                <td>
+                                 <img src="/uploads/${item.uplodeDocuments.logoImage}" style="height: 50px; width: 80px alt="">
 
+                                </td>
+                                <td>
+                                <img src="/uploads/${item.uplodeDocuments.panImage}" style="height: 50px; width: 80px alt="">
+
+                                </td>
+                                <td>
+                                 <img src="/uploads/${item.uplodeDocuments.businessCertificate}" style="height: 50px; width: 80px alt="">
+
+                                </td>
+                               </tr>`
+                    })
+                    abc += `</tbody> </table >`
+                  } else if (element.id == "BankInfo") {
+                    abc = ` <table class="table datatable">`
+                    data.forEach((item) => {
+                      abc += `<tr>
+                                <th scope="col">pan No</th>  <td scope="col">${item.BankInfo.panNo}</td>
+                             </tr>
+                             <tr>
+                                <th scope="col">gstNo</th>  <td scope="col">${item.BankInfo.gstNo}</td>
+                             </tr>
+                             <tr>
+                                <th scope="col">bankName</th>  <td scope="col">${item.BankInfo.bankName}</td>
+                             </tr>
+                             <tr>
+                                <th scope="col">branchName</th>  <td scope="col">${item.BankInfo.branchName}</td>
+                             </tr>
+                             <tr>
+                                <th scope="col">accountNo</th>  <td scope="col">${item.BankInfo.accountNo}</td>
+                             </tr>
+                             <tr>
+                                <th scope="col">accoutHolder</th>  <td scope="col">${item.BankInfo.accoutHolder}</td>
+                             </tr>
+                             <tr>
+                                <th scope="col">ifscCode</th>  <td scope="col">${item.BankInfo.ifscCode}</td>
+                             </tr>
+                             <tr>
+                                <th scope="col">kyc</th>  <td scope="col">${item.BankInfo.kyc}</td>
+                             </tr>`
+                    })
+                    abc += ` </table >`
+                  }
                   $('#moduleDataAppend').append(abc)
                   $("#exampleModal").modal("toggle");
+
                 } else {
                   alert("data not Found")
                 }
@@ -219,6 +357,18 @@
             })
           }
         </script>
+
+        gstNo
+        bankName
+        branchName
+        accountNo
+        accoutHolder
+        ifscCode
+        kyc
+
+
+
+
         <%- include("../../partials/script.ejs") %>
 </body>
 

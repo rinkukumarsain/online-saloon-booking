@@ -3,6 +3,7 @@ const Category = require("../../api/category/model")
 const saloonService = require("../../api/saloonService/model")
 const mongoose = require("mongoose");
 const service = require("./service")
+const { getAllSaloonCity } = require("../../api/saloonstore/controller")
 exports.ADD_SERVICE = async (req, res) => {
     try {
         const user = req.user
@@ -141,9 +142,9 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
 }
 
 exports.VIEW_SERVICE = async (req, res) => {
-    const data = await service.VIEW_SALOON()
+    const data = await service.VIEW_SALOON(req)
     const user = req.user
-    res.render("add_service/view_service", { user, data })
+    res.render("add_service/view_service", { query: req.query, user, data })
 }
 
 exports.DELETE_SERVICE = async (req, res) => {
