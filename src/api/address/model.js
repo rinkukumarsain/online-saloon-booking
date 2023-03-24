@@ -1,3 +1,4 @@
+const { string } = require("joi");
 const { mongoose, ObjectId } = require("mongoose");
 const address = new mongoose.Schema({
     userId: {
@@ -5,6 +6,16 @@ const address = new mongoose.Schema({
     },
     type: {
         type: String
+    },
+    name: {
+        type: String
+    },
+    phone: {
+        type: String
+    },
+    makeDefault: {
+        type: Boolean,
+        default: false
     },
     location: {
         houseNumber: {
