@@ -30,10 +30,10 @@ exports.addUserAddress = async ({ user, query, body }) => {
                             if (body.aria == item.location.aria) {
                                 if (body.houseNumber == item.location.houseNumber) {
                                     return {
-                                        statusCode: 200,
-                                        status: true,
+                                        statusCode: 400,
+                                        status: false,
                                         message: "address-is allready in data base  !",
-                                        data: [item]
+                                        data: []
                                     };
                                 };
                             };
