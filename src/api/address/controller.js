@@ -58,40 +58,50 @@ exports.addUserAddress = async ({ user, query, body }) => {
 
 exports.getUserAddress = async ({ user, query }) => {
     try {
-        if (query.id) {
-            let _id = mongoose.Types.ObjectId(query.id);
-            const findData = await userAddress.findOne({ _id });
-            if (findData) {
-                return {
-                    statusCode: 200,
-                    status: true,
-                    message: "Address-Found-Succesfuuly !",
-                    data: findData
-                };
-            } else {
-                return {
-                    statusCode: 400,
-                    status: false,
-                    message: "Please-Enter-Valid-Id !",
-                    data: findData
-                };
+        let condition = []
+
+        if (query.id != undefined && query.id != "") {
+            condition.push({
+                '$match': {
+                    '_id': mongoose.Types.ObjectId(query.id)
+                }
+            })
+        }
+        condition.push({
+            '$lookup': {
+                'from': 'users',
+                'localField': 'userId',
+                'foreignField': '_id',
+                'pipeline': [
+                    {
+                        '$project': {
+                            'name': 1,
+                            'phone': 1
+                        }
+                    }
+                ],
+                'as': 'users'
+            }
+        }, {
+            '$unwind': {
+                'path': '$users'
+            }
+        })
+        const findData = await userAddress.aggregate(condition);
+
+        if (findData) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "Address-Found-Succesfuuly !",
+                data: findData
             };
         } else {
-            const findData = await userAddress.find({ userId: user._id });
-            if (findData.length > 0) {
-                return {
-                    statusCode: 200,
-                    status: true,
-                    message: "Address-Found-Succesfuuly !",
-                    data: findData
-                };
-            } else {
-                return {
-                    statusCode: 400,
-                    status: false,
-                    message: "No-address-Found !",
-                    data: findData
-                };
+            return {
+                statusCode: 400,
+                status: false,
+                message: "No-address-Found  !",
+                data: findData
             };
         };
     } catch (error) {
