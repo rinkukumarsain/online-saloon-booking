@@ -4,15 +4,79 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const saloonRequst = require("../../api/Partner/model")
 const { getAllSaloonRequistCity } = require("../../api/saloonstore/controller")
-exports.ADD_SALOON = async (req, res) => {
+
+
+
+
+exports.saloonRegister = async (req, res) => {
     const _id = req.query.id
     const saloon_data = await saloon.findOne({ _id })
-    res.render("add_saloon/add_saloon", { user: req.user, saloon_data })
+    res.render("add_saloon/saloon-Register", { user: req.user, saloon_data })
 }
+
+
+const { businessSignUp } = require("../../api/Partner/controller")
+
 
 exports.ADD_SALOON_STORE = async (req, res) => {
     try {
-        //console.log("body", req.body)
+        // console.log("body", req.body)
+        const businessSign = await businessSignUp(req)
+        console.log("----------->", businessSign, "<-----------")
+        if (businessSign.statusCode == 200 && businessSign.status == true) {
+            console.log("next", businessSign.data[0]._id)
+            res.redirect(`/business-profile-info?id=${businessSign.data[0]._id}`)
+        } else {
+            console.log("wroung")
+
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+exports.businessProfileInfo = async (req, res) => {
+    try {
+        console.log("body", req.body, req.query)
+        const _id = mongoose.Types.ObjectId(req.query.id)
+        const saloon_data = await saloonRequst.findOne({ _id })
+        console.log("saloon_data", saloon_data)
+        res.render("add_saloon/business-profile", { _id: req.query.id, user: req.user, saloon_data })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+exports.businessProfile = async (req, res) => {
+    try {
+        console.log("body", req.body, req.query)
+
+        businessPostjhb
+        const _id = req.query.id
+        const saloon_data = await saloon.findOne({ _id })
+        res.render("add_saloon/business-profile", { user: req.user, saloon_data })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+/*
+exports.ADD_SALOON = async (req, res) => {
+    const _id = req.query.id
+    const saloon_data = await saloon.findOne({ _id })
+    res.render("add_saloon/index", { user: req.user, saloon_data })
+}
+*/
+
+
+
+/*
+exports.ADD_SALOON_STORE = async (req, res) => {
+    try {
+        console.log("body", req.body)
         let { body, user, files, query } = req
         // console.log("body",body)
 
@@ -122,7 +186,7 @@ exports.ADD_SALOON_STORE = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-}
+}*/
 
 exports.VIEW_SALOON = async (req, res) => {
     const data = await service.VIEW_SALOON()

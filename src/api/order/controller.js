@@ -213,7 +213,7 @@ exports.orderCancel = async (req) => {
                     return {
                         statusCode: 200,
                         status: true,
-                        message: `censal order successful `,
+                        message: `cancel order successful `,
                         data: [orderCencal]
                     };
                 };

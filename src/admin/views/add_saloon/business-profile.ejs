@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>business-profile</title>
+
+  <%- include('../../partials/headlink.ejs') %>
+</head>
+
+<body>
+
+  <%- include('../../partials/Header.ejs') %>
+    <%- include("../../partials/sidebar.ejs") %>
+
+      <main id="main" class="main">
+        <div class="pagetitle">
+          <h1>
+            <%-user.type %>
+          </h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </nav>
+        </div><!-- End Page Title -->
+
+        <section class="section dashboard">
+          <div class="row">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">business-profile</h5>
+                    <form action="/business-profile-info?id=<%=saloon_data._id%>" method="post"
+                      enctype="multipart/form-data">
+
+                      <div class="row g-3">
+                        <div class="col">
+                          <label for="">your Service</label><br>
+                          <input required type="text" name="yourService" class="form-control"
+                            placeholder="Enter Your your Service">
+                        </div>
+                        <div class="col">
+                          <label for=""> alternate Phone </label><br>
+                          <input required type="text" name="alternatePhone" class="form-control"
+                            placeholder="Enter a alternate Phone">
+                        </div>
+
+                      </div><br>
+
+                    
+                      <div class="row g-3">
+                        <div class="col">
+                          <label for="">workingday</label><br>
+                          <input class="form-check-input" type="checkbox" value="Monday" name="workingday"
+                            id="gridCheck1">Monday
+                          <input class="form-check-input" type="checkbox" value="Tuesday" name="workingday"
+                            id="gridCheck1">Tuesday
+                          <input class="form-check-input" type="checkbox" value="Wednesday" name="workingday"
+                            id="gridCheck1">Wednesday
+                          <input class="form-check-input" type="checkbox" value="Thursday" name="workingday"
+                            id="gridCheck1">Thursday
+                          <input class="form-check-input" type="checkbox" value="Friday" name="workingday"
+                            id="gridCheck1">Friday
+                          <input class="form-check-input" type="checkbox" value="Saturday" name="workingday"
+                            id="gridCheck1">Saturday
+                          <input class="form-check-input" type="checkbox" value="Sunday" name="workingday"
+                            id="gridCheck1">Sunday
+                        </div>
+                        <div class="col">
+                          <label for="">amenities </label><br>
+                          <input class="form-check-input" type="checkbox" value="cctv" name="amenities"
+                            id="gridCheck1">cctv
+                          <input class="form-check-input" type="checkbox" value="card payment" name="amenities"
+                            id="gridCheck1">card payment
+                          <input class="form-check-input" type="checkbox" value="parking" name="amenities"
+                            id="gridCheck1">parking
+                          <input class="form-check-input" type="checkbox" value="tv" name="amenities" id="gridCheck1">tv
+                          <input class="form-check-input" type="checkbox" value="ac" name="amenities" id="gridCheck1">ac
+                          <input class="form-check-input" type="checkbox" value="wifi" name="amenities"
+                            id="gridCheck1">wifi
+                          <input class="form-check-input" type="checkbox" value="beverag" name="amenities"
+                            id="gridCheck1">beverag
+                        </div>
+                      </div>
+
+                      <div class="row g-3">
+                        <div class="col">
+                          <label for="">FaceBookProfile </label><br>
+                          <input required type="text" id="addressSearch" name="FaceBookProfile"
+                            class="form-control pac-target-input" placeholder="saloon type" autocomplete="off">
+                        </div>
+                        <div class="col">
+                          <label for="">instaProfile </label><br>
+                          <input required type="text" id="addressSearch" name="instaProfile"
+                            class="form-control pac-target-input" placeholder="instaProfile" autocomplete="off">
+                        </div>
+                      </div><br>
+
+                      <div class="row g-3">
+                        <div class="col">
+                          <label for="">webProfile</label><br>
+                          <input required type="text" name="webProfile" class="form-control pac-target-input"
+                            placeholder="Enter webProfile" autocomplete="off">
+                        </div>
+                      </div><br>
+
+                      <div class="row g-3">
+                        <div class="col-6">
+                          <label for="starting-time">Starting Time </label>
+                          <input id="starting_time" type="time" class="form-control pac-target-input"
+                            name="starting_time" required />
+                        </div>
+                        <div class="col-6">
+                          <label for="ending-time">Ending Time </label>
+                          <input id="ending_time" type="time" class="form-control pac-target-input" name="ending_time"
+                            required />
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+
+                        <div class="col-sm-10">
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                      </div>
+
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <script>
+        function SendOtp(params) {
+          const ele = document.getElementById("Phone");
+          console.log("helllllo-->", ele.value)
+          $.ajax({
+            type: 'post',
+            data: { "phone": ele.value },
+            url: '/business-otp-sent',
+            success: function (data) {
+              console.log("", data)
+              if (data.status == true) {
+                alert("Oto send ")
+              } else {
+                alert("data not Found")
+              }
+            }
+          })
+        }
+        function verifyOtp(params) {
+          const phone = document.getElementById("Phone");
+          const otp = document.getElementById("otp");
+          console.log("verifyOtp-->", otp.value)
+          console.log("verifyOtp-->", phone.value)
+
+          $.ajax({
+            type: 'post',
+            data: { "phone": phone.value, "otp": otp.value },
+            url: '/business-otp-verify',
+            success: function (data) {
+              console.log("", data)
+              if (data.status == true) {
+                alert("Oto verify ")
+              } else {
+                alert("data not Found")
+              }
+            }
+          })
+        }
+
+      </script>
+
+
+      <%- include("../../partials/script.ejs") %>
+</body>
+
+</html>

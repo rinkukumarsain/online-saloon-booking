@@ -262,7 +262,7 @@ exports.getServiceByCategory = async ({ query }) => {
     try {
         let obj = {};
         const condition = [];
-        if (query.id) {
+        if (query.id != undefined && query.id != "") {
             obj.$and = [];
             if (query.ServicePrice_lt != undefined && query.ServicePrice_lt != "" && query.ServicePrice_gt != undefined && query.ServicePrice_gt != "") {
                 obj.$and.push({ ServicePrice: { $lte: Number(query.ServicePrice_lt) } },
@@ -284,8 +284,8 @@ exports.getServiceByCategory = async ({ query }) => {
 
 
             let arrr = [];
-            let _id = query.id;
-            const findCategory = await category.findOne({ _id });
+
+            const findCategory = await category.findOne({ _id: mongoose.Types.ObjectId(query.id) });
             if (findCategory) {
                 const findsubCategory = await category.find({ parent_Name: findCategory._id });
 

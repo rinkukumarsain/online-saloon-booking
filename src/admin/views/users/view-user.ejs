@@ -39,6 +39,7 @@
                                         <!-- No Labels Form -->
                                         <form class="row g-3" action="/get-All-order">
                                             <div class="col-md-3">
+                                                <label>Choose City</label> <br>
                                                 <select id="inputState" name="city" class="form-select">
                                                     <option selected="" value="">Choose City</option>
                                                     <option value="ajmer">
@@ -47,6 +48,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-3">
+                                                <label>status</label> <br>
                                                 <select id="inputState" name="status" class="form-select">
                                                     <option selected="" value="">Choose Status</option>
                                                     <option value="pending">pending</option>
@@ -55,6 +57,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-3">
+                                                <label>Enter Amount</label> <br>
                                                 <input type="number" name="totalamount" class="form-control" value=""
                                                     placeholder="Amount">
                                             </div>
@@ -86,7 +89,7 @@
                                                     <th scope="col">email</th>
                                                     <th scope="col">gender</th>
                                                     <th scope="col">image</th>
-                                                    <th scope="col">Payment Status</th>
+                                                    <th scope="col">Order</th>
                                                     <th scope="col">Status</th>
 
                                                     <th scope="col">Action</th>
@@ -130,7 +133,17 @@
 
                                                             </td>
                                                             <td>
-                                                                <%= data.paymentStatus %>
+                                                                <% if(typeof data.numberOfOrder !=="undefined" &&
+                                                                    data.numberOfOrder!="" ){%>
+                                                                    <a href="/get-All-order?userId=<%= data._id %>">
+                                                                        <%= data.numberOfOrder %> viwes
+                                                                            order
+                                                                    </a>
+                                                                    <%}else{%>
+                                                                        <a href="#">
+                                                                            no order
+                                                                        </a>
+                                                                        <%}%>
                                                             </td>
                                                             <td>
                                                                 <%= data.status %>
