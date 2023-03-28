@@ -4,41 +4,51 @@ var ObjectId = require('mongodb').ObjectId;
 
 const saloon_Store = new mongoose.Schema({
     userId: {
-        type: ObjectId
+        type: ObjectId,
+        default: null
     },
     storeName: {
         type: String,
+        default: ""
+    },
+    ownerName: {
+        type: String,
+        default: ""
     },
     password: {
         type: String,
-    },
-    confirmpassword: {
-        type: String,
+        default: ""
     },
     email: {
         type: String,
+        default: ""
     },
     Phone: {
-        type: Number
+        type: Number,
+        default: ""
     },
-    image: {
-        type: [String],
-    },
+    // image: {
+    //     type: [String],
+    // },
     location: {
-        shopNumber: {
-            type: Number
-        },
+        // shopNumber: {
+        //     type: Number
+        // },
         aria: {
-            type: String
+            type: String,
+            default: ""
         },
         pincode: {
-            type: String
+            type: String,
+            default: ""
         },
         city: {
-            type: String
+            type: String,
+            default: ""
         },
         state: {
-            type: String
+            type: String,
+            default: ""
         },
 
     },
@@ -47,20 +57,105 @@ const saloon_Store = new mongoose.Schema({
     },
     type: {
         type: String,
-        default: "unisex"
+        default: "Unisex"
     },
-    description: {
-        type: String
+    status: {
+        type: String,
+        default: "pending"
     },
-    weekRange: {
-        type: String
+    Partner_Size: {
+        type: String,
+        default: "1"
     },
-    startingweek: { type: String },
-    endingweek: { type: String },
-    starting_time: { type: String },
-    ending_time: { type: String },
-    TimeRange: {
-        type: String
+    ProfileInfo: {
+        yourService: {
+            type: String,
+            default: ""
+        },
+        alternatePhone: {
+            type: String,
+            default: ""
+        },
+        starting_time: {
+            type: String,
+            default: ""
+        },
+        ending_time: {
+            type: String,
+            default: ""
+        },
+        workingday: {
+            type: [String],
+            default: ""
+        },
+        FaceBookProfile: {
+            type: String,
+            default: ""
+        },
+        instaProfile: {
+            type: String,
+            default: ""
+        },
+        webProfile: {
+            type: String,
+            default: ""
+        },
+        amenities: {
+            type: [String],
+            default: ""
+        },
+    },
+    BankInfo: {
+        panNo: {
+            type: String,
+            default: ""
+        },
+        gstNo: {
+            type: String,
+            default: ""
+        },
+        bankName: {
+            type: String,
+            default: ""
+        },
+        branchName: {
+            type: String,
+            default: ""
+        },
+        accountNo: {
+            type: String,
+            default: ""
+        },
+        accoutHolder: {
+            type: String,
+            default: ""
+        },
+        ifscCode: {
+            type: String,
+            default: ""
+        },
+        kyc: {
+            type: String,
+            default: ""
+        },
+    },
+    uplodeDocuments: {
+        BannerLogo: {
+            type: String,
+            default: ""
+        },
+        logoImage: {
+            type: String,
+            default: ""
+        },
+        panImage: {
+            type: String,
+            default: ""
+        },
+        businessCertificate: {
+            type: String,
+            default: ""
+        },
     }
 }, { timestamps: true });
 

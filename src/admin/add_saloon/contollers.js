@@ -9,26 +9,62 @@ const { getAllSaloonRequistCity } = require("../../api/saloonstore/controller")
 
 
 exports.saloonRegister = async (req, res) => {
+    res.locals.message = req.flash()
     const _id = req.query.id
     const saloon_data = await saloon.findOne({ _id })
     res.render("add_saloon/saloon-Register", { user: req.user, saloon_data })
 }
 
+exports.businessProfileInfo = async (req, res) => {
+    try {
+        res.locals.message = req.flash()
+        const _id = mongoose.Types.ObjectId(req.query.id)
+        const saloon_data = await saloonRequst.findOne({ _id })
+        res.render("add_saloon/business-profile", { _id: req.query.id, user: req.user, saloon_data })
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-const { businessSignUp } = require("../../api/Partner/controller")
+exports.businessBankInfoForm = async (req, res) => {
+    try {
+        res.locals.message = req.flash()
+        const _id = mongoose.Types.ObjectId(req.query.id)
+        const saloon_data = await saloonRequst.findOne({ _id })
+        res.render("add_saloon/business-bank-info", { _id: req.query.id, user: req.user, saloon_data })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+exports.businessUplodeDocument = async (req, res) => {
+    try {
+        res.locals.message = req.flash()
+        const _id = mongoose.Types.ObjectId(req.query.id)
+        const saloon_data = await saloonRequst.findOne({ _id })
+        res.render("add_saloon/document-uplode", { _id: req.query.id, user: req.user, saloon_data })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+const { businessSignUp, businessProfileInfo, businessBankInfo, businessUplodeDocument } = require("../../api/Partner/controller")
 
 
 exports.ADD_SALOON_STORE = async (req, res) => {
     try {
-        // console.log("body", req.body)
+        console.log("t", 1)
+        res.locals.message = req.flash()
         const businessSign = await businessSignUp(req)
-        console.log("----------->", businessSign, "<-----------")
         if (businessSign.statusCode == 200 && businessSign.status == true) {
             console.log("next", businessSign.data[0]._id)
-            res.redirect(`/business-profile-info?id=${businessSign.data[0]._id}`)
+            res.redirect(`/business-profile-info-by-Admin?id=${businessSign.data[0]._id}`)
         } else {
-            console.log("wroung")
-
+            req.flash("error", businessSign.message)
+            res.redirect(`/add_saloon`)
+            console.log("wroung", 1, businessSign)
         }
     } catch (error) {
         console.log(error);
@@ -36,32 +72,62 @@ exports.ADD_SALOON_STORE = async (req, res) => {
 }
 
 
-exports.businessProfileInfo = async (req, res) => {
-    try {
-        console.log("body", req.body, req.query)
-        const _id = mongoose.Types.ObjectId(req.query.id)
-        const saloon_data = await saloonRequst.findOne({ _id })
-        console.log("saloon_data", saloon_data)
-        res.render("add_saloon/business-profile", { _id: req.query.id, user: req.user, saloon_data })
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 
 exports.businessProfile = async (req, res) => {
     try {
-        console.log("body", req.body, req.query)
-
-        businessPostjhb
-        const _id = req.query.id
-        const saloon_data = await saloon.findOne({ _id })
-        res.render("add_saloon/business-profile", { user: req.user, saloon_data })
+        res.locals.message = req.flash()
+        console.log("t", 2)
+        const find = await saloonRequst.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
+        const businessP = await businessProfileInfo(req)
+        if (businessP.statusCode == 200 && businessP.status == true) {
+            res.redirect(`/business-bank-information?id=${businessP.data[0]._id}`)
+        } else {
+            req.flash("error", businessP.message)
+            res.redirect(`/business-profile-info-by-Admin?id=${find._id}`)
+            console.log("wroung", 2, businessP)
+        }
     } catch (error) {
         console.log(error);
     }
 }
 
+
+exports.businessBankInfoAdmin = async (req, res) => {
+    try {
+        res.locals.message = req.flash()
+        console.log("t", 3)
+        const find = await saloonRequst.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
+        const businessP = await businessBankInfo(req)
+        if (businessP.statusCode == 200 && businessP.status == true) {
+            res.redirect(`/document-uplode?id=${businessP.data[0]._id}`)
+        } else {
+            req.flash("error", businessP.message)
+            res.redirect(`/business-bank-information?id=${find._id}`)
+            console.log("wroung", 3, businessP)
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+exports.businessUplodeDocumentAdmin = async (req, res) => {
+    try {
+        res.locals.message = req.flash()
+        console.log("t", 4)
+        const find = await saloonRequst.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
+        const businessP = await businessUplodeDocument(req)
+        if (businessP.statusCode == 200 && businessP.status == true) {
+            res.redirect("/")
+        } else {
+            req.flash("error", businessP.message)
+            res.redirect(`/document-uplode?id=${find._id}`)
+            console.log("wroung", 4, businessP)
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 /*
 exports.ADD_SALOON = async (req, res) => {
@@ -299,22 +365,62 @@ exports.saloonApproval = async (req, res) => {
             console.log("findSloonRequist", findSloonRequist)
 
             let saloon_details = new saloon({
+                userId: findSloonRequist.userId,
                 storeName: findSloonRequist.storeName,
+                ownerName: findSloonRequist.ownerName,
+                password: findSloonRequist.password,
                 email: findSloonRequist.email,
                 Phone: findSloonRequist.Phone,
                 location: {
-                    shopNumber: findSloonRequist.location.shopNumber,
                     aria: findSloonRequist.location.aria,
                     pincode: findSloonRequist.location.pincode,
                     city: findSloonRequist.location.city,
                     state: findSloonRequist.location.state,
                 },
-                description: findSloonRequist.description,
-                userId: findSloonRequist.userId,
-                image: findSloonRequist.image,
-                type: findSloonRequist.type,
                 category: findSloonRequist.category,
+                status: findSloonRequist.status,
+                Partner_Size: findSloonRequist.Partner_Size,
+                ProfileInfo: {
+                    yourService: findSloonRequist.ProfileInfo.yourService,
+                    alternatePhone: findSloonRequist.ProfileInfo.alternatePhone,
+                    starting_time: findSloonRequist.ProfileInfo.starting_time,
+                    ending_time: findSloonRequist.ProfileInfo.ending_time,
+                    workingday: findSloonRequist.ProfileInfo.workingday,
+                    FaceBookProfile: findSloonRequist.ProfileInfo.FaceBookProfile,
+                    instaProfile: findSloonRequist.ProfileInfo.instaProfile,
+                    webProfile: findSloonRequist.ProfileInfo.webProfile,
+                    amenities: findSloonRequist.ProfileInfo.amenities,
+                },
+                BankInfo: {
+                    panNo: findSloonRequist.BankInfo.panNo,
+                    gstNo: findSloonRequist.BankInfo.gstNo,
+                    bankName: findSloonRequist.BankInfo.bankName,
+                    branchName: findSloonRequist.BankInfo.branchName,
+                    accountNo: findSloonRequist.BankInfo.accountNo,
+                    accoutHolder: findSloonRequist.BankInfo.accoutHolder,
+                    ifscCode: findSloonRequist.BankInfo.ifscCode,
+                    kyc: findSloonRequist.BankInfo.kyc,
+                },
+                uplodeDocuments: {
+                    BannerLogo: findSloonRequist.uplodeDocuments.BannerLogo,
+                    logoImage: findSloonRequist.uplodeDocuments.logoImage,
+                    panImage: findSloonRequist.uplodeDocuments.panImage,
+                    businessCertificate: findSloonRequist.uplodeDocuments.businessCertificate,
+                },
 
+                // storeName: findSloonRequist.storeName,
+                // email: findSloonRequist.email,
+                // Phone: findSloonRequist.Phone,
+                // location: {
+                //     shopNumber: findSloonRequist.location.shopNumber,
+                //     aria: findSloonRequist.location.aria,
+                //     pincode: findSloonRequist.location.pincode,
+                //     city: findSloonRequist.location.city,
+                //     state: findSloonRequist.location.state,
+                // },
+                // description: findSloonRequist.description,
+                // userId: findSloonRequist.userId,
+                // image: findSloonRequist.imagefindSloonRequist.image,
             });
             const result = await saloon_details.save();
             console.log("result", result)
