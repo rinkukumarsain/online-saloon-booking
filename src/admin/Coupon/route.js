@@ -6,7 +6,7 @@ const { Coupon, createCoupon, ViewAllCoupon, DeleteCoupon } = require('./control
 const { joi_createCoupon } = require("../../middleware/joi_createCoupon");
 
 app.get("/Coupon", auth, Coupon);
-app.post("/Create-Coupon", auth, joi_createCoupon, createCoupon);
+app.post("/Create-Coupon", auth, createCoupon);
 app.get("/View-All-Coupon", auth, ViewAllCoupon);
 app.get("/Delete-Coupon", auth, DeleteCoupon);
 
