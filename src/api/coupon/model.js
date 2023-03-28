@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const coupons = new mongoose.Schema({
-    Titel: {
+    Title: {
         type: String,
     },
     Amount: {
