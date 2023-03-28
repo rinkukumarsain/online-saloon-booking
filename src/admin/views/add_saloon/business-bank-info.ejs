@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>business-bank-info</title>
+
+  <%- include('../../partials/headlink.ejs') %>
+</head>
+
+<body>
+
+  <%- include('../../partials/Header.ejs') %>
+    <%- include("../../partials/sidebar.ejs") %>
+
+      <main id="main" class="main">
+        <div class="pagetitle">
+          <h1>
+            <%-user.type %>
+          </h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </nav>
+        </div><!-- End Page Title -->
+
+        <section class="section dashboard">
+          <div class="row">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">business-profile</h5>
+                    <form action="/business-bank-information-admin?id=<%=saloon_data._id%>" method="post">
+
+                      <div class="row g-3">
+                        <div class="col">
+                          <label for="">pan Number</label><br>
+                          <input required type="text" name="panNo" class="form-control"
+                            placeholder="Enter Your your pan No">
+                        </div>
+                        <div class="col">
+                          <label for="">Gst Number</label><br>
+                          <input required type="text" name="gstNo" class="form-control"
+                            placeholder="Enter a Gst No Phone">
+                        </div>
+
+                      </div><br>
+
+
+                      <div class="row g-3">
+                        <div class="col">
+                          <label for="">bankName</label><br>
+                          <input required type="text" name="bankName" class="form-control"
+                            placeholder="Enter a bank Name">
+                        </div>
+                        <div class="col">
+                          <label for="">branchName</label><br>
+                          <input required type="text" name="branchName" class="form-control"
+                            placeholder="Enter a branch Name">
+                        </div>
+                      </div>
+
+                      <div class="row g-3">
+                        <div class="col">
+                          <label for="">account number</label><br>
+                          <input required type="text" id="addressSearch" name="accountNo"
+                            class="form-control pac-target-input" placeholder="account Number" autocomplete="off">
+                        </div>
+                        <div class="col">
+                          <label for="">accout Holder</label><br>
+                          <input required type="text" id="addressSearch" name="accoutHolder"
+                            class="form-control pac-target-input" placeholder="accout Holder" autocomplete="off">
+                        </div>
+                      </div><br>
+
+                      <div class="row g-3">
+                        <div class="col">
+                          <label for="">ifscCode</label><br>
+                          <input required type="text" name="ifscCode" class="form-control pac-target-input"
+                            placeholder="Enter ifsc Code" autocomplete="off">
+                        </div>
+                        <div class="col-6">
+                          <label for="starting-time"> kyc</label>
+                          <input id="starting_time" type="time" class="form-control pac-target-input" name="kyc"
+                            required />
+                        </div>
+                      </div><br>
+
+                      <!-- <div class="row g-3"> -->
+                      <!-- <div class="col-6">
+                          <label for="starting-time"> kyc</label>
+                          <input id="starting_time" type="time" class="form-control pac-target-input"
+                            name="kyc" required />
+                        </div> -->
+                      <!-- <div class="col-6">
+                          <label for="ending-time">Ending Time </label>
+                          <input id="ending_time" type="time" class="form-control pac-target-input" name="ending_time"
+                            required />
+                        </div> -->
+                      <!-- </div> -->
+                      <div class="row mb-3">
+                        <div class="col-sm-10">
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                      </div>
+
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <script>
+        function SendOtp(params) {
+          const ele = document.getElementById("Phone");
+          console.log("helllllo-->", ele.value)
+          $.ajax({
+            type: 'post',
+            data: { "phone": ele.value },
+            url: '/business-otp-sent',
+            success: function (data) {
+              console.log("", data)
+              if (data.status == true) {
+                alert("Oto send ")
+              } else {
+                alert("data not Found")
+              }
+            }
+          })
+        }
+        function verifyOtp(params) {
+          const phone = document.getElementById("Phone");
+          const otp = document.getElementById("otp");
+          console.log("verifyOtp-->", otp.value)
+          console.log("verifyOtp-->", phone.value)
+
+          $.ajax({
+            type: 'post',
+            data: { "phone": phone.value, "otp": otp.value },
+            url: '/business-otp-verify',
+            success: function (data) {
+              console.log("", data)
+              if (data.status == true) {
+                alert("Oto verify ")
+              } else {
+                alert("data not Found")
+              }
+            }
+          })
+        }
+
+      </script>
+
+
+      <%- include("../../partials/script.ejs") %>
+</body>
+
+</html>

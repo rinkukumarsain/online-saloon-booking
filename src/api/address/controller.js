@@ -115,7 +115,7 @@ exports.addAddresssInUserCart = async ({ user, query }) => {
             const _id = mongoose.Types.ObjectId(query.id);
             const findAddress = await userAddress.findOne({ _id });
             if (findAddress) {
-                const findCart = await cart.findOne({ userId: user._id });
+                const findCart = await cart.findOne({ _id: mongoose.Types.ObjectId(query.cartId), userId: user._id, });
                 if (findCart) {
                     if (findCart.cartdata.length > 0) {
                         const result = await cart.findByIdAndUpdate({ _id: findCart._id }, { $set: { addressId: findAddress._id } }, { new: true });

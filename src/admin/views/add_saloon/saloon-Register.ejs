@@ -11,250 +11,138 @@
 </head>
 
 <body>
+  <%- include('../../partials/alertMsg.ejs') %>
+    <%- include('../../partials/Header.ejs') %>
+      <%- include("../../partials/sidebar.ejs") %>
 
-  <%- include('../../partials/Header.ejs') %>
-    <%- include("../../partials/sidebar.ejs") %>
+        <main id="main" class="main">
+          <div class="pagetitle">
+            <h1>
+              <%-user.type %>
+            </h1>
+            <nav>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+              </ol>
+            </nav>
+          </div><!-- End Page Title -->
 
-      <main id="main" class="main">
-        <div class="pagetitle">
-          <h1>
-            <%-user.type %>
-          </h1>
-          <nav>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-          </nav>
-        </div><!-- End Page Title -->
-
-        <section class="section dashboard">
-          <div class="row">
+          <section class="section dashboard">
             <div class="row">
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title">Add Saloon</h5>
-
-                    <% if(typeof saloon_data !=="undefined" && saloon_data){%>
-                      <form action="/add_saloon_store?id=<%=saloon_data._id%>" method="post"
-                        enctype="multipart/form-data">
-                        <div class="row g-3">
-                          <div class="col">
-                            <input required type="text" name="storeName" class="form-control"
-                              value="<%= saloon_data.storeName%>" placeholder="Enter Your Store Name">
-                          </div>
-                          <div class="col">
-                            <input required type="text" name="email" class="form-control"
-                              value="<%= saloon_data.email%>" placeholder="Enter a email">
-                          </div>
-                        </div><br>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Add Saloon</h5>
+                      <form action="/add_saloon_store" method="post">
 
                         <div class="row g-3">
-
                           <div class="col">
-                            <input required type="number" id="addressSearch" name="Phone" patter=".{10,10}"
-                              value="<%= saloon_data.Phone%>" class="form-control pac-target-input"
-                              placeholder="Enter Your Mobile Number" autocomplete="off">
+                            <label for="">store Name</label><br>
+                            <input type="text" name="storeName" class="form-control" placeholder="Enter Your Store Name"
+                              required>
                           </div>
+                          <div class="col">
+                            <label for="">store Email</label><br>
+                            <input required type="text" name="email" class="form-control" placeholder="Enter a email">
+                          </div>
+
                         </div><br>
 
                         <div class="row g-3">
                           <div class="col">
-                            <input required type="number" id="addressSearch" name="shopNumber"
-                              value="<%= saloon_data.location.shopNumber%>" class="form-control pac-target-input"
-                              placeholder="Enter a shopNumber" autocomplete="off">
+                            <label for="">password</label><br>
+                            <input required type="text" name="password" class="form-control"
+                              placeholder="Enter a Password">
                           </div>
                           <div class="col">
-                            <input required type="text" id="addressSearch" name="pincode"
-                              value="<%= saloon_data.location.pincode%>" class="form-control pac-target-input"
-                              placeholder="Enter a Pin Code" autocomplete="off">
-                          </div>
-                        </div><br>
-
-                        <div class="row g-3">
-                          <div class="col">
-                            <input required type="text" id="addressSearch" name="city"
-                              value="<%= saloon_data.location.city%>" class="form-control pac-target-input"
-                              placeholder="Enter a city" autocomplete="off">
-                          </div>
-                          <div class="col">
-                            <input required type="text" id="addressSearch" name="state"
-                              value="<%= saloon_data.location.state%>" class="form-control pac-target-input"
-                              placeholder="Enter a state" autocomplete="off">
+                            <label for="">confromPassword</label><br>
+                            <input required type="text" name="confromPassword" class="form-control"
+                              placeholder="Enter  confrom Password">
                           </div>
                         </div><br>
-
                         <div class="row g-3">
                           <div class="col">
-                            <input required type="text" id="addressSearch" name="aria"
-                              value="<%= saloon_data.location.aria%>" class="form-control pac-target-input"
-                              placeholder="Enter a Aria" autocomplete="off">
+                            <label for="">Phone</label><br>
+                            <input type="tel" maxlength="10" id="Phone" name="Phone"
+                              class="form-control pac-target-input" placeholder="Enter Your Mobile Number" value=""
+                              required>
                           </div>
                           <div class="col">
-                            <input required type="text" id="addressSearch" name="type" value="<%= saloon_data.type%>"
+                            <label for=""></label><br>
+                            <input type="button" class="form-control" value="Send otp" onclick="SendOtp(this)">
+                          </div>
+                          <div class="col">
+                            <label for="">Enter otp</label><br>
+                            <input required type="text" id="otp" class="form-control" placeholder="Enter  otp">
+                          </div>
+                          <div class="col">
+                            <label for=""></label><br>
+                            <input type="button" name="confromPassword" class="form-control" onclick="verifyOtp(this)"
+                              value="verify otp">
+                          </div>
+                        </div><br>
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for="">saloon type</label><br>
+                            <input required type="text" id="addressSearch" name="type"
                               class="form-control pac-target-input" placeholder="saloon type" autocomplete="off">
                           </div>
+                          <div class="col">
+                            <label for="">owner Name </label><br>
+                            <input required type="text" id="addressSearch" name="ownerName"
+                              class="form-control pac-target-input" placeholder="saloon ownerName" autocomplete="off">
+                          </div>
                         </div><br>
 
                         <div class="row g-3">
                           <div class="col">
-                            <textarea class="form-control" name="description" placeholder="Description"
-                              style="height: 100px" required><%= saloon_data.description%></textarea>
+                            <label for="">state</label><br>
+                            <input required type="text" name="state" class="form-control pac-target-input"
+                              placeholder="Enter a state" autocomplete="off">
                           </div>
                           <div class="col">
-                            <input class="form-control" type="file" name="image" id="formFile" multiple required>
-                            <%for(image of saloon_data.image){%>
-                              <img src="/uploads/<%=image%>" width="70px">
-                              <%}%>
+                            <label for="">city </label><br>
+                            <input required type="text" name="city" class="form-control pac-target-input"
+                              placeholder="Enter a city" autocomplete="off">
+                          </div>
+
+                        </div><br>
+
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for="">pincode</label><br>
+                            <input required type="text" name="pincode" class="form-control pac-target-input"
+                              placeholder="Enter a Pin Code" autocomplete="off">
+                          </div>
+                          <div class="col">
+                            <label for="">aria</label><br>
+                            <input required type="text" name="aria" class="form-control pac-target-input"
+                              placeholder="Enter a Aria" autocomplete="off">
                           </div>
                         </div><br>
 
-                        <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label">Select category</label>
-                          <div class="col-sm-10">
+
+
+                        <div class="row g-3">
+                          <div class="col-6">
+                            <label for="">description</label><br>
+                            <textarea class="form-control" name="description" placeholder="Description"
+                              style="height: 100px" required></textarea>
+                          </div>
+                          <div class="col-6">
+                            <label for="">category</label><br>
                             <select class="form-select" multiple="" name="category[]"
                               aria-label="multiple select example" required>
-                              <% for(category of saloon_data.category){%>
-                                <option value="<%= category%>" <%=category ? "selected" : "" %>><%=category %>
-                                </option>
-                                <%if("spa"!=category){%>
-                                  <option value="spa">Spa</option>
+                              <option selected="" disabled>Open this select menu</option>
+                              <option value="spa">Spa</option>
+                              <option value="parlour">Parlour</option>
+                              <option value="Saloon">Saloon</option>
 
-                                  <%}%>
-                                    <%if("parlour"!=category){%>
-                                      <option value="parlour">Parlour</option>
-
-                                      <%}%>
-                                        <%if("Saloon"!=category){%>
-                                          <option value="Saloon">Saloon</option>
-
-                                          <%}%>
-
-
-
-                                            <%}%>
                             </select>
                           </div>
-                        </div>
-
-
-                        <div class="row mb-3">
-
-                          <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                          </div>
-                        </div>
-
-                      </form>
-                      <%}else{%>
-                        <form action="/add_saloon_store" method="post" enctype="multipart/form-data">
-
-                          <div class="row g-3">
-                            <div class="col">
-                              <label for="">store Name</label><br>
-                              <input required type="text" name="storeName" class="form-control"
-                                placeholder="Enter Your Store Name">
-                            </div>
-                            <div class="col">
-                              <label for="">store Email</label><br>
-                              <input required type="text" name="email" class="form-control" placeholder="Enter a email">
-                            </div>
-
-                          </div><br>
-
-                          <div class="row g-3">
-                            <div class="col">
-                              <label for="">password</label><br>
-                              <input required type="text" name="password" class="form-control"
-                                placeholder="Enter a Password">
-                            </div>
-                            <div class="col">
-                              <label for="">confromPassword</label><br>
-                              <input required type="text" name="confromPassword" class="form-control"
-                                placeholder="Enter  confrom Password">
-                            </div>
-                          </div><br>
-                          <div class="row g-3">
-                            <div class="col">
-                              <label for="">Phone</label><br>
-                              <input required type="number" id="Phone" name="Phone"
-                                class="form-control pac-target-input" placeholder="Enter Your Mobile Number" value="">
-                            </div>
-                            <div class="col">
-                              <label for=""></label><br>
-                              <input type="button" class="form-control" value="Send otp" onclick="SendOtp(this)">
-                            </div>
-                            <div class="col">
-                              <label for="">Enter otp</label><br>
-                              <input required type="text" id="otp" class="form-control" placeholder="Enter  otp">
-                            </div>
-                            <div class="col">
-                              <label for=""></label><br>
-                              <input type="button" name="confromPassword" class="form-control" onclick="verifyOtp(this)"
-                                value="verify otp">
-                            </div>
-                          </div><br>
-                          <div class="row g-3">
-                            <div class="col">
-                              <label for="">saloon type</label><br>
-                              <input required type="text" id="addressSearch" name="type"
-                                class="form-control pac-target-input" placeholder="saloon type" autocomplete="off">
-                            </div>
-                            <div class="col">
-                              <label for="">owner Name </label><br>
-                              <input required type="text" id="addressSearch" name="ownerName"
-                                class="form-control pac-target-input" placeholder="saloon ownerName" autocomplete="off">
-                            </div>
-                          </div><br>
-
-                          <div class="row g-3">
-                            <div class="col">
-                              <label for="">state</label><br>
-                              <input required type="text" name="state" class="form-control pac-target-input"
-                                placeholder="Enter a state" autocomplete="off">
-                            </div>
-                            <div class="col">
-                              <label for="">city </label><br>
-                              <input required type="text" name="city" class="form-control pac-target-input"
-                                placeholder="Enter a city" autocomplete="off">
-                            </div>
-
-                          </div><br>
-
-                          <div class="row g-3">
-                            <div class="col">
-                              <label for="">pincode</label><br>
-                              <input required type="text" name="pincode" class="form-control pac-target-input"
-                                placeholder="Enter a Pin Code" autocomplete="off">
-                            </div>
-                            <div class="col">
-                              <label for="">aria</label><br>
-                              <input required type="text" name="aria" class="form-control pac-target-input"
-                                placeholder="Enter a Aria" autocomplete="off">
-                            </div>
-                          </div><br>
-
-
-
-                          <div class="row g-3">
-                            <div class="col-6">
-                              <label for="">description</label><br>
-                              <textarea class="form-control" name="description" placeholder="Description"
-                                style="height: 100px" required></textarea>
-                            </div>
-                            <div class="col-6">
-                              <label for="">category</label><br>
-                              <select class="form-select" multiple="" name="category[]"
-                                aria-label="multiple select example" required>
-                                <option selected="" disabled>Open this select menu</option>
-                                <option value="spa">Spa</option>
-                                <option value="parlour">Parlour</option>
-                                <option value="Saloon">Saloon</option>
-
-                              </select>
-                            </div>
-                            <!-- <div class="row g-3">
+                          <!-- <div class="row g-3">
                               <div class="col-6">
                                 <label for="starting-time">Starting Time </label>
                                 <input id="starting_time" type="time" class="form-control pac-target-input"
@@ -266,9 +154,9 @@
                                   name="ending_time" required />
                               </div>
                             </div> -->
-                            <!-- <div class="row g-3"> -->
+                          <!-- <div class="row g-3"> -->
 
-                            <!-- <div class="col-6">
+                          <!-- <div class="col-6">
 
                                 <label for="">Select Starting Day</label><br>
 
@@ -284,7 +172,7 @@
                                   <option value="Saturday">Saturday</option>
                                 </select>
                               </div> -->
-                            <!-- <div class="col-6">
+                          <!-- <div class="col-6">
 
                                 <label for="">Select Ending Day</label><br>
                                 <select class="form-select" name="endingweek" aria-label="multiple select example"
@@ -299,68 +187,66 @@
                                   <option value="Saturday">Saturday</option>
                                 </select>
                               </div> -->
-                            <!-- </div>/ -->
-                          </div><br>
-                          <div class="row mb-3">
+                          <!-- </div>/ -->
+                        </div><br>
+                        <div class="row mb-3">
 
-                            <div class="col-sm-10">
-                              <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
+                          <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Submit</button>
                           </div>
+                        </div>
 
-                        </form>
-                        <%}%>
-
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-      </main>
-      <script>
-        function SendOtp(params) {
-          const ele = document.getElementById("Phone");
-          console.log("helllllo-->", ele.value)
-          $.ajax({
-            type: 'post',
-            data: { "phone": ele.value },
-            url: '/business-otp-sent',
-            success: function (data) {
-              console.log("", data)
-              if (data.status == true) {
-                alert("Oto send ")
-              } else {
-                alert("data not Found")
+          </section>
+        </main>
+        <script>
+          function SendOtp(params) {
+            const ele = document.getElementById("Phone");
+            console.log("helllllo-->", ele.value)
+            $.ajax({
+              type: 'post',
+              data: { "phone": ele.value },
+              url: '/business-otp-sent',
+              success: function (data) {
+                console.log("", data)
+                if (data.status == true) {
+                  alert("Oto send ")
+                } else {
+                  alert("data not Found")
+                }
               }
-            }
-          })
-        }
-        function verifyOtp(params) {
-          const phone = document.getElementById("Phone");
-          const otp = document.getElementById("otp");
-          console.log("verifyOtp-->", otp.value)
-          console.log("verifyOtp-->", phone.value)
+            })
+          }
+          function verifyOtp(params) {
+            const phone = document.getElementById("Phone");
+            const otp = document.getElementById("otp");
+            console.log("verifyOtp-->", otp.value)
+            console.log("verifyOtp-->", phone.value)
 
-          $.ajax({
-            type: 'post',
-            data: { "phone": phone.value, "otp": otp.value },
-            url: '/business-otp-verify',
-            success: function (data) {
-              console.log("", data)
-              if (data.status == true) {
-                alert("Oto verify ")
-              } else {
-                alert("data not Found")
+            $.ajax({
+              type: 'post',
+              data: { "phone": phone.value, "otp": otp.value },
+              url: '/business-otp-verify',
+              success: function (data) {
+                console.log("", data)
+                if (data.status == true) {
+                  alert("Oto verify ")
+                } else {
+                  alert("data not Found")
+                }
               }
-            }
-          })
-        }
+            })
+          }
 
-      </script>
+        </script>
 
 
-      <%- include("../../partials/script.ejs") %>
+        <%- include("../../partials/script.ejs") %>
 </body>
 
 </html>

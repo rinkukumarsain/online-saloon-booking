@@ -79,6 +79,7 @@ exports.otpVerify = async ({ body }) => {
 exports.businessSignUp = async (req) => {
     try {
         const { body, user } = req;
+        console.log("body", body, "user", user, "--->", 1.1)
         const { storeName, email, Phone, confromPassword, password } = body;
 
         if (storeName) {
@@ -160,21 +161,6 @@ exports.businessSignUp = async (req) => {
                 data: []
             };
         };
-        /*  if (files != undefined && files.length > 0) {
-              img = [];
-              files.forEach(element => {
-                  img.push(`http://159.89.164.11:7070/uploads/${element.filename}`);
-              });
-              body.image = img;
-          }*/
-        /* if (typeof (body.category) == "string") {
-             catogoryarr.push(body.category)
-         }
-         if (typeof (body.category) == "object") {
-             for (const index of body.category) {
-                 catogoryarr.push(index)
-             }
-         }*/
 
         if (user != undefined && user._id != undefined && user._id != "") {
             body.userId = user._id;
@@ -199,6 +185,7 @@ exports.businessSignUp = async (req) => {
                 };
             };
         };
+        console.log("body", body, "user", user, "--->", 1.2)
 
         let saloon_details = new saloonRequst({
             storeName: body.storeName,
@@ -220,6 +207,8 @@ exports.businessSignUp = async (req) => {
 
         const result = await saloon_details.save();
         if (result) {
+            console.log("result", result, "--->", 1.3)
+
             return {
                 statusCode: 200,
                 status: true,
@@ -241,6 +230,8 @@ exports.businessSignUp = async (req) => {
 
 exports.businessProfileInfo = async ({ query, body }) => {
     try {
+        console.log("body", body, "query", query, "--->", 2.1)
+
         if (query.id != undefined && query.id != "") {
             const findData = await saloonRequst.findOne({ _id: mongoose.Types.ObjectId(query.id) })
             if (!findData) {
@@ -259,9 +250,12 @@ exports.businessProfileInfo = async ({ query, body }) => {
                 data: []
             };
         };
+        console.log("body", body, "query", query, "--->", 2.2)
 
         const update = await saloonRequst.findOneAndUpdate({ _id: mongoose.Types.ObjectId(query.id) }, { ProfileInfo: body }, { new: true })
         if (update) {
+            console.log("update", update, 2.1)
+
             return {
                 statusCode: 200,
                 status: true,
