@@ -25,7 +25,8 @@ const usercart = new mongoose.Schema({
         type: Number,
     },
     addressId: {
-        type: mongoose.Types.ObjectId
+        type: mongoose.Types.ObjectId,
+        default: null
     }
 }, { timestamps: true });
 

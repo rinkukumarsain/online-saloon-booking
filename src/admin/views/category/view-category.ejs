@@ -36,6 +36,8 @@
                     <!-- No Labels Form -->
                     <form class="row g-3" action="/view-category">
                       <div class="col-md-6">
+                        <label>Choose City</label> <br>
+
                         <% if(query?.CategoryName!="" ){%>
                           <input type="text" name="CategoryName" class="form-control" value="<%=query?.CategoryName%>"
                             placeholder="CategoryName">
@@ -52,6 +54,7 @@
                         </select>
                       </div> -->
                       <div class="col-md-3">
+                        <label>status</label> <br>
                         <select id="inputState" name="status" class="form-select">
                           <% if(query.status!=undefined&&query.status!="" ){%>
                             <option selected="" value="all"> All </option>

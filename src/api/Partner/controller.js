@@ -6,7 +6,7 @@ const users = require("../user/model")
 
 exports.otpSent = async ({ body }) => {
     try {
-        console.log("/business-otp-sent")
+        console.log("/business-otp-sent", body)
         let user;
         if (body.phone) {
             const data = await users.findOne({ phone: body.phone });
@@ -40,6 +40,7 @@ exports.otpSent = async ({ body }) => {
 
 exports.otpVerify = async ({ body }) => {
     try {
+        console.log("body", body)
         let user;
         if (body.phone) {
             const data = await users.findOne({ phone: body.phone });

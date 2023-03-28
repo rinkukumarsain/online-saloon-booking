@@ -8,16 +8,16 @@ const { getAllSaloonCity } = require("../../api/saloonstore/controller")
 exports.getAllOrder = async (req, res) => {
     try {
         res.locals.message = req.flash();
-
         const user = req.user
         const findOrder = await getAllOrder(req)
         const FindAllcity = await getAllSaloonCity(req)
         if (findOrder.status == true && FindAllcity.status == true) {
-            // console.log("req.query", req.query)
+            if (req.body.userId != undefined && req.body.userId != "") {
+                req.query.userId = req.body.userId
+            }
             res.render("order/index", { data: findOrder.data, query: req.query, user, city: FindAllcity.data })
         } else {
-            // res.locals.message = req.flash();
-            // res.render("users/login")
+
             console.log("no data found")
             req.flash("error", "no data found")
             res.redirect("/")

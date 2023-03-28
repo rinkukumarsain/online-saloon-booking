@@ -136,7 +136,8 @@ exports.getcart = async ({ user, query }) => {
                     'serviceProvider': '$result.serviceProvider',
                     'image': '$result.image',
                     'description': '$result.description'
-                }
+                },
+                'addressId': '$addressId'
             }
         })
         const findData = await cart.aggregate(condition)

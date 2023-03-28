@@ -8,7 +8,7 @@ const { allUser } = require("./services")
 exports.allUser = async (req, res) => {
     try {
         const Finddata = await allUser(req)
-        console.log("Finddata", Finddata)
+        // console.log("Finddata", Finddata)
         res.render("users/view-user", { data: Finddata.data, user: req.user, query: "" })
     } catch (error) {
         console.log(error);

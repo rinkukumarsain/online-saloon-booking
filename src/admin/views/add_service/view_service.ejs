@@ -35,6 +35,7 @@
                     <!-- No Labels Form -->
                     <form class="row g-3" action="/view_service">
                       <div class="col-md-3">
+                        <label>Choose City</label> <br>
                         <% if(query?.StoreName!="" ){%>
                           <input type="text" name="StoreName" class="form-control" value="<%=query?.StoreName%>"
                             placeholder="StoreName">
@@ -43,6 +44,7 @@
                             <%}%>
                       </div>
                       <div class="col-md-3">
+                        <label>status</label> <br>
                         <% if(query?.ServiceName!="" ){%>
                           <input type="text" name="ServiceName" class="form-control" value="<%=query?.ServiceName%>"
                             placeholder="ServiceName">
@@ -51,6 +53,7 @@
                             <%}%>
                       </div>
                       <div class="col-md-3">
+                        <label>Enter Amount</label> <br>
                         <% if(query?.ServicePrice!="" ){%>
                           <input type="number" name="ServicePrice" class="form-control" value="<%=query?.ServicePrice%>"
                             placeholder="ServicePrice">

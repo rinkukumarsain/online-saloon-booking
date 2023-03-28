@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const order = require("../../api/order/model")
 
 
@@ -5,7 +6,10 @@ exports.getAllOrder = async (req) => {
     try {
         let match = {}
         let condition = [];
-        console.log("req.query--->", req.query)
+        // console.log("req.query--->", req.query)
+        if (req.query.userId != undefined && req.query.userId != "") {
+            match.userId = mongoose.Types.ObjectId(req.query.userId)
+        }
         if (req.query.status != undefined && req.query.status != "") {
             match.status = req.query.status
         }

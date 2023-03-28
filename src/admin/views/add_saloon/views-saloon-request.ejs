@@ -36,6 +36,7 @@
                       <!-- No Labels Form -->
                       <form class="row g-3" action="/views-saloon-request">
                         <div class="col-md-3">
+                          <label>Choose City</label> <br>
                           <select id="inputState" name="city" class="form-select">
                             <% if( query.city!=undefined&&query.city!="" ){%>
                               <option selected="" value="<%=query?.city%>">
@@ -53,6 +54,7 @@
                           </select>
                         </div>
                         <div class="col-md-3">
+                          <label>Enter email</label> <br>
                           <% if(query?.email!="" ){%>
                             <input type="text" name="email" class="form-control" value="<%=query?.email%>"
                               placeholder="email">
@@ -61,6 +63,7 @@
                               <%}%>
                         </div>
                         <div class="col-md-3">
+                          <label>Enter Phone</label> <br>
                           <% if(query?.Phone!="" ){%>
                             <input type="number" name="Phone" class="form-control" value="<%=query?.Phone%>"
                               placeholder="Phone">

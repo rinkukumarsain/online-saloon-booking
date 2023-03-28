@@ -1,7 +1,7 @@
 const auth = require("../../middleware/adminauth");
 const { Router } = require("express");
 const app = Router();
-const { allUser, BlockUser, ViewAllPayment, DeletePayment } = require('./controller');
+const { allUser, BlockUser, } = require('./controller');
 
 const { joi_createCoupon } = require("../../middleware/joi_createCoupon");
 

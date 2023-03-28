@@ -123,7 +123,11 @@ exports.getAllBlog = async ({ query }) => {
                     'as': 'Related Posts'
                 }
             })
-        };
+        } else {
+            condition.push({
+                '$match': {}
+            })
+        }
         const result = await blog.aggregate(condition);
         if (result) {
             return {

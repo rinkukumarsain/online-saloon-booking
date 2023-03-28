@@ -52,7 +52,7 @@ exports.adminRegisterData = async (req, res) => {
             const user = await userModel(req.body);
             const result = await user.save();
             if (result) {
-                req.flash("success", "registration succesfull");
+                req.flash("success", "registration successful");
                 res.redirect("/");
             }
         }
@@ -151,7 +151,7 @@ exports.usersProfile = async (req, res) => {
 };
 exports.add_profile_data = async (req, res) => {
     try {
-        console.log("sdaa")
+        console.log("data")
         let imagepath;
         res.locals.message = req.flash();
         const user = req.user;
@@ -162,7 +162,7 @@ exports.add_profile_data = async (req, res) => {
         if (user.image) {
             imagepath = user.image.split("/");
         }
-        console.log("imagepath", imagepath)
+        console.log("image path", imagepath)
 
         if (req.body.name) { obj.name = req.body.name }
         if (req.body.phone) { obj.phone = req.body.phone }
@@ -180,7 +180,7 @@ exports.add_profile_data = async (req, res) => {
         }
         console.log("obj", obj)
         const updatedata = await userModel.findByIdAndUpdate(id, obj, { new: true });
-        console.log("updatedat", updatedata)
+        console.log("updated at", updatedata)
         req.flash("success", "profile updated successfully")
 
         res.redirect("/")
