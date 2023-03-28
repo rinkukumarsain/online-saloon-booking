@@ -1,5 +1,5 @@
 
-const JOI = require("JOI")
+const JOI = require("joi")
 
 exports.joi_createCoupon = (req, res, next) => {
     const scheme = JOI.object().keys({
