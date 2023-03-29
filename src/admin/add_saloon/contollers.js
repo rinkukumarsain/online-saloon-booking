@@ -274,7 +274,7 @@ exports.DELETE_SALOON = async (req, res) => {
 exports.GetSaloonAddress = async (req, res) => {
     try {
         // const id = req.query.id
-        console.log(req.query.id)
+        console.log("GetSaloonAddress", req.query)
         const FindData = await saloon.find({ _id: mongoose.Types.ObjectId(req.query.id) })
         if (FindData) {
             console.log("FindData", FindData)
