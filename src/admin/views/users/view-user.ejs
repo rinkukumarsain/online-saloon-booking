@@ -60,11 +60,22 @@
                                                     name="gender" value=<%=searchobj.gender%>>
                                             </div>
                                             <div class="col-md-4">
+                                                <label for=""></label><br>
+                                                    <select name="status" id="" class="form-control">
+                                                        <option value="" disabled selected>select status</option>
+                                                        <option value="user"  <%=searchobj.status=="user" ? 'selected' :'' %>>user</option>
+                                                        <option value="admin" <%=searchobj.status=="admin" ? 'selected' :'' %>>admin</option>
+                                                        <option value="super-admin" <%=searchobj.status=="super-admin" ? 'selected' :'' %>>superadmin</option>
+                                                        <option value="block-User" <%=searchobj.status=="block-User" ? 'selected' :'' %>>blockUser</option>
+
+                                                    </select>
+                                            </div>
+                                            <div class="col-md-4">
 
                                                 <div class="text-center">
                                                     <label></label> <br>
                                                     <button type="submit" class="btn btn-primary">Submit</button>
-                                                    <a href="/get-All-order"> <button type="button"
+                                                    <a href="/all-user"> <button type="button"
                                                             class="btn btn-secondary">Reset</button></a>
                                                 </div>
                                             </div>
