@@ -97,7 +97,7 @@
                                             </thead>
                                             <tbody>
                                                 <% let i=0 %>
-                                                    <% for( data of data) { console.log("data",data)%>
+                                                    <% for( data of data) { %>
                                                         <tr>
                                                             <th scope="row">
                                                                 <%= ++i %>
@@ -159,17 +159,19 @@
                                                                             class="btn btn-dark">
                                                                             Super Admin
                                                                         </a>
-                                                                        
+
 
                                                                         <%}else if( data.type=="admin" ){%>
                                                                             <a href="/warningpage?id=<%=data._id%>" class="btn btn-danger">
                                                                                 Warning
                                                                             </a>
-                                                                            <a href="/Block-User?id=<%=data._id%>" class="btn btn-danger">
+                                                                            <a href="/Block-User?id=<%=data._id%>"
+                                                                                class="btn btn-danger">
                                                                                 block
                                                                             </a>
                                                                             <%}else{%>
-                                                                                <a href="/Block-User?id=<%=data._id%>" class="btn btn-danger">
+                                                                                <a href="/Block-User?id=<%=data._id%>"
+                                                                                    class="btn btn-danger">
                                                                                     block
                                                                                 </a>
                                                                                 <%}%>
