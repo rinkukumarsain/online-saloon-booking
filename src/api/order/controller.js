@@ -68,7 +68,7 @@ exports.userOrder = async ({ query, user }) => {
         const orderdetails = new order(obj);
         const result = await orderdetails.save();
         if (result) {
-            const deletcart = await cart.findOneAndRemove({ userId });
+            const deletcart = await cart.findOneAndRemove({ _id: mongoose.Types.ObjectId(query.cartId), userId });
             const findSchedule = await Schedule.findOneAndRemove({ userId });
             if (deletcart && findSchedule) {
                 return {

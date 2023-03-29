@@ -195,13 +195,14 @@
         function saloonAdd(element) {
           let num = element.value
           console.log(element)
+          console.log("num", num)
           $.ajax({
             type: 'get',
-            element: { "id": num },
+            data: { "id": num },
             url: '/get-saloon-address',
             success: function (data) {
+              console.log("data", data)
               if (data.length > 0) {
-                console.log("data", data)
                 $('#moduleDataAppend').empty()
                 if (element.id == "location") {
                   abc = ` <table class="table datatable">
