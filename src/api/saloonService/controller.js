@@ -178,80 +178,150 @@ exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
         let arrr = []
         let final = []
         let arr = {};
+        let obj = {}
+        let subcotegory;
         let saloonId = mongoose.Types.ObjectId(query.saloonId);
-        let categoryId = mongoose.Types.ObjectId(query.catogoryId);
+        let findCategory;
+        if (query.catogoryId != undefined && query.catogoryId != "") {
+            obj._id = mongoose.Types.ObjectId(query.catogoryId);
+            findCategory = await category.findOne(obj);
+            subcotegory = await category.find({ parent_Name: findCategory._id });
+
+        } else if (query.categoryName) {
+            obj.Name = { $regex: query.categoryName, $options: 'i' }
+            obj.parent_Name = { $ne: null }
+            findCategory = await category.find(obj);
+        }
         const findCart = await cart.findOne({ userId: user._id, saloonId })
         // console.log("findCart  ===?", findCart)
         const findStore = await saloonstore.findOne({ _id: saloonId });
-        if (findStore) {
-            const findCategory = await category.findOne({ _id: categoryId });
-            if (findCategory) {
-                findCategory._doc.sub = []
-                arrr.push(findCategory)
-                arr.Category = findCategory
-                const subcotegory = await category.find({ parent_Name: findCategory._id });
-                if (subcotegory.length > 0) {
-                    for await (const element of subcotegory) {
-                        const findData = await saloonService.find({ saloonStore: saloonId, last_category: element._id });
-
-                        if (findData.length > 0) {
-                            findData.forEach(index => {
-                                if (findCart != null && findCart) {
-                                    // console.log("findCart", findCart)
-                                    let i = 0;
-                                    findCart.cartdata.forEach(cart => {
-                                        if (index._id.toString() === cart.serviceId.toString()) {
-                                            i++
-                                        }
-                                    });
-                                    if (i > 0) {
-                                        index._doc.Quantity_In_Cart = i
-                                    } else {
-                                        index._doc.Quantity_In_Cart = 0
-                                    }
-                                } else {
-                                    index._doc.Quantity_In_Cart = 0
+        if (!findStore) {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "please Enter valide saloon Id!",
+                data: []
+            };
+        };
+        // const findCategory = await category.findOne({ _id: categoryId });
+        // console.log("findCategory", findCategory.length)
+        if (!findCategory) {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "please Enter valid categoryId Id!",
+                data: []
+            };
+        } else if (findCategory.length > 0) {
+            // jfhb
+            for await (const element of findCategory) {
+                // element._doc.sub = []
+                arrr.push(element)
+                // console.log("arrr", arrr)
+                // jnb
+                // arr.Category = element
+                // console.log("findCategory", element)
+                // jhb
+                const findData = await saloonService.find({ saloonStore: saloonId, last_category: element._id });
+                // console.log("findData", findData)
+                // kghk
+                if (findData.length > 0) {
+                    findData.forEach(index => {
+                        if (findCart != null && findCart) {
+                            let i = 0;
+                            findCart.cartdata.forEach(cart => {
+                                if (index._id.toString() === cart.serviceId.toString()) {
+                                    i++
                                 }
                             });
-                            element._doc.Service = findData
-                            arrr[0]._doc.sub.push(element)
+                            if (i > 0) {
+                                index._doc.Quantity_In_Cart = i
+                            } else {
+                                index._doc.Quantity_In_Cart = 0
+                            }
                         } else {
-                            element._doc.Service = []
-                            arrr[0]._doc.sub.push(element)
+                            index._doc.Quantity_In_Cart = 0
                         }
-                    }
-                    if (arrr) {
-                        return {
-                            statusCode: 200,
-                            status: true,
-                            message: "Find Data Succesfuuly !",
-                            data: arrr
-                        };
-                    }
+                    });
+                    element._doc.Service = findData
+                    // arrr[0]._doc.sub.push(element)
                 } else {
-                    return {
-                        statusCode: 400,
-                        status: false,
-                        message: "subcategory not found!",
-                        data: []
-                    };
+                    element._doc.Service = []
+                    // arrr[0]._doc.sub.push(element)
                 }
-            } else {
+                // console.log("arrr", arrr)
+                // ghjg
+            }
+            // console.log("arrr", arrr)
+
+            if (arrr) {
                 return {
-                    statusCode: 400,
-                    status: false,
-                    message: "invalide categoryId id please Enter valide categoryId Id!",
-                    data: []
+                    statusCode: 200,
+                    status: true,
+                    message: "Find Data by search name Succesfuuly !",
+                    data: arrr
                 };
-            };
+            }
+
+        }
+
+        if (subcotegory.length > 0) {
+
+            findCategory._doc.sub = []
+            arrr.push(findCategory)
+            arr.Category = findCategory
+            for await (const element of subcotegory) {
+                const findData = await saloonService.find({ saloonStore: saloonId, last_category: element._id });
+                if (findData.length > 0) {
+                    findData.forEach(index => {
+                        if (findCart != null && findCart) {
+                            let i = 0;
+                            findCart.cartdata.forEach(cart => {
+                                if (index._id.toString() === cart.serviceId.toString()) {
+                                    i++
+                                }
+                            });
+                            if (i > 0) {
+                                index._doc.Quantity_In_Cart = i
+                            } else {
+                                index._doc.Quantity_In_Cart = 0
+                            }
+                        } else {
+                            index._doc.Quantity_In_Cart = 0
+                        }
+                    });
+                    element._doc.Service = findData
+                    arrr[0]._doc.sub.push(element)
+                } else {
+                    element._doc.Service = []
+                    arrr[0]._doc.sub.push(element)
+                }
+            }
+            if (arrr) {
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "Find Data Succesfuuly !",
+                    data: arrr
+                };
+            }
         } else {
             return {
                 statusCode: 400,
                 status: false,
-                message: "invalide saloon id please Enter valide saloon Id!",
+                message: "subcategory not found!",
                 data: []
             };
-        };
+        }
+        // } else {
+        //     return {
+        //         statusCode: 400,
+        //         status: false,
+        //         message: "invalide categoryId id please Enter valide categoryId Id!",
+        //         data: []
+        //     };
+        // };
+
     } catch (error) {
         console.log(error);
     };
