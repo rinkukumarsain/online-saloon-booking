@@ -13,7 +13,7 @@ exports.userOrder = async ({ query, user }) => {
         let obj = {};
         if (user._id) {
             userId = user._id;
-            const findcart = await cart.findOne({ userId });
+            const findcart = await cart.findOne({ _id: mongoose.Types.ObjectId(query.cartId), userId });
             if (findcart) {
                 if (findcart.addressId != undefined) {
                     obj.addressId = findcart.addressId;
