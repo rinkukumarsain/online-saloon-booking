@@ -273,9 +273,11 @@ exports.DELETE_SALOON = async (req, res) => {
 
 exports.GetSaloonAddress = async (req, res) => {
     try {
-        const id = req.query.id
-        const FindData = await saloon.find({ _id: mongoose.Types.ObjectId(id) })
+        // const id = req.query.id
+        console.log(req.query.id)
+        const FindData = await saloon.find({ _id: mongoose.Types.ObjectId(req.query.id) })
         if (FindData) {
+            console.log("FindData", FindData)
             res.send(FindData)
         }
     } catch (error) {

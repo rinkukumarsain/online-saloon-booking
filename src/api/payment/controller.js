@@ -5,7 +5,6 @@ const payments = require("./model");
 // const cart = require("../cart/model")
 const { findOne, findOneAndUpdate } = require("./model");
 const { default: mongoose } = require("mongoose");
-const { userOrder } = require("../order/controller")
 
 var instance = new razorpay({
     key_id: process.env.key_id,
@@ -76,14 +75,6 @@ exports.apiPaymentVerify = async (req, res) => {
                 data: []
             }
         }
-        if (req.query.cartId == undefined || req.query.cartId == "") {
-            return {
-                statusCode: 400,
-                status: false,
-                message: "cartId is must  !",
-                data: []
-            }
-        }
         var crypto = require("crypto");
         var expectedSignature = crypto.createHmac('sha256', process.env.key_secret)
             .update(body.toString())
@@ -103,39 +94,21 @@ exports.apiPaymentVerify = async (req, res) => {
             // console.log("removeCart", removeCart)
             if (result) {
                 // console.log("result", result)
-                req.query.PaymentId = result._id
-                const orderconform = await userOrder(req)
-                if (orderconform.statusCode == 200, orderconform.status == true) {
-                    console.log("orderconform", 1, orderconform)
-                    response = { "signatureIsValid": "true" };
-                    return {
-                        statusCode: 200,
-                        status: true,
-                        message: "User orderid signature successfull && orderconform  successful !",
-                        data: [{
-                            "signature": response,
-                            "data": req.body.response
-                        }],
-                        order: orderconform.data
-                    }
-                } else {
-                    console.log("data", 2, data)
-                    response = { "signatureIsValid": "true" };
-                    return {
-                        statusCode: 200,
-                        status: true,
-                        message: "User orderid signature successfull !",
-                        data: [{
-                            "signature": response,
-                            "data": req.body.response
-                        }]
-                    }
+                response = { "signatureIsValid": "true" };
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "User orderid signature successfull !",
+                    data: [{
+                        "signature": response,
+                        "data": req.body.response
+                    }]
                 }
-
             };
         };
     } catch (error) {
         console.log("error--", error);
+       
     };
 };
 
