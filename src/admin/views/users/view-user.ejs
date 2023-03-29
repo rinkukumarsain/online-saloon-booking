@@ -12,6 +12,7 @@
 <body>
     <%- include('../../partials/Header.ejs') %>
         <%- include("../../partials/sidebar.ejs") %>
+        <%- include("../../partials/alertMsg") %>
 
             <main id="main" class="main">
                 <div class="pagetitle">
@@ -161,8 +162,7 @@
 
 
                                                                         <%}else if( data.type=="admin" ){%>
-                                                                            <a href="/warning?id=<%=data._id%>"
-                                                                                class="btn btn-danger">
+                                                                            <a href="/warningpage?id=<%=data._id%>" class="btn btn-danger">
                                                                                 Warning
                                                                             </a>
                                                                             <a href="/Block-User?id=<%=data._id%>"
