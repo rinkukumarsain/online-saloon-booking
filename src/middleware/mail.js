@@ -11,7 +11,7 @@ exports.sendmail = async (user) => {
         });
         var mailoption = {
             from: process.env.email, // sender address
-            to: "Admin@gmail.com", // list of receivers
+            to: "sahilagarwal.img@gmail.com", // list of receivers
             subject: `${user.services} ✔`, // Subject line
             text: `hello my name is ${user.name} 
         And my Email is ${user.email} And phone:-${user.phone}
@@ -32,14 +32,15 @@ exports.sendmail = async (user) => {
 
     } catch (error) {
         console.log(error);
-        throw error;
+
     };
 };
 
 
 
-exports.sendmailwarning = async (user) => {
+exports.sendmailwarning = async (req) => {
     try {
+        console.log("req.body", req.body)
         let transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -47,13 +48,16 @@ exports.sendmailwarning = async (user) => {
                 pass: process.env.pass, // generated ethereal password
             }
         });
+        console.log("----",2)
         var mailoption = {
             from: process.env.email, // sender address
-            to: `${user.email}`, // list of receivers
-            subject: `${user.services} ✔`, // Subject line
-            text: `${req.body}`
+            to: req.body.email, // list of receivers
+            subject: req.body.subject, // Subject line
+            text: req.body.text
         };
+        console.log("----",3)
         let result = await transporter.sendMail(mailoption)
+        console.log("----",result,4)
         if (result) {
             return {
                 statusCode: 200,
@@ -65,6 +69,6 @@ exports.sendmailwarning = async (user) => {
 
     } catch (error) {
         console.log(error);
-        throw error;
+
     };
 };
