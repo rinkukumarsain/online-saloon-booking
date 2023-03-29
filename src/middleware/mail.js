@@ -35,3 +35,36 @@ exports.sendmail = async (user) => {
         throw error;
     };
 };
+
+
+
+exports.sendmailwarning = async (user) => {
+    try {
+        let transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: process.env.email, // generated ethereal user
+                pass: process.env.pass, // generated ethereal password
+            }
+        });
+        var mailoption = {
+            from: process.env.email, // sender address
+            to: `${user.email}`, // list of receivers
+            subject: `${user.services} ✔`, // Subject line
+            text: `${req.body}`
+        };
+        let result = await transporter.sendMail(mailoption)
+        if (result) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "ContactUs successfull !",
+                data: [result]
+            };
+        };
+
+    } catch (error) {
+        console.log(error);
+        throw error;
+    };
+};

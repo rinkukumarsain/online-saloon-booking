@@ -48,10 +48,30 @@ exports.createCoupon = async (req, res) => {
 
 exports.ViewAllCoupon = async (req, res) => {
     try {
-        const updateData = await coupon.find();
-        if (updateData.length > 0) {
-            res.render("Coupon/view-View-Coupon", { user: req.user, data: updateData });
-        };
+        let serchobj = {};
+        let searchobj = {};
+        if (req.query.amount) {
+            searchobj.Amount = req.query.amount;
+            serchobj.Amount = { $gte: req.query.amount };
+        }
+        if (req.query.title) {
+            searchobj.Title = req.query.title;
+            serchobj.Title = { $regex: req.query.title, $options: "i" };
+        }
+        if (req.query.coupon) {
+            searchobj.CouponCode = req.query.coupon
+            serchobj.CouponCode = { $regex: req.query.coupon, $options: "i" };
+        }
+        if (req.query.enddate) {
+            searchobj.EndDate = req.query.enddate;
+            serchobj.EndDate = req.query.enddate
+        }
+        if (req.query.startdate) {
+            searchobj.StartDate = req.query.startdate
+            serchobj.StartDate = req.query.startdate
+        }
+        const updateData = await coupon.find(serchobj);
+        res.render("Coupon/view-View-Coupon", { user: req.user, data: updateData, filter: req.query, searchobj });
     } catch (error) {
         console.log(error);
     };
