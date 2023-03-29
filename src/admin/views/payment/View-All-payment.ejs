@@ -33,48 +33,27 @@
                     <h5 class="card-title">Filter</h5>
 
                     <!-- No Labels Form -->
-                    <form class="row g-3" action="/get-All-order">
-                      <div class="col-md-3">
-                        <label>Choose City</label> <br>
-                        <select id="inputState" name="city" class="form-select">
-
-                          <option selected="" value="">Choose City</option>
-
-
-                          <option value="ajmer">
-                            ajmer
-                          </option>
-
-                          <option value="gujrat">
-                            gujrat
-                          </option>
-
-
-
-
-                        </select>
-                      </div>
-                      <div class="col-md-3">
-                        <label>status</label> <br>
-                        <select id="inputState" name="status" class="form-select">
-
-                          <option selected="" value="">Choose Status</option>
-                          <option value="pending">pending</option>
-                          <option value="cancel">cancel</option>
-                          <option value="succes">succes</option>
-
-
-                        </select>
-                      </div>
-                      <div class="col-md-3">
-                        <label>Enter Amount</label> <br>
-
-                        <input type="number" name="totalamount" class="form-control" value="" placeholder="Amount">
+                    <form class="row g-3" action="/view-all-payment">
+                      <div class="col-md-6">
+                        <label>Customer Name</label> <br>
+                        <input type="text" value="" class="form-control" placeholder="Customer Name" name="customername">
 
                       </div>
-                      <div class="col-md-3">
+                      <div class="col-md-6">
+                        <label>Payment status</label> <br>
+                        <input type="text" value="" class="form-control" placeholder="Payment Status" name="paymentstatus">
+                      </div>
+                      
+                      <div class="col-md-6">
+                        <label>Amount</label> <br>
+
+                        <input type="number"  class="form-control" value="" placeholder="Amount" name="amount">
+
+                      </div>
+                      <div class="col-md-6">
                         <div class="text-center">
-                          <button type="submit" class="btn btn-primary">Submit</button>
+                          <label for=""></label><br>
+                          <button type="submit" class="btn btn-primary">Submit</button>&nbsp;&nbsp;
                           <a href="/get-All-order"> <button type="button" class="btn btn-secondary">Reset</button></a>
                         </div>
                       </div>

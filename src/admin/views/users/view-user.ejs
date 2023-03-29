@@ -37,32 +37,31 @@
                                         <h5 class="card-title">Filter</h5>
 
                                         <!-- No Labels Form -->
-                                        <form class="row g-3" action="/get-All-order">
-                                            <div class="col-md-3">
-                                                <label>Choose City</label> <br>
-                                                <select id="inputState" name="city" class="form-select">
-                                                    <option selected="" value="">Choose City</option>
-                                                    <option value="ajmer">
-                                                        ajmer
-                                                    </option>
-                                                </select>
+                                        <form class="row g-3" action="/all-user">
+                                            <div class="col-md-4">
+                                                <label>Name</label> <br>
+                                                <input type="text" class="form-control" placeholder="Name" name="name"
+                                                    value=<%=searchobj.name%>>
                                             </div>
-                                            <div class="col-md-3">
-                                                <label>status</label> <br>
-                                                <select id="inputState" name="status" class="form-select">
-                                                    <option selected="" value="">Choose Status</option>
-                                                    <option value="pending">pending</option>
-                                                    <option value="cancel">cancel</option>
-                                                    <option value="succes">succes</option>
-                                                </select>
+                                            <div class="col-md-4">
+                                                <label>Email</label> <br>
+                                                <input type="text" class="form-control" placeholder="Email" name="email"
+                                                    value=<%=searchobj.email%>>
                                             </div>
-                                            <div class="col-md-3">
-                                                <label>Enter Amount</label> <br>
-                                                <input type="number" name="totalamount" class="form-control" value=""
-                                                    placeholder="Amount">
+                                            <div class="col-md-4">
+                                                <label>Mobile No</label> <br>
+                                                <input type="text" class="form-control" placeholder="Email"
+                                                    name="mobile" value=<%=searchobj.phone%>>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
+                                                <label>Gender</label> <br>
+                                                <input type="text" class="form-control" placeholder="Gender"
+                                                    name="gender" value=<%=searchobj.gender%>>
+                                            </div>
+                                            <div class="col-md-4">
+
                                                 <div class="text-center">
+                                                    <label></label> <br>
                                                     <button type="submit" class="btn btn-primary">Submit</button>
                                                     <a href="/get-All-order"> <button type="button"
                                                             class="btn btn-secondary">Reset</button></a>
@@ -97,7 +96,7 @@
                                             </thead>
                                             <tbody>
                                                 <% let i=0 %>
-                                                    <% for( data of data) { %>
+                                                    <% for( data of data) { console.log("data",data)%>
                                                         <tr>
                                                             <th scope="row">
                                                                 <%= ++i %>
@@ -146,7 +145,7 @@
                                                                         <%}%>
                                                             </td>
                                                             <td>
-                                                                <%= data.status %>
+                                                                <%= data.type %>
                                                             </td>
                                                             <td>
                                                                 <% if( data.type=="block-User" ){%>
@@ -159,17 +158,17 @@
                                                                             class="btn btn-dark">
                                                                             Super Admin
                                                                         </a>
-                                                                        <a href="/Block-User?id=<%= data._id%>"
-                                                                            class="btn btn-danger">
-                                                                            Block User
-                                                                        </a>
+                                                                        
 
                                                                         <%}else if( data.type=="admin" ){%>
-                                                                            <a href="#" class="btn btn-danger">
-                                                                                Admin
+                                                                            <a href="/warning?id=<%=data._id%>" class="btn btn-danger">
+                                                                                Warning
+                                                                            </a>
+                                                                            <a href="/Block-User?id=<%=data._id%>" class="btn btn-danger">
+                                                                                block
                                                                             </a>
                                                                             <%}else{%>
-                                                                                <a href="#" class="btn btn-danger">
+                                                                                <a href="/Block-User?id=<%=data._id%>" class="btn btn-danger">
                                                                                     block
                                                                                 </a>
                                                                                 <%}%>

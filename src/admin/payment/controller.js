@@ -49,14 +49,31 @@ exports.createCoupon = async (req, res) => {
 */
 exports.ViewAllPayment = async (req, res) => {
     try {
+
+        let serchobj = {};
+        let serchobj2 = {};
+        let searchobj = {};
+        if (req.query.customername) {
+            searchobj.customername = req.query.customername;
+            serchobj.name = { $regex: req.query.customername, $options: "i" };
+        }
+        if (req.query.paymentstatus) {
+            searchobj.paymentstatus = req.query.paymentstatus;
+            serchobj2.payment = { $regex: req.query.paymentstatus, $options: "i" };
+        }
+        if (req.query.amount) {
+            searchobj.Amount = req.query.amount;
+            serchobj2["orderData.amount"] = { $gte: +req.query.amount };
+        }
+        console.log("serchobj2",serchobj2)
         const updateData = await payment.aggregate([
-            {
+            { "$match": serchobj2 }, {
                 '$lookup': {
                     'from': 'users',
                     'localField': 'userId',
                     'foreignField': '_id',
                     'pipeline': [
-                        {
+                        { "$match": serchobj }, {
                             '$project': {
                                 'name': 1
                             }
@@ -79,9 +96,9 @@ exports.ViewAllPayment = async (req, res) => {
             // console.log("--->", item);
         });
 
-        if (updateData.length > 0) {
+        
             res.render("payment/View-All-payment", { user: req.user, data: updateData });
-        };
+        
     } catch (error) {
         console.log(error);
     };

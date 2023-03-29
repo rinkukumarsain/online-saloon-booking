@@ -8,8 +8,7 @@ const { allUser } = require("./services")
 exports.allUser = async (req, res) => {
     try {
         const Finddata = await allUser(req)
-        // console.log("Finddata", Finddata)
-        res.render("users/view-user", { data: Finddata.data, user: req.user, query: "" })
+        res.render("users/view-user", { data: Finddata.data, user: req.user, query: "", searchobj: Finddata.searchobj })
     } catch (error) {
         console.log(error);
     };
@@ -17,7 +16,7 @@ exports.allUser = async (req, res) => {
 
 exports.BlockUser = async (req, res) => {
     try {
-        console.log("re", req.query.id)
+        // console.log("re", req.query.id)
         const Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "block-User" }, { new: true })
         if (Finddata) {
             res.redirect("/all-user")
@@ -26,3 +25,15 @@ exports.BlockUser = async (req, res) => {
         console.log(error);
     };
 };
+exports.Warning = async (req, res) => {
+    try {
+        // console.log("re", req.query.id)
+        const Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "block-User" }, { new: true })
+        if (Finddata) {
+            res.redirect("/all-user")
+        }
+    } catch (error) {
+        console.log(error);
+    };
+};
+
