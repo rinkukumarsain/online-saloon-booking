@@ -23,6 +23,12 @@ exports.allUser = async (req, res) => {
             searchobj.gender = req.query.gender
             serchobj.gender = { $regex: req.query.gender, $options: "i" };
         }
+        if (req.query.status) {
+            searchobj.status = req.query.status
+            serchobj.type =  req.query.status;
+        }
+        //console.log("searchobj",searchobj)
+
 
         const Finddata = await user.aggregate([
             { '$match': serchobj }, {
