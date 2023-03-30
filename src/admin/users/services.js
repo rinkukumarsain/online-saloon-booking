@@ -21,11 +21,11 @@ exports.allUser = async (req, res) => {
 
         if (req.query.gender) {
             searchobj.gender = req.query.gender
-            serchobj.gender = { $regex: req.query.gender, $options: "i" };
+            serchobj.gender = req.query.gender
         }
         if (req.query.status) {
             searchobj.status = req.query.status
-            serchobj.type =  req.query.status;
+            serchobj.type = req.query.status;
         }
         //console.log("searchobj",searchobj)
 

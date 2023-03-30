@@ -2,40 +2,68 @@ const saloonservice = require("../saloonService/model");
 const mongoose = require("mongoose");
 const cart = require("../cart/model");
 const schedule = require("./model");
+const order = require("../order/model");
+const saloon = require("../saloonstore/model");
+const moment = require("moment");
 
-exports.scheduleYourVisit = async ({ body, user }) => {
+exports.scheduleYourVisit = async ({ query, body, user }) => {
     try {
-        let findcart = await cart.findOne({ userId: user._id });
-        if (findcart) {
+        if (!query.saloonId) {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "saloonId is must !",
+                data: []
+            };
+        };
+
+        let findcart = await cart.findOne({ saloonId: mongoose.Types.ObjectId(query.saloonId), userId: user._id });
+        if (findcart.cartdata.length > 0) {
             let findSchedul = await schedule.findOne({ cartId: findcart._id, saloonId: findcart.saloonId });
+            let OrderDay = moment(body.date).format('dddd');
+            const findSaloon = await saloon.findOne({ _id: mongoose.Types.ObjectId(query.saloonId) });
+            if (findSaloon.ProfileInfo.workingday.includes(OrderDay) === false) {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: `saloon-is-close-this-Date ${body.date}!`,
+                    data: findSaloon.ProfileInfo.workingday
+                };
+            };
+
+            const findUserOrder = await order.find({ userId: user._id, status: "pending" });
+            for (const element of findUserOrder) {
+                if (element.Schedule.date == body.date) {
+                    if (element.Schedule.timeslot == body.timeslot) {
+                        return {
+                            statusCode: 400,
+                            status: false,
+                            message: `user-Allready-take-order-this-Date ${body.date}!`,
+                            data: [element]
+                        };
+                    };
+                };
+            };
+
             if (!findSchedul) {
-                let obj = {};
                 if (findcart._id) {
-                    obj.cartId = findcart._id
+                    body.cartId = findcart._id
                 };
                 if (findcart.userId) {
-                    obj.userId = findcart.userId;
+                    body.userId = findcart.userId;
                 };
 
                 if (findcart.saloonId) {
-                    obj.saloonId = findcart.saloonId;
+                    body.saloonId = findcart.saloonId;
                 };
 
-                if (body.date) {
-                    obj.date = body.date;
-                };
-
-                if (body.timeslot) {
-                    obj.timeslot = body.timeslot;
-                };
-
-                let scheduleCart = new schedule(obj);
+                let scheduleCart = new schedule(body);
                 const result = await scheduleCart.save();
                 if (result) {
                     return {
                         statusCode: 200,
                         status: true,
-                        message: "scheduleCart-Succesfuuly !",
+                        message: "schedule-Succesfuuly !",
                         data: [result]
                     };
                 };
@@ -44,17 +72,16 @@ exports.scheduleYourVisit = async ({ body, user }) => {
                 if (body.date) {
                     obj.date = body.date;
                 };
-
                 if (body.timeslot) {
                     obj.timeslot = body.timeslot;
                 };
-                const scheduleUpdate = await schedule.findByIdAndUpdate({ _id: findSchedul._id }, { $set: obj }, { new: true })
-                if (scheduleUpdate) {
+                const result = await schedule.findByIdAndUpdate({ _id: findSchedul._id }, { $set: obj }, { new: true })
+                if (result) {
                     return {
                         statusCode: 200,
                         status: true,
-                        message: "Allready scheduleCart-added-click-to chakeOut!",
-                        data: [scheduleUpdate]
+                        message: "schedule updated Succesfuuly",
+                        data: [result]
                     };
                 };
             };
@@ -70,8 +97,3 @@ exports.scheduleYourVisit = async ({ body, user }) => {
         console.log(error);
     };
 };
-
-
-
-
-
