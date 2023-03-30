@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>view-saloon</title>
+    <title>view-user</title>
     <%- include('../../partials/headlink.ejs') %>
 </head>
 
@@ -13,10 +13,8 @@
     <%- include('../../partials/Header.ejs') %>
         <%- include("../../partials/sidebar.ejs") %>
             <%- include("../../partials/alertMsg") %>
-
                 <main id="main" class="main">
                     <div class="pagetitle">
-
                         <h1><%-user.type %></h1>
                         <nav>
                             <ol class="breadcrumb">
@@ -30,13 +28,9 @@
                         <div class="row">
                             <div class="row">
                                 <div class="col-lg-12">
-
-
-
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title">Filter</h5>
-
                                             <!-- No Labels Form -->
                                             <form class="row g-3" action="/all-user">
                                                 <div class="col-md-4">
@@ -58,14 +52,12 @@
                                                     <label>Gender</label> <br>
                                                     <!-- <input type="text" class="form-control" placeholder="Gender"
                                                         name="gender" value=<%=searchobj.gender%>> -->
-
                                                     <select name="gender" id="" class="form-control">
                                                         <option value="" disabled selected>select gender</option>
                                                         <option value="male" <%=searchobj.gender=="male" ? 'selected'
                                                             :'' %>>male</option>
                                                         <option value="female" <%=searchobj.gender=="female"
                                                             ? 'selected' :'' %>>Female</option>
-
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4">
@@ -80,11 +72,9 @@
                                                             ? 'selected' :'' %>>super Admin</option>
                                                         <option value="block-User" <%=searchobj.status=="block-User"
                                                             ? 'selected' :'' %>>block User</option>
-
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4">
-
                                                     <div class="text-center">
                                                         <label></label> <br>
                                                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -93,17 +83,11 @@
                                                     </div>
                                                 </div>
                                             </form>
-
                                         </div>
                                     </div>
-
-
-
-
                                     <div class="card">
                                         <div class="card-body">
-                                            <h5 class="card-title">Order List</h5>
-
+                                            <h5 class="card-title">user List</h5>
                                             <table class="table datatable">
                                                 <thead>
                                                     <tr>
@@ -115,8 +99,7 @@
                                                         <th scope="col">image</th>
                                                         <th scope="col">Order</th>
                                                         <th scope="col">Status</th>
-
-                                                        <th scope="col">Action</th>
+                                                        <th scope="col">MoreAction</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -134,10 +117,6 @@
                                                                 </td>
                                                                 <td>
                                                                     <%= data.email %>
-                                                                        <!-- <button type="button" value="<%=data._id%>"
-                                                                    onclick="cartData(this)" class="btn btn-info"><i
-                                                                        class="bi bi-eye"></i></button> -->
-
                                                                 </td>
                                                                 <td>
                                                                     <%= data.gender %>
@@ -153,20 +132,15 @@
                                                                                 alt="image" class="rounded-circle"
                                                                                 style="width: 40px; height: 50px;border-radius: 50%;">
                                                                             <%}%>
-
-
                                                                 </td>
                                                                 <td>
                                                                     <% if(typeof data.numberOfOrder !=="undefined" &&
                                                                         data.numberOfOrder!="" ){%>
                                                                         <a href="/get-All-order?userId=<%= data._id %>">
-                                                                            <%= data.numberOfOrder %> viwes
-                                                                                order
+                                                                            <%= data.numberOfOrder %>
                                                                         </a>
                                                                         <%}else{%>
-                                                                            <a href="#">
-                                                                                no order
-                                                                            </a>
+                                                                            <a href="#"> 0 </a>
                                                                             <%}%>
                                                                 </td>
                                                                 <td>
@@ -183,16 +157,19 @@
                                                                                 class="btn btn-dark">
                                                                                 Super Admin
                                                                             </a>
-
-
                                                                             <%}else if( data.type=="admin" ){%>
                                                                                 <a href="/warningpage?id=<%=data._id%>"
                                                                                     class="btn btn-danger">
-                                                                                    Warning
+                                                                                    <i
+                                                                                        class="ri-alarm-warning-line"></i>
                                                                                 </a>
-                                                                                <a href="/Block-User?id=<%=data._id%>"
-                                                                                    class="btn btn-danger">
-                                                                                    block
+
+                                                                                <a
+                                                                                    href="/view_saloon?userId=<%=data._id%>">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-info">
+                                                                                        <i class="bi bi-eye"></i>
+                                                                                    </button>
                                                                                 </a>
                                                                                 <%}else{%>
                                                                                     <a href="/Block-User?id=<%=data._id%>"
@@ -202,25 +179,17 @@
                                                                                     <%}%>
                                                                 </td>
                                                             </tr>
-
                                                             <%}%>
                                                 </tbody>
                                             </table>
                                             <!-- End Table with stripped rows -->
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </section>
-
-
                 </main>
-
-
-
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
@@ -240,46 +209,6 @@
                         </div>
                     </div>
                 </div>
-
-
-                <script>
-                    function cartData(data) {
-                        let num = data.value;
-                        $.ajax({
-                            type: 'get',
-                            data: { "id": num },
-                            url: '/Find-date-for-admin-module',
-                            success: function (data) {
-                                if (data.length > 0) {
-                                    $('#moduleDataAppend').empty()
-                                    let abc = ` <table class="table datatable">
-                                    <thead>
-                                        <tr>
-                                        <th scope="col">serviceId</th>
-                                        <th scope="col">quantity</th>
-                                        <th scope="col">Amount</th>
-                                        <th scope="col">timePeriod </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>`
-                                    data.forEach((item) => {
-                                        abc += `<tr>
-                                        <td scope="row">${item.service.ServiceName}</td>
-                                        <td>${item.cartdata.quantity}</td>
-                                        <td>${item.cartdata.Amount}</td>
-                                        <td>${item.cartdata.timePeriod_in_minits}</td>
-                                    </tr>`
-                                    })
-                                    abc += `</tbody> </table >`
-                                    $('#moduleDataAppend').append(abc)
-                                    $("#exampleModal").modal("toggle");
-                                } else {
-                                    alert("data not Found")
-                                }
-                            }
-                        })
-                    }
-                </script>
                 <%- include("../../partials/script.ejs") %>
 </body>
 

@@ -33,43 +33,48 @@
                     <h5 class="card-title">Filter</h5>
 
                     <!-- No Labels Form -->
-                    <form class="row g-3" action="/get-All-order">
+                    <form class="row g-3" action="/view_saloon">
                       <div class="col-md-3">
                         <label>Choose City</label> <br>
                         <select id="inputState" name="city" class="form-select">
-
-                          <option selected="" value="">Choose City</option>
-
-
-                          <option value="ajmer">
-                            ajmer
-                          </option>
-
-
+                          <% if( query.city!=undefined&&query.city!="" ){%>
+                            <option selected="" value="<%=query?.city%>">
+                              <%=query?.city%>
+                            </option>
+                            <option value="">Choose City</option>
+                            <%}else{%>
+                              <option selected="" value="">Choose City</option>
+                              <%}%>
+                                <% city.forEach(function(citys) { %>
+                                  <option value="<%=citys%>">
+                                    <%=citys%>
+                                  </option>
+                                  <% }); %>
                         </select>
                       </div>
                       <div class="col-md-3">
-                        <label>status</label> <br>
-                        <select id="inputState" name="status" class="form-select">
-
-                          <option selected="" value="">Choose Status</option>
-                          <option value="pending">pending</option>
-                          <option value="cancel">cancel</option>
-                          <option value="succes">succes</option>
-
-
-                        </select>
+                        <label>Enter email</label> <br>
+                        <% if(query?.email!="" ){%>
+                          <input type="text" name="email" class="form-control" value="<%=query?.email%>"
+                            placeholder="email">
+                          <%}else{%>
+                            <input type="text" name="email" class="form-control" placeholder="email">
+                            <%}%>
                       </div>
                       <div class="col-md-3">
-                        <label>Enter Amount</label> <br>
-
-                        <input type="number" name="totalamount" class="form-control" value="" placeholder="Amount">
-
+                        <label>Enter Phone</label> <br>
+                        <% if(query?.Phone!="" ){%>
+                          <input type="number" name="Phone" class="form-control" value="<%=query?.Phone%>"
+                            placeholder="Phone">
+                          <%}else{%>
+                            <input type="number" name="Phone" class="form-control" placeholder="Phone">
+                            <%}%>
                       </div>
                       <div class="col-md-3">
+                        <label></label> <br>
                         <div class="text-center">
                           <button type="submit" class="btn btn-primary">Submit</button>
-                          <a href="/get-All-order"> <button type="button" class="btn btn-secondary">Reset</button></a>
+                          <a href="/view_saloon"> <button type="button" class="btn btn-secondary">Reset</button></a>
                         </div>
                       </div>
                     </form>
@@ -94,7 +99,7 @@
                           <th>Profile</th>
                           <th>Docu ment</th>
                           <th>Bank Info</th>
-                          <th scope="col">Action</th>
+                          <th scope="col">MoreAction</th>
                         </tr>
                       </thead>
                       <tbody>
