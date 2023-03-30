@@ -38,9 +38,8 @@ exports.sendmail = async (user) => {
 
 
 
-exports.sendmailwarning = async (req) => {
+exports.sendmailwarning = async ({ userData, body }) => {
     try {
-        console.log("req.body", req.body)
         let transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -48,16 +47,13 @@ exports.sendmailwarning = async (req) => {
                 pass: process.env.pass, // generated ethereal password
             }
         });
-        console.log("----",2)
         var mailoption = {
             from: process.env.email, // sender address
-            to: req.body.email, // list of receivers
-            subject: req.body.subject, // Subject line
-            text: req.body.text
+            to: userData.email, // list of receivers
+            subject: body.subject, // Subject line
+            text: body.text
         };
-        console.log("----",3)
         let result = await transporter.sendMail(mailoption)
-        console.log("----",result,4)
         if (result) {
             return {
                 statusCode: 200,

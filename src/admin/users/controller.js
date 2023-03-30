@@ -6,9 +6,10 @@ const { allUser } = require("./services")
 const { sendmailwarning } = require("../../middleware/mail")
 
 exports.allUser = async (req, res) => {
-    try {let message="";
+    try {
+        res.locals.message = req.flash();
         const Finddata = await allUser(req)
-        res.render("users/view-user", { data: Finddata.data, user: req.user, query: "", searchobj: Finddata.searchobj,message })
+        res.render("users/view-user", { data: Finddata.data, user: req.user, query: "", searchobj: Finddata.searchobj })
     } catch (error) {
         console.log(error);
     };
@@ -27,22 +28,28 @@ exports.BlockUser = async (req, res) => {
 };
 exports.warningPage = async (req, res) => {
     try {
-        // console.log("re", req.query.id)
-        
-        res.render("users/warning",{id:req.query.id,searchobj:undefined,user:req.user})
+        const data = await user.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
+        res.render("users/warning", { id: req.query.id, data, user: req.user })
     } catch (error) {
         console.log(error);
     };
 };
 
 exports.warning = async (req, res) => {
-    try {res.locals.message=req.flash();
+    try {
+        res.locals.message = req.flash();
+        req.userData = await user.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
+        // req.userData = userData
         const sendmailer = await sendmailwarning(req)
-        console.log("sendmailer",sendmailer);
-        req.flash("success","mail send successfully")
-
-
-        
+        console.log("sendmailer", sendmailer);
+        // gfhklv
+        if (sendmailer) {
+            req.flash("success", "mail send successfully")
+            res.redirect("/all-user")
+        } else {
+            req.flash("error", "mail not Send")
+            res.redirect("/all-user")
+        }
     } catch (error) {
         console.log(error);
     };
