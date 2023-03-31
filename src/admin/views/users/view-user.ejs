@@ -62,7 +62,7 @@
                                             <div class="col-md-4">
                                                 <label for=""></label><br>
                                                     <select name="status" id="" class="form-control">
-                                                        <option value="" disabled selected>select status</option>
+                                                        <option value=""  selected>select status</option>
                                                         <option value="user"  <%=searchobj.status=="user" ? 'selected' :'' %>>user</option>
                                                         <option value="admin" <%=searchobj.status=="admin" ? 'selected' :'' %>>admin</option>
                                                         <option value="super-admin" <%=searchobj.status=="super-admin" ? 'selected' :'' %>>superadmin</option>
@@ -161,7 +161,7 @@
                                                             </td>
                                                             <td>
                                                                 <% if( data.type=="block-User" ){%>
-                                                                    <a href="/add_service?id=<%= data._id%>"
+                                                                    <a href="/unblock?id=<%= data._id%>"
                                                                         class="btn btn-dark">
                                                                         unBlock
                                                                     </a>
@@ -180,7 +180,16 @@
                                                                                 class="btn btn-danger">
                                                                                 block
                                                                             </a>
-                                                                            <%}else{%>
+                                                                            <%}else if( data.type=="block-admin" ){%>
+                                                                               
+                                                                                <a href="/unblock?id=<%=data._id%>"
+                                                                                    class="btn btn-danger">
+                                                                                    block
+                                                                                </a>
+                                                                                <%}
+                                                                               
+                                                                            
+                                                                            else{%>
                                                                                 <a href="/Block-User?id=<%=data._id%>"
                                                                                     class="btn btn-danger">
                                                                                     block
