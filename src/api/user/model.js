@@ -36,6 +36,24 @@ const userSchema = new mongoose.Schema({
   otp: {
     type: String
   },
+  location: {
+    aria: {
+      type: String,
+      default: ""
+    },
+    pincode: {
+      type: String,
+      default: ""
+    },
+    city: {
+      type: String,
+      default: ""
+    },
+    state: {
+      type: String,
+      default: ""
+    },
+  },
   auth: {
     type: String,
     default: ""
