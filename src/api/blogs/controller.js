@@ -90,8 +90,10 @@ exports.creatBlog = async ({ body, file }) => {
 exports.getAllBlog = async ({ query }) => {
     try {
         let condition = [];
+        let obj = {};
+        let findCategory;
         if (query.categoryId) {
-            const findCategory = await category.findOne({ _id: mongoose.Types.ObjectId(query.categoryId) });
+            findCategory = await category.findOne({ _id: mongoose.Types.ObjectId(query.categoryId) });
             if (!findCategory) {
                 return {
                     statusCode: 200,
@@ -100,19 +102,19 @@ exports.getAllBlog = async ({ query }) => {
                     data: []
                 };
             };
+        };
+
+        if (findCategory) {
+            obj.category = findCategory._id;
+        };
+        if (query.Title) {
+            obj.Title = { $regex: query.Title, $options: 'i' };
+        };
+
+        if (query.id) {
+            obj._id = mongoose.Types.ObjectId(query.id);
 
             condition.push({
-                '$match': {
-                    'category': findCategory._id
-                }
-            })
-        };
-        if (query.id) {
-            condition.push({
-                '$match': {
-                    '_id': mongoose.Types.ObjectId(query.id)
-                }
-            }, {
                 '$lookup': {
                     'from': 'blogs',
                     'pipeline': [
@@ -122,12 +124,15 @@ exports.getAllBlog = async ({ query }) => {
                     ],
                     'as': 'Related Posts'
                 }
-            })
-        } else {
+            });
+        };
+
+        if (obj) {
             condition.push({
-                '$match': {}
-            })
-        }
+                '$match': obj
+            });
+        };
+
         const result = await blog.aggregate(condition);
         if (result) {
             return {
