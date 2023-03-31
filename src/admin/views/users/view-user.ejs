@@ -147,8 +147,8 @@
                                                                     <%= data.type %>
                                                                 </td>
                                                                 <td>
-                                                                    <% if( data.type=="block-User" ){%>
-                                                                        <a href="/add_service?id=<%= data._id%>"
+                                                                    <% if( data.type=="block-User" || data.type=="block-admin"){%>
+                                                                        <a href="/unblock?id=<%= data._id%>"
                                                                             class="btn btn-dark">
                                                                             unBlock
                                                                         </a>
