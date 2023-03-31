@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>view-saloon</title>
+  <title>view-saloon-Requist</title>
   <%- include('../../partials/headlink.ejs') %>
 </head>
 
@@ -13,7 +13,6 @@
   <%- include("../../partials/alertMsg.ejs") %>
     <%- include('../../partials/Header.ejs') %>
       <%- include("../../partials/sidebar.ejs") %>
-
         <main id="main" class="main">
           <div class="pagetitle">
             <h1><%-user.type %></h1>
@@ -32,10 +31,9 @@
                   <div class="card">
                     <div class="card-body">
                       <h5 class="card-title">Filter</h5>
-
                       <!-- No Labels Form -->
                       <form class="row g-3" action="/views-saloon-request">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                           <label>Choose City</label> <br>
                           <select id="inputState" name="city" class="form-select">
                             <% if( query.city!=undefined&&query.city!="" ){%>
@@ -62,7 +60,7 @@
                               <input type="text" name="email" class="form-control" placeholder="email">
                               <%}%>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                           <label>Enter Phone</label> <br>
                           <% if(query?.Phone!="" ){%>
                             <input type="number" name="Phone" class="form-control" value="<%=query?.Phone%>"
@@ -71,7 +69,17 @@
                               <input type="number" name="Phone" class="form-control" placeholder="Phone">
                               <%}%>
                         </div>
+                        <div class="col-md-2">
+                          <label>Enter status</label> <br>
+                          <select name="status" id="" class="form-control">
+                            <option value="" selected>select status</option>
+                            <option value="rejected" <%=query.status=="rejected" ? 'selected' :'' %>>rejected
+                            </option>
+                            <option value="pending" <%=query.status=="pending" ? 'selected' :'' %>>pending</option>
+                          </select>
+                        </div>
                         <div class="col-md-3">
+                          <label></label> <br>
                           <div class="text-center">
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <a href="/views-saloon-request"> <button type="button"
@@ -80,14 +88,11 @@
                         </div>
                       </form>
                       <!-- End No Labels Form -->
-
                     </div>
                   </div>
                   <div class="card">
-
                     <div class="card-body">
                       <h5 class="card-title">Saloon List</h5>
-
                       <!-- Table with stripped rows -->
                       <table class="table datatable">
                         <thead>
@@ -101,7 +106,7 @@
                             <th>Profile</th>
                             <th>Docu ment</th>
                             <th>Bank Info</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">MoreAction</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -148,29 +153,29 @@
                                   </button>
                                 </td>
                                 <td>
-                                  <a href="/saloon-requist-approval?id=<%= data._id%>" class="btn btn-info">
-                                    <i class="bi bi-check-circle-fill" title="approval"></i>
-                                  </a>
-                                  <a href="/saloon-request-delete?id=<%= data._id%>" class="btn btn-danger">
-                                    <i class="bi bi-x" title="delete"></i>
-                                  </a>
+                                  <% if(data.status=="rejected" && data.status){%>
+                                    rejected
+                                    <%}else{%>
+                                      <a href="/saloon-requist-approval?id=<%= data._id%>" class="btn btn-info">
+                                        <i class="bi bi-check-circle-fill" title="approval"></i>
+                                      </a>
+                                      <a href="/saloon-request-delete?id=<%= data._id%>" class="btn btn-danger">
+                                        <i class="bi bi-x" title="delete"></i>
+                                      </a>
+                                      <%}%>
                                 </td>
                               </tr>
                               <%}%>
                         </tbody>
                       </table>
                       <!-- End Table with stripped rows -->
-
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
           </section>
-
         </main>
-
         <!-- location -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -189,37 +194,15 @@
             </div>
           </div>
         </div>
-        <!-- profile -->
-        <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">User Service Data</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body" id="profile">
-                ...
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                
-              </div>
-            </div>
-          </div>
-        </div> -->
-
 
         <script>
           function findAddSaloonRequist(element) {
             let num = element.value
-            console.log("datadatadata", element.id)
-            // juyg
             $.ajax({
               type: 'get',
               data: { "id": num },
               url: '/find-Add-Saloon-Requist',
               success: function (data) {
-                console.log("data", data)
                 let abc;
                 if (data.length > 0) {
                   $('#moduleDataAppend').empty()
@@ -360,18 +343,6 @@
             })
           }
         </script>
-
-        gstNo
-        bankName
-        branchName
-        accountNo
-        accoutHolder
-        ifscCode
-        kyc
-
-
-
-
         <%- include("../../partials/script.ejs") %>
 </body>
 

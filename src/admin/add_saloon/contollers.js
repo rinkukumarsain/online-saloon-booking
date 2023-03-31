@@ -3,7 +3,8 @@ const service = require("./services")
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const saloonRequst = require("../../api/Partner/model")
-const { getAllSaloonRequistCity } = require("../../api/saloonstore/controller")
+const { getAllSaloonRequistCity, getAllSaloonCity } = require("../../api/saloonstore/controller")
+const userm = require("../../api/user/model")
 
 
 
@@ -255,9 +256,10 @@ exports.ADD_SALOON_STORE = async (req, res) => {
 }*/
 
 exports.VIEW_SALOON = async (req, res) => {
-    const data = await service.VIEW_SALOON()
+    const data = await service.VIEW_SALOON(req)
     const user = req.user
-    res.render("add_saloon/view_saloon", { user, data })
+    const FindAllcity = await getAllSaloonCity(req)
+    res.render("add_saloon/view_saloon", { user, data, query: req.query, city: FindAllcity.data })
 }
 
 
@@ -302,6 +304,9 @@ exports.viewsSaloonRequest = async (req, res) => {
         if (req.query.email != undefined && req.query.email != "") {
             match.email = { $regex: req.query.email, $options: 'i' }
         }
+        if (req.query.status != undefined && req.query.status != "") {
+            match.status = req.query.status
+        }
         condition.push({
             '$match': match
         })
@@ -336,7 +341,6 @@ exports.viewsSaloonRequest = async (req, res) => {
         )
         const data = await saloonRequst.aggregate(condition)
         const FindAllcity = await getAllSaloonRequistCity(req)
-        console.log("data", data)
         if (data && FindAllcity) {
             res.render("add_saloon/views-saloon-request", { user, data, query: req.query, city: FindAllcity.data })
         } else {
@@ -410,27 +414,10 @@ exports.saloonApproval = async (req, res) => {
                     businessCertificate: findSloonRequist.uplodeDocuments.businessCertificate,
                 },
 
-                // storeName: findSloonRequist.storeName,
-                // email: findSloonRequist.email,
-                // Phone: findSloonRequist.Phone,
-                // location: {
-                //     shopNumber: findSloonRequist.location.shopNumber,
-                //     aria: findSloonRequist.location.aria,
-                //     pincode: findSloonRequist.location.pincode,
-                //     city: findSloonRequist.location.city,
-                //     state: findSloonRequist.location.state,
-                // },
-                // description: findSloonRequist.description,
-                // userId: findSloonRequist.userId,
-                // image: findSloonRequist.imagefindSloonRequist.image,
             });
             const result = await saloon_details.save();
-            console.log("result", result)
             if (result) {
-
                 await this.saloonRequistDelete(req, res)
-                // console.log("---->", result, " apporove <---")
-                // res.redirect("/views-saloon-request")
             };
         } else {
             res.redirect("/views-saloon-request")
@@ -443,16 +430,12 @@ exports.saloonApproval = async (req, res) => {
 
 exports.saloonRequistDelete = async (req, res) => {
     try {
-        console.log("req.url saloonRequistDelete-->stor1", req.url, "<--")
         res.locals.message = req.flash();
-        console.log(req.url)
         if (req.query.id != undefined && req.query.id != "") {
             const _id = mongoose.Types.ObjectId(req.query.id)
-            const findSaloonAndDelete = await saloonRequst.findOneAndDelete({ _id })
-            if (findSaloonAndDelete) {
-                console.log("res.locals.message", res.locals.message)
-                req.flash("success", " request approve succesfully !")
-                console.log("res.locals.message", res.locals.message)
+            const result = await saloonRequst.findByIdAndDelete({ _id })
+            if (result) {
+                req.flash("success", " request approvel succesfully !")
                 res.redirect("/views-saloon-request")
             }
         } else {
@@ -463,14 +446,53 @@ exports.saloonRequistDelete = async (req, res) => {
         ;
     }
 }
+
 exports.findAddSaloonRequist = async (req, res) => {
     try {
         const id = req.query.id
         const FindData = await saloonRequst.find({ _id: mongoose.Types.ObjectId(id) })
         if (FindData) {
-            console.log("FindData", FindData)
             res.send(FindData)
         }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+exports.findSaloonByUser = async (req, res) => {
+    try {
+        // const finduser = await saloon.aggregate([
+        //     {
+        //         '$lookup': {
+        //             'from': 'users',
+        //             'localField': 'userId',
+        //             'foreignField': '_id',
+        //             'as': 'user'
+        //         }
+        //     }, {
+        //         '$group': {
+        //             '_id': '$userId'
+        //         }
+        //     }
+        // ])
+
+
+        // console.log("element", finduser)
+        // let arrr = []
+        // for (const element of finduser) {
+        //     arrr.push(element._id)
+        // }
+        // console.log("arrr", arrr)
+        // const upfate = await userm.updateMany({ _id: { $nin: arrr }, type: { $ne: "block-User" }, type: { $ne: "super-admin" } }, { type: "user" })
+        // console.log("upfate", upfate)
+        // jghj
+
+        console.log("findSaloonByUser", req.query.id)
+        const findSaloon = await saloon.find({ userId: mongoose.Types.ObjectId(req.query.id) })
+        console.log("findSaloon", findSaloon.length)
+
+        
+        gfhrtd
     } catch (error) {
         console.log(error)
     }

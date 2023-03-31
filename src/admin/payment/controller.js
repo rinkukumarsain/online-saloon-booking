@@ -65,7 +65,7 @@ exports.ViewAllPayment = async (req, res) => {
             searchobj.Amount = req.query.amount;
             serchobj2["orderData.amount"] = { $gte: +req.query.amount };
         }
-        console.log("serchobj2",serchobj2)
+        console.log("query", req.query)
         const updateData = await payment.aggregate([
             { "$match": serchobj2 }, {
                 '$lookup': {
@@ -96,9 +96,9 @@ exports.ViewAllPayment = async (req, res) => {
             // console.log("--->", item);
         });
 
-        
-            res.render("payment/View-All-payment", { user: req.user, data: updateData });
-        
+
+        res.render("payment/View-All-payment", { user: req.user, data: updateData, query: req.query });
+
     } catch (error) {
         console.log(error);
     };
