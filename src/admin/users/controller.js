@@ -17,7 +17,6 @@ exports.allUser = async (req, res) => {
 
 exports.BlockUser = async (req, res) => {
     try {
-        // console.log("re", req.query.id)
         const Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "block-User" }, { new: true })
         if (Finddata) {
             res.redirect("/all-user")
@@ -39,10 +38,7 @@ exports.warning = async (req, res) => {
     try {
         res.locals.message = req.flash();
         req.userData = await user.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
-        // req.userData = userData
         const sendmailer = await sendmailwarning(req)
-        console.log("sendmailer", sendmailer);
-        // gfhklv
         if (sendmailer) {
             req.flash("success", "mail send successfully")
             res.redirect("/all-user")

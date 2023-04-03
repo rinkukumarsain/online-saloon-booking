@@ -10,7 +10,6 @@ exports.ADD_SERVICE = async (req, res) => {
         const category = await Category.find({ parent_Name: null })
         const saloon_data = await saloon.find()
         const _id = req.query.id
-        console.log("id", _id)
         let pipeline = []
         pipeline.push({
             $match: {
@@ -39,8 +38,6 @@ exports.ADD_SERVICE = async (req, res) => {
 exports.optiongeturl = async (req, res) => {
     try {
         const parent_id = req.query.select
-        console.log("req.query", parent_id);
-        // console.log(`=======${req.url}`)
         if (parent_id != undefined && parent_id.length == 24) {
             const _id = mongoose.Types.ObjectId(parent_id)
 
@@ -53,7 +50,6 @@ exports.optiongeturl = async (req, res) => {
                     "parent_Name": index.parent_Name,
                 });
             });
-            // console.log("userdata", userdata)
             res.send(userdata);
 
         }
@@ -64,9 +60,7 @@ exports.optiongeturl = async (req, res) => {
 
 exports.ADD_SERVICE_STORE = async (req, res) => {
     try {
-        //console.log("body", req.body)
         let { body, files, query } = req
-        //console.log("body",body)
         res.locals.message = req.flash();
         if (query.id) {
 

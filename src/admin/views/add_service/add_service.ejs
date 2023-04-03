@@ -201,7 +201,6 @@
       <script>
         document.getElementById("mySubmit").disabled = true;
         function clickMe(select) {
-          console.log("se", select)
           let num = Number(select.id)
           let category = select.value
           $.ajax({
@@ -210,7 +209,6 @@
             url: '/optiongeturl',// nandlal
             success: function (data) {
               if (data.length > 0) {
-                console.log(data)
                 let abc = `<div id="subcategory-${num + 1}"><label for="inputAddress" class="form-label">Sub Category</label>`
                 abc += `<select style="width:50%;margin-bottom:20px"   class="form-select" onchange="clickMe(this )" name="category" id="${num + 1}">`
                 abc += `<option>select Sub Category</option>`

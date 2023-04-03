@@ -56,16 +56,13 @@ const { businessSignUp, businessProfileInfo, businessBankInfo, businessUplodeDoc
 
 exports.ADD_SALOON_STORE = async (req, res) => {
     try {
-        console.log("t", 1)
         res.locals.message = req.flash()
         const businessSign = await businessSignUp(req)
         if (businessSign.statusCode == 200 && businessSign.status == true) {
-            console.log("next", businessSign.data[0]._id)
             res.redirect(`/business-profile-info-by-Admin?id=${businessSign.data[0]._id}`)
         } else {
             req.flash("error", businessSign.message)
             res.redirect(`/add_saloon`)
-            console.log("wroung", 1, businessSign)
         }
     } catch (error) {
         console.log(error);
@@ -77,7 +74,6 @@ exports.ADD_SALOON_STORE = async (req, res) => {
 exports.businessProfile = async (req, res) => {
     try {
         res.locals.message = req.flash()
-        console.log("t", 2)
         const find = await saloonRequst.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
         const businessP = await businessProfileInfo(req)
         if (businessP.statusCode == 200 && businessP.status == true) {
@@ -85,7 +81,6 @@ exports.businessProfile = async (req, res) => {
         } else {
             req.flash("error", businessP.message)
             res.redirect(`/business-profile-info-by-Admin?id=${find._id}`)
-            console.log("wroung", 2, businessP)
         }
     } catch (error) {
         console.log(error);
@@ -96,7 +91,6 @@ exports.businessProfile = async (req, res) => {
 exports.businessBankInfoAdmin = async (req, res) => {
     try {
         res.locals.message = req.flash()
-        console.log("t", 3)
         const find = await saloonRequst.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
         const businessP = await businessBankInfo(req)
         if (businessP.statusCode == 200 && businessP.status == true) {
@@ -104,7 +98,6 @@ exports.businessBankInfoAdmin = async (req, res) => {
         } else {
             req.flash("error", businessP.message)
             res.redirect(`/business-bank-information?id=${find._id}`)
-            console.log("wroung", 3, businessP)
         }
     } catch (error) {
         console.log(error);
@@ -115,7 +108,6 @@ exports.businessBankInfoAdmin = async (req, res) => {
 exports.businessUplodeDocumentAdmin = async (req, res) => {
     try {
         res.locals.message = req.flash()
-        console.log("t", 4)
         const find = await saloonRequst.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
         const businessP = await businessUplodeDocument(req)
         if (businessP.statusCode == 200 && businessP.status == true) {
@@ -123,7 +115,6 @@ exports.businessUplodeDocumentAdmin = async (req, res) => {
         } else {
             req.flash("error", businessP.message)
             res.redirect(`/document-uplode?id=${find._id}`)
-            console.log("wroung", 4, businessP)
         }
     } catch (error) {
         console.log(error);
@@ -275,11 +266,8 @@ exports.DELETE_SALOON = async (req, res) => {
 
 exports.GetSaloonAddress = async (req, res) => {
     try {
-        // const id = req.query.id
-        console.log("GetSaloonAddress", req.query)
         const FindData = await saloon.find({ _id: mongoose.Types.ObjectId(req.query.id) })
         if (FindData) {
-            console.log("FindData", FindData)
             res.send(FindData)
         }
     } catch (error) {
@@ -355,12 +343,9 @@ exports.viewsSaloonRequest = async (req, res) => {
 
 exports.saloonApproval = async (req, res) => {
     try {
-        console.log("req.url saloonApproval-->stor1", req.url, "<--")
-        console.log("saloonApproval", req.query)
         if (req.query.id != undefined && req.query.id != "") {
             const _id = mongoose.Types.ObjectId(req.query.id)
             const findSloonRequist = await saloonRequst.findOne({ _id })
-            console.log("findSloonRequist", findSloonRequist)
 
             let ovh = {};
             ovh.shopNumber = findSloonRequist.shopNumber
@@ -368,7 +353,6 @@ exports.saloonApproval = async (req, res) => {
             ovh.pincode = findSloonRequist.pincode
             ovh.city = findSloonRequist.city
             ovh.state = findSloonRequist.state
-            console.log("findSloonRequist", findSloonRequist)
 
             let saloon_details = new saloon({
                 userId: findSloonRequist.userId,
@@ -487,12 +471,8 @@ exports.findSaloonByUser = async (req, res) => {
         // console.log("upfate", upfate)
         // jghj
 
-        console.log("findSaloonByUser", req.query.id)
         const findSaloon = await saloon.find({ userId: mongoose.Types.ObjectId(req.query.id) })
-        console.log("findSaloon", findSaloon.length)
 
-        
-        gfhrtd
     } catch (error) {
         console.log(error)
     }

@@ -3,7 +3,6 @@ const saloonService = require("../../api/saloonService/model")
 exports.VIEW_SALOON = async (req) => {
   let pipeline = []
   // res.locals.message = req.flash();
-  console.log('req.query', req.query)
   let match = {}
   if (req.query.ServicePrice != undefined && req.query.ServicePrice != "") {
     match.ServicePrice = { $gt: Number(req.query.ServicePrice) }
@@ -64,6 +63,6 @@ exports.VIEW_SALOON = async (req) => {
       }
     })
   }
-  console.log("pipeline", pipeline)
+
   return await saloonService.aggregate(pipeline)
 }

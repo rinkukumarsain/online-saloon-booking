@@ -14,7 +14,7 @@ exports.Category = async (req, res) => {
             res.render("category/index", { user: req.user })
         }
     } catch (error) {
-        console.log("UserData", error)
+        console.log(error)
     }
 }
 
@@ -22,7 +22,7 @@ exports.AddCategory = async (req, res) => {
     try {
         await AddCategory(req, res)
     } catch (error) {
-        console.log("UserData", error)
+        console.log(error)
     }
 }
 
@@ -63,9 +63,7 @@ exports.ViwesCategory = async (req, res) => {
 
 exports.DeleteCategory = async (req, res) => {
     try {
-        console.log(req.query)
         const result = await CategoryModule.findByIdAndRemove({ _id: mongoose.Types.ObjectId(req.query.id) })
-        console.log("req.query", result)
         if (result) {
             res.redirect("/view-category")
         } else {
