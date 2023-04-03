@@ -65,7 +65,6 @@ exports.ViewAllPayment = async (req, res) => {
             searchobj.Amount = req.query.amount;
             serchobj2["orderData.amount"] = { $gte: +req.query.amount };
         }
-        console.log("query", req.query)
         const updateData = await payment.aggregate([
             { "$match": serchobj2 }, {
                 '$lookup': {
@@ -93,7 +92,6 @@ exports.ViewAllPayment = async (req, res) => {
             let Time = moment(item.createdAt).format("hh:mm:ss");
             item.Date = Date
             item.Time = Time
-            // console.log("--->", item);
         });
 
 
@@ -110,7 +108,6 @@ exports.DeletePayment = async (req, res) => {
         if (req.query.id != undefined && req.query.id != "") {
             const updateData = await payment.findByIdAndDelete({ _id: mongoose.Types.ObjectId(req.query.id) })
             if (updateData) {
-                // console.log("updateData", updateData)
                 res.redirect("/view-all-payment");
             };
         } else {

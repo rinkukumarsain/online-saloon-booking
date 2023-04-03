@@ -2,233 +2,227 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>view-saloon</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <%- include('../../partials/headlink.ejs') %>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Write-Blog</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <%- include('../../partials/headlink.ejs') %>
 </head>
 
 <body>
-   
-        <%- include('../../partials/Header.ejs') %>
-            <%- include("../../partials/sidebar.ejs") %>
+  <%- include('../../partials/Header.ejs') %>
+    <%- include("../../partials/sidebar.ejs") %>
+      <main id="main" class="main">
+        <div class="pagetitle">
+          <h1>
+            <%-user.type %>
+          </h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </nav>
+        </div><!-- End Page Title -->
 
-                <main id="main" class="main">
-                    <div class="pagetitle">
-                        <h1>
-                            <%-user.type %>
-                        </h1>
-                        <nav>
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard</li>
-                            </ol>
-                        </nav>
-                    </div><!-- End Page Title -->
+        <section class="section dashboard">
+          <div class="row">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Add Blog</h5>
 
-                    <section class="section dashboard">
-                        <div class="row">
-                          <div class="row">
-                            <div class="col-lg-12">
-                              <div class="card">
-                                <div class="card-body">
-                                  <h5 class="card-title">Add Blog</h5>
-                                 
+                    <% if(typeof blog_data !=="undefined" && blog_data){%>
+                      <form id="form1" method="post" enctype="multipart/form-data">
 
-                                         <% if(typeof blog_data !=="undefined" && blog_data){%>
-                                            <form  id="form1" method="post" enctype="multipart/form-data">
-                                                <div class="row g-3">
-                                                  <div class="col">
-                                                    <input required type="text" name="Title" id="title" value="<%= blog_data.Title%>"class="form-control" placeholder="Enter Your Title">
-                                                  </div>
-                                                  <div class="col">
-                                                    <input required type="text" name="WriterName" id="writename" value="<%= blog_data.WriterName%>" class="form-control" placeholder="Enter Writer Name">
-                                                  </div>
-                                                  
-                                                </div><br>
-                                                
-      
-                                                <div class="row g-3">
-                                                  <div class="col">
-                                                    <label for="starting-time">Write Date</label>
-                                                    <input required type="date" id="writedate" value="<%= blog_data.WriteDate%>" name="WriteDate" class="form-control">
-                                                  </div>
-                                                  <div class="col">
-                                                        <label for="starting-time">Category</label>
-                                                        <select class="form-select"name="category" id="category" aria-label="Default select example" required>
-                                                          <%for (category_data of category_data) {%>
-                                                          <option value="<%= category_data._id%>" <%= blog_data.category.toString()===category_data._id.toString() ? "selected" : "" %>><%= category_data.Name %></option>
-                                                          <%}%>
-                                                        </select>
-                                                  </div>
-                                                </div><br>
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for="">Enter Title</label>
+                            <input required type="text" name="Title" id="title" value="<%= blog_data.Title%>"
+                              class="form-control" placeholder="Enter Your Title">
+                          </div>
+                          <div class="col">
+                            <label for="">Enter writename</label>
+                            <input required type="text" name="WriterName" id="writename"
+                              value="<%= blog_data.WriterName%>" class="form-control" placeholder="Enter Writer Name">
+                          </div>
+                        </div><br>
 
-                                                <div class="row g-3">
-                                                    <div class="col">
-                                                     <label for="starting-time">Image</label>
-                                                      <input  class="form-control" type="file" id="image" name="image" id="formFile">
-                                                      <img src="/uploads/<%= blog_data.image[0]%>" width="60px">
-                                                    </div>
-                                                    <div class="col">
-                                                         <input  class="form-control" type="hidden" id="hidden" name="description">
-                                                       </div>  
-                                                  </div><br>
-                                                
-                                                 
-                                                    <div class="col">
-                                                      <input  class="form-control" type="hidden" id="hidden1" name="blogid" value="<%= blog_data._id%>">
-                                                    </div> 
-                                                  
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for="starting-time">Write Date</label>
+                            <input required type="date" id="writedate" value="<%= blog_data.WriteDate%>"
+                              name="WriteDate" class="form-control">
+                          </div>
+                          <div class="col">
+                            <label for="starting-time">Category</label>
+                            <select class="form-select" name="category" id="category"
+                              aria-label="Default select example" required>
+                              <%for (category_data of category_data) {%>
+                                <option value="<%= category_data._id%>"
+                                  <%=blog_data.category.toString()===category_data._id.toString() ? "selected" : "" %>>
+                                  <%= category_data.Name %>
+                                </option>
+                                <%}%>
+                            </select>
+                          </div>
+                        </div><br>
 
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                      <h5 class="card-title">Blog Description</h5>
-                                        
-                                                      <!-- Quill Editor Full -->
-                                                      <div id="description1" class="quill-editor-full" required>
-                                                      </div>
-                                                     
-                                                    </div>
-                                                  </div>
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for="starting-time">Image</label>
+                            <input class="form-control" type="file" id="image" name="image" id="formFile">
+                            <img src="/uploads/<%= blog_data.image[0]%>" width="60px">
+                          </div>
+                          <div class="col">
+                            <input class="form-control" type="hidden" id="hidden" name="description">
+                          </div>
+                        </div><br>
 
-                                            
-                            
-                                                  <div class="row mb-3">
-                                                    
-                                                    <div class="col-sm-10">
-                                                      <button type="submit" class="btn btn-primary">Update</button>
-                                                    </div>
-                                                  </div>
-                                            </form>
-                                          <%}else{%>
-                                            <form  id="form" method="post" enctype="multipart/form-data">
-                                                <div class="row g-3">
-                                                  <div class="col">
-                                                    <input required type="text" name="Title" id="title" class="form-control" placeholder="Enter Your Title">
-                                                  </div>
-                                                  <div class="col">
-                                                    <input required type="text" name="WriterName" id="writename" class="form-control" placeholder="Enter Writer Name">
-                                                  </div>
-                                                  
-                                                </div><br>
-                                                
-      
-                                                <div class="row g-3">
-                                                  <div class="col">
-                                                    <label for="starting-time">Write Date</label>
-                                                    <input required type="date" id="writedate" name="WriteDate" class="form-control">
-                                                  </div>
-                                                  <div class="col">
-                                                        <label for="starting-time">Category</label>
-                                                        <select class="form-select"name="category" id="category" aria-label="Default select example" required>
-                                                          <option selected="" disabled>Select Category</option>
-                                                          <%for (category_data of category_data) {%>
-                                                          <option value="<%= category_data._id%>"><%= category_data.Name %></option>
-                                                          <%}%>
-                                                        </select>
-                                                  </div>
-                                                </div><br>
+                        <div class="col">
+                          <input class="form-control" type="hidden" id="hidden1" name="blogid"
+                            value="<%= blog_data._id%>">
+                        </div>
 
-                                                <div class="row g-3">
-                                                    <div class="col">
-                                                     <label for="starting-time">Image</label>
-                                                      <input  class="form-control" type="file" id="image" name="image" id="formFile"  required>
-                                                    </div>
-                                                    <div class="col">
-                                                         <input  class="form-control" type="hidden" id="hidden" name="description">
-                                                       </div>
-                                                  </div><br>
-                                                
-
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                      <h5 class="card-title">Blog Description</h5>
-                                        
-                                                      <!-- Quill Editor Full -->
-                                                      <div class="quill-editor-full" required>
-                                                        <p>Hello World!</p>
-                                                        <p>This is Quill <strong>full</strong> editor</p>
-                                                      </div>
-                                                     
-                                                    </div>
-                                                  </div>
-
-                                            
-                            
-                                                  <div class="row mb-3">
-                                                    
-                                                    <div class="col-sm-10">
-                                                      <button type="submit" class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                  </div>
-                                            </form>
-                                            <%}%>
-                                        
-                                </div>
-                              </div>
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title">Blog Description</h5>
+                            <!-- Quill Editor Full -->
+                            <div id="description1" class="quill-editor-full" required>
                             </div>
                           </div>
                         </div>
-                      </section>
-                </main>
-      
-                <%- include("../../partials/script.ejs") %>
+
+                        <div class="row mb-3">
+                          <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                          </div>
+                        </div>
+                      </form>
+                      <%}else{%>
+                        <form id="form" method="post" enctype="multipart/form-data">
+
+                          <div class="row g-3">
+                            <div class="col">
+                              <label for="">Enter Title</label>
+                              <input required type="text" name="Title" id="title" class="form-control"
+                                placeholder="Enter Your Title">
+                            </div>
+                            <div class="col">
+                              <label for="">Enter Writer Name</label>
+                              <input required type="text" name="WriterName" id="writename" class="form-control"
+                                placeholder="Enter Writer Name">
+                            </div>
+                          </div><br>
+
+                          <div class="row g-3">
+                            <div class="col">
+                              <label for="starting-time">Write Date</label>
+                              <input required type="date" id="writedate" name="WriteDate" class="form-control">
+                            </div>
+                            <div class="col">
+                              <label for="starting-time">Category</label>
+                              <select class="form-select" name="category" id="category"
+                                aria-label="Default select example" required>
+                                <option selected="" disabled>Select Category</option>
+                                <%for (category_data of category_data) {%>
+                                  <option value="<%= category_data._id%>">
+                                    <%= category_data.Name %>
+                                  </option>
+                                  <%}%>
+                              </select>
+                            </div>
+                          </div><br>
+
+                          <div class="row g-3">
+                            <div class="col">
+                              <label for="starting-time">Image</label>
+                              <input class="form-control" type="file" id="image" name="image" id="formFile" required>
+                            </div>
+                            <div class="col">
+                              <input class="form-control" type="hidden" id="hidden" name="description">
+                            </div>
+                          </div><br>
+
+
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">Blog Description</h5>
+                              <!-- Quill Editor Full -->
+                              <div class="quill-editor-full" required>
+                                <p>Hello World!</p>
+                                <p>This is Quill <strong>full</strong> editor</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row mb-3">
+                            <div class="col-sm-10">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                          </div>
+                        </form>
+                        <%}%>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <%- include("../../partials/script.ejs") %>
 </body>
 <script>
-    $("#form").submit(
-        function(e){
-         e.preventDefault();
-         const description = $("#hidden")
-         description.val(document.querySelector(".ql-editor").innerHTML)
-         const file = new FormData(this);
-         console.log("+++++++++",file)
-        $.ajax({
+  $("#form").submit(
+    function (e) {
+      e.preventDefault();
+      const description = $("#hidden")
+      description.val(document.querySelector(".ql-editor").innerHTML)
+      const file = new FormData(this);
+      $.ajax({
         url: "/add_blog_store",
         type: 'POST',
         data: file,
         success: function (data) {
-            window.location.replace("/view_blog")
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-    });
-    }
-    )
-    $("#form1").submit( 
-        function(e){
-         e.preventDefault();
-         const description = $("#hidden")
-         description.val(document.querySelector(".ql-editor").innerHTML)
-         const blog_id = $("#hidden1").val()
-         console.log("=============>",blog_id)
-        const file = new FormData(this);
-        $.ajax({
-        url: `/add_blog_store?id=${blog_id}`,
-        type: 'POST',
-        data: file,
-        success: function (data) {
-            window.location.replace("/")
+          window.location.replace("/view_blog")
         },
         cache: false,
         contentType: false,
         processData: false
       });
-      }
-    )
+    }
+  )
+  $("#form1").submit(
+    function (e) {
+      e.preventDefault();
+      const description = $("#hidden")
+      description.val(document.querySelector(".ql-editor").innerHTML)
+      const blog_id = $("#hidden1").val()
+      const file = new FormData(this);
+      $.ajax({
+        url: `/add_blog_store?id=${blog_id}`,
+        type: 'POST',
+        data: file,
+        success: function (data) {
+          window.location.replace("/")
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+      });
+    }
+  )
 </script>
 
 <script>
-          let div;
-          <%if(blog_data){%>
-            div = document.createElement("div")
-            div.innerHTML = `<%= blog_data.Description %>`
-            document.querySelector(`.ql-editor`).innerHTML = div.innerText
-            <%}%>
-    </script>
- 
-
+  let div;
+          <%if (blog_data) {%>
+    div = document.createElement("div")
+    div.innerHTML = `<%= blog_data.Description %>`
+    document.querySelector(`.ql-editor`).innerHTML = div.innerText
+      <%}%>
+</script>
 
 </html>

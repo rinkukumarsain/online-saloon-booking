@@ -199,14 +199,11 @@
       <script>
         function saloonAdd(element) {
           let num = element.value
-          console.log(element)
-          console.log("num", num)
           $.ajax({
             type: 'get',
             data: { "id": num },
             url: '/get-saloon-address',
             success: function (data) {
-              console.log("data", data)
               if (data.length > 0) {
                 $('#moduleDataAppend').empty()
                 if (element.id == "location") {

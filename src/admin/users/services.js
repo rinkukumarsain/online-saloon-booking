@@ -27,8 +27,6 @@ exports.allUser = async (req, res) => {
             searchobj.status = req.query.status
             serchobj.type = req.query.status;
         }
-        //console.log("searchobj",searchobj)
-
 
         const Finddata = await user.aggregate([
             { '$match': serchobj }, {

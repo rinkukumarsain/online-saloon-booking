@@ -20,7 +20,6 @@ exports.AddCategory = async (req, res, _id) => {
             }
             if (req.query.id != "" && req.query.id != undefined) {
                 req.body.parent_Name = mongoose.Types.ObjectId(req.query.id)
-                console.log("req.query", req.query)
             } else {
                 req.body.parent_Name = null
             }
@@ -30,7 +29,6 @@ exports.AddCategory = async (req, res, _id) => {
                 image: req.body.image
             })
             const result = await data.save()
-            console.log("result", result)
             res.redirect("/view-category")
         }
     } catch (error) {

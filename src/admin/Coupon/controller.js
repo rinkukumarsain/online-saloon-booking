@@ -83,7 +83,6 @@ exports.DeleteCoupon = async (req, res) => {
         if (req.query.id != undefined && req.query.id != "") {
             const updateData = await coupon.findByIdAndDelete({ _id: mongoose.Types.ObjectId(req.query.id) })
             if (updateData) {
-                // console.log("updateData", updateData)
                 res.redirect("/View-All-Coupon");
             };
         } else {
