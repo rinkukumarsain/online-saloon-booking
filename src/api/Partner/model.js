@@ -68,6 +68,9 @@ const saloon_Requst = new mongoose.Schema({
         type: String,
         default: "1"
     },
+    description: {
+        type: String,
+    },
     ProfileInfo: {
         yourService: {
             type: String,
