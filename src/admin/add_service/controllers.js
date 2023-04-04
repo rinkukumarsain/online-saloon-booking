@@ -8,7 +8,12 @@ exports.ADD_SERVICE = async (req, res) => {
     try {
         const user = req.user
         const category = await Category.find({ parent_Name: null })
-        const saloon_data = await saloon.find()
+        let saloon_data;
+        if (req.query.saloonId != undefined && req.query.saloonId != "") {
+            saloon_data = await saloon.find({ _id: mongoose.Types.ObjectId(req.query.saloonId) })
+        } else {
+            saloon_data = await saloon.find()
+        }
         const _id = req.query.id
         let pipeline = []
         pipeline.push({
@@ -131,7 +136,6 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        throw error;
     }
 }
 

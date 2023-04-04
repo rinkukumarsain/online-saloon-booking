@@ -32,10 +32,10 @@
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">
-                  
+
 
                     <% if(typeof service_data !=="undefined" && service_data){%>
-                      <h5 class="card-title">Add Service</h5>
+                      <h5 class="card-title">Edit Service</h5>
                       <form action="/add_service_store?id=<%= service_data._id%>" method="post"
                         enctype="multipart/form-data">
                         <div class="row g-3">
@@ -111,7 +111,7 @@
                         </div>
                       </form>
                       <%}else{%>
-                        <h5 class="card-title">Edit Service</h5>
+                        <h5 class="card-title">Add Service</h5>
                         <form action="/add_service_store" method="post" enctype="multipart/form-data">
                           <div class="row g-3">
                             <div class="col">
@@ -167,12 +167,22 @@
                             <div class="col">
                               <select class="form-select" name="saloonStore" aria-label="Default select example"
                                 required>
-                                <option selected="">Select Saloon</option>
-                                <% for(saloon of saloon_data){%>
-                                  <option value="<%= saloon?._id%>">
-                                    <%= saloon?.storeName%>
-                                  </option>
-                                  <%}%>
+
+                                <%if(saloon_data.length==1){%>
+                                  <% for(saloon of saloon_data){%>
+                                    <option selected value="<%= saloon?._id%>">
+                                      <%= saloon?.storeName%>
+                                    </option>
+                                    <%}%>
+                                      <%}else{%>
+                                        <option selected="">Select Saloon</option>
+                                        <% for(saloon of saloon_data){%>
+                                          <option value="<%= saloon?._id%>">
+                                            <%= saloon?.storeName%>
+                                          </option>
+                                          <%}%>
+
+                                            <%}%>
                               </select>
                             </div>
                             <div id="myselect" class="col-md-12">
