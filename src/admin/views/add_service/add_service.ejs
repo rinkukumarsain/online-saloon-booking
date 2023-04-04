@@ -33,7 +33,7 @@
                 <div class="card">
                   <div class="card-body">
 
-                    <h5 class="card-title">Add Saloon Service </h5>
+                    <!-- <h3 class="card-title">Add Saloon Service </h3> -->
                     <% if(typeof service_data !=="undefined" && service_data){%>
                       <h5 class="card-title">Add Service</h5>
                       <form action="/add_service_store?id=<%= service_data._id%>" method="post"
@@ -124,12 +124,12 @@
                         <form action="/add_service_store" method="post" enctype="multipart/form-data">
                           <div class="row g-3">
                             <div class="col">
-                              <label for=""><h5> Service Name</h5></label>
+                              <label for=""> Service Name</label>
                               <input required type="text" name="ServiceName" class="form-control"
                                 placeholder="Enter Service Name">
                             </div>
                             <div class="col">
-                              <label for=""><h5> Service Price</h5></label>
+                              <label for=""> Service Price</label>
                               <input required type="number" name="ServicePrice" class="form-control"
                                 placeholder="Enter Service Price">
                             </div>
