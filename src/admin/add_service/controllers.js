@@ -91,12 +91,12 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
                 const result = await saloonService.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
                 if (result) {
                     req.flash("success", "Saloon Service  is  Update successfull !")
-                    res.redirect("/view_service")
+                    return res.redirect("/view_service")
                 };
 
             } else {
                 req.flash("error", "Saloon Service is Not Found !")
-                res.redirect("/")
+                return res.redirect("/")
             };
         } else {
             const { ServiceName } = body;
@@ -104,7 +104,7 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
                 const result = await saloonService.findOne({ ServiceName });
                 if (result) {
                     req.flash("error", "ServiceName Already Exists")
-                    res.redirect("/")
+                    return res.redirect("/")
                 };
             }
             if (files) {
@@ -131,7 +131,7 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
             const result = await service_details.save();
             if (result) {
                 req.flash("success", "Service Add Succesfuuly !")
-                res.redirect("/view_service")
+                return res.redirect("/view_service")
             };
         }
     } catch (error) {
@@ -140,9 +140,13 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
 }
 
 exports.VIEW_SERVICE = async (req, res) => {
-    const data = await service.VIEW_SALOON(req)
-    const user = req.user
-    res.render("add_service/view_service", { query: req.query, user, data })
+    try {
+        const data = await service.VIEW_SALOON(req)
+        const user = req.user
+        return res.render("add_service/view_service", { query: req.query, user, data })
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 exports.DELETE_SERVICE = async (req, res) => {
