@@ -30,12 +30,13 @@
                 <div class="card">
                   <div class="card-body">
                     <% if(typeof Coupon !=="undefined" && Coupon){%>
+                      <%console.log("hello",Coupon)%>
                       <h5 class="card-title">Coupon Edit</h5>
                       <form class="row g-3" action="/Create-Coupon?id=<%=Coupon._id %>" method="post">
                         <div class="col-md-6">
-                          <label for="">Enter Titel Name</label>
-                          <input type="text" name="Title" class="form-control" placeholder="Titel Name"
-                            value="<%=Coupon.Titel %>" required>
+                          <label for="">Enter Title Name</label>
+                          <input type="text" name="Title" class="form-control" placeholder="Title Name"
+                            value="<%=Coupon.Title %>" required>
                         </div>
 
                         <div class="col-md-6">
@@ -87,8 +88,8 @@
                         <!-- No Labels Form -->
                         <form class="row g-3" action="/Create-Coupon" method="post">
                           <div class="col-md-6">
-                            <label for="">Enter Titel Name</label>
-                            <input type="text" name="Title" class="form-control" placeholder="Titel Name" required>
+                            <label for="">Enter Title Name</label>
+                            <input type="text" name="Title" class="form-control" placeholder="Title Name" required>
                           </div>
 
                           <div class="col-md-6">

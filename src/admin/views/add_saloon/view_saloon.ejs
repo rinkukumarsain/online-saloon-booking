@@ -99,7 +99,7 @@
                           <th scope="col">Profile</th>
                           <th scope="col">Docu ment</th>
                           <th scope="col">Bank Info</th>
-                          <th scope="col">Service</th>
+                          <th scope="col">saloonService</th>
                           <th scope="col">MoreAction</th>
                         </tr>
                       </thead>
@@ -153,7 +153,17 @@
                                   <i class="bi bi-eye" title="view"></i>
                                 </button>
                               </td>
-                              <td>a</td>
+
+                              <td>
+                                <%if( data.Service[0]?.numberOfService>0){%>
+                                  <a href="/view_service?id=<%= data._id%>" class="btn btn-success">
+                                    <%= data.Service[0]?.numberOfService %>
+                                      <i class="bi bi-eye" title="view Service"></i>
+                                  </a>
+                                  <% }%>
+                                    <a href="/add_service?saloonId=<%= data._id%>" class="btn btn-success text-warning"><i
+                                        class="ri-file-add-line" title="Add Sub Category"></i></a>
+                              </td>
                               <td>
                                 <!-- <a href="/add_saloon?id=<%= data._id%>" class="btn btn-dark">Edit</a>
                                 <a href="/delete_saloon?id=<%= data._id%>" class="btn btn-danger">Delete</a> -->

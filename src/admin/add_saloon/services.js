@@ -51,6 +51,18 @@ exports.VIEW_SALOON = async (req) => {
       }
     }
   })
-
+  pipeline.push({
+    '$lookup': {
+      'from': 'saloonservices',
+      'localField': '_id',
+      'foreignField': 'saloonStore',
+      'pipeline': [
+        {
+          '$count': 'numberOfService'
+        }
+      ],
+      'as': 'Service'
+    }
+  })
   return await saloon.aggregate(pipeline)
 }
