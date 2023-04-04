@@ -33,10 +33,14 @@
                 <div class="card">
                   <div class="card-body">
 <<<<<<< HEAD
+<<<<<<< HEAD
                     <h5 class="card-title">Add Saloon Service </h5>
 =======
                   
 >>>>>>> master
+=======
+                  
+>>>>>>> 62594c72ad29f73af541a3017fd6d7643fd630a6
 
                     <% if(typeof service_data !=="undefined" && service_data){%>
                       <h5 class="card-title">Add Service</h5>
@@ -81,9 +85,13 @@
                               style="height: 100px" required><%= service_data?.description%></textarea>
                           </div>
                           <div class="col">
+<<<<<<< HEAD
                             <label for="">Service Image</label>
 
                             <input class="form-control" type="file" name="image" id="formFile" multiple required>
+=======
+                            <input class="form-control" type="file" name="image" id="formFile" multiple>
+>>>>>>> 62594c72ad29f73af541a3017fd6d7643fd630a6
                             <%for(image of service_data.image){%>
                               <img src="../../../../uploads/<%=image%>" width="70px">
                               <%}%>
