@@ -67,6 +67,9 @@ const saloon_Store = new mongoose.Schema({
         type: String,
         default: "1"
     },
+    description: {
+        type: String,
+    },
     ProfileInfo: {
         yourService: {
             type: String,
@@ -159,10 +162,6 @@ const saloon_Store = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-//   'starting-time': '22:14',
-//   'ending-time': '20:10',
-//   startingweek: 'Saturday',
-//   endingweek: 'Sunday',
 
 const saloon = new mongoose.model("saloon", saloon_Store);
 module.exports = saloon;

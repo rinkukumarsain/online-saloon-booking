@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>view-saloon</title>
+  <title>saloon</title>
 
   <%- include('../../partials/headlink.ejs') %>
 </head>
@@ -32,176 +32,479 @@
             <div class="row">
               <div class="row">
                 <div class="col-lg-12">
+
                   <div class="card">
                     <div class="card-body">
-                      <h5 class="card-title">Add Saloon</h5>
-                      <form action="/add_saloon_store" method="post">
+                      <!-- //1. add sallon register step -1 -->
+                      <% if(typeof data !=="undefined" && data){%>
+                        <h5 class="card-title">Edit Saloon</h5>
+                        <% console.log("hello",data) %>
+                          <form action="/add_saloon_store?id=<%=data._id%>" method="post">
+                            <%}else{%>
+                              <h5 class="card-title">Add Saloon</h5>
+                              <form action="/add_saloon_store" method="post">
+                                <%}%>
+                                  <div class="row g-3">
+                                    <div class="col">
+                                      <label for="">store Name</label><br>
+                                      <input type="text" name="storeName" class="form-control"
+                                        placeholder="Enter Your Store Name"
+                                        value="<%=data?.storeName!=undefined ? data?.storeName : "" %>" required>
+                                    </div>
+                                    <div class="col">
+                                      <label for="">store Email</label><br>
+                                      <input required type="email" name="email" class="form-control"
+                                        placeholder="Enter a email"
+                                        value="<%=data?.email!=undefined ? data?.email : "" %>"
+                                        <%=data?.email!=undefined ? "readonly" : "" %>>
+                                    </div>
 
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for="">store Name</label><br>
-                            <input type="text" name="storeName" class="form-control" placeholder="Enter Your Store Name"
-                              required>
-                          </div>
-                          <div class="col">
-                            <label for="">store Email</label><br>
-                            <input required type="text" name="email" class="form-control" placeholder="Enter a email">
-                          </div>
+                                  </div><br>
 
-                        </div><br>
+                                  <% if(typeof data !=="undefined" && data){%>
+                                    <div class="row g-3">
+                                      <div class="col">
+                                        <label for="">password</label><br>
+                                        <input required type="password" name="password" class="form-control"
+                                          placeholder="Enter a Password"
+                                          value="<%=data?.password!=undefined ? data?.password : "" %>">
+                                      </div>
 
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for="">password</label><br>
-                            <input required type="text" name="password" class="form-control"
-                              placeholder="Enter a Password">
-                          </div>
-                          <div class="col">
-                            <label for="">confromPassword</label><br>
-                            <input required type="text" name="confromPassword" class="form-control"
-                              placeholder="Enter  confrom Password">
-                          </div>
-                        </div><br>
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for="">Phone</label><br>
-                            <input type="tel" maxlength="10" id="Phone" name="Phone"
-                              class="form-control pac-target-input" placeholder="Enter Your Mobile Number" value=""
-                              required>
-                          </div>
-                          <div class="col">
-                            <label for=""></label><br>
-                            <input type="button" class="form-control" value="Send otp" onclick="SendOtp(this)">
-                          </div>
-                          <div class="col">
-                            <label for="">Enter otp</label><br>
-                            <input required type="text" id="otp" class="form-control" placeholder="Enter  otp">
-                          </div>
-                          <div class="col">
-                            <label for=""></label><br>
-                            <input type="button" name="confromPassword" class="form-control" onclick="verifyOtp(this)"
-                              value="verify otp">
-                          </div>
-                        </div><br>
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for="">saloon type</label><br>
-                            <input required type="text" id="addressSearch" name="type"
-                              class="form-control pac-target-input" placeholder="saloon type" autocomplete="off">
-                          </div>
-                          <div class="col">
-                            <label for="">owner Name </label><br>
-                            <input required type="text" id="addressSearch" name="ownerName"
-                              class="form-control pac-target-input" placeholder="saloon ownerName" autocomplete="off">
-                          </div>
-                        </div><br>
+                                      <div class="col">
+                                        <label for="">Phone</label><br>
+                                        <input type="tel" maxlength="10" id="Phone" name="Phone"
+                                          class="form-control pac-target-input" placeholder="Enter Your Mobile Number"
+                                          value="<%=data?.Phone!=undefined ? data?.Phone : "" %>" readonly required>
+                                      </div>
+                                    </div>
+                                    <%}else{%>
+                                      <div class="row g-3">
+                                        <div class="col">
+                                          <label for="">password</label><br>
+                                          <input required type="password" name="password" class="form-control"
+                                            placeholder="Enter a Password"
+                                            value="<%=data?.password!=undefined ? data?.password : "" %>">
+                                        </div>
+                                        <div class="col">
+                                          <label for="">confromPassword</label><br>
+                                          <input required type="password" name="confromPassword" class="form-control"
+                                            placeholder="Enter  confrom Password"
+                                            value="<%=data?.password!=undefined ? data?.password : "" %>">
+                                        </div>
+                                      </div><br>
+                                      <div class="row g-3">
+                                        <div class="col">
+                                          <label for="">Phone</label><br>
+                                          <input type="tel" maxlength="10" id="Phone" name="Phone"
+                                            class="form-control pac-target-input" placeholder="Enter Your Mobile Number"
+                                            value="<%=data?.Phone!=undefined ? data?.Phone : "" %>" required>
+                                        </div>
+                                        <div class="col">
+                                          <label for=""></label><br>
+                                          <input type="button" class="form-control" value="Send otp"
+                                            onclick="SendOtp(this)">
+                                        </div>
+                                        <div class="col">
+                                          <label for="">Enter otp</label><br>
+                                          <input required type="text" id="otp" class="form-control"
+                                            placeholder="Enter  otp"
+                                            value="<%=data?.otp!=undefined ? data?.otp : "" %>">
+                                        </div>
+                                        <div class="col">
+                                          <label for=""></label><br>
+                                          <input type="button" name="confromPassword" class="form-control"
+                                            onclick="verifyOtp(this)" value="verify otp">
+                                        </div>
+                                      </div><br>
+                                      <%}%>
 
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for="">state</label><br>
-                            <input required type="text" name="state" class="form-control pac-target-input"
-                              placeholder="Enter a state" autocomplete="off">
-                          </div>
-                          <div class="col">
-                            <label for="">city </label><br>
-                            <input required type="text" name="city" class="form-control pac-target-input"
-                              placeholder="Enter a city" autocomplete="off">
-                          </div>
+                                        <div class="row g-3">
+                                          <div class="col">
+                                            <label for="">saloon type</label><br>
+                                            <!-- <input required type="text" id="addressSearch" name="type"
+                                              class="form-control pac-target-input" placeholder="saloon type"
+                                              autocomplete="off" value="<%=data?.type!=undefined ? data?.type : "" %>"> -->
+                                            <select class="form-select" name="type" required>
+                                              <option selected="" disabled>Open this select menu</option>
+                                              <option value="male" <%=data?.type=="male" ||data?.type=="Male"
+                                                ? "selected" : "" %>>male
+                                              </option>
+                                              <option value="female" <%=data?.type=="female" ||data?.type=="Female"
+                                                ? "selected" : "" %>>female
+                                              </option>
+                                              <option value="unisex" <%=data?.type=="unisex" ||data?.type=="Unisex"
+                                                ? "selected" : "" %>>unisex
+                                              </option>
+                                            </select>
+                                          </div>
+                                          <div class="col">
+                                            <label for="">owner Name </label><br>
+                                            <input required type="text" id="addressSearch" name="ownerName"
+                                              class="form-control pac-target-input" placeholder="saloon ownerName"
+                                              autocomplete="off"
+                                              value="<%=data?.ownerName!=undefined ? data?.ownerName : "" %>">
+                                          </div>
+                                        </div><br>
 
-                        </div><br>
+                                        <div class="row g-3">
+                                          <div class="col">
+                                            <label for="">state</label><br>
+                                            <input required type="text" maxlength="15" name="state"
+                                              class="form-control pac-target-input" placeholder="Enter a state"
+                                              autocomplete="off"
+                                              value="<%=data?.location?.state!=undefined ? data?.location?.state : "" %>">
+                                          </div>
+                                          <div class="col">
+                                            <label for="">city </label><br>
+                                            <input required type="text" maxlength="15" name="city"
+                                              class="form-control pac-target-input" placeholder="Enter a city"
+                                              autocomplete="off"
+                                              value="<%=data?.location?.city!=undefined ? data?.location?.city : "" %>">
+                                          </div>
+                                        </div><br>
 
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for="">pincode</label><br>
-                            <input required type="text" name="pincode" class="form-control pac-target-input"
-                              placeholder="Enter a Pin Code" autocomplete="off">
-                          </div>
-                          <div class="col">
-                            <label for="">aria</label><br>
-                            <input required type="text" name="aria" class="form-control pac-target-input"
-                              placeholder="Enter a Aria" autocomplete="off">
-                          </div>
-                        </div><br>
+                                        <div class="row g-3">
+                                          <div class="col">
+                                            <label for="">pincode</label><br>
+                                            <input required type="text" maxlength="6" name="pincode"
+                                              class="form-control pac-target-input" placeholder="Enter a Pin Code"
+                                              autocomplete="off"
+                                              value="<%=data?.location?.pincode!=undefined ? data?.location?.pincode : "" %>">
+                                          </div>
+                                          <div class="col">
+                                            <label for="">aria</label><br>
+                                            <input required type="text" maxlength="15" name="aria"
+                                              class="form-control pac-target-input" placeholder="Enter a Aria"
+                                              autocomplete="off"
+                                              value="<%=data?.location?.aria!=undefined ? data?.location?.aria : "" %>">
+                                          </div>
+                                        </div><br>
 
 
 
-                        <div class="row g-3">
-                          <div class="col-6">
-                            <label for="">description</label><br>
-                            <textarea class="form-control" name="description" placeholder="Description"
-                              style="height: 100px" required></textarea>
-                          </div>
-                          <div class="col-6">
-                            <label for="">category</label><br>
-                            <select class="form-select" multiple="" name="category[]"
-                              aria-label="multiple select example" required>
-                              <option selected="" disabled>Open this select menu</option>
-                              <option value="spa">Spa</option>
-                              <option value="parlour">Parlour</option>
-                              <option value="Saloon">Saloon</option>
+                                        <div class="row g-3">
+                                          <div class="col-6">
+                                            <label for="">description</label><br>
+                                            <textarea class="form-control" name="description" placeholder="Description"
+                                              style="height: 100px"
+                                              required><%=data?.description!=undefined ? data?.description : "" %></textarea>
+                                          </div>
+                                          <div class="col-6">
+                                            <label for="">category</label><br>
+                                            <select class="form-select" multiple="" name="category[]"
+                                              aria-label="multiple select example" required>
+                                              <option selected="" disabled>Open this select menu</option>
+                                              <option value="spa" <%=data?.category.includes('spa')==true ? "selected"
+                                                : "" %>
+                                                >Spa</option>
+                                              <option value="parlour" <%=data?.category.includes('parlour')==true
+                                                ? "selected" : "" %>>Parlour</option>
+                                              <option value="Saloon" <%=data?.category.includes('Saloon')==true
+                                                ? "selected" : "" %>>Saloon</option>
+                                            </select>
+                                          </div>
+                                        </div><br>
+                                        <div class="row mb-3">
+                                          <div class="col-sm-10">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                          </div>
+                                        </div>
 
-                            </select>
-                          </div>
-                          <!-- <div class="row g-3">
-                              <div class="col-6">
-                                <label for="starting-time">Starting Time </label>
-                                <input id="starting_time" type="time" class="form-control pac-target-input"
-                                  name="starting_time" required />
-                              </div>
-                              <div class="col-6">
-                                <label for="ending-time">Ending Time </label>
-                                <input id="ending_time" type="time" class="form-control pac-target-input"
-                                  name="ending_time" required />
-                              </div>
-                            </div> -->
-                          <!-- <div class="row g-3"> -->
-
-                          <!-- <div class="col-6">
-
-                                <label for="">Select Starting Day</label><br>
-
-                                <select class="form-select" name="startingweek" aria-label="multiple select example"
-                                  required>
-                                  <option selected="" disabled>Select Starting Day</option>
-                                  <option value="Sunday">Sunday</option>
-                                  <option value="Monday">Monday</option>
-                                  <option value="Tuesday">Tuesday</option>
-                                  <option value="Wenesday">Wenesday</option>
-                                  <option value="Thursday">Thursday</option>
-                                  <option value="Friday">Friday</option>
-                                  <option value="Saturday">Saturday</option>
-                                </select>
-                              </div> -->
-                          <!-- <div class="col-6">
-
-                                <label for="">Select Ending Day</label><br>
-                                <select class="form-select" name="endingweek" aria-label="multiple select example"
-                                  required>
-                                  <option selected="" disabled>Select Ending Day</option>
-                                  <option value="Sunday">Sunday</option>
-                                  <option value="Monday">Monday</option>
-                                  <option value="Tuesday">Tuesday</option>
-                                  <option value="Wenesday">Wenesday</option>
-                                  <option value="Thursday">Thursday</option>
-                                  <option value="Friday">Friday</option>
-                                  <option value="Saturday">Saturday</option>
-                                </select>
-                              </div> -->
-                          <!-- </div>/ -->
-                        </div><br>
-                        <div class="row mb-3">
-
-                          <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                          </div>
-                        </div>
-
-                      </form>
+                              </form>
                     </div>
                   </div>
+
+
+                  <!-- //2. add sallon register step -2 -->
+
+
+                  <div class="card">
+                    <div class="card-body">
+
+                      <% if(typeof data !=="undefined" && data){%>
+                        <h5 class="card-title"> Edit business-profile-info-by-Admin</h5>
+                        <form action="/business-profile-info-by-Admin?id=<%= data.id %>" method="post">
+                          <%}else{%>
+                            <h5 class="card-title">Add business-profile-info-by-Admin</h5>
+                            <form action="/business-profile-info-by-Admin" method="post">
+                              <%}%>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">your Service</label><br>
+                                    <input required type="text" name="yourService" class="form-control"
+                                      placeholder="Enter Your your Service"
+                                      value="<%=data?.ProfileInfo.yourService!=undefined ? data?.ProfileInfo.yourService : "" %>">
+                                  </div>
+                                  <div class="col">
+                                    <label for=""> alternate Phone </label><br>
+                                    <input required type="tel" maxlength="10" name="alternatePhone" class="form-control"
+                                      placeholder="Enter a alternate Phone"
+                                      value="<%=data?.ProfileInfo.alternatePhone!=undefined ? data?.ProfileInfo.alternatePhone : "" %>">
+                                  </div>
+                                </div><br>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">workingday</label><br>
+                                    <input class="form-check-input" type="checkbox" value="Monday" name="workingday"
+                                      <%=data?.ProfileInfo?.workingday.includes("Monday")==true ? "checked" : "" %>
+                                    id="gridCheck1">Monday
+                                    <input class="form-check-input" type="checkbox" value="Tuesday" name="workingday"
+                                      <%=data?.ProfileInfo?.workingday.includes("Tuesday")==true ? "checked" : "" %>
+                                    id="gridCheck1">Tuesday
+                                    <input class="form-check-input" type="checkbox" value="Wednesday" name="workingday"
+                                      <%=data?.ProfileInfo?.workingday.includes("Wednesday")==true ? "checked" : "" %>
+                                    id="gridCheck1">Wednesday
+                                    <input class="form-check-input" type="checkbox" value="Thursday" name="workingday"
+                                      <%=data?.ProfileInfo?.workingday.includes("Thursday")==true ? "checked" : "" %>
+                                    id="gridCheck1">Thursday
+                                    <input class="form-check-input" type="checkbox" value="Friday" name="workingday"
+                                      <%=data?.ProfileInfo?.workingday.includes("Friday")==true ? "checked" : "" %>
+                                    id="gridCheck1">Friday
+                                    <input class="form-check-input" type="checkbox" value="Saturday" name="workingday"
+                                      <%=data?.ProfileInfo?.workingday.includes("Saturday")==true ? "checked" : "" %>
+                                    id="gridCheck1">Saturday
+                                    <input class="form-check-input" type="checkbox" value="Sunday" name="workingday"
+                                      <%=data?.ProfileInfo?.workingday.includes("Sunday")==true ? "checked" : "" %>
+                                    id="gridCheck1">Sunday
+                                  </div>
+                                  <div class="col">
+                                    <label for="">amenities </label><br>
+                                    <input class="form-check-input" type="checkbox" value="cctv" name="amenities"
+                                      <%=data?.ProfileInfo?.amenities.includes("cctv")==true ? "checked" : "" %>>cctv
+                                    <input class="form-check-input" type="checkbox" value="card payment"
+                                      name="amenities" <%=data?.ProfileInfo?.amenities.includes("card payment")==true
+                                      ? "checked" : "" %>>card payment
+                                    <input class="form-check-input" type="checkbox" value="parking" name="amenities"
+                                      <%=data?.ProfileInfo?.amenities.includes("parking")==true ? "checked" : ""
+                                      %>>parking
+                                    <input class="form-check-input" type="checkbox" value="tv" name="amenities"
+                                      <%=data?.ProfileInfo?.amenities.includes("tv")==true ? "checked" : "" %>>tv
+                                    <input class="form-check-input" type="checkbox" value="ac" name="amenities"
+                                      <%=data?.ProfileInfo?.amenities.includes("ac")==true ? "checked" : "" %>>ac
+                                    <input class="form-check-input" type="checkbox" value="wifi" name="amenities"
+                                      <%=data?.ProfileInfo?.amenities.includes("wifi")==true ? "checked" : "" %>>wifi
+                                    <input class="form-check-input" type="checkbox" value="beverag" name="amenities"
+                                      <%=data?.ProfileInfo?.amenities.includes("beverag")==true ? "checked" : ""
+                                      %>>beverag
+                                  </div>
+                                </div>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">FaceBookProfile </label><br>
+                                    <input required type="url" id="addressSearch" name="FaceBookProfile"
+                                      class="form-control pac-target-input" placeholder="FaceBook Profile link" autocomplete="off"
+                                      value="<%=data?.ProfileInfo?.FaceBookProfile!=undefined ? data?.ProfileInfo?.FaceBookProfile : "" %>">
+                                  </div>
+                                  <div class="col">
+                                    <label for="">instaProfile </label><br>
+                                    <input required type="url" id="addressSearch" name="instaProfile"
+                                      class="form-control pac-target-input" placeholder="instaProfile"
+                                      autocomplete="off"
+                                      value="<%=data?.ProfileInfo?.instaProfile!=undefined ? data?.ProfileInfo?.instaProfile : "" %>">
+                                  </div>
+                                </div><br>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">webProfile</label><br>
+                                    <input required type="url" name="webProfile" class="form-control pac-target-input"
+                                      placeholder="Enter webProfile" autocomplete="off"
+                                      value="<%=data?.ProfileInfo?.webProfile!=undefined ? data?.ProfileInfo?.webProfile : "" %>">
+                                  </div>
+                                </div><br>
+
+                                <div class="row g-3">
+                                  <div class="col-6">
+                                    <label for="starting-time">Starting Time </label>
+                                    <input id="starting_time" type="time" class="form-control pac-target-input"
+                                      name="starting_time" required
+                                      value="<%=data?.ProfileInfo?.starting_time!=undefined ? data?.ProfileInfo?.starting_time : "" %>" />
+                                  </div>
+                                  <div class="col-6">
+                                    <label for="ending-time">Ending Time </label>
+                                    <input id="ending_time" type="time" class="form-control pac-target-input"
+                                      name="ending_time" required
+                                      value="<%=data?.ProfileInfo?.ending_time!=undefined ? data?.ProfileInfo?.ending_time : "" %>" />
+                                  </div>
+                                </div><br>
+                                <div class="row mb-3">
+                                  <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                                </div>
+                            </form>
+                    </div>
+                  </div>
+
+
+                  <!-- //3. add sallon register step -1 -->
+
+
+                  <div class="card">
+                    <div class="card-body">
+                      <% if(typeof data !=="undefined" && data){%>
+                        <h5 class="card-title">Edit business-bank-information-admin</h5>
+                        <form action="/business-bank-information-admin?id=<%=data._id%>" method="post">
+                          <%}else{%>
+                            <h5 class="card-title"> Add business-bank-information-admin</h5>
+                            <form action="/business-bank-information-admin" method="post">
+                              <%}%>
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">pan Number</label><br>
+                                    <input required type="text" name="panNo" maxlength="10" class="form-control"
+                                      placeholder="Enter Your your pan No"
+                                      value="<%=data?.BankInfo?.panNo!=undefined ? data?.BankInfo?.panNo : "" %>">
+                                  </div>
+                                  <div class="col">
+                                    <label for="">Gst Number</label><br>
+                                    <input required type="text" name="gstNo" maxlength="15" class="form-control"
+                                      placeholder="Enter a Gst No Phone"
+                                      value="<%=data?.BankInfo?.gstNo!=undefined ? data?.BankInfo?.gstNo : "" %>">
+                                  </div>
+                                </div><br>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">bankName</label><br>
+                                    <input required type="text" name="bankName" maxlength="35" class="form-control"
+                                      placeholder="Enter a bank Name"
+                                      value="<%=data?.BankInfo?.bankName!=undefined ? data?.BankInfo?.bankName : "" %>">
+                                  </div>
+                                  <div class="col">
+                                    <label for="">branchName</label><br>
+                                    <input required type="text" name="branchName" class="form-control"
+                                      placeholder="Enter a branch Name"
+                                      value="<%=data?.BankInfo?.branchName!=undefined ? data?.BankInfo?.branchName : "" %>">
+                                  </div>
+                                </div>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">account number</label><br>
+                                    <input required type="text" id="addressSearch" maxlength="17" name="accountNo"
+                                      class="form-control pac-target-input" placeholder="account Number"
+                                      autocomplete="off"
+                                      value="<%=data?.BankInfo?.accountNo!=undefined ? data?.BankInfo?.accountNo : "" %>">
+                                  </div>
+                                  <div class="col">
+                                    <label for="">accout Holder</label><br>
+                                    <input required type="text" id="addressSearch" maxlength="30" name="accoutHolder"
+                                      class="form-control pac-target-input" placeholder="accout Holder"
+                                      autocomplete="off"
+                                      value="<%=data?.BankInfo?.accoutHolder!=undefined ? data?.BankInfo?.accoutHolder : "" %>">
+                                  </div>
+                                </div><br>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">ifscCode</label><br>
+                                    <input required type="text" name="ifscCode" maxlength="11"
+                                      class="form-control pac-target-input" placeholder="Enter ifsc Code"
+                                      autocomplete="off"
+                                      value="<%=data?.BankInfo?.ifscCode!=undefined ? data?.BankInfo?.ifscCode : "" %>">
+                                  </div>
+                                  <div class="col-6">
+                                    <label for="starting-time"> kyc</label>
+                                    <!-- <input id="starting_time" type="time" class="form-control pac-target-input"
+                                      name="kyc" required
+                                      value="<%=data?.BankInfo?.kyc!=undefined ? data?.BankInfo?.kyc : "" %>" /> -->
+
+                                    <select class="form-select" name="kyc" required>
+                                      <option selected="">Open this select menu</option>
+                                      <option value="yas" <%=data?.BankInfo?.kyc=="yas" ? "selected" : "" %>
+                                        >yas</option>
+                                      <option value="no" <%=data?.BankInfo?.kyc=="no" ? "selected" : "" %>>no
+                                      </option>
+                                    </select>
+                                  </div>
+                                </div><br>
+
+                                <div class="row mb-3">
+                                  <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                                </div>
+                            </form>
+                    </div>
+                  </div>
+
+
+                  <!-- //4. add sallon register step -1 -->
+
+
+                  <div class="card">
+                    <div class="card-body">
+                      <% if(typeof data !=="undefined" && data){%>
+                        <h5 class="card-title">Edit business-uplode-document-admin</h5>
+                        <form action="/business-uplode-document-admin?id=<%=data._id%>" method="post"
+                          enctype="multipart/form-data">
+                          <%}else{%>
+                            <h5 class="card-title">Add business-uplode-document-admin</h5>
+                            <form action="/business-uplode-document-admin" method="post" enctype="multipart/form-data">
+                              <%}%>
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">Banner Logo</label><br>
+                                    <input required type="file" name="BannerLogo" class="form-control"
+                                      placeholder="Enter Your your pan No">
+                                  </div>
+
+                                  <div class="col-md-2">
+                                    <label for=""></label><br>
+                                    <img src="/uploads/<%= data?.uplodeDocuments?.BannerLogo%>" alt="BannerLogo"
+                                      style="height: 50px;">
+                                  </div>
+
+                                  <div class="col">
+                                    <label for="">logo Image</label><br>
+                                    <input required type="file" name="logoImage" class="form-control"
+                                      placeholder="Enter a Gst No Phone">
+                                  </div>
+                                  <div class="col-md-2">
+                                    <label for=""></label><br>
+                                    <img src="/uploads/<%= data?.uplodeDocuments?.logoImage%>" alt="logoImage"
+                                      style="height: 50px;">
+                                  </div>
+                                </div><br>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">pan Image</label><br>
+                                    <input required type="file" name="panImage" class="form-control"
+                                      placeholder="Enter a bank Name">
+                                  </div>
+                                  <div class="col-md-2">
+                                    <label for=""></label><br>
+                                    <img src="/uploads/<%= data?.uplodeDocuments?.panImage%>" alt="panImage"
+                                      style="height: 50px;">
+                                  </div>
+                                  <div class="col">
+                                    <label for="">business Certificate</label><br>
+                                    <input required type="file" name="businessCertificate" class="form-control"
+                                      placeholder="Enter a branch Name">
+                                  </div>
+                                  <div class="col-md-2">
+                                    <label for=""></label><br>
+                                    <img src="/uploads/<%= data?.uplodeDocuments?.businessCertificate%>"
+                                      alt="businessCertificate" style="height: 50px;">
+                                  </div>
+                                </div><br>
+
+                                <div class="row mb-3">
+                                  <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                                </div>
+                            </form>
+                            <!-- //4.End-1 -->
+                    </div>
+                  </div>
+
                 </div>
-              </div>
-            </div>
           </section>
         </main>
         <script>
@@ -237,10 +540,7 @@
               }
             })
           }
-
         </script>
-
-
         <%- include("../../partials/script.ejs") %>
 </body>
 
