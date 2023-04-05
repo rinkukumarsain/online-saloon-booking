@@ -8,7 +8,12 @@ exports.ADD_SERVICE = async (req, res) => {
     try {
         const user = req.user
         const category = await Category.find({ parent_Name: null })
-        const saloon_data = await saloon.find()
+        let saloon_data;
+        if (req.query.saloonId != undefined && req.query.saloonId != "") {
+            saloon_data = await saloon.find({ _id: mongoose.Types.ObjectId(req.query.saloonId) })
+        } else {
+            saloon_data = await saloon.find()
+        }
         const _id = req.query.id
         let pipeline = []
         pipeline.push({
@@ -86,12 +91,12 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
                 const result = await saloonService.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
                 if (result) {
                     req.flash("success", "Saloon Service  is  Update successfull !")
-                    res.redirect("/view_service")
+                    return res.redirect("/view_service")
                 };
 
             } else {
                 req.flash("error", "Saloon Service is Not Found !")
-                res.redirect("/")
+                return res.redirect("/")
             };
         } else {
             const { ServiceName } = body;
@@ -99,7 +104,7 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
                 const result = await saloonService.findOne({ ServiceName });
                 if (result) {
                     req.flash("error", "ServiceName Already Exists")
-                    res.redirect("/")
+                    return res.redirect("/")
                 };
             }
             if (files) {
@@ -126,19 +131,22 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
             const result = await service_details.save();
             if (result) {
                 req.flash("success", "Service Add Succesfuuly !")
-                res.redirect("/view_service")
+                return res.redirect("/view_service")
             };
         }
     } catch (error) {
         console.log(error);
-        throw error;
     }
 }
 
 exports.VIEW_SERVICE = async (req, res) => {
-    const data = await service.VIEW_SALOON(req)
-    const user = req.user
-    res.render("add_service/view_service", { query: req.query, user, data })
+    try {
+        const data = await service.VIEW_SALOON(req)
+        const user = req.user
+        return res.render("add_service/view_service", { query: req.query, user, data })
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 exports.DELETE_SERVICE = async (req, res) => {
