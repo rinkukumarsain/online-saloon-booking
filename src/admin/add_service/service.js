@@ -18,14 +18,33 @@ exports.VIEW_SALOON = async (req) => {
     '$match': match
   })
 
-  pipeline.push({
-    '$lookup': {
-      'from': 'saloons',
-      'localField': 'saloonStore',
-      'foreignField': '_id',
-      'as': 'saloon_data'
-    }
-  })
+  if (req.user.type == "admin") {
+    pipeline.push({
+      '$lookup': {
+        'from': 'saloons',
+        'localField': 'saloonStore',
+        'foreignField': '_id',
+        pipeline: [
+          {
+            '$match': {
+              'userId': req.user._id
+            }
+          }
+        ],
+        'as': 'saloon_data'
+      }
+    })
+  } else {
+    pipeline.push({
+      '$lookup': {
+        'from': 'saloons',
+        'localField': 'saloonStore',
+        'foreignField': '_id',
+        'as': 'saloon_data'
+      }
+    })
+  }
+
   pipeline.push({
     '$lookup': {
       'from': 'categories',
@@ -58,11 +77,22 @@ exports.VIEW_SALOON = async (req) => {
       }
     }
   })
+
   if (req.query.StoreName != undefined && req.query.StoreName != "") {
     pipeline.push({
       '$match': {
         'saloon_name': {
           '$regex': req.query.StoreName, $options: 'i'
+        }
+      }
+    })
+  }
+
+  if (req.user.type == "admin") {
+    pipeline.push({
+      '$match': {
+        'saloon_name': {
+          '$exists': true
         }
       }
     })
