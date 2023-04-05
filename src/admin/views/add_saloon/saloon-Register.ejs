@@ -48,7 +48,7 @@
                                   <div class="row g-3">
                                     <div class="col">
                                       <label for="">Store Name</label><br>
-                                      <input type="text" name="storeName" class="form-control"
+                                      <input type="text" maxlength="30" name="storeName" class="form-control"
                                         placeholder="Enter Your Store Name"
                                         value="<%=data?.storeName!=undefined ? data?.storeName : "" %>" required>
                                       <div class="invalid-feedback">Please Enter Store Name.</div>
@@ -70,7 +70,7 @@
                                     <div class="row g-3">
                                       <div class="col">
                                         <label for="">Password</label><br>
-                                        <input required type="password" name="password" class="form-control"
+                                        <input required type="password" minlength="6" maxlength="8" name="password" class="form-control"
                                           placeholder="Enter a Password"
                                           value="<%=data?.password!=undefined ? data?.password : "" %>">
                                         <div class="invalid-feedback">Please Enter Password.</div>
@@ -79,7 +79,7 @@
 
                                       <div class="col">
                                         <label for="">Phone</label><br>
-                                        <input type="tel" maxlength="10" id="Phone" name="Phone"
+                                        <input type="number" maxlength="10" id="Phone" name="Phone"
                                           class="form-control pac-target-input" placeholder="Enter Your Mobile Number"
                                           value="<%=data?.Phone!=undefined ? data?.Phone : "" %>" readonly required>
                                         <div class="invalid-feedback">Please Enter Phone.</div>
@@ -90,7 +90,7 @@
                                       <div class="row g-3">
                                         <div class="col">
                                           <label for="">Password</label><br>
-                                          <input required type="password" name="password" class="form-control"
+                                          <input required type="password" minlength="6" maxlength="8" name="password" class="form-control"
                                             placeholder="Enter Password"
                                             value="<%=data?.password!=undefined ? data?.password : "" %>">
                                           <div class="invalid-feedback">Please Enter Password.</div>
@@ -98,7 +98,7 @@
                                         </div>
                                         <div class="col">
                                           <label for="">Confirm Password</label><br>
-                                          <input required type="password" name="confromPassword" class="form-control"
+                                          <input required type="password" minlength="6" maxlength="8" name="confromPassword" class="form-control"
                                             placeholder="Enter confrom Password"
                                             value="<%=data?.password!=undefined ? data?.password : "" %>">
                                           <div class="invalid-feedback">Please Enter Confirm Password.</div>
@@ -108,7 +108,7 @@
                                       <div class="row g-3">
                                         <div class="col">
                                           <label for="">Phone</label><br>
-                                          <input type="tel" maxlength="10" id="Phone" name="Phone"
+                                          <input type="number" maxlength="10" id="Phone" name="Phone"
                                             class="form-control pac-target-input" placeholder="Enter Phone Number"
                                             value="<%=data?.Phone!=undefined ? data?.Phone : "" %>" required>
                                           <div class="invalid-feedback">Please Enter Phone No.</div>
@@ -116,19 +116,19 @@
                                         </div>
                                         <div class="col">
                                           <label for=""></label><br>
-                                          <input type="button" class="form-control" value="Send otp"
+                                          <input type="button" class="btn btn-primary" value="Send otp"
                                             onclick="SendOtp(this)">
                                         </div>
                                         <div class="col">
                                           <label for="">Enter otp</label><br>
-                                          <input required type="text" id="otp" class="form-control"
+                                          <input required type="number" minlength="4" maxlength="6" id="otp" class="form-control"
                                             placeholder="Enter  otp"
                                             value="<%=data?.otp!=undefined ? data?.otp : "" %>">
                                           <div class="invalid-feedback">Please Enter Correct OTP.</div>
                                         </div>
                                         <div class="col">
                                           <label for=""></label><br>
-                                          <input type="button" name="confromPassword" class="form-control"
+                                          <input type="button" name="confromPassword" class="btn btn-primary"
                                             onclick="verifyOtp(this)" value="verify otp">
                                         </div>
                                       </div><br>
@@ -157,7 +157,7 @@
                                           </div>
                                           <div class="col">
                                             <label for="">Owner Name </label><br>
-                                            <input required type="text" id="addressSearch" name="ownerName"
+                                            <input required type="text" maxlength="30" id="addressSearch" name="ownerName"
                                               class="form-control pac-target-input" placeholder="saloon ownerName"
                                               autocomplete="off"
                                               value="<%=data?.ownerName!=undefined ? data?.ownerName : "" %>">
@@ -190,7 +190,7 @@
                                         <div class="row g-3">
                                           <div class="col">
                                             <label for="">Pincode</label><br>
-                                            <input required type="text" maxlength="6" name="pincode"
+                                            <input required type="number"  maxlength="6" name="pincode"
                                               class="form-control pac-target-input" placeholder="Enter a Pin Code"
                                               autocomplete="off"
                                               value="<%=data?.location?.pincode!=undefined ? data?.location?.pincode : "" %>">
@@ -213,7 +213,7 @@
                                         <div class="row g-3">
                                           <div class="col-6">
                                             <label for="">Description</label><br>
-                                            <textarea class="form-control" name="description" placeholder="Description"
+                                            <textarea class="form-control" minlength="20" name="description" placeholder="Description"
                                               style="height: 100px"
                                               required><%=data?.description!=undefined ? data?.description : "" %></textarea>
                                       <div class="invalid-feedback">Please enter Discription.</div>
@@ -263,14 +263,14 @@
                                 <div class="row g-3">
                                   <div class="col">
                                     <label for="">Service Name</label><br>
-                                    <input required type="text" name="yourService" class="form-control"
+                                    <input required type="text" maxlength="30" name="yourService" class="form-control"
                                       placeholder="Enter Service name"
                                       value="<%=data?.ProfileInfo.yourService!=undefined ? data?.ProfileInfo.yourService : "" %>">
                                       <div class="invalid-feedback">Please enter Service name.</div>
                                   </div>
                                   <div class="col">
                                     <label for="">Phone no.</label><br>
-                                    <input required type="tel" maxlength="10" name="alternatePhone" class="form-control"
+                                    <input required type="number" maxlength="10" name="alternatePhone" class="form-control"
                                       placeholder="Enter Phone no."
                                       value="<%=data?.ProfileInfo.alternatePhone!=undefined ? data?.ProfileInfo.alternatePhone : "" %>">
                                       <div class="invalid-feedback">Please enter Phone no .</div>
@@ -395,7 +395,7 @@
                                 <div class="row g-3">
                                   <div class="col">
                                     <label for="">Pan Card Number</label><br>
-                                    <input required type="text" name="panNo" maxlength="10" class="form-control"
+                                    <input required type="text" name="panNo" maxlength="10" oninput="this.value = this.value.toUpperCase()" class="form-control"
                                       placeholder="Enter Your pan card no."
                                       value="<%=data?.BankInfo?.panNo!=undefined ? data?.BankInfo?.panNo : "" %>">
                                       <div class="invalid-feedback">Please enter your Pan Card no.</div>
@@ -419,17 +419,17 @@
                                   </div>
                                   <div class="col">
                                     <label for="">Branch Name</label><br>
-                                    <input required type="text" name="branchName" class="form-control"
+                                    <input required type="text" name="branchName" maxlength="35" class="form-control"
                                       placeholder="Enter Branch Name"
                                       value="<%=data?.BankInfo?.branchName!=undefined ? data?.BankInfo?.branchName : "" %>">
                                       <div class="invalid-feedback">Please enter Branch Name.</div>
                                   </div>
-                                </div>
+                                </div><br>
 
                                 <div class="row g-3">
                                   <div class="col">
                                     <label for="">Account Number</label><br>
-                                    <input required type="text" id="addressSearch" maxlength="17" name="accountNo"
+                                    <input required type="number" id="addressSearch" maxlength="17" name="accountNo"
                                       class="form-control pac-target-input" placeholder="Enter Account Number"
                                       autocomplete="off"
                                       value="<%=data?.BankInfo?.accountNo!=undefined ? data?.BankInfo?.accountNo : "" %>">
@@ -448,7 +448,7 @@
                                 <div class="row g-3">
                                   <div class="col">
                                     <label for="">IFSC Code</label><br>
-                                    <input required type="text" name="ifscCode" maxlength="11"
+                                    <input required type="text" oninput="this.value = this.value.toUpperCase()" name="ifscCode" maxlength="11"
                                       class="form-control pac-target-input" placeholder="Enter IFSC Code"
                                       autocomplete="off"
                                       value="<%=data?.BankInfo?.ifscCode!=undefined ? data?.BankInfo?.ifscCode : "" %>">
