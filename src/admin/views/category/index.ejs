@@ -43,16 +43,21 @@
                       <% if(typeof id !=="undefined" && id){%>
                         <!-- <div class="dataTable-container"> -->
                         <h5 class="card-title">Add Sub Category</h5>
-                        <form class="row g-3" action="/Add-New-Category?id=<%= id %>" method="post"
-                          enctype="multipart/form-data">
+                        <form class="needs-validation row g-3" action="/Add-New-Category?id=<%= id %>" method="post"
+                          enctype="multipart/form-data" novalidate>
 
                           <div class="col-10">
                             <label for="" class="form-label">Sub Category Name</label>
-                            <input type="text" class="form-control" placeholder="Enter Sub  Category Name" name="Name" id="" required>
+                            <input type="text" class="form-control" placeholder="Enter Sub  Category Name" name="Name"
+                              required />
+                          <div class="invalid-feedback">Please Enter Sub Category Name.</div>
+  
                           </div>
                           <div class="col-10">
                             <label for="inputPassword4" class="form-label">Sub Category Image</label>
-                            <input type="file" name="file" class="form-control" id="inputPassword4" required>
+                            <input type="file" name="file" class="form-control" id="inputPassword4" required />
+                            <div class="invalid-feedback">Please Select Sub Category Image.</div>
+
                           </div>
 
                           <div class="text-center">
@@ -61,23 +66,28 @@
                           </div>
                         </form><!-- Vertical Form -->
                         <%}else if(typeof data !="undefined" && data !="" ){%>
-                          <h5 class="card-title">Edit Category</h5>
-                          <form class="row g-3" action="/Add-New-Category?EditId=<%= data._id%>" method="post" enctype="multipart/form-data">
+                          <h5 class=" card-title">Edit Category</h5>
+                          <form class="needs-validation row g-3" action="/Add-New-Category?EditId=<%= data._id%>" method="post"
+                            enctype="multipart/form-data" novalidate>
 
                             <div class="col-8">
                               <label for="" class="form-label">Edit Category Name</label>
                               <input type="text" class="form-control" name="Name" value="<%= data.Name%>" required>
+                              <div class="invalid-feedback">Please Category Name.</div>
+
                             </div>
                             <div class="col-8">
                               <label for="inputPassword4" class="form-label">Edit Category Image</label>
                               <input type="file" name="file" class="form-control" id="inputPassword4">
                             </div>
                             <div class="col-4">
-                            <% if (data.image){ %>  
-                              <img src="/uploads/<%= data.image %>" alt="" style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
-                            <% }else { %>
-                              <img src="assets/img/profile-img.jpg" alt="" style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
-                              <% } %>
+                              <% if (data.image){ %>
+                                <img src="/uploads/<%= data.image %>" alt=""
+                                  style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
+                                <% }else { %>
+                                  <img src="assets/img/profile-img.jpg" alt=""
+                                    style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
+                                  <% } %>
                             </div>
 
                             <div class="text-center">
@@ -88,16 +98,19 @@
                             <h5 class="card-title">Add Category</h5>
 
                             <!-- <div class="dataTable-container"> -->
-                            <form class="row g-3" action="/Add-New-Category" method="post"
-                              enctype="multipart/form-data">
+                            <form class="needs-validation row g-3" action="/Add-New-Category" method="post"
+                              enctype="multipart/form-data" novalidate>
 
                               <div class="col-10">
                                 <label for="" class="form-label">Category Name</label>
-                                <input type="text" class="form-control" name="Name" placeholder="Enter Category Name" id="" required>
+                                <input type="text" class="form-control" name="Name" placeholder="Enter Category Name"
+                                  id="" required>
+                                  <div class="invalid-feedback">Please Enter Category Name.</div>
                               </div>
                               <div class="col-10">
                                 <label for="inputPassword4" class="form-label">Category Image</label>
-                                <input type="file" name="file" class="form-control"  id="inputPassword4" required>
+                                <input type="file" name="file" class="form-control" id="inputPassword4" required>
+                                <div class="invalid-feedback">Please Select Image.</div>
                               </div>
 
                               <div class="text-center">
@@ -145,6 +158,8 @@
       <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
       <script src="assets/vendor/tinymce/tinymce.min.js"></script>
       <script src="assets/vendor/php-email-form/validate.js"></script>
+      <script src="/public/assets/js/form-validation.js"></script>
+
 
       <!-- Template Main JS File -->
       <script src="assets/js/main.js"></script>

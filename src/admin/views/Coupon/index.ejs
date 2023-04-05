@@ -31,106 +31,136 @@
                   <div class="card-body">
                     <% if(typeof Coupon !=="undefined" && Coupon){%>
                       <%console.log("hello",Coupon)%>
-                      <h5 class="card-title">Coupon Edit</h5>
-                      <form class="row g-3" action="/Create-Coupon?id=<%=Coupon._id %>" method="post">
-                        <div class="col-md-6">
-                          <label for="">Enter Title Name</label>
-                          <input type="text" name="Title" class="form-control" placeholder="Title Name"
-                            value="<%=Coupon.Title %>" required>
-                        </div>
-
-                        <div class="col-md-6">
-                          <label for="">Coupon Code</label>
-                          <input type="text" name="CouponCode" class="form-control" placeholder="CouponCode"
-                            value="<%=Coupon.CouponCode %>" required>
-                        </div>
-
-                        <div class="col-md-6">
-                          <label for="">Start Date</label>
-                          <input placeholder="Selected starting date" name="StartDate" type="date" id="startingDate"
-                            value="<%=Coupon.StartDate %>" class="form-control datepicker"
-                            data-date-format="DD-MMMM-YYYY" required>
-                        </div>
-
-                        <div class="col-md-6">
-                          <label for="">End Date</label>
-                          <input placeholder="Selected ending date" name="EndDate" type="date" id="endingDate"
-                            class="form-control datepicker" value="<%=Coupon.EndDate %>" data-date-format="DD-MMMM-YYYY"
-                            required>
-                        </div>
-
-                        <div class="col-md-6">
-                          <label for="">Coupon Limit</label>
-                          <input type="number" name="Limit" min="1" max="5" value="<%=Coupon.Limit %>"
-                            class="form-control" placeholder="Limit" required>
-                        </div>
-
-                        <div class="col-md-4">
-                          <label for="">Amount</label>
-                          <input type="number" name="Amount" value="<%=Coupon.Amount %>" class="form-control"
-                            placeholder="Amount" required>
-                        </div>
-
-                        <div class="col-md-2">
-                          <label for="">Discount</label>
-                          <input type="number" name="Discount" value="<%=Coupon.Discount %>" class="form-control"
-                            placeholder="Discount" required>
-                        </div>
-
-                        <div class="text-center">
-                          <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-
-                      </form><!-- End No Labels Form -->
-                      <%}else{%>
-                        <h5 class="card-title">Coupon create</h5>
-                        <!-- No Labels Form -->
-                        <form class="row g-3" action="/Create-Coupon" method="post">
+                        <h5 class="card-title">Coupon Edit</h5>
+                        <form class="needs-validation row g-3" action="/Create-Coupon?id=<%=Coupon._id %>" method="post" novalidate>
                           <div class="col-md-6">
-                            <label for="">Enter Title Name</label>
-                            <input type="text" name="Title" class="form-control" placeholder="Title Name" required>
+                            <label for="">Title Name</label>
+                            <input type="text" name="Title" class="form-control" placeholder="Enter Title Name"
+                              value="<%=Coupon.Title %>" required>
+                            <div class="invalid-feedback">Please Enter Title Name.</div>
                           </div>
 
                           <div class="col-md-6">
                             <label for="">Coupon Code</label>
-                            <input type="text" name="CouponCode" class="form-control" placeholder="Enter CouponCode" required>
+                            <input type="text" name="CouponCode" class="form-control" placeholder=" Enter CouponCode"
+                              value="<%=Coupon.CouponCode %>" required>
+                            <div class="invalid-feedback">Please Enter Coupon Code.</div>
                           </div>
 
                           <div class="col-md-6">
                             <label for="">Start Date</label>
-                            <input placeholder="Selected starting date" name="StartDate" type="date" id="startingDate"
-                              class="form-control datepicker" required>
+                            <input placeholder="Enter starting date" name="StartDate" type="date" id="startingDate"
+                              value="<%=Coupon.StartDate %>" class="form-control datepicker"
+                              data-date-format="DD-MMMM-YYYY" required>
+                            <div class="invalid-feedback">Please Enter Start Date.</div>
+
                           </div>
 
                           <div class="col-md-6">
                             <label for="">End Date</label>
-                            <input placeholder="Selected ending date" name="EndDate" type="date" id="endingDate"
-                              class="form-control datepicker" required>
+                            <input placeholder="Enter ending date" name="EndDate" type="date" id="endingDate"
+                              class="form-control datepicker" value="<%=Coupon.EndDate %>"
+                              data-date-format="DD-MMMM-YYYY" required>
+                            <div class="invalid-feedback">Please Enter End Date.</div>
+
                           </div>
 
                           <div class="col-md-6">
-                            <label for="">Limit</label>
-                            <input type="number" name="Limit" min="1" max="5" class="form-control" placeholder="Enter Limit"
-                              required>
+                            <label for="">Coupon Limit</label>
+                            <input type="number" name="Limit" min="1" max="5" value="<%=Coupon.Limit %>"
+                              class="form-control" placeholder="Enter Limit" required>
+                            <div class="invalid-feedback">Please Enter Limit.</div>
+
                           </div>
 
                           <div class="col-md-4">
                             <label for="">Amount</label>
-                            <input type="number" name="Amount" class="form-control" placeholder="Enter Amount" required>
+                            <input type="number" name="Amount" value="<%=Coupon.Amount %>" class="form-control"
+                              placeholder="Enter Amount" required>
+                            <div class="invalid-feedback">Please Enter Amount.</div>
+
                           </div>
 
                           <div class="col-md-2">
                             <label for="">Discount</label>
-                            <input type="number" name="Discount" class="form-control" placeholder="Enter Discount" required>
+                            <input type="number" name="Discount" value="<%=Coupon.Discount %>" class="form-control"
+                              placeholder="Enter Discount" required>
+                            <div class="invalid-feedback">Please Enter Discount.</div>
+
                           </div>
 
                           <div class="text-center">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-secondary">Reset</button>
                           </div>
 
                         </form><!-- End No Labels Form -->
-                        <%}%>
+                        <%}else{%>
+                          <h5 class="card-title">Coupon create</h5>
+                          <!-- No Labels Form -->
+                          <form class="needs-validation row g-3" action="/Create-Coupon" method="post" novalidate>
+                            <div class="col-md-6">
+                              <label for="">Title Name</label>
+                              <input type="text" name="Title" class="form-control" placeholder="Enter Title Name"
+                                required>
+                              <div class="invalid-feedback">Please Enter Title Name.</div>
+
+                            </div>
+
+                            <div class="col-md-6">
+                              <label for="">Coupon Code</label>
+                              <input type="text" name="CouponCode" class="form-control" placeholder="Enter CouponCode"
+                                required>
+                            <div class="invalid-feedback">Please Enter Coupon Code.</div>
+
+                            </div>
+
+                            <div class="col-md-6">
+                              <label for="">Start Date</label>
+                              <input placeholder="Selected starting date" name="StartDate" type="date" id="startingDate"
+                                class="form-control datepicker" required>
+                            <div class="invalid-feedback">Please Enter Start Date.</div>
+                                
+                            </div>
+
+                            <div class="col-md-6">
+                              <label for="">End Date</label>
+                              <input placeholder="Selected ending date" name="EndDate" type="date" id="endingDate"
+                                class="form-control datepicker" required>
+                            <div class="invalid-feedback">Please Enter End Date.</div>
+
+                            </div>
+
+                            <div class="col-md-6">
+                              <label for="">Limit</label>
+                              <input type="number" name="Limit" min="1" max="5" class="form-control"
+                                placeholder="Enter Limit" required>
+                            <div class="invalid-feedback">Please Enter Limit.</div>
+
+                            </div>
+
+                            <div class="col-md-4">
+                              <label for="">Amount</label>
+                              <input type="number" name="Amount" class="form-control" placeholder="Enter Amount"
+                                required>
+                            <div class="invalid-feedback">Please Enter Amount.</div>
+
+                            </div>
+
+                            <div class="col-md-2">
+                              <label for="">Discount</label>
+                              <input type="number" name="Discount" class="form-control" placeholder="Enter Discount"
+                                required>
+                            <div class="invalid-feedback">Please Enter Discount.</div>
+
+                            </div>
+
+                            <div class="text-center">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                              <button type="reset" class="btn btn-secondary">Reset</button>
+                            </div>
+
+                          </form><!-- End No Labels Form -->
+                          <%}%>
                   </div>
                 </div>
               </div>
