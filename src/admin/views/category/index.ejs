@@ -47,11 +47,11 @@
                           enctype="multipart/form-data">
 
                           <div class="col-10">
-                            <label for="" class="form-label">Name</label>
-                            <input type="text" class="form-control" name="Name" id="" required>
+                            <label for="" class="form-label">Sub Category Name</label>
+                            <input type="text" class="form-control" placeholder="Enter Sub  Category Name" name="Name" id="" required>
                           </div>
                           <div class="col-10">
-                            <label for="inputPassword4" class="form-label">Iamge</label>
+                            <label for="inputPassword4" class="form-label">Sub Category Image</label>
                             <input type="file" name="file" class="form-control" id="inputPassword4" required>
                           </div>
 
@@ -65,20 +65,23 @@
                           <form class="row g-3" action="/Add-New-Category?EditId=<%= data._id%>" method="post" enctype="multipart/form-data">
 
                             <div class="col-8">
-                              <label for="" class="form-label">Name</label>
+                              <label for="" class="form-label">Edit Category Name</label>
                               <input type="text" class="form-control" name="Name" value="<%= data.Name%>" required>
                             </div>
                             <div class="col-8">
-                              <label for="inputPassword4" class="form-label">Iamge</label>
+                              <label for="inputPassword4" class="form-label">Edit Category Image</label>
                               <input type="file" name="file" class="form-control" id="inputPassword4">
                             </div>
                             <div class="col-4">
-                              <img src="/uploads/<%= data.image%>" alt="" style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
+                            <% if (data.image){ %>  
+                              <img src="/uploads/<%= data.image %>" alt="" style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
+                            <% }else { %>
+                              <img src="assets/img/profile-img.jpg" alt="" style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
+                              <% } %>
                             </div>
 
                             <div class="text-center">
                               <button type="submit" class="btn btn-primary">Submit</button>
-                              <button type="reset" class="btn btn-secondary">Reset</button>
                             </div>
                           </form><!-- Vertical Form -->
                           <% }else{%>
@@ -89,12 +92,12 @@
                               enctype="multipart/form-data">
 
                               <div class="col-10">
-                                <label for="" class="form-label">Name</label>
-                                <input type="text" class="form-control" name="Name" id="" required>
+                                <label for="" class="form-label">Category Name</label>
+                                <input type="text" class="form-control" name="Name" placeholder="Enter Category Name" id="" required>
                               </div>
                               <div class="col-10">
-                                <label for="inputPassword4" class="form-label">Iamge</label>
-                                <input type="file" name="file" class="form-control" id="inputPassword4" required>
+                                <label for="inputPassword4" class="form-label">Category Image</label>
+                                <input type="file" name="file" class="form-control"  id="inputPassword4" required>
                               </div>
 
                               <div class="text-center">
