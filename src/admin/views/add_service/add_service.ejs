@@ -32,11 +32,6 @@
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">
-<<<<<<< HEAD
-=======
-
->>>>>>> 9024ba12780eba6e0fe3dbeaa0cc964e4d0022e8
-
                     <!-- <h3 class="card-title">Add Saloon Service </h3> -->
                     <% if(typeof service_data !=="undefined" && service_data){%>
                       <h5 class="card-title">Edit Service</h5>
@@ -53,7 +48,7 @@
                             <label for="">Service Price</label>
                             <input required type="number" name="ServicePrice" value="<%= service_data?.ServicePrice%>"
                               class="form-control" placeholder="Enter Service Price">
-                              <div class="invalid-feedback">Please Enter Service Price.</div>
+                            <div class="invalid-feedback">Please Enter Service Price.</div>
                           </div>
                         </div><br>
 
@@ -63,7 +58,7 @@
                             <input required type="number" name="timePeriod_in_minits"
                               value="<%= service_data?.timePeriod_in_minits%>" class="form-control"
                               placeholder="Enter a Time Period">
-                              <div class="invalid-feedback">Please Enter Service Time.</div>
+                            <div class="invalid-feedback">Please Enter Service Time.</div>
                           </div>
                           <div class="col">
                             <label for="">Choose Gender</label>
@@ -83,7 +78,7 @@
                             <label for="">Discription</label>
                             <textarea class="form-control" name="description" placeholder="Enter Description"
                               style="height: 100px" required><%= service_data?.description%></textarea>
-                              <div class="invalid-feedback">Please Enter Discription.</div>
+                            <div class="invalid-feedback">Please Enter Discription.</div>
                           </div>
                           <div class="col">
                             <label for="">Service Image</label>
@@ -221,7 +216,7 @@
                                     </option>
                                     <%}%>
                                       <%}else{%>
-                                        <option selected="">Select Saloon</option>
+                                        <option value="">Select Saloon</option>
                                         <% for(saloon of saloon_data){%>
                                           <option value="<%= saloon?._id%>">
                                             <%= saloon?.storeName%>
