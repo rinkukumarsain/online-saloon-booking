@@ -108,7 +108,7 @@
                                       <div class="row g-3">
                                         <div class="col">
                                           <label for="">Phone</label><br>
-                                          <input type="number" maxlength="10" id="Phone" name="Phone"
+                                          <input type="number" onKeyDown="if(this.value.length==10 && event.keyCode!=8) return false;"  id="Phone" name="Phone"
                                             class="form-control pac-target-input" placeholder="Enter Phone Number"
                                             value="<%=data?.Phone!=undefined ? data?.Phone : "" %>" required>
                                           <div class="invalid-feedback">Please Enter Phone No.</div>
@@ -121,7 +121,7 @@
                                         </div>
                                         <div class="col">
                                           <label for="">Enter otp</label><br>
-                                          <input required type="number" minlength="4" maxlength="6" id="otp" class="form-control"
+                                          <input required type="number"onKeyDown="if(this.value.length==4 && event.keyCode!=8) return false;"  id="otp" class="form-control"
                                             placeholder="Enter  otp"
                                             value="<%=data?.otp!=undefined ? data?.otp : "" %>">
                                           <div class="invalid-feedback">Please Enter Correct OTP.</div>
@@ -190,7 +190,7 @@
                                         <div class="row g-3">
                                           <div class="col">
                                             <label for="">Pincode</label><br>
-                                            <input required type="number"  maxlength="6" name="pincode"
+                                            <input required type="number" onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;"  name="pincode"
                                               class="form-control pac-target-input" placeholder="Enter a Pin Code"
                                               autocomplete="off"
                                               value="<%=data?.location?.pincode!=undefined ? data?.location?.pincode : "" %>">
@@ -199,7 +199,7 @@
                                             </div>
                                           <div class="col">
                                             <label for="">Place</label><br>
-                                            <input required type="text" maxlength="15" name="aria"
+                                            <input required type="text" name="aria"
                                               class="form-control pac-target-input" placeholder="Enter Which Place You From"
                                               autocomplete="off"
                                               value="<%=data?.location?.aria!=undefined ? data?.location?.aria : "" %>">
@@ -270,7 +270,7 @@
                                   </div>
                                   <div class="col">
                                     <label for="">Phone no.</label><br>
-                                    <input required type="number" maxlength="10" name="alternatePhone" class="form-control"
+                                    <input required type="number" onKeyDown="if(this.value.length==10 && event.keyCode!=8) return false;"  name="alternatePhone" class="form-control"
                                       placeholder="Enter Phone no."
                                       value="<%=data?.ProfileInfo.alternatePhone!=undefined ? data?.ProfileInfo.alternatePhone : "" %>">
                                       <div class="invalid-feedback">Please enter Phone no .</div>
@@ -402,7 +402,7 @@
                                   </div>
                                   <div class="col">
                                     <label for="">GST No.</label><br>
-                                    <input required type="text" name="gstNo" maxlength="15" class="form-control"
+                                    <input required type="number" name="gstNo" onKeyDown="if(this.value.length==15 && event.keyCode!=8) return false;"  class="form-control"
                                       placeholder="Enter GST no."
                                       value="<%=data?.BankInfo?.gstNo!=undefined ? data?.BankInfo?.gstNo : "" %>">
                                       <div class="invalid-feedback">Please enter GST no.</div>
@@ -429,7 +429,7 @@
                                 <div class="row g-3">
                                   <div class="col">
                                     <label for="">Account Number</label><br>
-                                    <input required type="number" id="addressSearch" maxlength="17" name="accountNo"
+                                    <input required type="number" id="addressSearch" onKeyDown="if(this.value.length==17 && event.keyCode!=8) return false;"  name="accountNo"
                                       class="form-control pac-target-input" placeholder="Enter Account Number"
                                       autocomplete="off"
                                       value="<%=data?.BankInfo?.accountNo!=undefined ? data?.BankInfo?.accountNo : "" %>">
