@@ -111,18 +111,26 @@ exports.businessUplodeDocumentAdmin = async (req, res) => {
 }
 
 exports.VIEW_SALOON = async (req, res) => {
-    const data = await service.VIEW_SALOON(req)
-    const user = req.user
-    const FindAllcity = await getAllSaloonCity(req)
-    res.render("add_saloon/view_saloon", { user, data, query: req.query, city: FindAllcity.data })
+    try {
+        const data = await service.VIEW_SALOON(req)
+        const user = req.user
+        const FindAllcity = await getAllSaloonCity(req)
+        res.render("add_saloon/view_saloon", { user, data, query: req.query, city: FindAllcity.data })
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 
 
 exports.DELETE_SALOON = async (req, res) => {
-    const id = req.query.id
-    await saloon.findByIdAndDelete({ _id: id })
-    res.redirect("/view_saloon")
+    try {
+        const id = req.query.id
+        await saloon.findByIdAndDelete({ _id: id })
+        res.redirect("/view_saloon")
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 

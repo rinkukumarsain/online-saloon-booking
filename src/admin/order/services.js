@@ -28,14 +28,33 @@ exports.getAllOrder = async (req) => {
                 '$match': match
             })
         }
+        if (req.user.type == "admin") {
+            condition.push({
+                '$lookup': {
+                    'from': 'saloons',
+                    'localField': 'saloonId',
+                    'foreignField': '_id',
+                    'pipeline': [
+                        {
+                            '$match': {
+                                'userId': req.user._id
+                            }
+                        }
+                    ],
+                    'as': 'saloon'
+                }
+            })
+        } else {
+            condition.push({
+                '$lookup': {
+                    'from': 'saloons',
+                    'localField': 'saloonId',
+                    'foreignField': '_id',
+                    'as': 'saloon'
+                }
+            })
+        }
         condition.push({
-            '$lookup': {
-                'from': 'saloons',
-                'localField': 'saloonId',
-                'foreignField': '_id',
-                'as': 'saloon'
-            }
-        }, {
             '$lookup': {
                 'from': 'users',
                 'localField': 'userId',
@@ -51,7 +70,9 @@ exports.getAllOrder = async (req) => {
                 ],
                 'as': 'users'
             }
-        }, {
+        })
+
+        condition.push({
             '$unwind': {
                 'path': '$users'
             }
@@ -68,6 +89,17 @@ exports.getAllOrder = async (req) => {
                 }
             })
         }
+
+        if (req.user.type == "admin") {
+            condition.push({
+                '$match': {
+                    'saloon._id': {
+                        '$exists': true
+                    }
+                }
+            })
+        }
+
         const data = await order.aggregate(condition)
         if (data.length > 0) {
             return {

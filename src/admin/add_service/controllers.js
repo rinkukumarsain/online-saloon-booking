@@ -4,6 +4,7 @@ const saloonService = require("../../api/saloonService/model")
 const mongoose = require("mongoose");
 const service = require("./service")
 const { getAllSaloonCity } = require("../../api/saloonstore/controller")
+
 exports.ADD_SERVICE = async (req, res) => {
     try {
         res.locals.message = req.flash();
