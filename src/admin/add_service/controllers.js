@@ -6,6 +6,7 @@ const service = require("./service")
 const { getAllSaloonCity } = require("../../api/saloonstore/controller")
 exports.ADD_SERVICE = async (req, res) => {
     try {
+        res.locals.message = req.flash();
         const user = req.user
         const category = await Category.find({ parent_Name: null })
         let saloon_data;
@@ -65,10 +66,10 @@ exports.optiongeturl = async (req, res) => {
 
 exports.ADD_SERVICE_STORE = async (req, res) => {
     try {
-        let { body, files, query } = req
+        let { body, files, query } = req;
         res.locals.message = req.flash();
+        //update
         if (query.id) {
-
             let _id = mongoose.Types.ObjectId(query.id);
             const result = await saloonService.findOne({ _id });
             if (result) {
@@ -87,26 +88,41 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
                         img.push(element.filename)
                     });
                     obj.image = img
-                }
+                };
                 const result = await saloonService.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
                 if (result) {
-                    req.flash("success", "Saloon Service  is  Update successfull !")
-                    return res.redirect("/view_service")
+                    req.flash("success", "Saloon Service  is  Update successfull !");
+                    return res.redirect("/view_service");
                 };
 
             } else {
-                req.flash("error", "Saloon Service is Not Found !")
-                return res.redirect("/")
+                req.flash("error", "Saloon Service is Not Found !");
+                return res.redirect("/");
             };
         } else {
+            //create service
             const { ServiceName } = body;
             if (ServiceName) {
-                const result = await saloonService.findOne({ ServiceName });
-                if (result) {
-                    req.flash("error", "ServiceName Already Exists")
-                    return res.redirect("/")
+                const result = await saloonService.find({ ServiceName, saloonStore: mongoose.Types.ObjectId(body.saloonStore) });
+                for (const item of result) {
+                    if (item.ServicePrice == Number(body.ServicePrice)) {
+                        if (item.timePeriod_in_minits == Number(body.timePeriod_in_minits)) {
+                            if (item.type != body.type || body.type == "unisex") {
+                                body.type = "unisex";
+                            } else {
+                                req.flash("error", "Service gender type allready  Exists");
+                                return res.redirect("/add_service");
+                            };
+                            const result2 = await saloonService.findByIdAndUpdate({ _id: item._id }, { type: body.type }, { new: true });
+                            if (result2) {
+                                req.flash("success", "Service update Succesfuuly ! 1");
+                                return res.redirect("/view_service");
+                            };
+                        };
+                    };
                 };
-            }
+            };
+
             if (files) {
                 img = []
                 files.forEach(element => {
@@ -115,7 +131,7 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
                 body.image = img
             } else {
                 body.image = ""
-            }
+            };
             let last_category = body.category[body.category.length - 1];
             let service_details = new saloonService({
                 ServiceName: body.ServiceName,
@@ -133,14 +149,15 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
                 req.flash("success", "Service Add Succesfuuly !")
                 return res.redirect("/view_service")
             };
-        }
+        };
     } catch (error) {
         console.log(error);
-    }
-}
+    };
+};
 
 exports.VIEW_SERVICE = async (req, res) => {
     try {
+        res.locals.message = req.flash();
         const data = await service.VIEW_SALOON(req)
         const user = req.user
         return res.render("add_service/view_service", { query: req.query, user, data })
