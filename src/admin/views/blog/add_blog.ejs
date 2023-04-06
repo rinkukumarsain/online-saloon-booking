@@ -35,21 +35,19 @@
 
                     <% if(typeof blog_data !=="undefined" && blog_data){%>
                       <h5 class="card-title">Edit Blog</h5>
-                      <form class="needs-validation" id="form1" method="post" enctype="multipart/form-data" novalidate>
+                      <form  id="form1" method="post" enctype="multipart/form-data" >
 
                         <div class="row g-3">
                           <div class="col">
                             <label for="">Blog Title</label>
-                            <input required type="text" name="Title" id="title" value="<%= blog_data.Title%>"
-                              class="form-control" placeholder="Enter Your Title">
-                              <div class="invalid-feedback">Please Enter Blog Title.</div>
+                            <input type="text" name="Title" id="title" value="<%= blog_data.Title%>"
+                              class="form-control" placeholder="Enter Your Title" required>
                           </div>
                           <div class="col">
                             <label for="">Writer Name</label>
-                            <input required type="text" name="WriterName" id="writename"
-                              value="<%= blog_data.WriterName%>" class="form-control" placeholder="Enter Writer Name">
-                              <div class="invalid-feedback">Please Enter Writer Name.</div>
-                              
+                            <input type="text" name="WriterName" id="writename" value="<%= blog_data.WriterName%>"
+                              class="form-control" placeholder="Enter Writer Name" required>
+
                           </div>
                         </div><br>
 
@@ -58,7 +56,6 @@
                             <label for="starting-time">Date</label>
                             <input required type="date" id="writedate" value="<%= blog_data.WriteDate%>"
                               name="WriteDate" class="form-control">
-                              <div class="invalid-feedback">Please Enter Date.</div>
 
                           </div>
                           <div class="col">
@@ -66,14 +63,13 @@
                             <select class="form-select" name="category" id="category"
                               aria-label="Default select example" required>
                               <%for (category_data of category_data) {%>
-                                <option value="<%= category_data._id%>"
+                                <option value="<%=category_data._id%>"
                                   <%=blog_data.category.toString()===category_data._id.toString() ? "selected" : "" %>>
                                   <%= category_data.Name %>
                                 </option>
                                 <%}%>
                             </select>
-                            <div class="invalid-feedback">Please Select Category.</div>
-                            
+
                           </div>
                         </div><br>
 
@@ -102,27 +98,26 @@
                           </div>
                         </div>
 
+                       
                         <button type="submit" class="btn btn-primary">Update</button>
-                        
+
                       </form>
                       <%}else{%>
                         <h5 class="card-title">Add Blog</h5>
-                        <form class="needs-validation" id="form" method="post" enctype="multipart/form-data" novalidate>
+                        <form  id="form" method="post" enctype="multipart/form-data" >
 
                           <div class="row g-3">
                             <div class="col">
                               <label for="">Blog Title</label>
-                              <input required type="text" name="Title" id="title" class="form-control"
-                                placeholder="Enter Your Blog Title">
-                              <div class="invalid-feedback">Please Enter Blog Title.</div>
+                              <input type="text" name="Title" id="title" class="form-control"
+                                placeholder="Enter Your Blog Title" required="">
 
                             </div>
                             <div class="col">
                               <label for="">Writer Name</label>
-                              <input required type="text" name="WriterName" id="writename" class="form-control"
-                                placeholder="Enter Writer Name">
-                              <div class="invalid-feedback">Please Enter Writer Name.</div>
-                              
+                              <input type="text" name="WriterName" id="writename" class="form-control"
+                                placeholder="Enter Writer Name" required="">
+
                             </div>
                           </div><br>
 
@@ -130,21 +125,19 @@
                             <div class="col">
                               <label for="starting-time">Date</label>
                               <input required type="date" id="writedate" name="WriteDate" class="form-control">
-                              <div class="invalid-feedback">Please Enter Date.</div>
 
                             </div>
                             <div class="col">
                               <label for="starting-time">Category</label>
                               <select class="form-select" name="category" id="category"
                                 aria-label="Default select example" required>
-                                <option value="" >Select Category</option>
+                                <option value="">Select Category</option>
                                 <%for (category_data of category_data) {%>
-                                  <option value="<%= category_data._id%>">
+                                  <option value="<%=category_data._id %>">
                                     <%= category_data.Name %>
                                   </option>
                                   <%}%>
                               </select>
-                              <div class="invalid-feedback">Please Select Category.</div>
                             </div>
                           </div><br>
 
@@ -152,7 +145,6 @@
                             <div class="col">
                               <label for="starting-time">Choose Image</label>
                               <input class="form-control" type="file" id="image" name="image" id="formFile" required>
-                              <div class="invalid-feedback">Please Select Image.</div>
                             </div>
                             <div class="col">
                               <input class="form-control" type="hidden" id="hidden" name="description">
@@ -168,9 +160,7 @@
                                 <p>Enter Discription </p>
                               </div>
                             </div>
-                            <div class="invalid-feedback">Please Enter Discription.</div>
                           </div>
-
                           <div class="row mb-3">
                             <div class="col-sm-10">
                               <button type="submit" class="btn btn-primary">Submit</button>
