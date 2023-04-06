@@ -34,10 +34,10 @@
                   <div class="card-body">
                     <% if(typeof data !=="undefined" && data){%>
                       <h5 class="card-title">Edit Vacancy</h5>
-                      <form  action="add-vacency" id="form1" method="post" enctype="multipart/form-data">
+                      <form action="add-vacency?id=<data._id>" id="form1" method="post">
                         <%}else{%>
                           <h5 class="card-title">Add Vacancy</h5>
-                          <form  action="add-vacency" id="form" method="post" enctype="multipart/form-data">
+                          <form action="add-vacency" id="form" method="post">
                             <%}%>
                               <div class="row g-3">
                                 <div class="col">
@@ -57,7 +57,7 @@
                               <div class="row g-3">
                                 <div class="col">
                                   <label for="starting-time">Date</label>
-                                  <select class="form-select" name="category" id="category"
+                                  <select class="form-select" name="Apply" id="Apply"
                                     aria-label="Default select example" required="">
                                     <option value="Easily Apply">
                                       Easily Apply
@@ -72,10 +72,10 @@
                                   <label for="starting-time">Job Type</label>
                                   <select class="form-select" name="JobType" id="JobType"
                                     aria-label="Default select example" required="">
-                                    <option selected value="full time" <%=data?.JobType=='full time' ?selected:"" %>>
+                                    <option selected value="full time" <%=data?.JobType=='full time' ?"selected":"" %>>
                                       full time
                                     </option>
-                                    <option value="part time" <%=data?.JobType=='part time' ?selected:"" %>>
+                                    <option value="part time" <%=data?.JobType=='part time' ?"selected":"" %>>
                                       part time
                                     </option>
                                   </select>
@@ -111,11 +111,11 @@
                                   <select class="form-select" multiple aria-label="multiple select example"
                                     name="Qualifications">
                                     <option selected disabled>select Qualifications</option>
-                                    <option value="0" <%=data?.Qualifications=='0' ?selected:"" %>>8th</option>
-                                    <option value="1" <%=data?.Qualifications=='1' ?selected:"" %>>10th</option>
-                                    <option value="2" <%=data?.Qualifications=='2' ?selected:"" %>>12th</option>
-                                    <option value="3" <%=data?.Qualifications=='3' ?selected:"" %>>graduation</option>
-                                    <option value="4" <%=data?.Qualifications=='4' ?selected:"" %>>master graduation
+                                    <option value="0" <%=data?.Qualifications=='0' ?"selected":"" %>>8th</option>
+                                    <option value="1" <%=data?.Qualifications=='1' ?"selected":"" %>>10th</option>
+                                    <option value="2" <%=data?.Qualifications=='2' ?"selected":"" %>>12th</option>
+                                    <option value="3" <%=data?.Qualifications=='3' ?"selected":"" %>>graduation</option>
+                                    <option value="4" <%=data?.Qualifications=='4' ?"selected":"" %>>master graduation
                                     </option>
                                   </select>
                                 </div>
@@ -136,20 +136,20 @@
                                   <label for="starting-time">Select Experience</label>
                                   <select class="form-select" aria-label="multiple select example"
                                     name="WorkExperience">
-                                    <option value="0" <%=data?.WorkExperience=='0' ?selected:"" %>>fresher</option>
-                                    <option value="1" <%=data?.WorkExperience=='1' ?selected:"" %>>3 mount</option>
-                                    <option value="2" <%=data?.WorkExperience=='2' ?selected:"" %>>6 mount</option>
-                                    <option value="3" <%=data?.WorkExperience=='3' ?selected:"" %>>1 year</option>
-                                    <option value="4" <%=data?.WorkExperience=='4' ?selected:"" %>>2 year</option>
-                                    <option value="5" <%=data?.WorkExperience=='5' ?selected:"" %>>2 +</option>
+                                    <option value="0" <%=data?.WorkExperience=='0' ?"selected":"" %>>fresher</option>
+                                    <option value="1" <%=data?.WorkExperience=='1' ?"selected":"" %>>3 mount</option>
+                                    <option value="2" <%=data?.WorkExperience=='2' ?"selected":"" %>>6 mount</option>
+                                    <option value="3" <%=data?.WorkExperience=='3' ?"selected":"" %>>1 year</option>
+                                    <option value="4" <%=data?.WorkExperience=='4' ?"selected":"" %>>2 year</option>
+                                    <option value="5" <%=data?.WorkExperience=='5' ?"selected":"" %>>2 +</option>
                                   </select>
                                 </div>
                                 <div class="col">
                                   <label for="starting-time">Choose Schedule</label>
                                   <select class="form-select" aria-label="multiple select example">
-                                    <option value="dayShift" <%=data?.Schedule=='dayShift' ?selected:"" %>>Day Shift
+                                    <option value="dayShift" <%=data?.Schedule=='dayShift' ?"selected":"" %>>Day Shift
                                     </option>
-                                    <option value="nightShift" <%=data?.Schedule=='nightShift' ?selected:"" %>>Night
+                                    <option value="nightShift" <%=data?.Schedule=='nightShift' ?"selected":"" %>>Night
                                       Shift
                                     </option>
                                   </select>
@@ -160,6 +160,7 @@
                                   <label for="starting-time">exemption Salary</label>
                                   <input class="form-control" type="number" name="exemptionSalary"
                                     value="<%=data?.exemptionSalary=='4' ?data.exemptionSalary:'' %>">
+
                                 </div>
                                 <div class="col">
                                   <label for="starting-time">Full Job Description</label>
@@ -170,17 +171,42 @@
                                 </div>
                               </div><br>
 
-                              <div class="row mb-3">
-                                <div class="col-sm-10">
-                                  <button type="submit" class="btn btn-primary">Update</button>
+                              <div class="row g-3">
+                                <div class="col">
+                                  <label for="starting-time">Vacency in witch sallon</label>
+                                  <select class="form-select" aria-label="multiple select example" name="requiredIn"
+                                    onchange="findAllSaloon(this)">
+                                    <option value="All" <%=data?.Schedule=='All' ?"selected":"" %>>All
+                                    </option>
+                                    <option value="selected" <%=data?.Schedule=='selected' ?"selected":"" %>>selected
+                                    </option>
+                                  </select>
+                                </div>
+                                <div class="col" id="mysloon">
+
+                                  <!-- <select class="form-select" multiple aria-label="multiple select example"
+                                    name="skiils"> -->
+                                  <!-- <%for (index of services) {%>
+                                      <option value="<%= index %>">
+                                        <%= index %>
+                                      </option>
+                                      <%}%> -->
+                                  <!-- </select> -->
                                 </div>
                               </div>
-                          </form>
+                  </div><br>
 
+                  <div class="row mb-3">
+                    <div class="col-sm-10">
+                      <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
                   </div>
+                  </form>
+
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </section>
       </main>
@@ -188,17 +214,17 @@
 
         function clickMe(select) {
           console.log("clickMe", select)
-          let num = Number(select.id)
-          let category = select.value
+          // let num = Number(select.id)
+          let num = select.value
           $.ajax({
             type: 'get',
-            data: { "id": category },
+            data: { "id": num },
             url: '/Find-service-for-Admin',// nandlal
             success: function (data) {
               console.log("00000", data)
               if (data.length > 0) {
                 let abc = `<div id="subcategory-${num + 1}">  <label for="starting-time">skiils</label>`
-                abc += `<select  aria-label="multiple select example"  class="form-select"  name="category" id="${num + 1}"  multiple>`
+                abc += `<select  aria-label="multiple select example"  class="form-select"  name="forService" id="${num + 1}"  multiple>`
                 abc += `<option value="" disabled >select service</option>`
 
                 data.forEach((item) => {
@@ -225,6 +251,52 @@
 
 
 
+
+
+        function findAllSaloon(params) {
+          console.log("params", params.value)
+          if (params.value == "selected") {
+
+            let num = params.value
+            $.ajax({
+              type: 'get',
+              url: '/Find-Admin-All-saloon',// nandlal
+              success: function (data) {
+                console.log("00000", data)
+                if (data.length > 0) {
+                  let abc = `<div id="saloon">  <label for="starting-time">skiils</label>`
+                  abc += `<select  aria-label="multiple select example"  class="form-select"  name="requiredSaloon" id="${num + 1}"  multiple>`
+                  abc += `<option value="" disabled >select service</option>`
+
+                  data.forEach((item) => {
+                    abc += `<option value=${item.location.city}>${item.storeName}</option>`
+                  })
+
+                  abc += `</select> 
+                              <div class="invalid-feedback">Please Select service.</div> </div>`
+                  while (true) {
+                    let cat = $(`#saloon`)
+                    if (cat.html()) {
+                      cat.remove();
+                    } else {
+                      break;
+                    }
+                  }
+                  $('#mysloon').append(abc)
+                }
+              }
+            })
+          } else {
+            while (true) {
+              let cat = $(`#saloon`)
+              if (cat.html()) {
+                cat.remove();
+              } else {
+                break;
+              }
+            }
+          }
+        }
 
       </script>
 

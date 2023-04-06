@@ -6,7 +6,7 @@ const { ADD_SALOON, ADD_SALOON_STORE, VIEW_SALOON, DELETE_SALOON,
     GetSaloonAddress, viewsSaloonRequest, saloonApproval, saloonRequistDelete,
     findAddSaloonRequist, saloonRegister, businessProfileInfo, businessProfile,
     businessBankInfoForm, businessBankInfoAdmin, businessUplodeDocument,
-    businessUplodeDocumentAdmin, findSaloonByUser } = require("./contollers");
+    businessUplodeDocumentAdmin, findSaloonByUser, FindAdminAllSaloon } = require("./contollers");
 
 // app.get("/add_saloon", auth, ADD_SALOON)
 // app.post("/add_saloon_store", auth, Upload.array("image"), ADD_SALOON_STORE)
@@ -35,6 +35,10 @@ app.post("/business-uplode-document-admin", auth, Upload.fields([{
 }, {
     name: 'businessCertificate', maxCount: 1
 }]), businessUplodeDocumentAdmin)
+
+app.get("/Find-Admin-All-saloon", auth, FindAdminAllSaloon)
+
+
 
 
 

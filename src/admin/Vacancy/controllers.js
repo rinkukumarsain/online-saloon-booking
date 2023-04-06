@@ -1,17 +1,21 @@
 const category = require("../../api/category/model");
-const artist = require("../../api/artist/model");
+const vacancy = require("./model");
 const mongoose = require("mongoose")
 const service = require("./services")
 const { getCategoryListing } = require("../../api/category/controller")
 const { FindAllServiceName } = require("../add_service/controllers")
 const seloonservice = require("../../api/saloonService/model")
+const store = require("../../api/saloonstore/model")
+// const { FindAdminAllSaloon } = require("../add_saloon/contollers")
 
 exports.Vacancy = async (req, res) => {
     try {
         let data;
         const category_data = await getCategoryListing(req)
         const services = await FindAllServiceName(req)
-        // console.log("category_data", category_data)
+        data = await vacancy.findOne({ _id: req.query.id })
+
+        console.log("data uuuu", data)
         res.render("vacancy/index", { user: req.user, data, category_data: category_data.data, services })
     } catch (error) {
         console.log(error)
@@ -30,89 +34,52 @@ exports.FindserviceforAdmin = async (req, res) => {
 
 exports.addVacency = async (req, res) => {
     try {
-        const condition = []
-        const obj = {};
-        if (req.query.id != undefined && req.query.id != "") {
-            condition.push({
-                '$match': {
-                    '_id': mongoose.Types.ObjectId(req.query.id)
-                }
-            })
-        }
-        condition.push({
-            '$lookup': {
-                'from': 'users',
-                'localField': 'userId',
-                'foreignField': '_id',
-                'as': 'user'
-            }
-        })
-        condition.push({
-            '$unwind': {
-                'path': '$user'
-            }
-        });
-        if (req.query.city != undefined && req.query.city != "") {
-            obj['user.location.city'] = req.query.city
-        }
-
-        if (req.query.phone != undefined && req.query.phone != "") {
-            obj['user.phone'] = Number(req.query.phone)
-        }
-        if (req.query.email != undefined && req.query.email != "") {
-            obj['user.email'] = { $regex: req.query.email, $options: 'i' }
-        }
-        if (req.query.type != undefined && req.query.type != "") {
-            obj['user.type'] = { $regex: req.query.type, $options: 'i' }
-        }
-        condition.push({
-            '$match': obj
-        })
-        const allcity = await this.getArtistsCity(req)
-        const data = await artist.aggregate(condition)
-        if (req.query.id != undefined && req.query.id != "") {
-            res.send(data);
+        let city = [];
+        if (req.body.requiredIn == "All") {
+            const FindSaloon = await store.find()
+            for (const item of FindSaloon) {
+                if (item.location.city) {
+                    if (city.includes(item.location.city) == false) {
+                        city.push(item.location.city)
+                    };
+                };
+            };
+            req.body.city = city;
         } else {
-            const _id = req.query.id
-            const user = req.user
-            res.render("Artists/index", { allcity, user, data, _id, query: req.query, })
-        }
-    } catch (e) {
-        console.log(e)
-    }
-}
-/*
+            req.body.city = req.body.requiredSaloon;
+        };
+        req.body.userId = req.user._id;
+        const vacancyDitail = new vacancy(req.body);
+        const result = await vacancyDitail.save();
+        if (result) {
+            res.redirect("/");
+        };
 
-
-
-exports.getArtistsCity = async (req) => {
-    try {
-        let arrrCity = []
-        let condition = []
-        condition.push({
-            '$lookup': {
-                'from': 'users',
-                'localField': 'userId',
-                'foreignField': '_id',
-                'as': 'user'
-            }
-        })
-        condition.push({
-            '$unwind': {
-                'path': '$user'
-            }
-        });
-
-        const data = await artist.aggregate(condition);
-        data.forEach(element => {
-            if (arrrCity.includes(element.user.location?.city) == false && element.user.location?.city != undefined && element.user.location?.city != "") {
-                arrrCity.push(element.user.location?.city)
-            }
-        });
-        return arrrCity;
     } catch (e) {
         console.log(e);
     };
 };
 
-*/
+exports.ViewVacancy = async (req, res) => {
+    try {
+        const data = await service.ViewVacancy(req)
+        // ghj
+        console.log("data", data)
+        let allcity = ["kjh", "jhgj"]
+
+        res.render("vacancy/viwe-vacancy", { user: req.user, data, query: req.query, allcity })
+    } catch (e) {
+        console.log(e);
+    };
+};
+
+
+exports.findVacancy = async (req, res) => {
+    try {
+        const data = await service.ViewVacancy(req)
+
+        res.send(data)
+    } catch (e) {
+        console.log(e);
+    };
+};
