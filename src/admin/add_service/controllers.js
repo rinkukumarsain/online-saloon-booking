@@ -42,6 +42,9 @@ exports.ADD_SERVICE = async (req, res) => {
         console.log(err)
     }
 }
+
+
+
 exports.optiongeturl = async (req, res) => {
     try {
         const parent_id = req.query.select
@@ -171,4 +174,22 @@ exports.DELETE_SERVICE = async (req, res) => {
     const id = req.query.id
     await saloonService.findByIdAndDelete({ _id: id })
     res.redirect("/view_service")
+}
+
+exports.FindAllServiceName = async (req) => {
+    let arr = []
+    const findData = await saloonService.find()
+
+    for (const item of findData) {
+        if (item.ServiceName != "" && item.ServiceName != undefined) {
+            if (arr.includes(item.ServiceName) == false) {
+                arr.push(item.ServiceName)
+            }
+        }
+    }
+
+    if (arr.length > 0) {
+        return arr;
+    }
+
 }

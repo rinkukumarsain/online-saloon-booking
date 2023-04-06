@@ -11,6 +11,7 @@ const payment = require("./payment/route");
 const category = require("./category/routes")
 const user = require("./users/route")
 const Artists = require("./Artists/routes")
+const Vacancy = require("./Vacancy/routes")
 
 module.exports = [adminRoutes, add_saloone, add_service,
-    add_frequent, order, add_blog, category, Counpon, payment, user, Artists]
+    add_frequent, order, add_blog, category, Counpon, payment, user, Artists, Vacancy]
