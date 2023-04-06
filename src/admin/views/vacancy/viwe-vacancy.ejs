@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8" />
+ <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>view-Artists</title>
+ <%- include('../../partials/headlink.ejs') %>
+</head>
+
+<body>
+ <%- include('../../partials/Header.ejs') %>
+  <%- include("../../partials/sidebar.ejs") %>
+
+   <main id="main" class="main">
+    <div class="pagetitle">
+
+     <h1><%-user.type %></h1>
+     <nav>
+      <ol class="breadcrumb">
+       <li class="breadcrumb-item"><a href="/">Home</a></li>
+       <li class="breadcrumb-item active">Dashboard</li>
+      </ol>
+     </nav>
+    </div>
+    <!-- End Page Title -->
+    <section class="section dashboard">
+     <div class="row">
+      <div class="row">
+       <div class="col-lg-12">
+        <div class="card">
+         <div class="card-body">
+          <h5 class="card-title">Filter</h5>
+
+          <!-- No Labels Form -->
+
+
+
+          <% if(typeof query.userId !=="undefined" && query.userId){%>
+           <form class="row g-3" action="/Artists?userId=<%=query.userId%>">
+            <input type="hidden" name="userId" value="<%=query.userId%>">
+            <%}else{%>
+             <form class="row g-3" action="/Artists">
+              <%}%>
+
+
+               <!-- <form class="row g-3" action="/Artists"> -->
+               <div class="col-md-2">
+                <label>Choose City</label> <br>
+                <select id="inputState" name="city" class="form-select">
+                 <option value="">Choose City</option>
+                 <% if( query.city!=undefined&& query.city!="" ){%>
+                  <option selected="" value="<%= query.city%>">
+                   <%= query.city%>
+                  </option>
+                  <%}%>
+                   <%allcity.forEach(function(citys){%>
+                    <option value="<%=citys%>">
+                     <%=citys%>
+                    </option>
+                    <%})%>
+
+                </select>
+               </div>
+               <div class="col-md-2">
+                <label> Status type</label> <br>
+                <select id="inputState" name="type" class="form-select">
+                 <% if( query?.type=="admin" ){%>
+                  <option value="">Choose type</option>
+                  <option selected="" value="admin">Admin</option>
+                  <option value="user">User</option>
+                  <%}else if( query?.type=="user" ){%>
+                   <option value="">Choose type</option>
+                   <option value="admin">Admin</option>
+                   <option selected="" value="user">User</option>
+                   <%}else {%>
+                    <option selected="" value="">Choose type</option>
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                    <%}%>
+
+                </select>
+               </div>
+               <div class="col-md-2">
+                <label>Enter phone</label> <br>
+                <% if(query?.phone!="" ){%>
+                 <input type="tel" name="phone" class="form-control" value="<%=query?.phone%>" placeholder="phone">
+                 <%}else{%>
+                  <input type="tel" name="phone" class="form-control" placeholder="phone">
+                  <%}%>
+               </div>
+               <div class="col-md-3">
+                <label>Enter email</label> <br>
+                <% if(query?.email!="" ){%>
+                 <input type="tel" name="email" class="form-control" value="<%=query?.email%>" placeholder="email">
+                 <%}else{%>
+                  <input type="tel" name="email" class="form-control" placeholder="email">
+                  <%}%>
+               </div>
+               <div class="col-md-3">
+                <label></label> <br>
+
+                <div class="text-center">
+                 <button type="submit" class="btn btn-primary">Submit</button>
+                 <% if(typeof query.userId !=="undefined" && query.userId){%>
+                  <a href="/Artists?userId=<%=query.userId%>""> <button type=" button"
+                   class="btn btn-secondary">Reset</button></a>
+                  <%}else{%>
+                   <a href="/Artists"> <button type="button" class="btn btn-secondary">Reset</button></a>
+                   <%}%>
+                </div>
+               </div>
+             </form>
+             <!-- End No Labels Form -->
+
+         </div>
+        </div>
+        <div class="card">
+         <div class="card-body">
+          <h5 class="card-title">Artists List</h5>
+
+          <!-- Table with stripped rows -->
+          <table class="table datatable">
+           <thead>
+            <tr>
+             <th scope="col">#</th>
+             <th scope="col"> Admin info</th>
+             <!-- <th scope="col">Admin email</th> -->
+             <th scope="col">Job Title</th>
+             <th scope="col">NoOf condi</th>
+             <th scope="col">Salary</th>
+             <th scope="col">Quali</th>
+             <th scope="col">Work Ex.</th>
+             <th scope="col">JobType</th>
+             <th scope="col">city</th>
+             <th scope="col">skiils</th>
+             <th scope="col">category</th>
+             <th scope="col">des.</th>
+             <th scope="col">MoreActionvvvvv</th>
+            </tr>
+           </thead>
+           <tbody>
+            <% let i=0 %>
+             <% for( data of data) { %>
+              <tr>
+               <th scope="row">
+                <%= ++i %>
+               </th>
+               <!-- <td>
+                <%= data.user.name %>
+               </td> -->
+               <td>
+                <button type="button" value="<%=data._id%>" id="Admin" onclick="cartData(this)" class="btn btn-info"><i
+                  class="bi bi-eye"></i></button>
+               </td>
+               <td>
+                <%= data.Title %>
+               </td>
+               <td>
+                <%= data.NoOfcondi %>
+               </td>
+               <td>
+                <%= data.exemptionSalary %>
+               </td>
+               <td>
+                <%= data.Qualifications %>
+               </td>
+               <td>
+                <%= data.WorkExperience %>
+               </td>
+               <td>
+                <%= data.JobType %>
+               </td>
+               <td>
+                <button type="button" value="<%=data._id%>" id="city" onclick="cartData(this)" class="btn btn-info"><i
+                  class="bi bi-eye"></i></button>
+
+               </td>
+               <td>
+                <button type="button" value="<%=data._id%>" id="skiils" onclick="cartData(this)" class="btn btn-info"><i
+                  class="bi bi-eye"></i></button>
+               </td>
+               <td>
+                <%= data.category[0].Name %>
+               </td>
+               <td>
+                <button type="button" value="<%=data._id%>" id="description" onclick="cartData(this)"
+                 class="btn btn-info"><i class="bi bi-eye"></i></button>
+               </td>
+
+               <td>
+                <% if( data.status=="succes" ){%>
+                 <a href="/add_service?id=<%= data._id%>" class="btn btn-dark">succes</a>
+                 <%}else if( data.status=="cancel" ){%>
+                  <a href="#" class="btn btn-danger">Cancel</a>
+                  <%}else{%>
+                   <a href="/Admin-Order-Approve?id=<%= data._id%>" class="btn btn-dark">G</a>
+                   <a href="/Admin-Order-Cancel?id=<%= data._id%>" class="btn btn-danger">D</a>
+                   <a href="/Vacancy?id=<%=data._id%>" class="btn btn-info"><i class="ri-edit-box-line"
+                     title="Edit"></i></a>
+                   <%}%>
+               </td>
+              </tr>
+
+              <%}%>
+           </tbody>
+          </table>
+          <!-- End Table with stripped rows -->
+
+         </div>
+        </div>
+       </div>
+      </div>
+
+     </div>
+    </section>
+
+
+   </main>
+   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+     <div class="modal-content">
+      <div class="modal-header">
+       <h5 class="modal-title" id="exampleModalLabel">User Service Data</h5>
+       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="moduleDataAppend">
+       ...
+      </div>
+      <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+       <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+     </div>
+    </div>
+   </div>
+
+
+   <script>
+    function cartData(element) {
+     let num = element.value
+
+     $.ajax({
+      type: 'get',
+      data: { "id": num },
+      url: '/find-Vacancy',
+      success: function (data) {
+       console.log("datadatadata", data)
+       if (data.length > 0) {
+        $('#moduleDataAppend').empty()
+        let abc;
+        if (element.id == "city") {
+         abc = ` <table class="table datatable">
+                             <thead>
+                            <tr>
+                             <th scope="col">No</th>
+                              <th scope="col">skiils</th>
+                              <th scope="col">No</th>
+                              <th scope="col">skiils</th>
+                              </tr>
+                              </thead>
+                          <tbody>`
+         let i = 1
+         abc += `<tr>`
+         for (const item of data[0].city) {
+          abc += `<td scope="col">${i}.</td>
+                <td scope="row">${item}</td>`
+
+          if (i % 2 == 0) {
+           abc += `</tr>`
+          }
+          i++
+
+         }
+         abc += `</tbody> </table >`
+        } else if (element.id == "description") {
+         abc = `${data[0].description}`
+        } else if (element.id == "Admin") {
+         abc = ` <table class="table datatable">
+                             <thead>
+                            <tr>
+                             <th scope="col">fild</th>
+                              <th scope="col">info</th>
+                             </tr>
+                              </thead>
+                          <tbody>`
+         abc += `<tr>
+                 <th scope="col">name</th>
+                <td scope="row">${data[0].user.name}</td>
+                </tr><tr>
+                <th scope="col">phone</th>
+                <td scope="row">${data[0].user.phone}</td>
+                </tr>
+                <th scope="col">email</th>
+                <td scope="row">${data[0].user.email}</td>
+                </tr>
+                <tr>
+                <th scope="col">type</th>
+                <td scope="row">${data[0].user.type}</td>
+                </tr>`
+         abc += `</tbody> </table >`
+        } else {
+
+         abc = ` <table class="table datatable">
+                             <thead>
+                            <tr>
+                              <th scope="col">No</th>
+                              <th scope="col">skiils</th>
+                              <th scope="col">No</th>
+                              <th scope="col">skiils</th>
+                             </tr>
+                              </thead>
+                          <tbody>`
+         let i = 1
+         abc += `<tr>`
+         for (const item of data[0].skiils) {
+          abc += `<td scope="col">${i}.</td>
+                  <td scope="row">${item}</td>`
+          if (i % 2 == 0) {
+           abc += `</tr>`
+          }
+          i++
+         }
+         abc += `</tbody> </table >`
+        }
+        $('#moduleDataAppend').append(abc)
+        $("#exampleModal").modal("toggle");
+       } else {
+        alert("data not Found")
+       }
+      }
+     })
+    }
+   </script>
+   <%- include("../../partials/script.ejs") %>
+</body>
+
+</html>
