@@ -7,7 +7,7 @@ exports.Category = async (req, res) => {
     try {
         if (req.query.id != undefined && req.query.id != "") {
             res.render("category/index", { user: req.user, id: req.query.id })
-        } else if (req.query.EditId != undefined && req.query.EditId ) {
+        } else if (req.query.EditId != undefined && req.query.EditId !=="" ) {
             const findData = await CategoryModule.findOne({ _id: mongoose.Types.ObjectId(req.query.EditId) })
             console.log(findData ,"finddata");
             res.render("category/index", { user: req.user, data: findData })

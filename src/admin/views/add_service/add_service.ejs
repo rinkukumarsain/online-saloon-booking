@@ -84,8 +84,7 @@
                           <div class="col">
                             <label for="">Service Image</label>
 
-                            <input class="form-control" type="file" name="image" id="formFile" multiple required>
-                            <div class="invalid-feedback">Please Select Image.</div>
+                            <input class="form-control" type="file" name="image" id="formFile" multiple >
                             <%for(image of service_data.image){%>
                               <img src="../../../../uploads/<%=image%>" width="70px">
                               <%}%>
@@ -171,7 +170,7 @@
                             <div class="col">
                               <label for="">Discription</label>
                               <textarea class="form-control" name="description" placeholder="Enter Description"
-                                style="height: 100px" required></textarea>
+                                style="height: 100px" required minlength="5"></textarea>
                               <div class="valid-feedback">Looks good!</div>
                               <div class="invalid-feedback">Please Enter Discription.</div>
                             </div>
@@ -266,7 +265,7 @@
               if (data.length > 0) {
                 let abc = `<div id="subcategory-${num + 1}"><label for="inputAddress" class="form-label">Sub Category</label>`
                 abc += `<select style="width:50%;margin-bottom:20px"   class="form-select" onchange="clickMe(this )" name="category" id="${num + 1}">`
-                abc += `<option value="">select Sub Category</option>`
+                abc += `<option value="" disabled>select Sub Category</option>`
 
                 data.forEach((item) => {
                   abc += `<option value=${item._id}>${item.Name}</option>`
