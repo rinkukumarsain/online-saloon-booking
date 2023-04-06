@@ -5,7 +5,7 @@ exports.getreviews = async (query) => {
     try {
         const saloonId = mongoose.Types.ObjectId(query.saloonId);
         let x = query.user._id
-        console.log("xxx", x)
+      
         const condition = [];
         condition.push({
             '$match': {

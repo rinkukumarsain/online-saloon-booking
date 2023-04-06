@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Write-Vacancy</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <%- include('../../partials/headlink.ejs') %>
+</head>
+
+<body>
+  <%- include('../../partials/Header.ejs') %>
+    <%- include("../../partials/sidebar.ejs") %>
+      <main id="main" class="main">
+        <div class="pagetitle">
+          <h1>
+            <%-user.type %>
+          </h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </nav>
+        </div><!-- End Page Title -->
+
+        <section class="section dashboard">
+          <div class="row">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <% if(typeof data !=="undefined" && data){%>
+                      <h5 class="card-title">Edit Vacancy</h5>
+                      <form  action="add-vacency" id="form1" method="post" enctype="multipart/form-data">
+                        <%}else{%>
+                          <h5 class="card-title">Add Vacancy</h5>
+                          <form  action="add-vacency" id="form" method="post" enctype="multipart/form-data">
+                            <%}%>
+                              <div class="row g-3">
+                                <div class="col">
+                                  <label for="">Enter Job Title</label>
+                                  <input required type="text" name="Title" id="title"
+                                    value="<%= data?.Title?data.Title:"" %>" class="form-control"
+                                    placeholder="Enter Your Job Title">
+                                </div>
+                                <div class="col">
+                                  <label for="">Number Of condidete</label>
+                                  <input required type="number" name="NoOfcondi" id="writename"
+                                    value="<%= data?.NoOfcondi?data.NoOfcondi:""%>" class="form-control"
+                                    placeholder="Enter Number Of condidete">
+                                </div>
+                              </div><br>
+
+                              <div class="row g-3">
+                                <div class="col">
+                                  <label for="starting-time">Date</label>
+                                  <select class="form-select" name="category" id="category"
+                                    aria-label="Default select example" required="">
+                                    <option value="Easily Apply">
+                                      Easily Apply
+                                    </option>
+                                    <option value="Go To Website">
+                                      Go To Website
+                                    </option>
+                                  </select>
+                                </div>
+
+                                <div class="col">
+                                  <label for="starting-time">Job Type</label>
+                                  <select class="form-select" name="JobType" id="JobType"
+                                    aria-label="Default select example" required="">
+                                    <option selected value="full time" <%=data?.JobType=='full time' ?selected:"" %>>
+                                      full time
+                                    </option>
+                                    <option value="part time" <%=data?.JobType=='part time' ?selected:"" %>>
+                                      part time
+                                    </option>
+                                  </select>
+                                </div>
+
+                              </div><br>
+
+                              <div class="row g-3">
+                                <div class="col">
+                                  <label for="starting-time">Benefits & Perks</label>
+                                  <input class="form-control" name="BenefitsPerks" type="text" id="image"
+                                    value="<%= data?.BenefitsPerks?data.BenefitsPerks:'' %>" name="image" id="formFile">
+                                </div>
+
+
+
+                                <div class="col">
+                                  <label for="starting-time">Category</label>
+                                  <select class="form-select" name="category" id="category"
+                                    aria-label="Default select example" required onchange="clickMe(this)">
+                                    <option disabled selected> SELECT</option>
+                                    <%for (category_data of category_data) {%>
+                                      <option value="<%= category_data._id%>">
+                                        <%= category_data.Name %>
+                                      </option>
+                                      <%}%>
+                                  </select>
+                                </div>
+                              </div><br>
+                              <div class="row g-3">
+                                <div class="col">
+                                  <label for="starting-time">Qualifications</label>
+                                  <select class="form-select" multiple aria-label="multiple select example"
+                                    name="Qualifications">
+                                    <option selected disabled>select Qualifications</option>
+                                    <option value="0" <%=data?.Qualifications=='0' ?selected:"" %>>8th</option>
+                                    <option value="1" <%=data?.Qualifications=='1' ?selected:"" %>>10th</option>
+                                    <option value="2" <%=data?.Qualifications=='2' ?selected:"" %>>12th</option>
+                                    <option value="3" <%=data?.Qualifications=='3' ?selected:"" %>>graduation</option>
+                                    <option value="4" <%=data?.Qualifications=='4' ?selected:"" %>>master graduation
+                                    </option>
+                                  </select>
+                                </div>
+                                <div class="col" id="myselect">
+
+                                  <!-- <select class="form-select" multiple aria-label="multiple select example"
+                                    name="skiils"> -->
+                                  <!-- <%for (index of services) {%>
+                                      <option value="<%= index %>">
+                                        <%= index %>
+                                      </option>
+                                      <%}%> -->
+                                  <!-- </select> -->
+                                </div>
+                              </div><br>
+                              <div class="row g-3">
+                                <div class="col">
+                                  <label for="starting-time">Select Experience</label>
+                                  <select class="form-select" aria-label="multiple select example"
+                                    name="WorkExperience">
+                                    <option value="0" <%=data?.WorkExperience=='0' ?selected:"" %>>fresher</option>
+                                    <option value="1" <%=data?.WorkExperience=='1' ?selected:"" %>>3 mount</option>
+                                    <option value="2" <%=data?.WorkExperience=='2' ?selected:"" %>>6 mount</option>
+                                    <option value="3" <%=data?.WorkExperience=='3' ?selected:"" %>>1 year</option>
+                                    <option value="4" <%=data?.WorkExperience=='4' ?selected:"" %>>2 year</option>
+                                    <option value="5" <%=data?.WorkExperience=='5' ?selected:"" %>>2 +</option>
+                                  </select>
+                                </div>
+                                <div class="col">
+                                  <label for="starting-time">Choose Schedule</label>
+                                  <select class="form-select" aria-label="multiple select example">
+                                    <option value="dayShift" <%=data?.Schedule=='dayShift' ?selected:"" %>>Day Shift
+                                    </option>
+                                    <option value="nightShift" <%=data?.Schedule=='nightShift' ?selected:"" %>>Night
+                                      Shift
+                                    </option>
+                                  </select>
+                                </div>
+                              </div><br>
+                              <div class="row g-3">
+                                <div class="col">
+                                  <label for="starting-time">exemption Salary</label>
+                                  <input class="form-control" type="number" name="exemptionSalary"
+                                    value="<%=data?.exemptionSalary=='4' ?data.exemptionSalary:'' %>">
+                                </div>
+                                <div class="col">
+                                  <label for="starting-time">Full Job Description</label>
+                                  <textarea class="form-control" name="description" placeholder="Enter Description"
+                                    style="height: 100px" required="">
+                                    <%=data?.description ?data.description:"" %>
+                                </textarea>
+                                </div>
+                              </div><br>
+
+                              <div class="row mb-3">
+                                <div class="col-sm-10">
+                                  <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                              </div>
+                          </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <script>
+
+        function clickMe(select) {
+          console.log("clickMe", select)
+          let num = Number(select.id)
+          let category = select.value
+          $.ajax({
+            type: 'get',
+            data: { "id": category },
+            url: '/Find-service-for-Admin',// nandlal
+            success: function (data) {
+              console.log("00000", data)
+              if (data.length > 0) {
+                let abc = `<div id="subcategory-${num + 1}">  <label for="starting-time">skiils</label>`
+                abc += `<select  aria-label="multiple select example"  class="form-select"  name="category" id="${num + 1}"  multiple>`
+                abc += `<option value="" disabled >select service</option>`
+
+                data.forEach((item) => {
+                  abc += `<option value=${item._id}>${item.ServiceName}</option>`
+                })
+
+                abc += `</select> 
+                              <div class="invalid-feedback">Please Select service.</div> </div>`
+                let num2 = num + 1
+                while (true) {
+                  let cat = $(`#subcategory-${num2}`)
+                  if (cat.html()) {
+                    cat.remove();
+                  } else {
+                    break;
+                  }
+                  ++num2
+                }
+                $('#myselect').append(abc)
+              }
+            }
+          })
+        }
+
+
+
+
+      </script>
+
+      <%- include("../../partials/script.ejs") %>
+</body>
+
+</html>

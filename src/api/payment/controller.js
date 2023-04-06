@@ -52,7 +52,14 @@ exports.createOrderId = async (req) => {
                     message: "User orderid created  successfull !",
                     data: [result]
                 }
-            };
+            } else {
+                return {
+                    statusCode: 400,
+                    status: false,
+                    message: "orderid Not created !",
+                    data: []
+                }
+            }
         };
     } catch (error) {
         console.log("error--", error);
@@ -108,7 +115,7 @@ exports.apiPaymentVerify = async (req, res) => {
         };
     } catch (error) {
         console.log("error--", error);
-       
+
     };
 };
 
