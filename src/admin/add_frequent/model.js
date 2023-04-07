@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   answer: {
     type: String,
     // unique: true
+    default: null
   }
 })
 
