@@ -111,19 +111,19 @@ exports.getWishlist = async ({ user, query }) => {
             }
         });
 
-        condition.push({
-            '$project': {
-                'userId': 1,
-                'saloonId': 1,
-                'saloonOwn': '$result.userId',
-                'storeName': '$result.storeName',
-                'Email': '$result.Email',
-                'PhoneNumber': '$result.PhoneNumber',
-                'image': '$result.image',
-                'location': '$result.location',
-                'description': '$result.description'
-            }
-        });
+        // condition.push({
+        //     '$project': {
+        //         'userId': 1,
+        //         'saloonId': 1,
+        //         'saloonOwn': '$result.userId',
+        //         'storeName': '$result.storeName',
+        //         'Email': '$result.Email',
+        //         'PhoneNumber': '$result.PhoneNumber',
+        //         'image': '$result.image',
+        //         'location': '$result.location',
+        //         'description': '$result.description'
+        //     }
+        // });
 
         const finddata = await wishlist.aggregate(condition);
         // console.log("finddata", finddata)
