@@ -1,13 +1,13 @@
 const faq = require("../../admin/add_frequent/model");
 const mongoose = require("mongoose")
 
-exports.getFaq = async ({ query }) => {
+exports.getFaq = async ({ query }) => {                                                                                                                                                                                                                                                                             
     try {
         let result;
         if (query.id != undefined && query.id != "") {
             result = await faq.find({ _id: mongoose.Types.ObjectId(query.id) });
         } else {
-            result = await faq.find({ answer: { $ne: null } });
+            result = await faq.find({ answer: { $ne: null } });                                                                                                                                                                                                                                             
         };
         if (result) {
             return {
