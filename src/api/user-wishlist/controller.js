@@ -43,8 +43,8 @@ exports.userWishlist = async ({ user, query }) => {
                     const result = await wishlist.findByIdAndUpdate({ _id: findWishlist._id }, { saloonId: arr }, { new: true })
                     if (result) {
                         return {
-                            statusCode: 400,
-                            status: false,
+                            statusCode: 200,
+                            status: true,
                             message: "This-wishlist-update !",
                             data: [result]
                         };
