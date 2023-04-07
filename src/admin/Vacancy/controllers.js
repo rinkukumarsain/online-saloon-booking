@@ -5,18 +5,30 @@ const service = require("./services")
 const { getCategoryListing } = require("../../api/category/controller")
 const { FindAllServiceName } = require("../add_service/controllers")
 const seloonservice = require("../../api/saloonService/model")
-const store = require("../../api/saloonstore/model")
+const store = require("../../api/saloonstore/model");
+const { query } = require("express");
 // const { FindAdminAllSaloon } = require("../add_saloon/contollers")
 
 exports.Vacancy = async (req, res) => {
     try {
+        res.locals.message = req.flash();
         let data;
-        const category_data = await getCategoryListing(req)
+        const { query, ...rest } = req
+        const FindCategory_data = await getCategoryListing(rest)
+        // console.log("FindCategory_data", FindCategory_data)
+        // tt
         const services = await FindAllServiceName(req)
-        data = await vacancy.findOne({ _id: req.query.id })
+        if (req.query.id != undefined && req.query.id != "") {
+            data = await vacancy.findOne({ _id: req.query.id })
+        }
 
-        console.log("data uuuu", data)
-        res.render("vacancy/index", { user: req.user, data, category_data: category_data.data, services })
+        // console.log("data uuuu", data)
+        res.render("vacancy/index", {
+            user: req.user,
+            data,
+            category_data: FindCategory_data.data,
+            services
+        })
     } catch (error) {
         console.log(error)
     }
@@ -34,6 +46,7 @@ exports.FindserviceforAdmin = async (req, res) => {
 
 exports.addVacency = async (req, res) => {
     try {
+        // console.log("---->", req.body)
         let city = [];
         if (req.body.requiredIn == "All") {
             const FindSaloon = await store.find()
@@ -64,7 +77,7 @@ exports.ViewVacancy = async (req, res) => {
     try {
         const data = await service.ViewVacancy(req)
         // ghj
-        console.log("data", data)
+        // console.log("data", data)
         let allcity = ["kjh", "jhgj"]
 
         res.render("vacancy/viwe-vacancy", { user: req.user, data, query: req.query, allcity })
@@ -76,6 +89,7 @@ exports.ViewVacancy = async (req, res) => {
 
 exports.findVacancy = async (req, res) => {
     try {
+        // console.log("req.query", req.query.id)
         const data = await service.ViewVacancy(req)
 
         res.send(data)

@@ -1,10 +1,10 @@
 const category = require("./model");
 
-exports.getCategoryListing = async ({ query }) => {
+exports.getCategoryListing = async (req) => {
     try {
         let condition = {};
-        if (query.id) {
-            condition = { _id: query.id };
+        if (req?.query?.id != undefined && req?.query?.id != "") {
+            condition = { _id: req.query.id };
         } else {
             condition = { parent_Name: null };
         };

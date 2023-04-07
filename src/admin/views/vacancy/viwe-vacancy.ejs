@@ -314,9 +314,9 @@
                           <tbody>`
          let i = 1
          abc += `<tr>`
-         for (const item of data[0].skiils) {
+         for (const item of data[0].Service) {
           abc += `<td scope="col">${i}.</td>
-                  <td scope="row">${item}</td>`
+                  <td scope="row">${item.ServiceName}</td>`
           if (i % 2 == 0) {
            abc += `</tr>`
           }
