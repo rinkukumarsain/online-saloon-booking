@@ -114,7 +114,7 @@ exports.getWishlist = async ({ user, query }) => {
         condition.push({
             '$project': {
                 'userId': 1,
-                // 'saloonId': 1,
+                'saloonId': 1,
                 'saloonOwn': '$result.userId',
                 'storeName': '$result.storeName',
                 'Email': '$result.Email',
