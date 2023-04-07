@@ -11,7 +11,9 @@ exports.userWishlist = async ({ user, query }) => {
             let _id = mongoose.Types.ObjectId(query.id);
             const findSaloon = await saloon.findOne({ _id });
             if (findSaloon) {
-                const findWishlist = await wishlist.findOne({ saloonId: _id });
+                const findWishlist = await wishlist.findOne({ saloonId: _id, userId: user._id });
+                console.log("findWishlist", findWishlist)
+
                 if (findWishlist) {
                     return {
                         statusCode: 400,
@@ -30,7 +32,8 @@ exports.userWishlist = async ({ user, query }) => {
                             statusCode: 200,
                             status: true,
                             message: "wishlist added Succesfuuly !",
-                            data: [result]
+                            data: [result],
+                            wishlist: true
                         };
                     };
                 };
@@ -131,11 +134,11 @@ exports.getWishlist = async ({ user, query }) => {
     };
 };
 
-exports.removeStoreFromWishlist = async ({ query }) => {
+exports.removeStoreFromWishlist = async ({ user, query }) => {
     try {
         if (query.id) {
             let saloonId = mongoose.Types.ObjectId(query.id);
-            const findSaloon = await wishlist.findOne({ saloonId });
+            const findSaloon = await wishlist.findOne({ saloonId, userId: user._id });
             if (findSaloon) {
                 const result = await wishlist.findByIdAndRemove({ _id: findSaloon._id });
                 if (result) {
@@ -143,7 +146,8 @@ exports.removeStoreFromWishlist = async ({ query }) => {
                         statusCode: 200,
                         status: true,
                         message: "remove Succesfuuly  !",
-                        data: [result]
+                        data: [result],
+                        wishlist: false
                     };
                 };
             } else {
