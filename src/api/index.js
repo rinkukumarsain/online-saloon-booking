@@ -15,7 +15,8 @@ const Partner = require("./Partner/route")
 const reviews = require("./reviews/route")
 const coupon = require("./coupon/route")
 const artist = require("./artist/route")
+const faq = require("./faq/route")
 
 module.exports = [userRoutes, category, saloonstore, saloonService,
     cart, schedule, address, checkOut, order, userWishlist, blog,
-    ContactUs, payment, Partner, reviews, coupon, artist];
+    ContactUs, payment, Partner, reviews, coupon, artist, faq];
