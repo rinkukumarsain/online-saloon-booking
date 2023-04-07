@@ -10,33 +10,46 @@ exports.userWishlist = async ({ user, query }) => {
         if (query.id) {
             let _id = mongoose.Types.ObjectId(query.id);
             const findSaloon = await saloon.findOne({ _id });
+            let arr = []
+            let sss = []
             if (findSaloon) {
-                const findWishlist = await wishlist.findOne({ saloonId: _id, userId: user._id });
-                console.log("findWishlist", findWishlist)
+                const findWishlist = await wishlist.findOne({ userId: user._id });
 
-                if (findWishlist) {
-                    return {
-                        statusCode: 400,
-                        status: false,
-                        message: "This-is-allready-in-wishlist !",
-                        data: []
-                    };
-                } else {
+                if (!findWishlist) {
+                    arr.push(findSaloon._id)
                     const wishlistDitail = new wishlist({
                         userId: user._id,
-                        saloonId: findSaloon._id
+                        saloonId: arr
                     });
                     const result = await wishlistDitail.save();
                     if (result) {
                         return {
                             statusCode: 200,
                             status: true,
-                            message: "wishlist added Succesfuuly !",
+                            message: "wishlist created Succesfuuly !",
                             data: [result],
-                            wishlist: true
                         };
                     };
-                };
+                } else {
+                    findWishlist.saloonId.forEach(element => {
+                        arr.push(element.toString())
+                    });
+                    if (arr.includes(findSaloon._id.toString()) == false) {
+                        arr.push(findSaloon._id.toString())
+                    } else {
+                        let index = arr.indexOf(findSaloon._id.toString())
+                        arr.splice(index, 1);
+                    }
+                    const result = await wishlist.findByIdAndUpdate({ _id: findWishlist._id }, { saloonId: arr }, { new: true })
+                    if (result) {
+                        return {
+                            statusCode: 400,
+                            status: false,
+                            message: "This-wishlist-update !",
+                            data: [result]
+                        };
+                    }
+                }
             } else {
                 return {
                     statusCode: 400,
@@ -101,7 +114,7 @@ exports.getWishlist = async ({ user, query }) => {
         condition.push({
             '$project': {
                 'userId': 1,
-                'saloonId': 1,
+                // 'saloonId': 1,
                 'saloonOwn': '$result.userId',
                 'storeName': '$result.storeName',
                 'Email': '$result.Email',
