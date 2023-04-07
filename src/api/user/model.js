@@ -36,6 +36,16 @@ const userSchema = new mongoose.Schema({
   otp: {
     type: String
   },
+  userWallet: {
+    balance: {
+      type: Number,
+      default: 0
+    },
+    Point: {
+      type: Number,
+      default: 0
+    }
+  },
   location: {
     aria: {
       type: String,
