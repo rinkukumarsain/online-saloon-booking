@@ -42,9 +42,9 @@ const Vacancy = new mongoose.Schema({
  city: {
   type: [String]
  },
- // requiredSaloon: {
- //  type: [mongoose.Types.ObjectId],
- // }
+ requiredStatus: {
+  type: String
+ }
 }, { timestamps: true });
 
 

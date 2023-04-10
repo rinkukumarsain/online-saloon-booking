@@ -136,9 +136,9 @@ exports.getWishlist = async ({ user, query }) => {
             };
         } else {
             return {
-                statusCode: 200,
+                statusCode: 400,
                 status: false,
-                message: "please Enter valid store id  !",
+                message: "no data found !",
                 data: []
             };
         };

@@ -48,7 +48,7 @@ exports.addVacency = async (req, res) => {
     try {
         // console.log("---->", req.body)
         let city = [];
-        if (req.body.requiredIn == "All") {
+        if (req.body.requiredStatus == "All") {
             const FindSaloon = await store.find()
             for (const item of FindSaloon) {
                 if (item.location.city) {
@@ -62,11 +62,27 @@ exports.addVacency = async (req, res) => {
             req.body.city = req.body.requiredSaloon;
         };
         req.body.userId = req.user._id;
-        const vacancyDitail = new vacancy(req.body);
-        const result = await vacancyDitail.save();
-        if (result) {
-            res.redirect("/");
-        };
+
+        console.log("req.body", req.body, 1)
+        console.log("req.body", req.query, 2)
+        // bb
+        if (req.query.id != undefined && req.query.id != "") {
+            const result = await vacancy.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) })
+            if (result) {
+                console.log("update")
+                res.redirect("/View-Vacancy");
+            };
+        } else {
+            const vacancyDitail = new vacancy(req.body);
+            const result = await vacancyDitail.save();
+            if (result) {
+                console.log("save")
+                res.redirect("/View-Vacancy");
+            };
+
+
+        }
+
 
     } catch (e) {
         console.log(e);

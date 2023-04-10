@@ -12,7 +12,8 @@ const category = require("./category/routes");
 const user = require("./users/route");
 const Artists = require("./Artists/routes");
 const Vacancy = require("./Vacancy/routes");
+const refer = require("./Refer-And-point/routes")
 
 module.exports = [adminRoutes, add_saloone, add_service,
     add_frequent, order, add_blog, category, Counpon, payment,
-    user, Artists, Vacancy]
+    user, Artists, Vacancy, refer]
