@@ -98,10 +98,10 @@
                                     <label for="starting-time">Category</label>
                                     <select class="form-select" name="category" id="category"
                                       aria-label="Default select example" required onchange="clickMe(this)">
-                                      <option disabled selected> SELECT</option>
+                                      <option value="">select </option>
                                       <%for (categoryItem of category_data) {%>
                                         <option value="<%= categoryItem._id%>"
-                                          <%=categoryItem._id.toString()==data.category.toString()?"selected":"" %>>
+                                          <%=categoryItem._id.toString()==data?.category.toString()?"selected" :"" %>>
                                           <%= categoryItem.Name %>
                                         </option>
                                         <%}%>
@@ -184,11 +184,12 @@
                                 <div class="row g-3">
                                   <div class="col">
                                     <label for="starting-time">Vacency in witch sallon</label>
-                                    <select class="form-select" aria-label="multiple select example" name="requiredIn"
-                                      onchange="findAllSaloon(this)">
-                                      <option value="All" <%=data?.Schedule=='All' ?"selected":"" %>>All
+                                    <select class="form-select" aria-label="multiple select example" id="requiredStatus"
+                                      name="requiredStatus" onchange="findAllSaloon(this)">
+                                      <option value="All" <%=data?.requiredStatus=='All' ?"selected":"" %>>All
                                       </option>
-                                      <option value="selected" <%=data?.Schedule=='selected' ?"selected":"" %>>selected
+                                      <option value="selected" <%=data?.requiredStatus=='selected' ?"selected":"" %>
+                                        >selected
                                       </option>
                                     </select>
                                   </div>
@@ -220,7 +221,17 @@
             </div>
           </section>
         </main>
+
         <script>
+          $(document).ready(function () {
+            let elel = document.getElementById("category")
+            let elel2 = document.getElementById("requiredStatus")
+            clickMe(elel)
+            if (requiredStatus.value == "selected") {
+              findAllSaloon(requiredStatus)
+            }
+          });
+
 
           function clickMe(select) {
             console.log("clickMe", select)
@@ -233,7 +244,7 @@
               success: function (data) {
                 console.log("00000", data)
                 if (data.length > 0) {
-                  let abc = `<div id="subcategory-${num + 1}">  <label for="starting-time">skiils</label>`
+                  let abc = `<div id="subcategory">  <label for="starting-time">skiils</label>`
                   abc += `<select  aria-label="multiple select example"  class="form-select"  name="forService" id="${num + 1}"  multiple>`
                   abc += `<option value="" disabled >select service</option>`
 
@@ -245,10 +256,14 @@
                               <div class="invalid-feedback">Please Select service.</div> </div>`
                   let num2 = num + 1
                   while (true) {
-                    let cat = $(`#subcategory-${num2}`)
+                    console.log("while")
+                    let cat = $(`#subcategory`)
                     if (cat.html()) {
+                      console.log("if")
                       cat.remove();
                     } else {
+                      console.log("else")
+
                       break;
                     }
                     ++num2
@@ -258,10 +273,10 @@
               }
             })
           }
-        </script>
+
+          let ii = "lll kk"
 
 
-        <script>
           function findAllSaloon(params) {
             console.log("params", params.value)
             if (params.value == "selected") {
@@ -273,12 +288,13 @@
                 success: function (data) {
                   console.log("00000", data)
                   if (data.length > 0) {
-                    let abc = `<div id="saloon">  <label for="starting-time">skiils</label>`
+                    let abc = `<div id="saloon">  <label for="starting-time">select vacanicy in witch sallon</label>`
                     abc += `<select  aria-label="multiple select example"  class="form-select"  name="requiredSaloon" id="${num + 1}"  multiple>`
-                    abc += `<option value="" disabled >select service</option>`
-
+                    abc += `<option value="" disabled >select vacanicy in witch sallon</option>`
                     data.forEach((item) => {
-                      abc += `<option value=${item.location.city}>${item.storeName}</option>`
+                      // console.log("ii...", <% data?.city %> )
+                      console.log("ii...2", item.location.city)
+                      abc += `<option value=${item.location.city} <% data?.city %>..includes(${item?.location.city}==true?"selected":"")>${item.location.city}</option>`
                     })
 
                     abc += `</select> 
