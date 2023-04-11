@@ -9,7 +9,7 @@ exports.allUser = async (req, res) => {
     try {
         res.locals.message = req.flash();
         const Finddata = await allUser(req)
-        res.render("users/view-user", { data: Finddata.data, user: req.user, query: "", searchobj: Finddata.searchobj })
+        res.render("users/view-user", { data: Finddata.data, user: req.user, query: req.query, })
     } catch (error) {
         console.log(error);
     };
