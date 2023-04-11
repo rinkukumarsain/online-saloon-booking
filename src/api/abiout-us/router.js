@@ -4,7 +4,7 @@ const auth = require("../../middleware/auth")
 const { AboutUs } = require('./controller');
 const app = Router();
 
-app.get("/About-us", auth, responseHandler(AboutUs))
+app.get("/About-us", responseHandler(AboutUs))
 // aap.get("/")
 /*
 app.post("/add-user-address", auth, responseHandler(addUserAddress))
