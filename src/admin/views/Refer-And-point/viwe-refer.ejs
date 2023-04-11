@@ -126,8 +126,6 @@
                           <th scope="col">#</th>
                           <th scope="col"> rupee</th>
                           <th scope="col">point</th>
-                          <th scope="col">referAmount</th>
-                          <th scope="col">rewardType</th>
                           <th scope="col">MoreActionvvvvv</th>
                         </tr>
                       </thead>
@@ -145,12 +143,7 @@
                               <td>
                                 <%= data?.point %>
                               </td>
-                              <td>
-                                <%= data?.referAmount %>
-                              </td>
-                              <td>
-                                <%= data?.rewardType %>
-                              </td>
+
                               <td>
                                 <% if( data?.status=="succes" ){%>
                                   <a href="/add_service?id=<%= data?._id%>" class="btn btn-dark">succes</a>

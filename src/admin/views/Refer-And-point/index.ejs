@@ -2,93 +2,81 @@
 <html lang="en">
 
 <head>
- <meta charset="UTF-8">
- <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Write-Vacancy</title>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
- <%- include('../../partials/headlink.ejs') %>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Write-Vacancy</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <%- include('../../partials/headlink.ejs') %>
 </head>
 
 <body>
- <%- include('../../partials/Header.ejs') %>
-  <%- include("../../partials/sidebar.ejs") %>
-   <%- include("../../partials/alertMsg") %>
-    <main id="main" class="main">
-     <div class="pagetitle">
-      <h1>
-       <%-user.type %>
-      </h1>
-      <nav>
-       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Home</a></li>
-        <li class="breadcrumb-item active">Dashboard</li>
-       </ol>
-      </nav>
-     </div><!-- End Page Title -->
+  <%- include('../../partials/Header.ejs') %>
+    <%- include("../../partials/sidebar.ejs") %>
+      <%- include("../../partials/alertMsg") %>
+        <main id="main" class="main">
+          <div class="pagetitle">
+            <h1>
+              <%-user.type %>
+            </h1>
+            <nav>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+              </ol>
+            </nav>
+          </div><!-- End Page Title -->
 
-     <section class="section dashboard">
-      <div class="row">
-       <div class="row">
-        <div class="col-lg-12">
-         <div class="card">
-          <div class="card-body">
-           <% if(typeof data !=="undefined" && data){%>
-            <h5 class="card-title">Edit Vacancy</h5>
-            <form action="Set-Point-To-Rupee?id=<%=data._id%>" id="form1" method="post">
-             <%}else{%>
-              <h5 class="card-title">Add Vacancy</h5>
-              <form action="Set-Point-To-Rupee" id="form" method="post">
-               <%}%>
-                <div class="row g-3">
-                 <div class="col-md-5">
-                  <label for="">Enter Job rupee</label>
-                  <input required type="number" name="rupee" id="title" value="<%= data?.rupee?data.rupee:"" %>"
-                   class="form-control" placeholder="Enter rupee ">
-                 </div>
+          <section class="section dashboard">
+            <div class="row">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <% if(typeof data !=="undefined" && data){%>
+                        <h5 class="card-title">Edit Vacancy</h5>
+                        <form action="Set-Point-To-Rupee?id=<%=data._id%>" id="form1" method="post">
+                          <%}else{%>
+                            <h5 class="card-title">Add Vacancy</h5>
+                            <form action="Set-Point-To-Rupee" id="form" method="post">
+                              <%}%>
+                                <div class="row g-3">
+                                  <div class="col-md-5">
+                                    <label for="">Enter Job rupee</label>
+                                    <input required type="number" name="rupee" id="title"
+                                      value="<%= data?.rupee?data.rupee:'' %>" class="form-control"
+                                      placeholder="Enter rupee ">
+                                  </div>
 
-                 <div class="col-md-1">
-                  <label for=""> = </label>
-                  <input required type="text" value="=" readonly class="form-control" placeholder="Enter rupee ">
-                 </div>
+                                  <div class="col-md-1">
+                                    <label for=""> = </label>
+                                    <input required type="text" value="=" readonly class="form-control"
+                                      placeholder="Enter rupee ">
+                                  </div>
 
-                 <div class="col-md-5">
-                  <label for="">Number Of point </label>
-                  <input required type="number" name="point" id="writename" value="<%= data?.point?data.point:""%>"
-                   class="form-control" placeholder="Enter point Of condidete">
-                 </div>
-                </div><br>
-                <div class="row g-3">
-                 <div class="col">
-                  <label for="starting-time">referAmount</label>
-                  <input class="form-control" type="number" name="referAmount"
-                   value="<%=data?.referAmount?data.referAmount:'' %>" placeholder="Enter referAmount">
-                 </div>
-                 <div class="col">
-                  <label for="starting-time">Choose Schedule</label>
-                  <select class="form-select" aria-label="multiple select example" name="rewardType">
-                   <option value="point" <%=data?.Schedule=='point' ?"selected":"" %>> point
-                   </option>
-                   <option value="rupee" <%=data?.Schedule=='rupee' ?"selected":"" %>> rupee
-                   </option>
-                  </select>
-                 </div>
-                </div><br>
-                <div class="row mb-3">
-                 <div class="col-sm-10">
-                  <button type="submit" class="btn btn-primary">Update</button>
-                 </div>
+                                  <div class="col-md-5">
+                                    <label for="">Number Of point </label>
+                                    <input required type="number" name="point" id="writename"
+                                      value="<%= data?.point?data.point:''%>" class="form-control"
+                                      placeholder="Enter point Of condidete">
+                                  </div>
+                                </div><br>
+
+                                <div class="row mb-3">
+                                  <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                  </div>
+                                </div>
+                            </form>
+
+                    </div>
+                  </div>
                 </div>
-              </form>
-
-          </div>
-         </div>
-        </div>
-       </div>
-      </div>
-     </section>
-    </main>
-    <%- include("../../partials/script.ejs") %>
+              </div>
+            </div>
+          </section>
+        </main>
+        <%- include("../../partials/script.ejs") %>
 </body>
 
 </html>
