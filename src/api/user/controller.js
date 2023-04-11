@@ -2,14 +2,22 @@ const userModel = require("./model");
 const services = require("./services");
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
+const referralCodeGenerator = require("referral-code-generator");
 
 exports.otpSent = async ({ body }) => {
     try {
         let user;
-        if (body.phone) {
+        if (body.phone != undefined && body.phone != "") {
             const data = await userModel.findOne({ phone: body.phone });
             if (data) user = data;
-        };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "plese Enter number ",
+                data: []
+            };
+        }
         if (user) {
             return {
                 statusCode: 400,
@@ -72,7 +80,7 @@ exports.otpVerify = async ({ body }) => {
 
 exports.register = async ({ body }) => {
     try {
-        const { name, phone, email, password } = body;
+        const { email, password } = body;
         let user;
 
         if (email) {
@@ -87,9 +95,41 @@ exports.register = async ({ body }) => {
                 data: []
             };
         } else {
+            if (body.referCode != undefined && body.referCode != "") {
+                let obj = {};
+                const findReferAmount = await userModel.findOne({ type: "super-admin" }, { referalDetails: 1 });
+                if (findReferAmount.referalDetails.referaType === "point") {
+                    obj['userWallet.point'] = findReferAmount.referalDetails.referalAmount;
+                } else {
+                    obj['userWallet.balance'] = findReferAmount.referalDetails.referalAmount;
+                };
+                const findData = await userModel.findOneAndUpdate({ referCode: body.referCode }, { $inc: obj });
+                if (findData) {
+                    body.referId = findData._id
+                };
+            };
+
+
             body.password = bcrypt.hashSync(password, 10);
             body.otp = '';
+            let j = 2;
+            for (let i = 0; i < j; i++) {
+                body.referCode = referralCodeGenerator.custom('uppercase', 6, 6, 'Onlinesaloon')
+                if (body.referCode) {
+                    const findData = await userModel.findOne({ referCode: body.referCode });
+                    if (!findData) {
+                        break;
+                    } else {
+                        j++;
+                        continue;
+                    };
+                };
+            };
+
             const user = await userModel.findOneAndUpdate({ phone: body.phone }, { $set: body }, { new: true });
+
+            //user register hone ke baad referel user ka wallte balece badao 
+
             const token = jwt.sign({ _id: user._id }, process.env.SECRET);
             if (user) {
                 return {

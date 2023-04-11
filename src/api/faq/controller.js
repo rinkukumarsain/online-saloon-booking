@@ -1,14 +1,18 @@
 const faq = require("../../admin/add_frequent/model");
 const mongoose = require("mongoose")
 
-exports.getFaq = async ({ query }) => {                                                                                                                                                                                                                                                                             
+exports.getFaq = async ({ query }) => {
     try {
-        let result;
-        if (query.id != undefined && query.id != "") {
-            result = await faq.find({ _id: mongoose.Types.ObjectId(query.id) });
+        let obj = {};
+        // console.log("query", query)
+        if (query.question != undefined && query.question != "") {
+            obj.question = { '$regex': query.question }
+        } else if (query.id != undefined && query.id != "") {
+            obj._id = mongoose.Types.ObjectId(query.id)
         } else {
-            result = await faq.find({ answer: { $ne: null } });                                                                                                                                                                                                                                             
+            obj.answer = { $ne: null }
         };
+        const result = await faq.find(obj);
         if (result) {
             return {
                 statusCode: 200,
