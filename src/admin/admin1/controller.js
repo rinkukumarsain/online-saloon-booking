@@ -80,7 +80,6 @@ exports.loginData = async (req, res) => {
             if (user) {
                 const match = await bcrypt.compare(password, user.password);
                 if (match) {
-                    console.log("user", user)
                     const accessToken = jwt.sign({ _id: user._id }, process.env.accessToken);
                     const refreshToken = jwt.sign({ _id: user._id }, process.env.refreshToken);
 

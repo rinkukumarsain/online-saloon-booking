@@ -18,7 +18,7 @@ exports.getAllOrder = async (req, res) => {
             res.render("order/index", { data: findOrder.data, query: req.query, user, city: FindAllcity.data })
         } else {
             req.flash("error", "no data found")
-            res.redirect("/")
+            res.render("order/index", { data: findOrder.data, query: req.query, user, city: FindAllcity.data })
         }
     } catch (error) {
         console.log(error);
