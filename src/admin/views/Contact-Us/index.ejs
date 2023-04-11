@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coupon</title>
+  <%- include('../../partials/headlink.ejs') %>
+</head>
+
+<body>
+  <%- include('../../partials/Header.ejs') %>
+    <%- include("../../partials/sidebar.ejs") %>
+
+      <main id="main" class="main">
+        <div class="pagetitle">
+          <h1><%-user.type %></h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </nav>
+        </div>
+        <!-- End Page name -->
+        <section class="section dashboard">
+          <div class="row">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Filter</h5>
+
+                    <!-- No Labels Form -->
+                    <form class="needs-validation row g-3" action="/View-All-Coupon" novalidate>
+                      <div class="col-md-4">
+                        <label>Enter Greater Than Amount</label> <br>
+                        <input type="number" name="amount" class="form-control" placeholder="Enter Amount"
+                          value="<%=query.Amount%>">
+                        <div class="invalid-feedback">Please Enter Amount.</div>
+
+                      </div>
+                      <div class="col-md-4">
+                        <label>name</label> <br>
+                        <input type="text" name="title" class="form-control" placeholder="Enter name"
+                          value=<%=query.name%>>
+                        <div class="invalid-feedback">Please Enter name.</div>
+
+                      </div>
+                      <div class="col-md-4">
+                        <label>Coupon</label> <br>
+
+                        <input type="text" name="coupon" class="form-control" placeholder="Enter Coupon"
+                          value="<%=query.email%>">
+                        <div class="invalid-feedback">Please Enter Coupon.</div>
+
+
+                      </div>
+                      <div class="col-md-4">
+                        <label>Start Date</label> <br>
+
+                        <input type="Date" name="startdate" class="form-control" placeholder="Enter Start Date"
+                          value=<%=query.services%>>
+                        <div class="invalid-feedback">Please Enter Start Date.</div>
+
+
+                      </div>
+                      <div class="col-md-4">
+                        <label>End Date</label> <br>
+
+                        <input type="Date" name="enddate" class="form-control" placeholder="Enter End Date"
+                          value=<%=query.phone%>>
+                        <div class="invalid-feedback">Please Enter End Date.</div>
+
+
+                      </div>
+                      <div class="col-md-4">
+                        <div class="text-center">
+                          <label></label> <br>
+
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                          <a href="/View-All-Coupon"> <button type="button" class="btn btn-secondary">Reset</button></a>
+                        </div>
+                      </div>
+                    </form>
+                    <!-- End No Labels Form -->
+
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Coupon List</h5>
+
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">name</th>
+                          <th scope="col">email</th>
+                          <th scope="col">services</th>
+                          <th scope="col">phone</th>
+                          <th scope="col">message</th>
+                          <th scope="col">MoreAction</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% let i=0 %>
+                          <% for( data of data) { %>
+                            <tr>
+                              <th scope="row">
+                                <%= ++i %>
+                              </th>
+                              <td>
+                                <%= data.name %>
+                              </td>
+                              <td>
+                                <%= data.email %>
+                              </td>
+                              <td>
+                                <%= data.services %>
+                              </td>
+                              <td>
+                                <%= data.phone %>
+                              </td>
+                              <td>
+                                <%= data.message %>
+                              </td>
+                              <td>
+                                <a href="/Coupon?id=<%= data._id%>" class="btn btn-info"><i class="ri-edit-box-line"
+                                    title="Edit"></i></a>
+                                <a href="/Delete-Coupon?id=<%= data._id%>" class="btn btn-danger"><i
+                                    class="ri-delete-bin-5-line" title="delete"></i></a>
+                              </td>
+                            </tr>
+                            <%}%>
+                      </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+      <%- include("../../partials/script.ejs") %>
+        <script src="/public/assets/js/form-validation.js"></script>
+
+</body>
+
+</html>

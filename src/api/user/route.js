@@ -17,4 +17,5 @@ app.get("/user-Profile", auth, responseHandler(user_Profile));
 app.get("/log-Out", responseHandler(logOut));
 
 app.post("/Edit-User-Profile", auth, Upload.single("file"), responseHandler(EditUserProfile))
+
 module.exports = app;
