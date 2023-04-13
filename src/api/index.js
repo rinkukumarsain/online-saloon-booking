@@ -17,8 +17,10 @@ const coupon = require("./coupon/route");
 const artist = require("./artist/route");
 const faq = require("./faq/route");
 const aboutUs = require("./abiout-us/router");
-const Newsletters = require("./Newsletter/route")
+const Newsletters = require("./Newsletter/route");
+const refer = require("./refer And ponts/route")
 
 module.exports = [userRoutes, category, saloonstore, saloonService,
     cart, schedule, address, checkOut, order, userWishlist, blog,
-    ContactUs, payment, Partner, reviews, coupon, artist, faq, aboutUs, Newsletters];
+    ContactUs, payment, Partner, reviews, coupon, artist, faq, aboutUs,
+    Newsletters, refer];

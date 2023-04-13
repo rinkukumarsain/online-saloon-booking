@@ -9,14 +9,6 @@ const refers = new mongoose.Schema({
   type: Number,
   default: 0
  },
- // referAmount: {
- //  type: Number,
- //  default: "0"
- // },
- // rewardType: {
- //  type: String,
- //  default: "point"
- // }
 }, { timestamps: true });
 
 

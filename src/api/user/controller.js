@@ -1,6 +1,7 @@
 const userModel = require("./model");
 const services = require("./services");
 const bcrypt = require('bcrypt');
+const { query } = require("express");
 const jwt = require("jsonwebtoken");
 const referralCodeGenerator = require("referral-code-generator");
 
@@ -78,7 +79,7 @@ exports.otpVerify = async ({ body }) => {
     };
 };
 
-exports.register = async ({ body }) => {
+exports.register = async ({ body, query }) => {
     try {
         const { email, password } = body;
         let user;
@@ -95,7 +96,7 @@ exports.register = async ({ body }) => {
                 data: []
             };
         } else {
-            if (body.referCode != undefined && body.referCode != "") {
+            if (body.referCode != undefined && body.referCode != "" || query.referCode != undefined && query.referCode != "") {
                 let obj = {};
                 const findReferAmount = await userModel.findOne({ type: "super-admin" }, { referalDetails: 1 });
                 if (findReferAmount.referalDetails.referaType === "point") {
@@ -103,7 +104,7 @@ exports.register = async ({ body }) => {
                 } else {
                     obj['userWallet.balance'] = findReferAmount.referalDetails.referalAmount;
                 };
-                const findData = await userModel.findOneAndUpdate({ referCode: body.referCode }, { $inc: obj });
+                const findData = await userModel.findOneAndUpdate({ $or: [{ referCode: body.referCode }, { referCode: query.referCode }] }, { $inc: obj });
                 if (findData) {
                     body.referId = findData._id
                 };
