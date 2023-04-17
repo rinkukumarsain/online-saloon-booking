@@ -7,14 +7,15 @@ exports.Category = async (req, res) => {
     try {
         if (req.query.id != undefined && req.query.id != "") {
             res.render("category/index", { user: req.user, id: req.query.id })
-        } else if (req.query.EditId != undefined && req.query.EditId != "") {
+        } else if (req.query.EditId != undefined && req.query.EditId !== "") {
             const findData = await CategoryModule.findOne({ _id: mongoose.Types.ObjectId(req.query.EditId) })
+            console.log(findData, "finddata");
             res.render("category/index", { user: req.user, data: findData })
         } else {
             res.render("category/index", { user: req.user })
         }
     } catch (error) {
-        console.log("UserData", error)
+        console.log(error)
     }
 }
 
@@ -22,7 +23,7 @@ exports.AddCategory = async (req, res) => {
     try {
         await AddCategory(req, res)
     } catch (error) {
-        console.log("UserData", error)
+        console.log(error)
     }
 }
 
@@ -37,6 +38,9 @@ exports.ViwesCategory = async (req, res) => {
             condition = {}
         } else {
             condition = { parent_Name: null };
+        }
+        if (req.query.type != undefined && req.query.type != "") {
+            condition.type = Number(req.query.type)
         }
 
         let data = await CategoryModule.find(condition)
@@ -63,9 +67,7 @@ exports.ViwesCategory = async (req, res) => {
 
 exports.DeleteCategory = async (req, res) => {
     try {
-        console.log(req.query)
         const result = await CategoryModule.findByIdAndRemove({ _id: mongoose.Types.ObjectId(req.query.id) })
-        console.log("req.query", result)
         if (result) {
             res.redirect("/view-category")
         } else {

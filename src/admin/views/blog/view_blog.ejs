@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>view-saloon</title>
+  <title>view-blog</title>
   <%- include('../../partials/headlink.ejs') %>
 </head>
 
@@ -55,10 +55,10 @@
                         </select>
                       </div>
                       <div class="col-md-3">
-                        <label>status</label> <br>
+                        <label>Choose Status</label> <br>
                         <select id="inputState" name="status" class="form-select">
 
-                          <option selected="" value="">Choose Status</option>
+                          <option selected="" value="">select status</option>
                           <option value="pending">pending</option>
                           <option value="cancel">cancel</option>
                           <option value="succes">succes</option>
@@ -69,7 +69,8 @@
                       <div class="col-md-3">
                         <label>Enter Amount</label> <br>
 
-                        <input type="number" name="totalamount" class="form-control" value="" placeholder="Amount">
+                        <input type="number" name="totalamount" class="form-control" value=""
+                          placeholder="Enter Amount">
 
                       </div>
                       <div class="col-md-3">

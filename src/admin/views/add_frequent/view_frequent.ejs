@@ -1,88 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>view-saloon</title>
-    <%- include('../../partials/headlink.ejs') %>
-  </head>
 
-  <body>
-    <%- include('../../partials/Header.ejs') %> 
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>view-faq</title>
+  <%- include('../../partials/headlink.ejs') %>
+</head>
+
+<body>
+  <%- include('../../partials/Header.ejs') %>
     <%- include("../../partials/sidebar.ejs") %>
 
-    <main id="main" class="main">
-      <div class="pagetitle">
-        <h1><%-user.type %></h1>
-        <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item active">Dashboard</li>
-          </ol>
-        </nav>
-      </div>
-      <!-- End Page Title -->
-     <section class="section dashboard">
-      <div class="row">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Service List</h5>
-  
-                <!-- Table with stripped rows -->
-                <table class="table datatable">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Question</th>
-                      <th scope="col">Answer</th>
-                      <th scope="col">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% let i= 0 %>
-                    <% for( singleData of data) { %>
-                    <tr>
-                      <th scope="row"><%= ++i %></th>
-                      <td><%= singleData.question %></td>
-                      <td id=<%= `answer-${i}` %>></td>
-                      
-                      <td>
-                        <!-- <a href="/add_frequent?id=<%= singleData._id%>" class="btn btn-dark">Edit</a>
-                        <a href="/delete_frequent?id=<%= singleData._id%>" class="btn btn-danger">Delete</a></td> -->
-                        <a href="/add_frequent?id=<%= singleData._id%>" class="btn btn-info"><i
-                          class="ri-edit-box-line" title="Edit"></i></a>
-                      <a href="/delete_frequent?id=<%= singleData._id%>" class="btn btn-danger">
-                        <i class="ri-delete-bin-5-line" title="delete"></i>
-                      </a>
-                    </tr>
-                    <%}%>
-                  </tbody>
-                </table>
-                <!-- End Table with stripped rows -->
-  
+      <main id="main" class="main">
+        <div class="pagetitle">
+          <h1><%-user.type %></h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </nav>
+        </div>
+        <section class="section dashboard">
+          <div class="row">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Service List</h5>
+                    <table class="table datatable">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Question</th>
+                          <th scope="col">Answer</th>
+                          <th scope="col">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% let i=0 %>
+                          <% for( singleData of data) { %>
+                            <tr>
+                              <th scope="row">
+                                <%= ++i %>
+                              </th>
+                              <td>
+                                <%= singleData.question %>
+                              </td>
+                              <td> <button type="button" value="<%= singleData._id %>" onclick="ViwesFindBlog(this)"
+                                  class="btn btn-info"><i class="bi bi-eye"></i></button></td>
+                              <td>
+                                <a href="/add_frequent?id=<%= singleData._id%>" class="btn btn-info"><i
+                                    class="ri-edit-box-line" title="Edit"></i></a>
+                                <a href="/delete_frequent?id=<%= singleData._id%>" class="btn btn-danger">
+                                  <i class="ri-delete-bin-5-line" title="delete"></i>
+                                </a>
+                            </tr>
+                            <%}%>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        </section>
+      </main>
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">User Service Data</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="moduleDataAppend">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+          </div>
         </div>
-
       </div>
-    </section>
-     
-    </main>
 
-    <%- include("../../partials/script.ejs") %>
-    <script>
-        let div;
-        let i = 1;
-            <%for (singleData of data) {%>
-                div = document.createElement("div")
-                div.innerHTML = `<%= singleData.answer %>`
-                document.getElementById(`answer-${i}`).innerHTML = div.innerText
-                i++
-            <%}%>
-    </script>
-  </body>
+      <%- include("../../partials/script.ejs") %>
+
+        <script>
+          function ViwesFindBlog(data) {
+            let num = data.value;
+            $.ajax({
+              type: 'get',
+              data: { "id": num },
+              url: '/Viwes-Find-Qustion',
+              success: function (data) {
+                if (data.length > 0) {
+                  $('#moduleDataAppend').empty();
+                  let abc = "";
+                  data.forEach((item) => {
+                    abc += item.answer;
+                  });
+                  $('#moduleDataAppend').append(abc);
+                  $("#exampleModal").modal("toggle");
+                } else {
+                  alert("data not Found");
+                };
+              }
+            });
+          };
+              // let div;
+              // let i = 1;
+              //     <%for (singleData of data) {%>
+              //         div = document.createElement("div")
+              //         div.innerHTML = `<%= singleData.answer %>`
+              //         document.getElementById(`answer-${i}`).innerHTML = div.innerText
+              //         i++
+              //     <%}%>
+        </script>
+</body>
+
 </html>

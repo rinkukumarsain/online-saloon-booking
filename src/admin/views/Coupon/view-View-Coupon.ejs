@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>view-saloon</title>
+  <title>Coupon</title>
   <%- include('../../partials/headlink.ejs') %>
 </head>
 
@@ -33,32 +33,46 @@
                     <h5 class="card-title">Filter</h5>
 
                     <!-- No Labels Form -->
-                    <form class="row g-3" action="/View-All-Coupon">
+                    <form class="needs-validation row g-3" action="/View-All-Coupon" novalidate >
                       <div class="col-md-4">
-                        <label>Amount</label> <br>
-                        <input type="text" name="amount" class="form-control" placeholder="Amount" value=<%=searchobj.Amount%>>
-                        
+                        <label>Enter Greater Than Amount</label> <br>
+                        <input type="number" name="amount" class="form-control" placeholder="Enter Amount"
+                          value="<%=searchobj.Amount%>">
+                        <div class="invalid-feedback">Please Enter Amount.</div>
+
                       </div>
                       <div class="col-md-4">
-                        <label>title</label> <br>
-                        <input type="text" name="title" class="form-control" placeholder="Title" value=<%=searchobj.Title%>>
+                        <label>Title</label> <br>
+                        <input type="text" name="title" class="form-control" placeholder="Enter Title"
+                          value=<%=searchobj.Title%>>
+                          <div class="invalid-feedback">Please Enter Title.</div>
+
                       </div>
                       <div class="col-md-4">
                         <label>Coupon</label> <br>
 
-                        <input type="text" name="coupon" class="form-control"  placeholder="Coupon" value="<%=searchobj.CouponCode%>">
+                        <input type="text" name="coupon" class="form-control" placeholder="Enter Coupon"
+                          value="<%=searchobj.CouponCode%>">
+                          <div class="invalid-feedback">Please Enter Coupon.</div>
+
 
                       </div>
                       <div class="col-md-4">
                         <label>Start Date</label> <br>
 
-                        <input type="Date" name="startdate" class="form-control"  placeholder="Start Date" value=<%=searchobj.StartDate%>>
+                        <input type="Date" name="startdate" class="form-control" placeholder="Enter Start Date"
+                          value=<%=searchobj.StartDate%>>
+                          <div class="invalid-feedback">Please Enter Start Date.</div>
+
 
                       </div>
                       <div class="col-md-4">
                         <label>End Date</label> <br>
 
-                        <input type="Date" name="enddate" class="form-control"  placeholder="End Date" value=<%=searchobj.EndDate%>>
+                        <input type="Date" name="enddate" class="form-control" placeholder="Enter End Date"
+                          value=<%=searchobj.EndDate%>>
+                          <div class="invalid-feedback">Please Enter End Date.</div>
+
 
                       </div>
                       <div class="col-md-4">
@@ -90,7 +104,7 @@
                           <th scope="col">Amount</th>
                           <th scope="col">Limit</th>
                           <th scope="col">Discount</th>
-                          <th scope="col">Action</th>
+                          <th scope="col">MoreAction</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -144,6 +158,8 @@
       </main>
 
       <%- include("../../partials/script.ejs") %>
+      <script src="/public/assets/js/form-validation.js"></script>
+
 </body>
 
 </html>

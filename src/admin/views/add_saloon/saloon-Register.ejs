@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>view-saloon</title>
+  <title>saloon</title>
 
 
   <%- include('../../partials/headlink.ejs') %>
@@ -33,362 +33,537 @@
             <div class="row">
               <div class="row">
                 <div class="col-lg-12">
+
                   <div class="card">
                     <div class="card-body">
-                      <div class="card-title d-flex justify-content-center">
-                        <h5 style="display: inline-block;" class="card-title">Add Saloon
-                          <a href="#">Step 1</a>
-                          <a href="#">Step 2</a>
-                          <a href="#">Step 3</a>
-                          <a href="#">Step 4</a>
-                      </h5>
-                      </div>
-                      <%if(req.query.id)%>
-                      
+                      <!-- //1. add sallon register step -1 -->
+                      <% if(typeof data !=="undefined" && data){%>
+                        <h5 class="card-title">Edit Saloon</h5>
+                        <% console.log("hello",data) %>
+                          <form class="needs-validation" action="/add_saloon_store?id=<%=data._id%>" method="post"
+                            novalidate>
+                            <%}else{%>
+                              <h5 class="card-title">Add Saloon</h5>
+                              <form class="needs-validation" action="/add_saloon_store" method="post" novalidate>
+                                <%}%>
+                                  <div class="row g-3">
+                                    <div class="col">
+                                      <label for="">Store Name</label><br>
+                                      <input type="text" maxlength="30" name="storeName" class="form-control"
+                                        placeholder="Enter Your Store Name"
+                                        value="<%=data?.storeName!=undefined ? data?.storeName : "" %>" required>
+                                      <div class="invalid-feedback">Please Enter Store Name.</div>
 
-                      <form action="/add_saloon_store" method="post">
+                                    </div>
+                                    <div class="col">
+                                      <label for="">Store Email</label><br>
+                                      <input required type="email" name="email" class="form-control"
+                                        placeholder="Enter Store email"
+                                        value="<%=data?.email!=undefined ? data?.email : "" %>"
+                                        <%=data?.email!=undefined ? "readonly" : "" %>>
+                                      <div class="invalid-feedback">Please Enter Store Email.</div>
 
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for="">store Name</label><br>
-                            <input type="text" name="storeName" class="form-control" placeholder="Enter Your Store Name"
-                             value="<%=saloon_data.storeName%>" required>
-                          </div>
-                          <div class="col">
-                            <label for="">store Email</label><br>
-                            <input required type="text" name="email" class="form-control" placeholder="Enter a email" value="<%=saloon_data.email%>">
-                          </div>
+                                    </div>
 
-                        </div><br>
+                                  </div><br>
 
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for="">password</label><br>
-                            <input required type="password" name="password" class="form-control"
-                              placeholder="Enter a Password" value="<%=saloon_data.confirmpassword%>">
-                          </div>
-                          <div class="col">
-                            <label for="">confromPassword</label><br>
-                            <input required type="password" name="confromPassword" class="form-control"
-                              placeholder="Enter  confrom Password" value="<%=saloon_data.confirmpassword%>">
-                          </div>
-                        </div><br>
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for="">Phone</label><br>
-                            <input type="tel" maxlength="10" id="Phone" name="Phone"
-                              class="form-control pac-target-input" placeholder="Enter Your Mobile Number" value="<%=saloon_data.confirmpassword%>"
-                              required>
-                          </div>
-                          <div class="col">
-                            <label for=""></label><br>
-                            <input type="button" class="form-control" value="Send otp" onclick="SendOtp(this)">
-                          </div>
-                          <div class="col">
-                            <label for="">Enter otp</label><br>
-                            <input required type="number" id="otp" class="form-control" placeholder="Enter  otp">
-                          </div>
-                          <div class="col">
-                            <label for=""></label><br>
-                            <input type="button" name="confromPassword" class="form-control" onclick="verifyOtp(this)"
-                              value="verify otp">
-                          </div>
-                        </div><br>
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for="">saloon type</label><br>
-                            <input required type="text" id="addressSearch" name="type"
-                              class="form-control pac-target-input" placeholder="saloon type" autocomplete="off" value="<%=saloon_data.type%>">
-                          </div>
-                          <div class="col">
-                            <label for="">owner Name </label><br>
-                            <input required type="text" id="addressSearch" name="ownerName"
-                              class="form-control pac-target-input" placeholder="saloon ownerName" autocomplete="off" value="<%=saloon_data.confirmpassword%>">
-                          </div>
-                        </div><br>
+                                  <% if(typeof data !=="undefined" && data){%>
+                                    <div class="row g-3">
+                                      <div class="col">
+                                        <label for="">Password</label><br>
+                                        <input required type="password" minlength="6" maxlength="8" name="password" class="form-control"
+                                          placeholder="Enter a Password"
+                                          value="<%=data?.password!=undefined ? data?.password : "" %>">
+                                        <div class="invalid-feedback">Please Enter Password.</div>
 
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for="">state</label><br>
-                            <input required type="text" name="state" class="form-control pac-target-input"
-                              placeholder="Enter a state" autocomplete="off">
-                          </div>
-                          <div class="col">
-                            <label for="">city </label><br>
-                            <input required type="text" name="city" class="form-control pac-target-input"
-                              placeholder="Enter a city" autocomplete="off">
-                          </div>
+                                      </div>
 
-                        </div><br>
+                                      <div class="col">
+                                        <label for="">Phone</label><br>
+                                        <input type="number" maxlength="10" id="Phone" name="Phone"
+                                          class="form-control pac-target-input" placeholder="Enter Your Mobile Number"
+                                          value="<%=data?.Phone!=undefined ? data?.Phone : "" %>" readonly required>
+                                        <div class="invalid-feedback">Please Enter Phone.</div>
 
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for="">pincode</label><br>
-                            <input required type="number" name="pincode" class="form-control pac-target-input"
-                              placeholder="Enter a Pin Code" autocomplete="off">
-                          </div>
-                          <div class="col">
-                            <label for="">aria</label><br>
-                            <input required type="text" name="aria" class="form-control pac-target-input"
-                              placeholder="Enter a Aria" autocomplete="off">
-                          </div>
-                        </div><br>
+                                      </div>
+                                    </div>
+                                    <%}else{%>
+                                      <div class="row g-3">
+                                        <div class="col">
+                                          <label for="">Password</label><br>
+                                          <input required type="password" minlength="6" maxlength="8" name="password" class="form-control"
+                                            placeholder="Enter Password"
+                                            value="<%=data?.password!=undefined ? data?.password : "" %>">
+                                          <div class="invalid-feedback">Please Enter Password.</div>
+
+                                        </div>
+                                        <div class="col">
+                                          <label for="">Confirm Password</label><br>
+                                          <input required type="password" minlength="6" maxlength="8" name="confromPassword" class="form-control"
+                                            placeholder="Enter confrom Password"
+                                            value="<%=data?.password!=undefined ? data?.password : "" %>">
+                                          <div class="invalid-feedback">Please Enter Confirm Password.</div>
+
+                                        </div>
+                                      </div><br>
+                                      <div class="row g-3">
+                                        <div class="col">
+                                          <label for="">Phone</label><br>
+                                          <input type="number" onKeyDown="if(this.value.length==10 && event.keyCode!=8) return false;"  id="Phone" name="Phone"
+                                            class="form-control pac-target-input" placeholder="Enter Phone Number"
+                                            value="<%=data?.Phone!=undefined ? data?.Phone : "" %>" required>
+                                          <div class="invalid-feedback">Please Enter Phone No.</div>
+
+                                        </div>
+                                        <div class="col">
+                                          <label for=""></label><br>
+                                          <input type="button" class="btn btn-primary" value="Send otp"
+                                            onclick="SendOtp(this)">
+                                        </div>
+                                        <div class="col">
+                                          <label for="">Enter otp</label><br>
+                                          <input required type="number"onKeyDown="if(this.value.length==4 && event.keyCode!=8) return false;"  id="otp" class="form-control"
+                                            placeholder="Enter  otp"
+                                            value="<%=data?.otp!=undefined ? data?.otp : "" %>">
+                                          <div class="invalid-feedback">Please Enter Correct OTP.</div>
+                                        </div>
+                                        <div class="col">
+                                          <label for=""></label><br>
+                                          <input type="button" name="confromPassword" class="btn btn-primary"
+                                            onclick="verifyOtp(this)" value="verify otp">
+                                        </div>
+                                      </div><br>
+                                      <%}%>
+
+                                        <div class="row g-3">
+                                          <div class="col">
+                                            <label for="">Choose Gender</label><br>
+                                            <!-- <input required type="text" id="addressSearch" name="type"
+                                              class="form-control pac-target-input" placeholder="saloon type"
+                                              autocomplete="off" value="<%=data?.type!=undefined ? data?.type : "" %>"> -->
+                                            <select class="form-select" name="type" required>
+                                              <option value="">Select Gender</option>
+                                              <option value="male" <%=data?.type=="male" ||data?.type=="Male"
+                                                ? "selected" : "" %>>male
+                                              </option>
+                                              <option value="female" <%=data?.type=="female" ||data?.type=="Female"
+                                                ? "selected" : "" %>>female
+                                              </option>
+                                              <option value="unisex" <%=data?.type=="unisex" ||data?.type=="Unisex"
+                                                ? "selected" : "" %>>unisex
+                                              </option>
+                                            </select>
+                                            <div class="invalid-feedback">Please Select Gender.</div>
+
+                                          </div>
+                                          <div class="col">
+                                            <label for="">Owner Name </label><br>
+                                            <input required type="text" maxlength="30" id="addressSearch" name="ownerName"
+                                              class="form-control pac-target-input" placeholder="saloon ownerName"
+                                              autocomplete="off"
+                                              value="<%=data?.ownerName!=undefined ? data?.ownerName : "" %>">
+                                            <div class="invalid-feedback">Please Enter owner Name.</div>
+
+                                          </div>
+                                        </div><br>
+
+                                        <div class="row g-3">
+                                          <div class="col">
+                                            <label for="">State</label><br>
+                                            <input required type="text" maxlength="15" name="state"
+                                              class="form-control pac-target-input" placeholder="Enter a state"
+                                              autocomplete="off"
+                                              value="<%=data?.location?.state!=undefined ? data?.location?.state : "" %>">
+                                            <div class="invalid-feedback">Please Enter State.</div>
+
+                                          </div>
+                                          <div class="col">
+                                            <label for="">City </label><br>
+                                            <input required type="text" maxlength="15" name="city"
+                                              class="form-control pac-target-input" placeholder="Enter a city"
+                                              autocomplete="off"
+                                              value="<%=data?.location?.city!=undefined ? data?.location?.city : "" %>">
+                                      <div class="invalid-feedback">Please Enter City Name.</div>
+                                        
+                                            </div>
+                                        </div><br>
+
+                                        <div class="row g-3">
+                                          <div class="col">
+                                            <label for="">Pincode</label><br>
+                                            <input required type="number" onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;"  name="pincode"
+                                              class="form-control pac-target-input" placeholder="Enter a Pin Code"
+                                              autocomplete="off"
+                                              value="<%=data?.location?.pincode!=undefined ? data?.location?.pincode : "" %>">
+                                      <div class="invalid-feedback">Please Enter Pincode.</div>
+                                         
+                                            </div>
+                                          <div class="col">
+                                            <label for="">Place</label><br>
+                                            <input required type="text" name="aria"
+                                              class="form-control pac-target-input" placeholder="Enter Which Place You From"
+                                              autocomplete="off"
+                                              value="<%=data?.location?.aria!=undefined ? data?.location?.aria : "" %>">
+                                      <div class="invalid-feedback">Please enter which aria you from.</div>
+                                          
+                                            </div>
+                                        </div><br>
 
 
 
-                        <div class="row g-3">
-                          <div class="col-6">
-                            <label for="">description</label><br>
-                            <textarea class="form-control" name="description" placeholder="Description"
-                              style="height: 100px" required></textarea>
-                          </div>
-                          <div class="col-6">
-                            <label for="">category</label><br>
-                            <select class="form-select" multiple="" name="category[]"
-                              aria-label="multiple select example" required>
-                              <option selected="" disabled>Open this select menu</option>
-                              <option value="spa">Spa</option>
-                              <option value="parlour">Parlour</option>
-                              <option value="Saloon">Saloon</option>
+                                        <div class="row g-3">
+                                          <div class="col-6">
+                                            <label for="">Description</label><br>
+                                            <textarea class="form-control" minlength="20" name="description" placeholder="Description"
+                                              style="height: 100px"
+                                              required><%=data?.description!=undefined ? data?.description : "" %></textarea>
+                                      <div class="invalid-feedback">Please enter Discription.</div>
+                                              
+                                          </div>
+                                          <div class="col-6">
+                                            <label for="">Category</label><br>
+                                            <select class="form-select" multiple="" name="category[]"
+                                              aria-label="multiple select example" required>
+                                              <option value="" disabled>Select Categories</option>
+                                              <option value="spa" <%=data?.category.includes('spa')==true ? "selected"
+                                                : "" %>
+                                                >Spa</option>
+                                              <option value="parlour" <%=data?.category.includes('parlour')==true
+                                                ? "selected" : "" %>>Parlour</option>
+                                              <option value="Saloon" <%=data?.category.includes('Saloon')==true
+                                                ? "selected" : "" %>>Saloon</option>
+                                            </select>
+                                            <div class="invalid-feedback">Please enter Category.</div>
+                                          </div>
+                                        </div><br>
+                                        <div class="row mb-3">
+                                          <div class="col-sm-10">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                          </div>
+                                        </div>
 
-                            </select>
-                          </div>
-                          <!-- <div class="row g-3">
-                              <div class="col-6">
-                                <label for="starting-time">Starting Time </label>
-                                <input id="starting_time" type="time" class="form-control pac-target-input"
-                                  name="starting_time" required />
-                              </div>
-                              <div class="col-6">
-                                <label for="ending-time">Ending Time </label>
-                                <input id="ending_time" type="time" class="form-control pac-target-input"
-                                  name="ending_time" required />
-                              </div>
-                            </div> -->
-                          <!-- <div class="row g-3"> -->
-
-                          <!-- <div class="col-6">
-
-                                <label for="">Select Starting Day</label><br>
-
-                                <select class="form-select" name="startingweek" aria-label="multiple select example"
-                                  required>
-                                  <option selected="" disabled>Select Starting Day</option>
-                                  <option value="Sunday">Sunday</option>
-                                  <option value="Monday">Monday</option>
-                                  <option value="Tuesday">Tuesday</option>
-                                  <option value="Wenesday">Wenesday</option>
-                                  <option value="Thursday">Thursday</option>
-                                  <option value="Friday">Friday</option>
-                                  <option value="Saturday">Saturday</option>
-                                </select>
-                              </div> -->
-                          <!-- <div class="col-6">
-
-                                <label for="">Select Ending Day</label><br>
-                                <select class="form-select" name="endingweek" aria-label="multiple select example"
-                                  required>
-                                  <option selected="" disabled>Select Ending Day</option>
-                                  <option value="Sunday">Sunday</option>
-                                  <option value="Monday">Monday</option>
-                                  <option value="Tuesday">Tuesday</option>
-                                  <option value="Wenesday">Wenesday</option>
-                                  <option value="Thursday">Thursday</option>
-                                  <option value="Friday">Friday</option>
-                                  <option value="Saturday">Saturday</option>
-                                </select>
-                              </div> -->
-                          <!-- </div>/ -->
-                        </div><br>
-                        <div class="row mb-3">
-
-                          <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                          </div>
-                        </div>
-
-                      </form>
-                      <%}else{%>
-                        <form action="/add_saloon_store" method="post">
-
-                          <div class="row g-3">
-                            <div class="col">
-                              <label for="">store Name</label><br>
-                              <input type="text" name="storeName" class="form-control" placeholder="Enter Your Store Name"
-                                required>
-                            </div>
-                            <div class="col">
-                              <label for="">store Email</label><br>
-                              <input required type="text" name="email" class="form-control" placeholder="Enter a email">
-                            </div>
-  
-                          </div><br>
-  
-                          <div class="row g-3">
-                            <div class="col">
-                              <label for="">password</label><br>
-                              <input required type="password" name="password" class="form-control"
-                                placeholder="Enter a Password">
-                            </div>
-                            <div class="col">
-                              <label for="">confromPassword</label><br>
-                              <input required type="password" name="confromPassword" class="form-control"
-                                placeholder="Enter  confrom Password">
-                            </div>
-                          </div><br>
-                          <div class="row g-3">
-                            <div class="col">
-                              <label for="">Phone</label><br>
-                              <input type="tel" maxlength="10" id="Phone" name="Phone"
-                                class="form-control pac-target-input" placeholder="Enter Your Mobile Number" value=""
-                                required>
-                            </div>
-                            <div class="col">
-                              <label for=""></label><br>
-                              <input type="button" class="form-control" value="Send otp" onclick="SendOtp(this)">
-                            </div>
-                            <div class="col">
-                              <label for="">Enter otp</label><br>
-                              <input required type="number" id="otp" class="form-control" placeholder="Enter  otp">
-                            </div>
-                            <div class="col">
-                              <label for=""></label><br>
-                              <input type="button" name="confromPassword" class="form-control" onclick="verifyOtp(this)"
-                                value="verify otp">
-                            </div>
-                          </div><br>
-                          <div class="row g-3">
-                            <div class="col">
-                              <label for="">saloon type</label><br>
-                              <input required type="text" id="addressSearch" name="type"
-                                class="form-control pac-target-input" placeholder="saloon type" autocomplete="off">
-                            </div>
-                            <div class="col">
-                              <label for="">owner Name </label><br>
-                              <input required type="text" id="addressSearch" name="ownerName"
-                                class="form-control pac-target-input" placeholder="saloon ownerName" autocomplete="off">
-                            </div>
-                          </div><br>
-  
-                          <div class="row g-3">
-                            <div class="col">
-                              <label for="">state</label><br>
-                              <input required type="text" name="state" class="form-control pac-target-input"
-                                placeholder="Enter a state" autocomplete="off">
-                            </div>
-                            <div class="col">
-                              <label for="">city </label><br>
-                              <input required type="text" name="city" class="form-control pac-target-input"
-                                placeholder="Enter a city" autocomplete="off">
-                            </div>
-  
-                          </div><br>
-  
-                          <div class="row g-3">
-                            <div class="col">
-                              <label for="">pincode</label><br>
-                              <input required type="number" name="pincode" class="form-control pac-target-input"
-                                placeholder="Enter a Pin Code" autocomplete="off">
-                            </div>
-                            <div class="col">
-                              <label for="">aria</label><br>
-                              <input required type="text" name="aria" class="form-control pac-target-input"
-                                placeholder="Enter a Aria" autocomplete="off">
-                            </div>
-                          </div><br>
-  
-  
-  
-                          <div class="row g-3">
-                            <div class="col-6">
-                              <label for="">description</label><br>
-                              <textarea class="form-control" name="description" placeholder="Description"
-                                style="height: 100px" required></textarea>
-                            </div>
-                            <div class="col-6">
-                              <label for="">category</label><br>
-                              <select class="form-select" multiple="" name="category[]"
-                                aria-label="multiple select example" required>
-                                <option selected="" disabled>Open this select menu</option>
-                                <option value="spa">Spa</option>
-                                <option value="parlour">Parlour</option>
-                                <option value="Saloon">Saloon</option>
-  
-                              </select>
-                            </div>
-                            <!-- <div class="row g-3">
-                                <div class="col-6">
-                                  <label for="starting-time">Starting Time </label>
-                                  <input id="starting_time" type="time" class="form-control pac-target-input"
-                                    name="starting_time" required />
-                                </div>
-                                <div class="col-6">
-                                  <label for="ending-time">Ending Time </label>
-                                  <input id="ending_time" type="time" class="form-control pac-target-input"
-                                    name="ending_time" required />
-                                </div>
-                              </div> -->
-                            <!-- <div class="row g-3"> -->
-  
-                            <!-- <div class="col-6">
-  
-                                  <label for="">Select Starting Day</label><br>
-  
-                                  <select class="form-select" name="startingweek" aria-label="multiple select example"
-                                    required>
-                                    <option selected="" disabled>Select Starting Day</option>
-                                    <option value="Sunday">Sunday</option>
-                                    <option value="Monday">Monday</option>
-                                    <option value="Tuesday">Tuesday</option>
-                                    <option value="Wenesday">Wenesday</option>
-                                    <option value="Thursday">Thursday</option>
-                                    <option value="Friday">Friday</option>
-                                    <option value="Saturday">Saturday</option>
-                                  </select>
-                                </div> -->
-                            <!-- <div class="col-6">
-  
-                                  <label for="">Select Ending Day</label><br>
-                                  <select class="form-select" name="endingweek" aria-label="multiple select example"
-                                    required>
-                                    <option selected="" disabled>Select Ending Day</option>
-                                    <option value="Sunday">Sunday</option>
-                                    <option value="Monday">Monday</option>
-                                    <option value="Tuesday">Tuesday</option>
-                                    <option value="Wenesday">Wenesday</option>
-                                    <option value="Thursday">Thursday</option>
-                                    <option value="Friday">Friday</option>
-                                    <option value="Saturday">Saturday</option>
-                                  </select>
-                                </div> -->
-                            <!-- </div>/ -->
-                          </div><br>
-                          <div class="row mb-3">
-  
-                            <div class="col-sm-10">
-                              <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                          </div>
-  
-                        </form>
-                        <%}%>
+                              </form>
                     </div>
                   </div>
+
+
+                  <!-- //2. add sallon register step -2 -->
+
+
+                  <div class="card">
+                    <div class="card-body">
+
+                      <% if(typeof data !=="undefined" && data){%>
+                        <h5 class="card-title"> Edit business-profile-info-by-Admin</h5>
+                        <form class="needs-validation" action="/business-profile-info-by-Admin?id=<%= data.id %>" method="post" novalidate>
+                          <%}else{%>
+                            <h5 class="card-title">Add business-profile-info-by-Admin</h5>
+                            <form class="needs-validation" action="/business-profile-info-by-Admin" method="post" novalidate>
+                              <%}%>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">Service Name</label><br>
+                                    <input required type="text" maxlength="30" name="yourService" class="form-control"
+                                      placeholder="Enter Service name"
+                                      value="<%=data?.ProfileInfo.yourService!=undefined ? data?.ProfileInfo.yourService : "" %>">
+                                      <div class="invalid-feedback">Please enter Service name.</div>
+                                  </div>
+                                  <div class="col">
+                                    <label for="">Phone no.</label><br>
+                                    <input required type="number" onKeyDown="if(this.value.length==10 && event.keyCode!=8) return false;"  name="alternatePhone" class="form-control"
+                                      placeholder="Enter Phone no."
+                                      value="<%=data?.ProfileInfo.alternatePhone!=undefined ? data?.ProfileInfo.alternatePhone : "" %>">
+                                      <div class="invalid-feedback">Please enter Phone no .</div>
+                                    </div>
+                                </div><br>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">Working Day</label><br>
+                                    <input class="form-check-input" type="checkbox" value="Monday" name="workingday"
+                                      <%=data?.ProfileInfo?.workingday.includes("Monday")==true ? "checked" : "" %>
+                                    id="gridCheck1">Monday
+                                    <input class="form-check-input" type="checkbox" value="Tuesday" name="workingday"
+                                      <%=data?.ProfileInfo?.workingday.includes("Tuesday")==true ? "checked" : "" %>
+                                    id="gridCheck1">Tuesday
+                                    <input class="form-check-input" type="checkbox" value="Wednesday" name="workingday"
+                                      <%=data?.ProfileInfo?.workingday.includes("Wednesday")==true ? "checked" : "" %>
+                                    id="gridCheck1">Wednesday
+                                    <input class="form-check-input" type="checkbox" value="Thursday" name="workingday"
+                                      <%=data?.ProfileInfo?.workingday.includes("Thursday")==true ? "checked" : "" %>
+                                    id="gridCheck1">Thursday
+                                    <input class="form-check-input" type="checkbox" value="Friday" name="workingday"
+                                      <%=data?.ProfileInfo?.workingday.includes("Friday")==true ? "checked" : "" %>
+                                    id="gridCheck1">Friday
+                                    <input class="form-check-input" type="checkbox" value="Saturday" name="workingday"
+                                      <%=data?.ProfileInfo?.workingday.includes("Saturday")==true ? "checked" : "" %>
+                                    id="gridCheck1">Saturday
+                                    <input class="form-check-input" type="checkbox" value="Sunday" name="workingday"
+                                      <%=data?.ProfileInfo?.workingday.includes("Sunday")==true ? "checked" : "" %>
+                                    id="gridCheck1">Sunday
+                                    <div class="invalid-feedback">Please enter Working Day.</div>
+                                  </div>
+                                  <div class="col">
+                                    <label for="">Amenities </label><br>
+                                    <input class="form-check-input" type="checkbox" value="cctv" name="amenities"
+                                      <%=data?.ProfileInfo?.amenities.includes("cctv")==true ? "checked" : "" %>>cctv
+                                    <input class="form-check-input" type="checkbox" value="card payment"
+                                      name="amenities" <%=data?.ProfileInfo?.amenities.includes("card payment")==true
+                                      ? "checked" : "" %>>card payment
+                                    <input class="form-check-input" type="checkbox" value="parking" name="amenities"
+                                      <%=data?.ProfileInfo?.amenities.includes("parking")==true ? "checked" : ""
+                                      %>>parking
+                                    <input class="form-check-input" type="checkbox" value="tv" name="amenities"
+                                      <%=data?.ProfileInfo?.amenities.includes("tv")==true ? "checked" : "" %>>tv
+                                    <input class="form-check-input" type="checkbox" value="ac" name="amenities"
+                                      <%=data?.ProfileInfo?.amenities.includes("ac")==true ? "checked" : "" %>>ac
+                                    <input class="form-check-input" type="checkbox" value="wifi" name="amenities"
+                                      <%=data?.ProfileInfo?.amenities.includes("wifi")==true ? "checked" : "" %>>wifi
+                                    <input class="form-check-input" type="checkbox" value="beverag" name="amenities"
+                                      <%=data?.ProfileInfo?.amenities.includes("beverag")==true ? "checked" : ""
+                                      %>>beverag
+                                  </div>
+                                </div><br>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">Facebook Profile </label><br>
+                                    <input required type="url" id="addressSearch" name="FaceBookProfile"
+                                      class="form-control pac-target-input" placeholder="Enter FaceBook Profile Name"
+                                      autocomplete="off"
+                                      value="<%=data?.ProfileInfo?.FaceBookProfile!=undefined ? data?.ProfileInfo?.FaceBookProfile : "" %>">
+                                      <div class="invalid-feedback">Please enter your Facebook Profile .</div>
+                                    </div>
+                                  <div class="col">
+                                    <label for="">Instagram Profile </label><br>
+                                    <input required type="url" id="addressSearch" name="instaProfile"
+                                      class="form-control pac-target-input" placeholder="Enter Instagram Profile Name"
+                                      autocomplete="off"
+                                      value="<%=data?.ProfileInfo?.instaProfile!=undefined ? data?.ProfileInfo?.instaProfile : "" %>">
+                                      <div class="invalid-feedback">Please enter Instagram Profile.</div>
+                                    </div>
+                                </div><br>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">Web Profile</label><br>
+                                    <input required type="url" name="webProfile" class="form-control pac-target-input"
+                                      placeholder="Enter Web Profile" autocomplete="off"
+                                      value="<%=data?.ProfileInfo?.webProfile!=undefined ? data?.ProfileInfo?.webProfile : "" %>">
+                                      <div class="invalid-feedback">Please enter Web Profile.</div>
+                                    </div>
+                                </div><br>
+
+                                <div class="row g-3">
+                                  <div class="col-6">
+                                    <label for="starting-time">Start Time </label>
+                                    <input id="starting_time" type="time" class="form-control pac-target-input"
+                                      name="starting_time" required
+                                      value="<%=data?.ProfileInfo?.starting_time!=undefined ? data?.ProfileInfo?.starting_time : "" %>" />
+                                      <div class="invalid-feedback">Please enter Start Time.</div>
+                                    </div>
+                                  <div class="col-6">
+                                    <label for="ending-time">Ending Time </label>
+                                    <input id="ending_time" type="time" class="form-control pac-target-input"
+                                      name="ending_time" required
+                                      value="<%=data?.ProfileInfo?.ending_time!=undefined ? data?.ProfileInfo?.ending_time : "" %>" />
+                                      <div class="invalid-feedback">Please enter End Time.</div>
+                                    </div>
+                                </div><br>
+                                <div class="row mb-3">
+                                  <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                                </div>
+                            </form>
+                    </div>
+                  </div>
+
+
+                  <!-- //3. add sallon register step -1 -->
+
+
+                  <div class="card">
+                    <div class="card-body">
+                      <% if(typeof data !=="undefined" && data){%>
+                        <h5 class="card-title">Edit business-bank-information-admin</h5>
+                        <form class="needs-validation" action="/business-bank-information-admin?id=<%=data._id%>" method="post" novalidate>
+                          <%}else{%>
+                            <h5 class="card-title"> Add business-bank-information-admin</h5>
+                            <form class="needs-validation" action="/business-bank-information-admin" method="post" novalidate>
+                              <%}%>
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">Pan Card Number</label><br>
+                                    <input required type="text" name="panNo" maxlength="10" oninput="this.value = this.value.toUpperCase()" class="form-control"
+                                      placeholder="Enter Your pan card no."
+                                      value="<%=data?.BankInfo?.panNo!=undefined ? data?.BankInfo?.panNo : "" %>">
+                                      <div class="invalid-feedback">Please enter your Pan Card no.</div>
+                                  </div>
+                                  <div class="col">
+                                    <label for="">GST No.</label><br>
+                                    <input required type="number" name="gstNo" onKeyDown="if(this.value.length==15 && event.keyCode!=8) return false;"  class="form-control"
+                                      placeholder="Enter GST no."
+                                      value="<%=data?.BankInfo?.gstNo!=undefined ? data?.BankInfo?.gstNo : "" %>">
+                                      <div class="invalid-feedback">Please enter GST no.</div>
+                                  </div>
+                                </div><br>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">Bank Name</label><br>
+                                    <input required type="text" name="bankName" maxlength="35" class="form-control"
+                                      placeholder="Enter Bank Name"
+                                      value="<%=data?.BankInfo?.bankName!=undefined ? data?.BankInfo?.bankName : "" %>">
+                                      <div class="invalid-feedback">Please enter Bank Name.</div>
+                                  </div>
+                                  <div class="col">
+                                    <label for="">Branch Name</label><br>
+                                    <input required type="text" name="branchName" maxlength="35" class="form-control"
+                                      placeholder="Enter Branch Name"
+                                      value="<%=data?.BankInfo?.branchName!=undefined ? data?.BankInfo?.branchName : "" %>">
+                                      <div class="invalid-feedback">Please enter Branch Name.</div>
+                                  </div>
+                                </div><br>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">Account Number</label><br>
+                                    <input required type="number" id="addressSearch" onKeyDown="if(this.value.length==17 && event.keyCode!=8) return false;"  name="accountNo"
+                                      class="form-control pac-target-input" placeholder="Enter Account Number"
+                                      autocomplete="off"
+                                      value="<%=data?.BankInfo?.accountNo!=undefined ? data?.BankInfo?.accountNo : "" %>">
+                                      <div class="invalid-feedback">Please enter Account No.</div>
+                                  </div>
+                                  <div class="col">
+                                    <label for="">Account Holder name</label><br>
+                                    <input required type="text" id="addressSearch" maxlength="30" name="accoutHolder"
+                                      class="form-control pac-target-input" placeholder="Enter Account Holder Name"
+                                      autocomplete="off"
+                                      value="<%=data?.BankInfo?.accoutHolder!=undefined ? data?.BankInfo?.accoutHolder : "" %>">
+                                      <div class="invalid-feedback">Please enter Account Holder Name.</div>
+                                  </div>
+                                </div><br>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">IFSC Code</label><br>
+                                    <input required type="text" oninput="this.value = this.value.toUpperCase()" name="ifscCode" maxlength="11"
+                                      class="form-control pac-target-input" placeholder="Enter IFSC Code"
+                                      autocomplete="off"
+                                      value="<%=data?.BankInfo?.ifscCode!=undefined ? data?.BankInfo?.ifscCode : "" %>">
+                                      <div class="invalid-feedback">Please enter IFSC Code.</div>
+                                  </div>
+                                  <div class="col-6">
+                                    <label for="starting-time"> KYC</label>
+                                    <!-- <input id="starting_time" type="time" class="form-control pac-target-input"
+                                      name="kyc" required
+                                      value="<%=data?.BankInfo?.kyc!=undefined ? data?.BankInfo?.kyc : "" %>" /> -->
+
+                                    <select class="form-select" name="kyc" required>
+                                      <option value="">Select KYC</option>
+                                      <option value="yas" <%=data?.BankInfo?.kyc=="yas" ? "selected" : "" %>
+                                        >yes</option>
+                                      <option value="no" <%=data?.BankInfo?.kyc=="no" ? "selected" : "" %>>no
+                                      </option>
+                                    </select>
+                                    <div class="invalid-feedback">Please Select KYC  .</div>
+                                  </div>
+                                </div><br>
+
+                                <div class="row mb-3">
+                                  <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                                </div>
+                            </form>
+                    </div>
+                  </div>
+
+
+                  <!-- //4. add sallon register step -1 -->
+
+
+                  <div class="card">
+                    <div class="card-body">
+                      <% if(typeof data !=="undefined" && data){%>
+                        <h5 class="card-title">Edit business-uplode-document-admin</h5>
+                        <form action="/business-uplode-document-admin?id=<%=data._id%>" method="post"
+                          enctype="multipart/form-data">
+                          <%}else{%>
+                            <h5 class="card-title">Add business-uplode-document-admin</h5>
+                            <form action="/business-uplode-document-admin" method="post" enctype="multipart/form-data">
+                              <%}%>
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">Banner Logo</label><br>
+                                    <input required type="file" name="BannerLogo" class="form-control"
+                                      placeholder="Enter Your your pan No">
+                                  </div>
+
+                                  <div class="col-md-2">
+                                    <label for=""></label><br>
+                                    <img src="/uploads/<%= data?.uplodeDocuments?.BannerLogo%>" alt="BannerLogo"
+                                      style="height: 50px;">
+                                  </div>
+
+                                  <div class="col">
+                                    <label for="">logo Image</label><br>
+                                    <input required type="file" name="logoImage" class="form-control"
+                                      placeholder="Enter a Gst No Phone">
+                                  </div>
+                                  <div class="col-md-2">
+                                    <label for=""></label><br>
+                                    <img src="/uploads/<%= data?.uplodeDocuments?.logoImage%>" alt="logoImage"
+                                      style="height: 50px;">
+                                  </div>
+                                </div><br>
+
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">Pan Card Image</label><br>
+                                    <input required type="file" name="panImage" class="form-control"
+                                      placeholder="Enter a bank Name">
+                                  </div>
+                                  <div class="col-md-2">
+                                    <label for=""></label><br>
+                                    <img src="/uploads/<%= data?.uplodeDocuments?.panImage%>" alt="panImage"
+                                      style="height: 50px;">
+                                  </div>
+                                  <div class="col">
+                                    <label for="">Business Certificate</label><br>
+                                    <input required type="file" name="businessCertificate" class="form-control"
+                                      placeholder="Enter a branch Name">
+                                  </div>
+                                  <div class="col-md-2">
+                                    <label for=""></label><br>
+                                    <img src="/uploads/<%= data?.uplodeDocuments?.businessCertificate%>"
+                                      alt="businessCertificate" style="height: 50px;">
+                                  </div>
+                                </div><br>
+
+                                <div class="row mb-3">
+                                  <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                                </div>
+                            </form>
+                            <!-- //4.End-1 -->
+                    </div>
+                  </div>
+
                 </div>
-              </div>
-            </div>
           </section>
         </main>
         <script>
           function SendOtp(params) {
             const ele = document.getElementById("Phone");
-            console.log("helllllo-->", ele.value)
             $.ajax({
               type: 'post',
               data: { "phone": ele.value },
               url: '/business-otp-sent',
               success: function (data) {
-                console.log("", data)
                 if (data.status == true) {
                   alert("Oto send ")
                 } else {
@@ -400,15 +575,12 @@
           function verifyOtp(params) {
             const phone = document.getElementById("Phone");
             const otp = document.getElementById("otp");
-            console.log("verifyOtp-->", otp.value)
-            console.log("verifyOtp-->", phone.value)
 
             $.ajax({
               type: 'post',
               data: { "phone": phone.value, "otp": otp.value },
               url: '/business-otp-verify',
               success: function (data) {
-                console.log("", data)
                 if (data.status == true) {
                   alert("Oto verify ")
                 } else {
@@ -417,10 +589,7 @@
               }
             })
           }
-
         </script>
-
-
         <%- include("../../partials/script.ejs") %>
 </body>
 

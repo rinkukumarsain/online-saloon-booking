@@ -10,6 +10,9 @@ const add_Category = new mongoose.Schema({
     },
     image: {
         type: String,
+    },
+    type: {
+        type: Number,
     }
 }, { timestamps: true });
 

@@ -35,42 +35,40 @@
                                             <form class="row g-3" action="/all-user">
                                                 <div class="col-md-4">
                                                     <label>Name</label> <br>
-                                                    <input type="text" class="form-control" placeholder="Name"
-                                                        name="name" value=<%=searchobj.name%>>
+                                                    <input type="text" class="form-control" placeholder="Enter Name"
+                                                        name="name" value=<%=query.name%>>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label>Email</label> <br>
-                                                    <input type="text" class="form-control" placeholder="Email"
-                                                        name="email" value=<%=searchobj.email%>>
+                                                    <input type="text" class="form-control" placeholder="Enter Email"
+                                                        name="email" value=<%=query.email%>>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label>Mobile No</label> <br>
-                                                    <input type="text" class="form-control" placeholder="Email"
-                                                        name="mobile" value=<%=searchobj.phone%>>
+                                                    <input type="text" class="form-control" placeholder="Enter phone"
+                                                        name="mobile" value=<%=query.phone%>>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label>Gender</label> <br>
-                                                    <!-- <input type="text" class="form-control" placeholder="Gender"
-                                                        name="gender" value=<%=searchobj.gender%>> -->
+                                                    <label>Select Gender</label> <br>
                                                     <select name="gender" id="" class="form-control">
                                                         <option value="" disabled selected>select gender</option>
-                                                        <option value="male" <%=searchobj.gender=="male" ? 'selected'
-                                                            :'' %>>male</option>
-                                                        <option value="female" <%=searchobj.gender=="female"
-                                                            ? 'selected' :'' %>>Female</option>
+                                                        <option value="male" <%=query.gender=="male" ? 'selected' :'' %>
+                                                            >male</option>
+                                                        <option value="female" <%=query.gender=="female" ? 'selected'
+                                                            :'' %>>Female</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for=""></label><br>
                                                     <select name="status" id="" class="form-control">
                                                         <option value="" selected>select status</option>
-                                                        <option value="user" <%=searchobj.status=="user" ? 'selected'
-                                                            :'' %>>User</option>
-                                                        <option value="admin" <%=searchobj.status=="admin" ? 'selected'
-                                                            :'' %>>Admin</option>
-                                                        <option value="super-admin" <%=searchobj.status=="super-admin"
+                                                        <option value="user" <%=query.status=="user" ? 'selected' :'' %>
+                                                            >User</option>
+                                                        <option value="admin" <%=query.status=="admin" ? 'selected' :''
+                                                            %>>Admin</option>
+                                                        <option value="super-admin" <%=query.status=="super-admin"
                                                             ? 'selected' :'' %>>super Admin</option>
-                                                        <option value="block-User" <%=searchobj.status=="block-User"
+                                                        <option value="block-User" <%=query.status=="block-User"
                                                             ? 'selected' :'' %>>block User</option>
                                                     </select>
                                                 </div>
@@ -98,6 +96,9 @@
                                                         <th scope="col">gender</th>
                                                         <th scope="col">image</th>
                                                         <th scope="col">Order</th>
+                                                        <th scope="col">Referel</th>
+                                                        <th scope="col">balance</th>
+                                                        <th scope="col">point</th>
                                                         <th scope="col">Status</th>
                                                         <th scope="col">MoreAction</th>
                                                     </tr>
@@ -133,6 +134,7 @@
                                                                                 style="width: 40px; height: 50px;border-radius: 50%;">
                                                                             <%}%>
                                                                 </td>
+
                                                                 <td>
                                                                     <% if(typeof data.numberOfOrder !=="undefined" &&
                                                                         data.numberOfOrder!="" ){%>
@@ -142,6 +144,23 @@
                                                                         <%}else{%>
                                                                             <a href="#"> 0 </a>
                                                                             <%}%>
+                                                                </td>
+                                                                <td>
+                                                                    <% if( data.numberOfreferel>0){%>
+                                                                        <a href="/all-user?referId=<%=data._id%>">
+                                                                            <button type="button" class="btn btn-info">
+                                                                                <i class="bi bi-eye">
+                                                                                    <%=data.numberOfreferel%>
+                                                                                </i>
+                                                                            </button>
+                                                                        </a>
+                                                                        <%}%>
+                                                                </td>
+                                                                <td>
+                                                                    <%= data.userWallet?.balance %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= data.userWallet?.point %>
                                                                 </td>
                                                                 <td>
                                                                     <%= data.type %>
@@ -177,7 +196,9 @@
                                                                                         block
                                                                                     </a>
                                                                                     <%}%>
+
                                                                 </td>
+
                                                             </tr>
                                                             <%}%>
                                                 </tbody>

@@ -10,27 +10,15 @@ exports.allUser = async (req, res) => {
     try {
         res.locals.message = req.flash();
         const Finddata = await allUser(req)
-        res.render("users/view-user", { data: Finddata.data, user: req.user, query: "", searchobj: Finddata.searchobj })
+        res.render("users/view-user", { data: Finddata.data, user: req.user, query: req.query, })
     } catch (error) {
         console.log(error);
     };
 };
 
 exports.BlockUser = async (req, res) => {
-    try {res.locals.message = req.flash();
-        // console.log("re", req.query.id)
-        let Finddata;
-        const data=await user.findOne({_id:mongoose.Types.ObjectId(req.query.id)});
-        if(data.type=="user")
-        {
-         Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "block-User" }, { new: true })
-        }
-        else
-        {
-             Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "block-admin" }, { new: true })
-
-        }
-        req.flash("success","block successfully")
+    try {
+        const Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "block-User" }, { new: true })
         if (Finddata) {
             res.redirect("/all-user")
         }
@@ -51,10 +39,7 @@ exports.warning = async (req, res) => {
     try {
         res.locals.message = req.flash();
         req.userData = await user.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
-        // req.userData = userData
         const sendmailer = await sendmailwarning(req)
-        console.log("sendmailer", sendmailer);
-        // gfhklv
         if (sendmailer) {
             req.flash("success", "mail send successfully")
             res.redirect("/all-user")

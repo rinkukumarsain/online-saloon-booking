@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>view-saloon</title>
+  <title>view-Category</title>
   <%- include('../../partials/headlink.ejs') %>
 </head>
 
@@ -35,7 +35,7 @@
 
                     <!-- No Labels Form -->
                     <form class="row g-3" action="/view-category">
-                      <div class="col-md-6">
+                      <div class="col-md-3">
                         <label>Choose City</label> <br>
 
                         <% if(query?.CategoryName!="" ){%>
@@ -45,14 +45,15 @@
                             <input type="text" name="CategoryName" class="form-control" placeholder="CategoryName">
                             <%}%>
                       </div>
-                      <!-- <div class="col-md-3">
-                        <select id="inputState" name="status" class="form-select">
-                          <option selected="" value="">Choose Status</option>
-                          <option value="pending">pending</option>
-                          <option value="cancel">cancel</option>
-                          <option value="succes">succes</option>
+                      <div class="col-md-3">
+                        <label>Choose Type</label> <br>
+                        <select id="inputState" name="type" class="form-select">
+                          <option selected="" value="">Choose For</option>
+                          <option value="0">service</option>
+                          <option value="1">packages</option>
+                          <!-- <option value="succes">succes</option> -->
                         </select>
-                      </div> -->
+                      </div>
                       <div class="col-md-3">
                         <label>status</label> <br>
                         <select id="inputState" name="status" class="form-select">
@@ -68,6 +69,7 @@
 
                       <div class="col-md-3">
                         <div class="text-center">
+                          <label></label> <br>
                           <button type="submit" class="btn btn-primary">Submit</button>
                           <a href="/view-category"> <button type="button" class="btn btn-secondary">Reset</button></a>
                         </div>
@@ -130,29 +132,26 @@
                                           <a href="/delete-category?id=<%= data._id%>" class="btn btn-danger">
                                             <i class="ri-delete-bin-5-line" title="delete"></i>
                                           </a>
-                                          <a href="/category?id=<%= data._id%>" class="btn btn-success text-warning"><i
-                                              class="ri-file-add-line" title="Add Sub Category"></i></a>
-                                          <%}%>
+                                          <%if(data.type===0){%>
+                                            <a href="/category?id=<%= data._id%>"
+                                              class="btn btn-success text-warning"><i class="ri-file-add-line"
+                                                title="Add Sub Category"></i></a>
+                                            <%}%>
+                                              <%}%>
                                     </td>
                                   </tr>
                                   <%}%>
                             </tbody>
                           </table>
                           <!-- End Table with stripped rows -->
-
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
         </section>
-
       </main>
       <input type="hidden" id="myText" value={{_id}}>
-
-
-
       <%- include("../../partials/script.ejs") %>
 </body>
 

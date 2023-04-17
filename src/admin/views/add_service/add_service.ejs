@@ -5,16 +5,15 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>view-saloon</title>
+  <title>Service</title>
 
   <%- include('../../partials/headlink.ejs') %>
 </head>
 
 <body>
-
   <%- include('../../partials/Header.ejs') %>
     <%- include("../../partials/sidebar.ejs") %>
-
+    <%- include("../../partials/alertMsg") %>
       <main id="main" class="main">
         <div class="pagetitle">
           <h1>
@@ -34,29 +33,36 @@
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title">Add Service</h5>
-
+                    <!-- <h3 class="card-title">Add Saloon Service </h3> -->
                     <% if(typeof service_data !=="undefined" && service_data){%>
-                      <form action="/add_service_store?id=<%= service_data._id%>" method="post"
-                        enctype="multipart/form-data">
+                      <h5 class="card-title">Edit Service</h5>
+                      <form class="needs-validation" action="/add_service_store?id=<%= service_data._id%>" method="post"
+                        enctype="multipart/form-data" novalidate>
                         <div class="row g-3">
                           <div class="col">
+                            <label for="">Service Name</label>
                             <input required type="text" name="ServiceName" value="<%= service_data?.ServiceName%>"
-                              class="form-control" placeholder="Enter Your Service Name">
+                              class="form-control" placeholder="Enter Service Name">
+                            <div class="invalid-feedback">Please Enter Service Name.</div>
                           </div>
                           <div class="col">
+                            <label for="">Service Price</label>
                             <input required type="number" name="ServicePrice" value="<%= service_data?.ServicePrice%>"
-                              class="form-control" placeholder="Enter a Service Price">
+                              class="form-control" placeholder="Enter Service Price">
+                            <div class="invalid-feedback">Please Enter Service Price.</div>
                           </div>
                         </div><br>
 
                         <div class="row g-3">
                           <div class="col">
+                            <label for="">Time</label>
                             <input required type="number" name="timePeriod_in_minits"
                               value="<%= service_data?.timePeriod_in_minits%>" class="form-control"
                               placeholder="Enter a Time Period">
+                            <div class="invalid-feedback">Please Enter Service Time.</div>
                           </div>
                           <div class="col">
+                            <label for="">Choose Gender</label>
                             <select class="form-select" name="type" aria-label="Default select example" required>
                               <option value="male" <%=service_data?.type==="male" ? "selected" : "" %> >Male</option>
                               <option value="female" <%=service_data?.type==="female" ? "selected" : "" %>>Female
@@ -64,16 +70,21 @@
                               <option value="unisex" <%=service_data?.type==="unisex" ? "selected" : "" %>>Unisex
                               </option>
                             </select>
+                            <div class="invalid-feedback">Please Select Gender.</div>
                           </div>
                         </div><br>
 
                         <div class="row g-3">
                           <div class="col">
-                            <textarea class="form-control" name="description" placeholder="Description"
+                            <label for="">Discription</label>
+                            <textarea class="form-control" name="description" placeholder="Enter Description"
                               style="height: 100px" required><%= service_data?.description%></textarea>
+                            <div class="invalid-feedback">Please Enter Discription.</div>
                           </div>
                           <div class="col">
-                            <input class="form-control" type="file" name="image" id="formFile" multiple required>
+                            <label for="">Service Image</label>
+
+                            <input class="form-control" type="file" name="image" id="formFile" multiple >
                             <%for(image of service_data.image){%>
                               <img src="../../../../uploads/<%=image%>" width="70px">
                               <%}%>
@@ -82,6 +93,7 @@
 
                         <div class="row g-3">
                           <div class="col">
+                            <label for="">Select Category</label>
                             <select class="form-select" name="saloonStore" aria-label="Default select example" required>
 
                               <% for(saloon of saloon_data){%>
@@ -91,8 +103,10 @@
                                 </option>
                                 <%}%>
                             </select>
+                            <div class="invalid-feedback">Please Select Category.</div>
                           </div>
                           <div class="col">
+                            <label for="">Select Saloon</label>
                             <select class="form-select" multiple="" name="category[]"
                               aria-label="multiple select example" required>
                               <% for(data of category){%>
@@ -102,6 +116,7 @@
                                 <%}%>
 
                             </select>
+                            <div class="invalid-feedback">Please Select Saloon.</div>
                           </div>
                         </div><br>
                         <div class="row mb-3">
@@ -112,68 +127,106 @@
                         </div>
                       </form>
                       <%}else{%>
-                        <form action="/add_service_store" method="post" enctype="multipart/form-data">
+                        <h5 class="card-title">Add Service</h5>
+                        <form class="needs-validation" action="/add_service_store" method="post"
+                          enctype="multipart/form-data" novalidate>
                           <div class="row g-3">
                             <div class="col">
+                              <label for=""> Service Name</label>
                               <input required type="text" name="ServiceName" class="form-control"
-                                placeholder="Enter Your Service Name">
+                                placeholder="Enter Service Name">
+                              <div class="valid-feedback">Looks good!</div>
+                              <div class="invalid-feedback">Please Enter Service Name.</div>
                             </div>
                             <div class="col">
+                              <label for=""> Service Price</label>
                               <input required type="number" name="ServicePrice" class="form-control"
-                                placeholder="Enter a Service Price">
+                                placeholder="Enter Service Price">
+                              <div class="valid-feedback">Looks good!</div>
+                              <div class="invalid-feedback">Please Enter Service Price.</div>
                             </div>
-
                           </div><br>
-
-
                           <div class="row g-3">
                             <div class="col">
+                              <label for="">Time</label>
                               <input required type="number" name="timePeriod_in_minits" class="form-control"
-                                placeholder="Enter a Time Period">
+                                placeholder="Enter Time ">
+                              <div class="valid-feedback">Looks good!</div>
+                              <div class="invalid-feedback">Please Enter Service Time.</div>
                             </div>
                             <div class="col">
+                              <label for="">Choose Gender </label>
                               <select class="form-select" name="type" aria-label="Default select example" required>
-                                <option selected="">Select Type</option>
+                                <option value="">Select Type</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                                 <option value="unisex">Unisex</option>
                               </select>
+                              <div class="valid-feedback">Looks good!</div>
+                              <div class="invalid-feedback">Please Select Gender.</div>
                             </div>
                           </div><br>
-
                           <div class="row g-3">
                             <div class="col">
-                              <textarea class="form-control" name="description" placeholder="Description"
-                                style="height: 100px" required></textarea>
+                              <label for="">Discription</label>
+                              <textarea class="form-control" name="description" placeholder="Enter Description"
+                                style="height: 100px" required minlength="5"></textarea>
+                              <div class="valid-feedback">Looks good!</div>
+                              <div class="invalid-feedback">Please Enter Discription.</div>
                             </div>
                             <div class="col">
+                              <label for="">Service Images</label>
                               <input class="form-control" type="file" name="image" id="formFile" multiple required>
+                              <div class="valid-feedback">Looks good!</div>
+                              <div class="invalid-feedback">Please select Image.</div>
                             </div>
                           </div><br>
 
                           <div class="row g-3">
 
                             <div class="col">
+                              <label for="">Select Category</label>
                               <select class="form-select" name="category[]" aria-label="multiple select example"
                                 required onchange="clickMe(this)">
-                                <option selected="">Select Category</option>
+                                <option value="">Select Category</option>
                                 <% for(data of category){%>
                                   <option value="<%= data?._id%>">
                                     <%= data?.Name%>
                                   </option>
                                   <%}%>
                               </select>
+                              <div class="valid-feedback">Looks good!</div>
+                              <div class="invalid-feedback">Please Select Category.</div>
                             </div>
                             <div class="col">
+                              <label for="">Select Saloon</label>
                               <select class="form-select" name="saloonStore" aria-label="Default select example"
                                 required>
-                                <option selected="">Select Saloon</option>
+                                <!-- <option value="">Select Saloon</option>
                                 <% for(saloon of saloon_data){%>
                                   <option value="<%= saloon?._id%>">
                                     <%= saloon?.storeName%>
                                   </option>
-                                  <%}%>
+                                  <%}%> -->
+
+                                <%if(saloon_data.length==1){%>
+                                  <% for(saloon of saloon_data){%>
+                                    <option selected value="<%= saloon?._id%>">
+                                      <%= saloon?.storeName%>
+                                    </option>
+                                    <%}%>
+                                      <%}else{%>
+                                        <option value="">Select Saloon</option>
+                                        <% for(saloon of saloon_data){%>
+                                          <option value="<%= saloon?._id%>">
+                                            <%= saloon?.storeName%>
+                                          </option>
+                                          <%}%>
+
+                                            <%}%>
                               </select>
+                              <div class="valid-feedback">Looks good!</div>
+                              <div class="invalid-feedback">Please Select Saloon.</div>
                             </div>
                             <div id="myselect" class="col-md-12">
 
@@ -197,11 +250,11 @@
         </section>
       </main>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+      <script src="/public/assets/js/form-validation.js"></script>
 
       <script>
-        document.getElementById("mySubmit").disabled = true;
+
         function clickMe(select) {
-          console.log("se", select)
           let num = Number(select.id)
           let category = select.value
           $.ajax({
@@ -210,16 +263,16 @@
             url: '/optiongeturl',// nandlal
             success: function (data) {
               if (data.length > 0) {
-                console.log(data)
                 let abc = `<div id="subcategory-${num + 1}"><label for="inputAddress" class="form-label">Sub Category</label>`
                 abc += `<select style="width:50%;margin-bottom:20px"   class="form-select" onchange="clickMe(this )" name="category" id="${num + 1}">`
-                abc += `<option>select Sub Category</option>`
+                abc += `<option value="" disabled>select Sub Category</option>`
 
                 data.forEach((item) => {
                   abc += `<option value=${item._id}>${item.Name}</option>`
                 })
 
-                abc += `</select></div>`
+                abc += `</select> 
+                              <div class="invalid-feedback">Please Select Sub Category.</div> </div>`
                 let num2 = num + 1
                 while (true) {
                   let cat = $(`#subcategory-${num2}`)
@@ -231,8 +284,6 @@
                   ++num2
                 }
                 $('#myselect').append(abc)
-              } else {
-                document.getElementById("mySubmit").disabled = false;
               }
             }
           })

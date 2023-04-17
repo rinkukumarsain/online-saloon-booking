@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>view-saloon</title>
+  <title>view-Order</title>
   <%- include('../../partials/headlink.ejs') %>
 </head>
 
@@ -62,7 +62,7 @@
                                   </select>
                                 </div>
                                 <div class="col-md-3">
-                                  <label>status</label> <br>
+                                  <label>Status Type</label> <br>
                                   <select id="inputState" name="status" class="form-select">
                                     <% if( query?.status=="pending" ){%>
                                       <option value="">Choose Status</option>
@@ -89,11 +89,11 @@
                                   </select>
                                 </div>
                                 <div class="col-md-3">
-                                  <label>Enter Amount</label> <br>
+                                  <label>Amount</label> <br>
 
-                                  <% if(query?.totalamount!="" ){%>
+                                  <% if(query?.totalamount!="" ){ %>
                                     <input type="number" name="totalamount" class="form-control"
-                                      value="<%=query?.totalamount%>" placeholder="Amount">
+                                      value="<%=query?.totalamount%>" placeholder="Enter Amount">
                                     <%}else{%>
                                       <input type="number" name="totalamount" class="form-control" placeholder="Amount">
                                       <%}%>

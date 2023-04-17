@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 const userWishlist = new mongoose.Schema({
+
     userId: {
         type: mongoose.Types.ObjectId
     },
     saloonId: {
-        type: mongoose.Types.ObjectId
+        type: [mongoose.Types.ObjectId]
     },
+
 }, { timestamps: true });
 
 

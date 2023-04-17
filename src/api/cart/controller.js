@@ -260,6 +260,7 @@ exports.addcart = async ({ user, query }) => {
         if (query.serviceId) {
             // console.log("query.serviceId", query.serviceId)
             let _id = mongoose.Types.ObjectId(query.serviceId);
+            console.log("_id_id_id_id", _id)
             if (newCart) {
                 findService = await service.findOne({ _id, saloonStore: newCart.saloonId });
                 // console.log("findService", 1111, findService)

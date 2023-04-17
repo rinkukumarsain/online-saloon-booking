@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>view-saloon</title>
+  <title>Category</title>
 
   <%- include('../../partials/headlink.ejs') %>
 </head>
@@ -14,9 +14,6 @@
 
   <%- include('../../partials/Header.ejs') %>
     <%- include("../../partials/sidebar.ejs") %>
-
-
-
 
       <main id="main" class="main">
         <div class="pagetitle">
@@ -43,16 +40,21 @@
                       <% if(typeof id !=="undefined" && id){%>
                         <!-- <div class="dataTable-container"> -->
                         <h5 class="card-title">Add Sub Category</h5>
-                        <form class="row g-3" action="/Add-New-Category?id=<%= id %>" method="post"
-                          enctype="multipart/form-data">
+                        <form class="needs-validation row g-3" action="/Add-New-Category?id=<%= id %>" method="post"
+                          enctype="multipart/form-data" novalidate>
 
                           <div class="col-10">
-                            <label for="" class="form-label">Name</label>
-                            <input type="text" class="form-control" name="Name" id="" required>
+                            <label for="" class="form-label">Sub Category Name</label>
+                            <input type="text" class="form-control" placeholder="Enter Sub  Category Name" name="Name"
+                              required />
+                            <div class="invalid-feedback">Please Enter Sub Category Name.</div>
+
                           </div>
                           <div class="col-10">
-                            <label for="inputPassword4" class="form-label">Iamge</label>
-                            <input type="file" name="file" class="form-control" id="inputPassword4" required>
+                            <label for="inputPassword4" class="form-label">Sub Category Image</label>
+                            <input type="file" name="file" class="form-control" id="inputPassword4" required />
+                            <div class="invalid-feedback">Please Select Sub Category Image.</div>
+
                           </div>
 
                           <div class="text-center">
@@ -61,40 +63,58 @@
                           </div>
                         </form><!-- Vertical Form -->
                         <%}else if(typeof data !="undefined" && data !="" ){%>
-                          <h5 class="card-title">Edit Category</h5>
-                          <form class="row g-3" action="/Add-New-Category?EditId=<%= data._id%>" method="post" enctype="multipart/form-data">
+                          <h5 class=" card-title">Edit Category</h5>
+                          <form class="needs-validation row g-3" action="/Add-New-Category?EditId=<%= data._id%>"
+                            method="post" enctype="multipart/form-data" novalidate>
 
                             <div class="col-8">
-                              <label for="" class="form-label">Name</label>
+                              <label for="" class="form-label">Edit Category Name</label>
                               <input type="text" class="form-control" name="Name" value="<%= data.Name%>" required>
+                              <div class="invalid-feedback">Please Category Name.</div>
+
                             </div>
                             <div class="col-8">
-                              <label for="inputPassword4" class="form-label">Iamge</label>
+                              <label for="inputPassword4" class="form-label">Edit Category Image</label>
                               <input type="file" name="file" class="form-control" id="inputPassword4">
                             </div>
                             <div class="col-4">
-                              <img src="/uploads/<%= data.image%>" alt="" style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
+                              <% if (data.image){ %>
+                                <img src="/uploads/<%= data.image %>" alt=""
+                                  style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
+                                <% }else { %>
+                                  <img src="assets/img/profile-img.jpg" alt=""
+                                    style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
+                                  <% } %>
                             </div>
 
                             <div class="text-center">
                               <button type="submit" class="btn btn-primary">Submit</button>
-                              <button type="reset" class="btn btn-secondary">Reset</button>
                             </div>
                           </form><!-- Vertical Form -->
                           <% }else{%>
                             <h5 class="card-title">Add Category</h5>
 
                             <!-- <div class="dataTable-container"> -->
-                            <form class="row g-3" action="/Add-New-Category" method="post"
-                              enctype="multipart/form-data">
+                            <form class="needs-validation row g-3" action="/Add-New-Category" method="post"
+                              enctype="multipart/form-data" novalidate>
 
                               <div class="col-10">
-                                <label for="" class="form-label">Name</label>
-                                <input type="text" class="form-control" name="Name" id="" required>
+                                <label for="" class="form-label">Category Name</label>
+                                <input type="text" class="form-control" name="Name" placeholder="Enter Category Name"
+                                  id="" required>
+                                <div class="invalid-feedback">Please Enter Category Name.</div>
                               </div>
-                              <div class="col-10">
-                                <label for="inputPassword4" class="form-label">Iamge</label>
+                              <div class="col-6">
+                                <label for="inputPassword4" class="form-label">Category Image</label>
                                 <input type="file" name="file" class="form-control" id="inputPassword4" required>
+                                <div class="invalid-feedback">Please Select Image.</div>
+                              </div>
+                              <div class="col-6">
+                                <label for="inputPassword4" class="form-label">type</label>
+                                <select class="form-select" name="type" aria-label="Default select example" required="">
+                                  <option value="0">For Service</option>
+                                  <option value="1">For Service packages</option>
+                                </select>
                               </div>
 
                               <div class="text-center">
@@ -134,17 +154,7 @@
           class="bi bi-arrow-up-short"></i></a>
 
       <!-- Vendor JS Files -->
-      <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-      <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-      <script src="assets/vendor/chart.js/chart.min.js"></script>
-      <script src="assets/vendor/echarts/echarts.min.js"></script>
-      <script src="assets/vendor/quill/quill.min.js"></script>
-      <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-      <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-      <script src="assets/vendor/php-email-form/validate.js"></script>
-
-      <!-- Template Main JS File -->
-      <script src="assets/js/main.js"></script>
+      <%- include("../../partials/script.ejs") %>
 
 </body>
 

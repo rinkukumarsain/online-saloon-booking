@@ -206,13 +206,11 @@
       <script>
         function SendOtp(params) {
           const ele = document.getElementById("Phone");
-          console.log("helllllo-->", ele.value)
           $.ajax({
             type: 'post',
             data: { "phone": ele.value },
             url: '/business-otp-sent',
             success: function (data) {
-              console.log("", data)
               if (data.status == true) {
                 alert("Oto send ")
               } else {
@@ -224,15 +222,12 @@
         function verifyOtp(params) {
           const phone = document.getElementById("Phone");
           const otp = document.getElementById("otp");
-          console.log("verifyOtp-->", otp.value)
-          console.log("verifyOtp-->", phone.value)
 
           $.ajax({
             type: 'post',
             data: { "phone": phone.value, "otp": otp.value },
             url: '/business-otp-verify',
             success: function (data) {
-              console.log("", data)
               if (data.status == true) {
                 alert("Oto verify ")
               } else {

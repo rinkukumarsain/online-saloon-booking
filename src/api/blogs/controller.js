@@ -122,7 +122,7 @@ exports.getAllBlog = async ({ query }) => {
                             '$limit': 4
                         }
                     ],
-                    'as': 'Related Posts'
+                    'as': 'RelatedPosts'
                 }
             });
         };

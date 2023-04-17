@@ -4,13 +4,19 @@ const saloonService = require("../../api/saloonService/model")
 const mongoose = require("mongoose");
 const service = require("./service")
 const { getAllSaloonCity } = require("../../api/saloonstore/controller")
+
 exports.ADD_SERVICE = async (req, res) => {
     try {
+        res.locals.message = req.flash();
         const user = req.user
         const category = await Category.find({ parent_Name: null })
-        const saloon_data = await saloon.find()
+        let saloon_data;
+        if (req.query.saloonId != undefined && req.query.saloonId != "") {
+            saloon_data = await saloon.find({ _id: mongoose.Types.ObjectId(req.query.saloonId) })
+        } else {
+            saloon_data = await saloon.find()
+        }
         const _id = req.query.id
-        console.log("id", _id)
         let pipeline = []
         pipeline.push({
             $match: {
@@ -36,11 +42,12 @@ exports.ADD_SERVICE = async (req, res) => {
         console.log(err)
     }
 }
+
+
+
 exports.optiongeturl = async (req, res) => {
     try {
         const parent_id = req.query.select
-        console.log("req.query", parent_id);
-        // console.log(`=======${req.url}`)
         if (parent_id != undefined && parent_id.length == 24) {
             const _id = mongoose.Types.ObjectId(parent_id)
 
@@ -53,7 +60,6 @@ exports.optiongeturl = async (req, res) => {
                     "parent_Name": index.parent_Name,
                 });
             });
-            // console.log("userdata", userdata)
             res.send(userdata);
 
         }
@@ -64,12 +70,10 @@ exports.optiongeturl = async (req, res) => {
 
 exports.ADD_SERVICE_STORE = async (req, res) => {
     try {
-        //console.log("body", req.body)
-        let { body, files, query } = req
-        //console.log("body",body)
+        let { body, files, query } = req;
         res.locals.message = req.flash();
+        //update
         if (query.id) {
-
             let _id = mongoose.Types.ObjectId(query.id);
             const result = await saloonService.findOne({ _id });
             if (result) {
@@ -88,26 +92,41 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
                         img.push(element.filename)
                     });
                     obj.image = img
-                }
+                };
                 const result = await saloonService.findByIdAndUpdate({ _id }, { $set: obj }, { new: true });
                 if (result) {
-                    req.flash("success", "Saloon Service  is  Update successfull !")
-                    res.redirect("/view_service")
+                    req.flash("success", "Saloon Service  is  Update successfull !");
+                    return res.redirect("/view_service");
                 };
 
             } else {
-                req.flash("error", "Saloon Service is Not Found !")
-                res.redirect("/")
+                req.flash("error", "Saloon Service is Not Found !");
+                return res.redirect("/");
             };
         } else {
+            //create service
             const { ServiceName } = body;
             if (ServiceName) {
-                const result = await saloonService.findOne({ ServiceName });
-                if (result) {
-                    req.flash("error", "ServiceName Already Exists")
-                    res.redirect("/")
+                const result = await saloonService.find({ ServiceName, saloonStore: mongoose.Types.ObjectId(body.saloonStore) });
+                for (const item of result) {
+                    if (item.ServicePrice == Number(body.ServicePrice)) {
+                        if (item.timePeriod_in_minits == Number(body.timePeriod_in_minits)) {
+                            if (item.type != body.type || body.type == "unisex") {
+                                body.type = "unisex";
+                            } else {
+                                req.flash("error", "Service gender type allready  Exists");
+                                return res.redirect("/add_service");
+                            };
+                            const result2 = await saloonService.findByIdAndUpdate({ _id: item._id }, { type: body.type }, { new: true });
+                            if (result2) {
+                                req.flash("success", "Service update Succesfuuly ! 1");
+                                return res.redirect("/view_service");
+                            };
+                        };
+                    };
                 };
-            }
+            };
+
             if (files) {
                 img = []
                 files.forEach(element => {
@@ -116,7 +135,7 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
                 body.image = img
             } else {
                 body.image = ""
-            }
+            };
             let last_category = body.category[body.category.length - 1];
             let service_details = new saloonService({
                 ServiceName: body.ServiceName,
@@ -132,23 +151,45 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
             const result = await service_details.save();
             if (result) {
                 req.flash("success", "Service Add Succesfuuly !")
-                res.redirect("/view_service")
+                return res.redirect("/view_service")
             };
-        }
+        };
     } catch (error) {
         console.log(error);
-        throw error;
-    }
-}
+    };
+};
 
 exports.VIEW_SERVICE = async (req, res) => {
-    const data = await service.VIEW_SALOON(req)
-    const user = req.user
-    res.render("add_service/view_service", { query: req.query, user, data })
+    try {
+        res.locals.message = req.flash();
+        const data = await service.VIEW_SALOON(req)
+        const user = req.user
+        return res.render("add_service/view_service", { query: req.query, user, data })
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 exports.DELETE_SERVICE = async (req, res) => {
     const id = req.query.id
     await saloonService.findByIdAndDelete({ _id: id })
     res.redirect("/view_service")
+}
+
+exports.FindAllServiceName = async (req) => {
+    let arr = []
+    const findData = await saloonService.find()
+
+    for (const item of findData) {
+        if (item.ServiceName != "" && item.ServiceName != undefined) {
+            if (arr.includes(item.ServiceName) == false) {
+                arr.push(item.ServiceName)
+            }
+        }
+    }
+
+    if (arr.length > 0) {
+        return arr;
+    }
+
 }

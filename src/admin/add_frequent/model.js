@@ -1,13 +1,18 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
+  blogId: {
+    type: mongoose.Types.ObjectId,
+    default: null
+  },
   question: {
     type: String,
-    default: null
+    default: ""
   },
   answer: {
     type: String,
     // unique: true
+    default: ""
   }
 })
 

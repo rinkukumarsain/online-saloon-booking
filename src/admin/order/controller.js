@@ -17,10 +17,8 @@ exports.getAllOrder = async (req, res) => {
             }
             res.render("order/index", { data: findOrder.data, query: req.query, user, city: FindAllcity.data })
         } else {
-
-            console.log("no data found")
             req.flash("error", "no data found")
-            res.redirect("/")
+            res.render("order/index", { data: findOrder.data, query: req.query, user, city: FindAllcity.data })
         }
     } catch (error) {
         console.log(error);
@@ -74,7 +72,6 @@ exports.AdminOrderApprove = async (req, res) => {
 
 exports.FindDateForAdminModule = async (req, res) => {
     try {
-        console.log("req.jhgd", req.query, req.query.id, Number(req.query.id))
         const FindData = await order.aggregate([
             {
                 '$match': {
@@ -109,11 +106,7 @@ exports.FindDateForAdminModule = async (req, res) => {
                 }
             },
         ])
-        console.log(FindData)
-        // FindData.cartdata.forEach(element => {
-        //     console.log("req.jhgd", element)
 
-        // });
         res.send(FindData)
     } catch (error) {
         console.log(error);

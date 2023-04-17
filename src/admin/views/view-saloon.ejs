@@ -67,24 +67,18 @@
 
 
                 <script type="text/javascript">
-                    // function GetReqForSubCatagory(_id) {
-                    //     console.log("idddd", _id)
-                    // }
 
                     $(document).ready(function () {
                         let id = document.getElementById("myText").value;
                         let fff;
                         if (id) {
                             fff = `/?id=${id}`
-                            console.log("if ", id, fff)
                         }
                         else {
                             fff = `/`
-                            console.log("else ", id, fff)
                         }
 
                         // $.fn.dataTable.ext.errMode = 'none';
-                        console.log("kkkkk")
                         $('#mytable').DataTable({
                             language: {
                                 zeroRecords: "No records to display",
@@ -117,7 +111,6 @@
                         }
                         )
                     })
-                    //console.log("hello id ", x)
                 </script>
                 <%- include("../partials/script.ejs") %>
 </body>

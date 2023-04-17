@@ -165,8 +165,15 @@ exports.getUserOrder = async ({ user, query }) => {
                 saloonId: {
                     $arrayElemAt: ["$data.saloonId", 0],
                 },
+                addressId: {
+                    $arrayElemAt: ["$data.addressId", 0],
+                },
                 data: 1,
             }
+        }, {
+            '$unset': 'data.saloonId'
+        }, {
+            '$unset': 'data.addressId'
         })
 
 

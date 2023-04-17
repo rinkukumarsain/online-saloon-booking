@@ -34,13 +34,7 @@
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title">business-profile
-                      <a href="/add_saloon?id=<%=_id%>">Step 1</a>
-                        <a href="/business-profile-info-by-Admin?id=<%=_id%>">Step 2</a>
-                        <a href="#">Step 3</a>
-                        <a href="#">Step 4</a>
-                    </h5>
-                    <%if(req.query.id){%>
+                    <h5 class="card-title">business-profile gh</h5>
                     <form action="/business-bank-information-admin?id=<%=saloon_data._id%>" method="post">
 
                       <div class="row g-3">
@@ -208,13 +202,11 @@
       <script>
         function SendOtp(params) {
           const ele = document.getElementById("Phone");
-          console.log("helllllo-->", ele.value)
           $.ajax({
             type: 'post',
             data: { "phone": ele.value },
             url: '/business-otp-sent',
             success: function (data) {
-              console.log("", data)
               if (data.status == true) {
                 alert("Oto send ")
               } else {
@@ -226,15 +218,12 @@
         function verifyOtp(params) {
           const phone = document.getElementById("Phone");
           const otp = document.getElementById("otp");
-          console.log("verifyOtp-->", otp.value)
-          console.log("verifyOtp-->", phone.value)
 
           $.ajax({
             type: 'post',
             data: { "phone": phone.value, "otp": otp.value },
             url: '/business-otp-verify',
             success: function (data) {
-              console.log("", data)
               if (data.status == true) {
                 alert("Oto verify ")
               } else {

@@ -1,34 +1,39 @@
+const { default: mongoose } = require("mongoose");
 const user = require("../../api/user/model");
 
 exports.allUser = async (req, res) => {
     try {
         let serchobj = {};
-        let searchobj = {};
-        if (req.query.name) {
-            searchobj.name = req.query.name;
+        // let searchobj = {};
+        if (req.query.name != undefined && req.query.name != "") {
+            // searchobj.name = req.query.name;
             serchobj.name = { $regex: req.query.name, $options: "i" };
         }
 
-        if (req.query.email) {
-            searchobj.email = req.query.email;
+        if (req.query.referId != undefined && req.query.referId != "") {
+            // searchobj.referId = req.query.referId;
+            serchobj.referId = mongoose.Types.ObjectId(req.query.referId)
+        }
+
+        if (req.query.email != undefined && req.query.email != "") {
+            // searchobj.email = req.query.email;
             serchobj.email = { $regex: req.query.email, $options: "i" };
         }
 
-        if (req.query.mobile) {
-            searchobj.phone = req.query.mobile
+        if (req.query.mobile != undefined && req.query.mobile != "") {
+            // searchobj.phone = req.query.mobile
             serchobj.phone = { $regex: req.query.mobile, $options: "i" };
         }
 
-        if (req.query.gender) {
-            searchobj.gender = req.query.gender
+        if (req.query.gender != undefined && req.query.gender != "") {
+            // searchobj.gender = req.query.gender
             serchobj.gender = req.query.gender
         }
-        if (req.query.status) {
-            searchobj.status = req.query.status
+
+        if (req.query.status != undefined && req.query.status != "") {
+            // searchobj.status = req.query.status
             serchobj.type = req.query.status;
         }
-        //console.log("searchobj",searchobj)
-
 
         const Finddata = await user.aggregate([
             { '$match': serchobj }, {
@@ -37,6 +42,14 @@ exports.allUser = async (req, res) => {
                     'localField': '_id',
                     'foreignField': 'userId',
                     'as': 'result'
+                }
+            }, {
+
+                '$lookup': {
+                    from: "users",
+                    localField: "_id",
+                    foreignField: "referId",
+                    as: "referUser"
                 }
             }, {
                 '$project': {
@@ -52,6 +65,7 @@ exports.allUser = async (req, res) => {
                     'dateOfBirth': 1,
                     'gender': 1,
                     'type': 1,
+                    'userWallet': 1,
                     'numberOfOrder': {
                         '$cond': {
                             'if': {
@@ -62,16 +76,27 @@ exports.allUser = async (req, res) => {
                             },
                             'else': 'NA'
                         }
-                    }
+                    }, 'numberOfreferel': {
+                        '$cond': {
+                            'if': {
+                                '$isArray': "$referUser",
+                            },
+                            'then': {
+                                '$size': "$referUser",
+                            },
+                            'else': "NA",
+                        },
+                    },
                 }
             }
         ]);
+        console.log("------>",Finddata)
         return {
             statusCode: 200,
             status: true,
             message: "address-is already in database !",
             data: Finddata,
-            searchobj: searchobj
+            // // searchobj: searchobj
         };
     } catch (error) {
         console.log(error);
