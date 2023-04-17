@@ -454,9 +454,8 @@ exports.getServiceByCategory = async ({ query }) => {
                         };
 
                         const findService = await saloonService.aggregate(condition);
-                        if (findService) {
+                        if (findService.length > 0) {
                             arrr.push(findService)
-                            // console.log("findService", findService)
                         };
                     }
 
@@ -504,55 +503,6 @@ exports.getServiceByCategory = async ({ query }) => {
         console.log(error);
     };
 };
-/*
-exports.getSaloonByLocation = async ({ query }) => {
-    try {
-        let findSaloon;
-        if (query.State != "" && query.State != undefined && !query.city) {
-            findSaloon = await saloonstore.find({ "location.state": query.State });
-            if (findSaloon) {
-                return {
-                    statusCode: 200,
-                    status: true,
-                    message: `find saloon By Location City Name ${query.State}!`,
-                    data: [findSaloon]
-                };
-            };
-        };
-        if (query.city != "" && query.city != undefined && query.State != "" && query.State != undefined) {
-            findSaloon = await saloonstore.find({ "location.state": query.State, "location.city": query.city });
-            if (findSaloon) {
-                return {
-                    statusCode: 200,
-                    status: true,
-                    message: `find saloon By Location City Name ${query.city}!`,
-                    data: [findSaloon]
-                };
-            };
-        };
-
-        if (query.city != "" && query.city != undefined) {
-            findSaloon = await saloonstore.find({ "location.city": query.city });
-            if (findSaloon) {
-                return {
-                    statusCode: 200,
-                    status: true,
-                    message: `find saloon By Location City Name ${query.city}!`,
-                    data: [findSaloon]
-                };
-            };
-        };
-        return {
-            statusCode: 400,
-            status: false,
-            message: "Please Enter Location Name !",
-            data: []
-        };
-    } catch (error) {
-        console.log(error);
-            };
-};*/
-
 
 
 exports.getSaloonByLocation = async ({ query }) => {

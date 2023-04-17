@@ -100,6 +100,7 @@
                           <th scope="col">Doc</th>
                           <th scope="col">Bank Info</th>
                           <th scope="col">saloonService</th>
+                          <th scope="col">packageService</th>
                           <th scope="col">MoreAction</th>
                         </tr>
                       </thead>
@@ -161,8 +162,19 @@
                                       <i class="bi bi-eye" title="view Service"></i>
                                   </a>
                                   <% }%>
-                                    <a href="/add_service?saloonId=<%= data._id%>" class="btn btn-success text-warning"><i
-                                        class="ri-file-add-line" title="Add Sub Category"></i></a>
+                                    <a href="/add_service?saloonId=<%= data._id%>"
+                                      class="btn btn-success text-warning"><i class="ri-file-add-line"
+                                        title="Add Sub Category"></i></a>
+                              </td>
+                              <td>
+                                <%if( data.Service[0]?.numberOfService>1){%>
+                                  <!-- <a href="/view_service?id=<%= data._id%>" class="btn btn-success">
+                                    <%= data.Service[0]?.numberOfService %>
+                                      <i class="bi bi-eye" title="view Service"></i>
+                                  </a> -->
+                                  <a href="/package?saloonId=<%= data._id%>" class="btn btn-success text-warning"><i
+                                      class="ri-file-add-line" title="Add Sub Category"></i></a>
+                                  <% }%>
                               </td>
                               <td>
                                 <!-- <a href="/add_saloon?id=<%= data._id%>" class="btn btn-dark">Edit</a>
