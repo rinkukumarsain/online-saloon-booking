@@ -105,14 +105,14 @@
                         <div class="col-md-6">
                           <label for="">Amount</label>
                           <input type="number" name="Amount" id="Amount" value="<%=data?.Amount %>" class="form-control"
-                            placeholder="Enter Amount" required readonly>
+                            placeholder="Enter Amount" min="0"required readonly>
                           <div class="invalid-feedback">Please Enter Amount.</div>
                         </div>
 
                         <div class="col-md-6">
                           <label for="">final Price</label>
-                          <input type="number" name="finalPrice" value="<%=data?.finalPrice %>" class="form-control"
-                            placeholder="Enter final Price" required>
+                          <input type="number" name="finalPrice" id='FinalPrice' value="<%=data?.finalPrice %>" class="form-control"
+                            placeholder="Enter final Price less than or equal to amount" min="0" required>
                           <div class="invalid-feedback">Please Enter final Price.</div>
                         </div>
 
@@ -197,6 +197,22 @@
           }
 
         </script>
+        <!-- sahil script for amount and final price -->
+        <script>
+          const amountInput = document.getElementById('Amount');
+          const finalPriceInput = document.getElementById('FinalPrice');
+        
+          amountInput.addEventListener('input', () => {
+            // Update the final price input value to match the amount input value
+            finalPriceInput.value = Math.min(amountInput.value, finalPriceInput.value);
+          });
+        
+          finalPriceInput.addEventListener('input', () => {
+            // Ensure the final price input value is not higher than the amount input value
+            finalPriceInput.value = Math.min(amountInput.value, finalPriceInput.value);
+          });
+        </script>
+        <!-- amount and final price scriptend -->
 </body>
 
 </html>

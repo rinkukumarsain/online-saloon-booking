@@ -42,23 +42,43 @@ exports.FindServiceForPackages = async (req, res) => {
 };
 
 exports.CreatePackage = async (req, res) => {
-    try {
+    try {res.locals.message = req.flash();
         console.log("CreatePackage", req.query, "body", req.body)
         // console.log("req.body.Services", req.body.Services)
-        let arr = []
-        for (const item of req.body.Services) {
+        let arr = [];
+
+         for (const item in req.body.Services) {
+            //console.log(" kjlkjljlllk",item)
+            //if(item)
+            //{//let data=item
+            
             let data = JSON.parse(item)
             arr.push(data.id)
             console.log("item", 1, item)
             // hh
             // j
         }
-        console.log(arr)
+        let info=await package.findOne({ PackageCotegory:req.body.PackageCotegory,salonnId:req.query.saloonId})
+        if(!info)
+        {
+        console.log("arr",arr)
         req.body.Services = arr
         req.body.saloonId = req.query.saloonId
         const pakegeDetail = new package(req.body)
         const result = await pakegeDetail.save()
-        console.log("result", result)
+        }
+        else
+        {req.body.Services = arr
+            req.body.saloonId = req.query.saloonId
+            
+            let pakegeDetail=await package.updateMany(
+            { PackageCotegory:req.body.PackageCotegory,salonnId:req.query.saloonId} ,
+             req.body,{new:true} 
+         );
+
+        }
+        // console.log("result", result)
+        req.flash("success","package edit successfully")
         res.redirect("/")
         // const FindService = await saloonService.find({ saloonStore: mongoose.Types.ObjectId(req.query.saloonId), type: { $in: ['unisex', req.query.type] } })
         // // console.log(FindService.length)
@@ -94,7 +114,39 @@ exports.viewServicePackage = async (req, res) => {
         console.log(error);
     };
 };
+//sahil view package
+exports.viewServicePackageparticular=async (req, res) => {
+    try {
+        res.locals.message = req.flash();
+        const data = await package.aggregate([ {
+            '$match': {
+              'saloonId': mongoose.Types.ObjectId(req.query.id)
+            }
+          },
+            {
+                '$lookup': {
+                    'from': 'saloons',
+                    'localField': 'saloonId',
+                    'foreignField': '_id',
+                    'pipeline': [
+                        {
+                            '$project': {
+                                'storeName': 1
+                            }
+                        }
+                    ],
+                    'as': 'saloonNmae'
+                }
+            }
+        ]);
+        console.log("data",data)
 
+        res.render("servicePackage/viewServicePackageparticular", { query: req.query, user: req.user, data });
+    } catch (error) {
+        console.log(error);
+    };
+}; 
+//sahil view package end
 exports.deletePackage = async (req, res) => {
     try {
 

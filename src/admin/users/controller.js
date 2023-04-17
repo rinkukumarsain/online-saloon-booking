@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const { getAllSaloonCity } = require("../../api/saloonstore/controller");
 const moment = require("moment")
 const { allUser } = require("./services")
-const { sendmailwarning } = require("../../middleware/mail")
+const { sendmailwarning } = require("../../middleware/mail");
+const { findOne } = require("../../api/user/model");
 
 exports.allUser = async (req, res) => {
     try {
@@ -44,6 +45,27 @@ exports.warning = async (req, res) => {
             res.redirect("/all-user")
         } else {
             req.flash("error", "mail not Send")
+            res.redirect("/all-user")
+        }
+    } catch (error) {
+        console.log(error);
+    };
+};
+exports.unblock = async (req, res) => {
+    try {let Finddata;
+        res.locals.message = req.flash();
+        const data=await user.findOne({_id:mongoose.Types.ObjectId(req.query.id)});
+        if(data.type=="user")
+        {
+         Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "user" }, { new: true })
+        }
+        else
+        {
+             Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "admin" }, { new: true })
+
+        }
+        req.flash("success","unblock successfully")
+        if (Finddata) {
             res.redirect("/all-user")
         }
     } catch (error) {
