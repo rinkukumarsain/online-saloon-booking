@@ -5,20 +5,8 @@ exports.getServicePackage = async ({ query, user }) => {
     try {
         query.user = user
         const result = await getServicePackage(query);
-        if (result.status === true) {
-            return {
-                statusCode: 200,
-                status: true,
-                message: "get Package Service get successfull !",
-                data: result.data
-            };
-        } else {
-            return {
-                statusCode: 400,
-                status: false,
-                message: "reviews  not find  !",
-                data: []
-            };
+        if (result) {
+            return result
         }
     } catch (error) {
         console.log(error);

@@ -6,7 +6,7 @@ const app = Router();
 const uplode = require("../../middleware/img");
 
 // app.post("/add-reviews", auth, responseHandler(addReviews));
-app.get("/get-service-Package",  responseHandler(getServicePackage))
+app.get("/get-service-Package", responseHandler(getServicePackage));
 // app.get("/update-like-dislike", auth, responseHandler(updateLikeDislike))
 
 

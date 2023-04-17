@@ -3,9 +3,15 @@ const package = require("../../admin/servicePackage/model")
 
 exports.getServicePackage = async (query) => {
     try {
-        const saloonId = mongoose.Types.ObjectId(query.saloonId);
-
         const condition = [];
+        if (query.categoryId != undefined && query.categoryId != "") {
+            condition.push({
+                '$match': {
+                    'PackageCotegory': mongoose.Types.ObjectId(query.categoryId)
+                }
+            });
+        };
+
         condition.push({
             '$lookup': {
                 'from': 'saloonservices',
@@ -36,27 +42,23 @@ exports.getServicePackage = async (query) => {
                 'as': 'saloon'
             }
         });
-
-
-
         const findData = await package.aggregate(condition);
         if (findData.length > 0) {
             return {
                 statusCode: 200,
                 status: true,
-                message: "reviews  find successfull !",
+                message: "package  find successfull !",
                 data: findData
             };
         } else {
             return {
                 statusCode: 400,
                 status: false,
-                message: "reviews  not find  !",
+                message: "package  not find  !",
                 data: []
             };
-        }
+        };
     } catch (error) {
         console.log(error);
-        throw error;
     };
 };
