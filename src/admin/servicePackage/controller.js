@@ -47,16 +47,16 @@ exports.CreatePackage = async (req, res) => {
         // console.log("req.body.Services", req.body.Services)
         let arr = [];
 
-        // for (const item in req.body) {
+         for (const item in req.body.Services) {
             //console.log(" kjlkjljlllk",item)
             //if(item)
             //{//let data=item
             
-            let data = JSON.parse(req.body.Services)
+            let data = JSON.parse(item)
             arr.push(data.id)
             //}
             // console.log()
-        //}
+        }
         let info=await package.findOne({ PackageCotegory:req.body.PackageCotegory,salonnId:req.query.saloonId})
         if(!info)
         {
@@ -113,7 +113,39 @@ exports.viewServicePackage = async (req, res) => {
         console.log(error);
     };
 };
+//sahil view package
+exports.viewServicePackageparticular=async (req, res) => {
+    try {
+        res.locals.message = req.flash();
+        const data = await package.aggregate([ {
+            '$match': {
+              'saloonId': mongoose.Types.ObjectId(req.query.id)
+            }
+          },
+            {
+                '$lookup': {
+                    'from': 'saloons',
+                    'localField': 'saloonId',
+                    'foreignField': '_id',
+                    'pipeline': [
+                        {
+                            '$project': {
+                                'storeName': 1
+                            }
+                        }
+                    ],
+                    'as': 'saloonNmae'
+                }
+            }
+        ]);
+        console.log("data",data)
 
+        res.render("servicePackage/viewServicePackageparticular", { query: req.query, user: req.user, data });
+    } catch (error) {
+        console.log(error);
+    };
+}; 
+//sahil view package end
 exports.deletePackage = async (req, res) => {
     try {
 
