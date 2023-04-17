@@ -54,8 +54,9 @@ exports.CreatePackage = async (req, res) => {
             
             let data = JSON.parse(item)
             arr.push(data.id)
-            //}
-            // console.log()
+            console.log("item", 1, item)
+            // hh
+            // j
         }
         let info=await package.findOne({ PackageCotegory:req.body.PackageCotegory,salonnId:req.query.saloonId})
         if(!info)
