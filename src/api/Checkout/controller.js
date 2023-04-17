@@ -3,6 +3,7 @@ const servish = require("../saloonService/model");
 const { default: mongoose } = require("mongoose");
 const coupon = require("../coupon/model")
 const order = require("../order/model")
+const userModel = require("../user/model")
 
 exports.Checkout = async ({ user, query }) => {
     try {
@@ -205,7 +206,14 @@ exports.Checkout = async ({ user, query }) => {
         };
 
         const findData = await users.aggregate(condition);
-
+        if (query.balance != undefined && query.balance != "") {
+            // console.log("findData", findData)
+            let obj = {}
+            obj.userId = user._id
+            obj.query = query
+            obj.Data = findData
+            const dd = await this.applyBalance(obj)
+        }
         if (findData.length > 0) {
             const { cartdata, ...Checkout } = findData[0];
             const cartitem = findData[0].cartdata;
@@ -239,3 +247,40 @@ exports.Checkout = async ({ user, query }) => {
         console.log(error);
     };
 };
+
+exports.applyBalance = async (data) => {
+
+    let { user, ...rest } = data
+
+    if (user.userWallet.balance - user.userWallet.useBalance > 0) {
+
+        for (const item of data.Data) {
+
+            if (user.userWallet.balance > item.totalamount) {
+                const data = await userModel.findByIdAndUpdate({ _id: user._id }, { $inc: { "userWallet.useBalance": +item.totalamount } }, { new: true })
+                console.log("data", 1, data)
+                item.totalamount = 0
+            } else if (user.userWallet.balance < item.totalamount) {
+                item.totalamount = item.totalamount - user.userWallet.balance
+                const data = await userModel.findByIdAndUpdate({ _id: user._id }, { $inc: { "userWallet.useBalance": +item.totalamount } }, { new: true })
+                console.log("data", 2, data)
+            } else {
+                item.totalamount = 0
+                const data = await userModel.findByIdAndUpdate({ _id: user._id }, { $inc: { "userWallet.useBalance": 0 } }, { new: true })
+                console.log("data", 3, data)
+            }
+
+        }
+    } else {
+        return {
+            statusCode: 400,
+            status: false,
+            message: "your balace is Zero !",
+            data: []
+        };
+    }
+    // for (const item of data) {
+
+
+    // }
+}

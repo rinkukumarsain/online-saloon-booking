@@ -9,7 +9,7 @@ exports.ADD_SERVICE = async (req, res) => {
     try {
         res.locals.message = req.flash();
         const user = req.user
-        const category = await Category.find({ parent_Name: null })
+        const category = await Category.find({ parent_Name: null, type: 0 })
         let saloon_data;
         if (req.query.saloonId != undefined && req.query.saloonId != "") {
             saloon_data = await saloon.find({ _id: mongoose.Types.ObjectId(req.query.saloonId) })

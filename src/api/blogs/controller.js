@@ -114,7 +114,15 @@ exports.getAllBlog = async ({ query }) => {
         if (query.id) {
             obj._id = mongoose.Types.ObjectId(query.id);
 
-            condition.push({
+            condition.push(
+                {
+                    '$lookup': {
+                        'from': 'faqs',
+                        'localField': '_id',
+                        'foreignField': 'blogId',
+                        'as': 'faq'
+                    }
+                }, {
                 '$lookup': {
                     'from': 'blogs',
                     'pipeline': [
