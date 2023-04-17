@@ -47,16 +47,15 @@ exports.CreatePackage = async (req, res) => {
         // console.log("req.body.Services", req.body.Services)
         let arr = [];
 
-         for (const item in req.body.Services) {
+         for (const item of req.body.Services) {
             //console.log(" kjlkjljlllk",item)
             //if(item)
             //{//let data=item
             
             let data = JSON.parse(item)
+            
             arr.push(data.id)
-            console.log("item", 1, item)
-            // hh
-            // j
+            
         }
         let info=await package.findOne({ PackageCotegory:req.body.PackageCotegory,salonnId:req.query.saloonId})
         if(!info)
