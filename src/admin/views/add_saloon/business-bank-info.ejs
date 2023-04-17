@@ -34,19 +34,25 @@
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title">business-profile</h5>
+                    <h5 class="card-title">business-profile
+                      <a href="/add_saloon?id=<%=_id%>">Step 1</a>
+                        <a href="/business-profile-info-by-Admin?id=<%=_id%>">Step 2</a>
+                        <a href="#">Step 3</a>
+                        <a href="#">Step 4</a>
+                    </h5>
+                    <%if(req.query.id){%>
                     <form action="/business-bank-information-admin?id=<%=saloon_data._id%>" method="post">
 
                       <div class="row g-3">
                         <div class="col">
-                          <label for="">pan Number</label><br>
+                          <label for="">Pan Number</label><br>
                           <input required type="text" name="panNo" class="form-control"
-                            placeholder="Enter Your your pan No">
+                            placeholder="Enter Your Pan Card No">
                         </div>
                         <div class="col">
-                          <label for="">Gst Number</label><br>
-                          <input required type="text" name="gstNo" class="form-control"
-                            placeholder="Enter a Gst No Phone">
+                          <label for="">GST Number</label><br>
+                          <input required type="number" name="gstNo" class="form-control"
+                            placeholder="Enter GST No ">
                         </div>
 
                       </div><br>
@@ -54,39 +60,41 @@
 
                       <div class="row g-3">
                         <div class="col">
-                          <label for="">bankName</label><br>
+                          <label for="">Bank Name</label><br>
                           <input required type="text" name="bankName" class="form-control"
-                            placeholder="Enter a bank Name">
+                            placeholder="Enter Bank Name">
                         </div>
+                        <br>
                         <div class="col">
-                          <label for="">branchName</label><br>
+                          <label for="">Branch Name</label><br>
                           <input required type="text" name="branchName" class="form-control"
-                            placeholder="Enter a branch Name">
+                            placeholder="Enter Branch Name">
                         </div>
                       </div>
+                      <br>
 
                       <div class="row g-3">
                         <div class="col">
-                          <label for="">account number</label><br>
-                          <input required type="text" id="addressSearch" name="accountNo"
+                          <label for="">Account number</label><br>
+                          <input required type="number" id="addressSearch" name="accountNo"
                             class="form-control pac-target-input" placeholder="account Number" autocomplete="off">
                         </div>
                         <div class="col">
-                          <label for="">accout Holder</label><br>
+                          <label for="">Accout Holder</label><br>
                           <input required type="text" id="addressSearch" name="accoutHolder"
-                            class="form-control pac-target-input" placeholder="accout Holder" autocomplete="off">
+                            class="form-control pac-target-input" placeholder="Accout Holder" autocomplete="off">
                         </div>
                       </div><br>
 
                       <div class="row g-3">
                         <div class="col">
-                          <label for="">ifscCode</label><br>
+                          <label for="">IFSC Code</label><br>
                           <input required type="text" name="ifscCode" class="form-control pac-target-input"
-                            placeholder="Enter ifsc Code" autocomplete="off">
+                            placeholder="Enter IFSC Code" autocomplete="off">
                         </div>
                         <div class="col-6">
-                          <label for="starting-time"> kyc</label>
-                          <input id="starting_time" type="time" class="form-control pac-target-input" name="kyc"
+                          <label for="starting-time"> KYC</label>
+                          <input id="starting_time" type="text" class="form-control pac-target-input" name="kyc"
                             required />
                         </div>
                       </div><br>
@@ -110,6 +118,85 @@
                       </div>
 
                     </form>
+                    <%else{%>
+                      <form action="/business-bank-information-admin?id=<%=saloon_data._id%>" method="post">
+
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for="">Pan Number</label><br>
+                            <input required type="text" name="panNo" class="form-control"
+                              placeholder="Enter Your Pan Card No">
+                          </div>
+                          <div class="col">
+                            <label for="">GST Number</label><br>
+                            <input required type="number" name="gstNo" class="form-control"
+                              placeholder="Enter GST No ">
+                          </div>
+  
+                        </div><br>
+  
+  
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for="">Bank Name</label><br>
+                            <input required type="text" name="bankName" class="form-control"
+                              placeholder="Enter Bank Name">
+                          </div>
+                          <br>
+                          <div class="col">
+                            <label for="">Branch Name</label><br>
+                            <input required type="text" name="branchName" class="form-control"
+                              placeholder="Enter Branch Name">
+                          </div>
+                        </div>
+                        <br>
+  
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for="">Account number</label><br>
+                            <input required type="number" id="addressSearch" name="accountNo"
+                              class="form-control pac-target-input" placeholder="account Number" autocomplete="off">
+                          </div>
+                          <div class="col">
+                            <label for="">Accout Holder</label><br>
+                            <input required type="text" id="addressSearch" name="accoutHolder"
+                              class="form-control pac-target-input" placeholder="Accout Holder" autocomplete="off">
+                          </div>
+                        </div><br>
+  
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for="">IFSC Code</label><br>
+                            <input required type="text" name="ifscCode" class="form-control pac-target-input"
+                              placeholder="Enter IFSC Code" autocomplete="off">
+                          </div>
+                          <div class="col-6">
+                            <label for="starting-time"> KYC</label>
+                            <input id="starting_time" type="text" class="form-control pac-target-input" name="kyc"
+                              required />
+                          </div>
+                        </div><br>
+  
+                        <!-- <div class="row g-3"> -->
+                        <!-- <div class="col-6">
+                            <label for="starting-time"> kyc</label>
+                            <input id="starting_time" type="time" class="form-control pac-target-input"
+                              name="kyc" required />
+                          </div> -->
+                        <!-- <div class="col-6">
+                            <label for="ending-time">Ending Time </label>
+                            <input id="ending_time" type="time" class="form-control pac-target-input" name="ending_time"
+                              required />
+                          </div> -->
+                        <!-- </div> -->
+                        <div class="row mb-3">
+                          <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                          </div>
+                        </div>
+  
+                      </form>
+                      <%}%>
 
                   </div>
                 </div>

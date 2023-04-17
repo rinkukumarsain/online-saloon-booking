@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const saloonRequst = require("./model");
 const saloon = require("../saloonstore/model")
 const users = require("../user/model")
+const bcrypt = require("bcrypt")
 
 exports.otpSent = async ({ body }) => {
     try {
@@ -80,7 +81,8 @@ exports.businessSignUp = async (req) => {
     try {
         const { body, user } = req;
         console.log("body", body, "user", user, "--->", 1.1)
-        const { storeName, email, Phone, confromPassword, password } = body;
+        let { storeName, email, Phone, confromPassword, password } = body;
+       
 
         if (storeName) {
             const result = await saloon.findOne({ storeName });
@@ -143,7 +145,7 @@ exports.businessSignUp = async (req) => {
         };
 
         if (password === confromPassword) {
-            body.password = password;
+            body.password = bcrypt.hashSync(password, 10);
         } else {
             return {
                 statusCode: 400,

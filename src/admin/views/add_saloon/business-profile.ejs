@@ -34,17 +34,29 @@
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title">business-profile</h5>
+                    <h5 class="card-title">business-profile
+                      <a href="/add_saloon?id=<%=_id%>">Step 1</a>
+                      <a href="#">Step 2</a>
+                      <a href="#">Step 3</a>
+                      <a href="#">Step 4</a>
+                    </h5>
+                  <%if(req.query.id){%>
                     <form action="/business-profile-info-by-Admin?id=<%=saloon_data._id%>" method="post">
 
                       <div class="row g-3">
                         <div class="col">
-                          <label for="">your Service</label><br>
-                          <input required type="text" name="yourService" class="form-control"
-                            placeholder="Enter Your your Service">
+                           <label for="">Service</label><br>
+                          <!--<input required type="text" name="yourService" class="form-control"
+                            placeholder="Enter Your your Service"> -->
+                              <select   name="" id="" class="form-control">
+                              <option value="" disabled selected>Select Service</option>
+                              <option value="">Spa</option>
+                              <option value="">Saloon</option>
+                              <option value="">Parlour</option>
+                            </select>
                         </div>
                         <div class="col">
-                          <label for=""> alternate Phone </label><br>
+                          <label for=""> Alternate Phone </label><br>
                           <input required type="text" name="alternatePhone" class="form-control"
                             placeholder="Enter a alternate Phone">
                         </div>
@@ -54,56 +66,67 @@
 
                       <div class="row g-3">
                         <div class="col">
-                          <label for="">workingday</label><br>
+                          <label for="">Working Day</label><br>
                           <input class="form-check-input" type="checkbox" value="Monday" name="workingday"
                             id="gridCheck1">Monday
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           <input class="form-check-input" type="checkbox" value="Tuesday" name="workingday"
                             id="gridCheck1">Tuesday
+                             <br>
                           <input class="form-check-input" type="checkbox" value="Wednesday" name="workingday"
                             id="gridCheck1">Wednesday
+                            &nbsp;
                           <input class="form-check-input" type="checkbox" value="Thursday" name="workingday"
                             id="gridCheck1">Thursday
+                            <br>
                           <input class="form-check-input" type="checkbox" value="Friday" name="workingday"
                             id="gridCheck1">Friday
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           <input class="form-check-input" type="checkbox" value="Saturday" name="workingday"
                             id="gridCheck1">Saturday
+                            <br>
                           <input class="form-check-input" type="checkbox" value="Sunday" name="workingday"
                             id="gridCheck1">Sunday
                         </div>
                         <div class="col">
-                          <label for="">amenities </label><br>
+                          <label for="">Amenities </label><br>
                           <input class="form-check-input" type="checkbox" value="cctv" name="amenities"
                             id="gridCheck1">cctv
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           <input class="form-check-input" type="checkbox" value="card payment" name="amenities"
                             id="gridCheck1">card payment
+                            <br>
                           <input class="form-check-input" type="checkbox" value="parking" name="amenities"
                             id="gridCheck1">parking
                           <input class="form-check-input" type="checkbox" value="tv" name="amenities" id="gridCheck1">tv
+                          <br>
                           <input class="form-check-input" type="checkbox" value="ac" name="amenities" id="gridCheck1">ac
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           <input class="form-check-input" type="checkbox" value="wifi" name="amenities"
-                            id="gridCheck1">wifi
+                            id="gridCheck1">wifi <br>
                           <input class="form-check-input" type="checkbox" value="beverag" name="amenities"
                             id="gridCheck1">beverag
                         </div>
                       </div>
+                      <br>
 
                       <div class="row g-3">
                         <div class="col">
-                          <label for="">FaceBookProfile </label><br>
-                          <input required type="text" id="addressSearch" name="FaceBookProfile"
-                            class="form-control pac-target-input" placeholder="saloon type" autocomplete="off">
+                          <label for="">FaceBook Profile </label><br>
+                          <input required type="url" id="addressSearch" name="FaceBookProfile"
+                            class="form-control pac-target-input" placeholder="FaceBook" autocomplete="off">
                         </div>
                         <div class="col">
-                          <label for="">instaProfile </label><br>
-                          <input required type="text" id="addressSearch" name="instaProfile"
-                            class="form-control pac-target-input" placeholder="instaProfile" autocomplete="off">
+                          <label for="">instagram Profile </label><br>
+                          <input required type="url" id="addressSearch" name="instaProfile"
+                            class="form-control pac-target-input" placeholder="Instagram" autocomplete="off">
                         </div>
                       </div><br>
 
                       <div class="row g-3">
                         <div class="col">
-                          <label for="">webProfile</label><br>
-                          <input required type="text" name="webProfile" class="form-control pac-target-input"
+                          <label for="">WebProfile</label><br>
+                          <input required type="url" name="webProfile" class="form-control pac-target-input"
                             placeholder="Enter webProfile" autocomplete="off">
                         </div>
                       </div><br>
@@ -120,6 +143,7 @@
                             required />
                         </div>
                       </div>
+                      <br>
                       <div class="row mb-3">
 
                         <div class="col-sm-10">
@@ -128,6 +152,119 @@
                       </div>
 
                     </form>
+                    <%}else{%>
+                      <form action="/business-profile-info-by-Admin?id=<%=saloon_data._id%>" method="post">
+
+                        <div class="row g-3">
+                          <div class="col">
+                             <label for="">Service</label><br>
+                            <!--<input required type="text" name="yourService" class="form-control"
+                              placeholder="Enter Your your Service"> -->
+                                <select   name="" id="" class="form-control">
+                                <option value="" disabled selected>Select Service</option>
+                                <option value="">Spa</option>
+                                <option value="">Saloon</option>
+                                <option value="">Parlour</option>
+                              </select>
+                          </div>
+                          <div class="col">
+                            <label for=""> Alternate Phone </label><br>
+                            <input required type="text" name="alternatePhone" class="form-control"
+                              placeholder="Enter a alternate Phone">
+                          </div>
+  
+                        </div><br>
+  
+  
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for="">Working Day</label><br>
+                            <input class="form-check-input" type="checkbox" value="Monday" name="workingday"
+                              id="gridCheck1">Monday
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input class="form-check-input" type="checkbox" value="Tuesday" name="workingday"
+                              id="gridCheck1">Tuesday
+                               <br>
+                            <input class="form-check-input" type="checkbox" value="Wednesday" name="workingday"
+                              id="gridCheck1">Wednesday
+                              &nbsp;
+                            <input class="form-check-input" type="checkbox" value="Thursday" name="workingday"
+                              id="gridCheck1">Thursday
+                              <br>
+                            <input class="form-check-input" type="checkbox" value="Friday" name="workingday"
+                              id="gridCheck1">Friday
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input class="form-check-input" type="checkbox" value="Saturday" name="workingday"
+                              id="gridCheck1">Saturday
+                              <br>
+                            <input class="form-check-input" type="checkbox" value="Sunday" name="workingday"
+                              id="gridCheck1">Sunday
+                          </div>
+                          <div class="col">
+                            <label for="">Amenities </label><br>
+                            <input class="form-check-input" type="checkbox" value="cctv" name="amenities"
+                              id="gridCheck1">cctv
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input class="form-check-input" type="checkbox" value="card payment" name="amenities"
+                              id="gridCheck1">card payment
+                              <br>
+                            <input class="form-check-input" type="checkbox" value="parking" name="amenities"
+                              id="gridCheck1">parking
+                            <input class="form-check-input" type="checkbox" value="tv" name="amenities" id="gridCheck1">tv
+                            <br>
+                            <input class="form-check-input" type="checkbox" value="ac" name="amenities" id="gridCheck1">ac
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input class="form-check-input" type="checkbox" value="wifi" name="amenities"
+                              id="gridCheck1">wifi <br>
+                            <input class="form-check-input" type="checkbox" value="beverag" name="amenities"
+                              id="gridCheck1">beverag
+                          </div>
+                        </div>
+                        <br>
+  
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for="">FaceBook Profile </label><br>
+                            <input required type="url" id="addressSearch" name="FaceBookProfile"
+                              class="form-control pac-target-input" placeholder="FaceBook" autocomplete="off">
+                          </div>
+                          <div class="col">
+                            <label for="">instagram Profile </label><br>
+                            <input required type="url" id="addressSearch" name="instaProfile"
+                              class="form-control pac-target-input" placeholder="Instagram" autocomplete="off">
+                          </div>
+                        </div><br>
+  
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for="">WebProfile</label><br>
+                            <input required type="url" name="webProfile" class="form-control pac-target-input"
+                              placeholder="Enter webProfile" autocomplete="off">
+                          </div>
+                        </div><br>
+  
+                        <div class="row g-3">
+                          <div class="col-6">
+                            <label for="starting-time">Starting Time </label>
+                            <input id="starting_time" type="time" class="form-control pac-target-input"
+                              name="starting_time" required />
+                          </div>
+                          <div class="col-6">
+                            <label for="ending-time">Ending Time </label>
+                            <input id="ending_time" type="time" class="form-control pac-target-input" name="ending_time"
+                              required />
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row mb-3">
+  
+                          <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                          </div>
+                        </div>
+  
+                      </form>
+                      <%}%>
 
                   </div>
                 </div>
