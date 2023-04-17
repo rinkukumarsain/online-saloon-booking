@@ -3,11 +3,18 @@ const category = require("./model");
 exports.getCategoryListing = async (req) => {
     try {
         let condition = {};
-        if (req?.query?.id != undefined && req?.query?.id != "") {
-            condition = { _id: req.query.id };
+        if (req.query.id != undefined && req.query.id != "") {
+            condition._id = req.query.id
         } else {
-            condition = { parent_Name: null };
+            condition.parent_Name = null
         };
+
+        if (req.query.type != undefined && req.query.type != "") {
+            condition.type = 1
+        } else {
+            condition.type = 0
+        }
+
         const FindData = await category.find(condition);
         if (FindData.length > 0) {
             return {

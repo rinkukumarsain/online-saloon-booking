@@ -44,6 +44,14 @@ exports.allUser = async (req, res) => {
                     'as': 'result'
                 }
             }, {
+
+                '$lookup': {
+                    from: "users",
+                    localField: "_id",
+                    foreignField: "referId",
+                    as: "referUser"
+                }
+            }, {
                 '$project': {
                     'name': 1,
                     'phone': 1,
@@ -68,10 +76,21 @@ exports.allUser = async (req, res) => {
                             },
                             'else': 'NA'
                         }
-                    }
+                    }, 'numberOfreferel': {
+                        '$cond': {
+                            'if': {
+                                '$isArray': "$referUser",
+                            },
+                            'then': {
+                                '$size': "$referUser",
+                            },
+                            'else': "NA",
+                        },
+                    },
                 }
             }
         ]);
+        console.log("------>",Finddata)
         return {
             statusCode: 200,
             status: true,

@@ -26,7 +26,8 @@ exports.AddCategory = async (req, res, _id) => {
             const data = new CategoryModal({
                 parent_Name: req.body.parent_Name,
                 Name: req.body.Name,
-                image: req.body.image
+                image: req.body.image,
+                type: req.body.type
             })
             const result = await data.save()
             res.redirect("/view-category")

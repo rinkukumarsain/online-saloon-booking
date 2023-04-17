@@ -15,9 +15,6 @@
   <%- include('../../partials/Header.ejs') %>
     <%- include("../../partials/sidebar.ejs") %>
 
-
-
-
       <main id="main" class="main">
         <div class="pagetitle">
 
@@ -50,8 +47,8 @@
                             <label for="" class="form-label">Sub Category Name</label>
                             <input type="text" class="form-control" placeholder="Enter Sub  Category Name" name="Name"
                               required />
-                          <div class="invalid-feedback">Please Enter Sub Category Name.</div>
-  
+                            <div class="invalid-feedback">Please Enter Sub Category Name.</div>
+
                           </div>
                           <div class="col-10">
                             <label for="inputPassword4" class="form-label">Sub Category Image</label>
@@ -67,8 +64,8 @@
                         </form><!-- Vertical Form -->
                         <%}else if(typeof data !="undefined" && data !="" ){%>
                           <h5 class=" card-title">Edit Category</h5>
-                          <form class="needs-validation row g-3" action="/Add-New-Category?EditId=<%= data._id%>" method="post"
-                            enctype="multipart/form-data" novalidate>
+                          <form class="needs-validation row g-3" action="/Add-New-Category?EditId=<%= data._id%>"
+                            method="post" enctype="multipart/form-data" novalidate>
 
                             <div class="col-8">
                               <label for="" class="form-label">Edit Category Name</label>
@@ -105,12 +102,19 @@
                                 <label for="" class="form-label">Category Name</label>
                                 <input type="text" class="form-control" name="Name" placeholder="Enter Category Name"
                                   id="" required>
-                                  <div class="invalid-feedback">Please Enter Category Name.</div>
+                                <div class="invalid-feedback">Please Enter Category Name.</div>
                               </div>
-                              <div class="col-10">
+                              <div class="col-6">
                                 <label for="inputPassword4" class="form-label">Category Image</label>
                                 <input type="file" name="file" class="form-control" id="inputPassword4" required>
                                 <div class="invalid-feedback">Please Select Image.</div>
+                              </div>
+                              <div class="col-6">
+                                <label for="inputPassword4" class="form-label">type</label>
+                                <select class="form-select" name="type" aria-label="Default select example" required="">
+                                  <option value="0">For Service</option>
+                                  <option value="1">For Service packages</option>
+                                </select>
                               </div>
 
                               <div class="text-center">
@@ -150,19 +154,7 @@
           class="bi bi-arrow-up-short"></i></a>
 
       <!-- Vendor JS Files -->
-      <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-      <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-      <script src="assets/vendor/chart.js/chart.min.js"></script>
-      <script src="assets/vendor/echarts/echarts.min.js"></script>
-      <script src="assets/vendor/quill/quill.min.js"></script>
-      <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-      <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-      <script src="assets/vendor/php-email-form/validate.js"></script>
-      <script src="/public/assets/js/form-validation.js"></script>
-
-
-      <!-- Template Main JS File -->
-      <script src="assets/js/main.js"></script>
+      <%- include("../../partials/script.ejs") %>
 
 </body>
 

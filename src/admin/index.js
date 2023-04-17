@@ -12,9 +12,10 @@ const category = require("./category/routes");
 const user = require("./users/route");
 const Artists = require("./Artists/routes");
 const Vacancy = require("./Vacancy/routes");
-const refer = require("./Refer-And-point/routes")
-const Contact = require("./Contact-us/route")
+const refer = require("./Refer-And-point/routes");
+const Contact = require("./Contact-us/route");
+const package = require("./servicePackage/route");
 
 module.exports = [adminRoutes, add_saloone, add_service,
     add_frequent, order, add_blog, category, Counpon, payment,
-    user, Artists, Vacancy, refer, Contact]
+    user, Artists, Vacancy, refer, Contact, package]
