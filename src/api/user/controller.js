@@ -281,14 +281,49 @@ exports.loginOtpVerify = async ({ body }) => {
     };
 };
 
-exports.user_Profile = async ({ user }) => {
+exports.user_Profile = async ({ user, query }) => {
     try {
         if (user) {
+            let condition = []
+            condition.push({
+                '$match': {
+                    '_id': user._id
+                }
+            })
+            if (query.Transaction != undefined && query.Transaction != "") {
+                condition.push({
+                    '$lookup': {
+                        'from': 'refertransactions',
+                        'localField': '_id',
+                        'foreignField': 'userId',
+                        'pipeline': [
+                            {
+                                '$lookup': {
+                                    'from': 'refers',
+                                    'localField': 'referPlanId',
+                                    'foreignField': '_id',
+                                    'as': 'referPlanId'
+                                }
+                            }, {
+                                '$unwind': {
+                                    'path': '$referPlanId'
+                                }
+                            }, {
+                                '$replaceRoot': {
+                                    'newRoot': '$referPlanId'
+                                }
+                            }
+                        ],
+                        'as': 'referTransactions'
+                    }
+                })
+            }
+            const FindData = await userModel.aggregate(condition)
             return {
                 statusCode: 200,
                 status: true,
                 message: "user-Profile !",
-                data: [user]
+                data: FindData
             };
         };
     } catch (error) {
