@@ -55,7 +55,7 @@
                             <option value="">Select Type</option>
                             <% for(Categor of Category){%>
                               <option value="<%= Categor?._id%>"
-                                <%=Categor?._id.toString()===data?.PackageCotegory.toString() ? "selected" : "" %>>
+                                <%=Categor?._id?.toString()===data?.PackageCotegory?.toString() ? "selected" : "" %>>
                                 <%= Categor?.Name%>
                               </option>
                               <%}%>

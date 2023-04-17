@@ -123,8 +123,8 @@
                                     <%= data?.gender %>
                                   </td>
                                   <td>
-                                    <a href="/package?saloonId=<%= data._id%>&&id=<%=data?._id%>" class="btn btn-info"><i
-                                        class="ri-edit-box-line" title="Edit"></i></a>
+                                    <a href="/package?saloonId=<%= data._id%>&&id=<%=data?._id%>"
+                                      class="btn btn-info"><i class="ri-edit-box-line" title="Edit"></i></a>
                                     <a href="/delete_package?id=<%= data._id%>" class="btn btn-danger">
                                       <i class="ri-delete-bin-5-line" title="delete"></i>
                                     </a>
@@ -196,7 +196,7 @@
                             <td scope="row">${item.ServiceName}</td>
                             <td>${item.ServicePrice}</td>
                             <td>${item.timePeriod_in_minits}</td>
-                            <td><img src="${item.image[0]}" alt="img"></td>
+                            <td><img src="${item.image[0]}" alt="img" style="width:50px"></td>
                           </tr>`
                     i++
                   })

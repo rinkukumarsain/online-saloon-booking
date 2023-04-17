@@ -49,6 +49,10 @@ const userSchema = new mongoose.Schema({
     point: {
       type: Number,
       default: 0
+    },
+    useBalance: {
+      type: Number,
+      default: 0
     }
   },
   referalDetails: {

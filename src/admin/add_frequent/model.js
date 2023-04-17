@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     // unique: true
     default: ""
-  }
+  },
+ 
 })
 
 module.exports = mongoose.model("FAQ", userSchema);
