@@ -16,6 +16,10 @@ exports.getCategoryListing = async (req) => {
         }
 
         const FindData = await category.find(condition);
+
+        for (const item of FindData) {
+            item.image = "http://159.89.164.11:7070/uploads/" + item.image
+        }
         if (FindData.length > 0) {
             return {
                 statusCode: 200,

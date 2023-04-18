@@ -206,14 +206,12 @@ exports.addcart = async ({ user, query }) => {
         let newCart;
         let i;
         const findData = await cart.find({ userId: user._id });
-        // console.log("user carts", findData)
         if (findData.length == 0) {
             obj.userId = user._id;
             if (query.saloonId) {
                 let _id = mongoose.Types.ObjectId(query.saloonId);
                 const findSaloon = await saloon.findOne({ _id });
                 if (findSaloon) {
-                    // console.log("cart RRR", 1)
                     obj.saloonId = query.saloonId;
                 } else {
                     return {
@@ -224,46 +222,32 @@ exports.addcart = async ({ user, query }) => {
                     };
                 };
             };
-            // console.log(obj)
             let cart_detail = new cart(obj);
             const result = await cart_detail.save();
             if (result) {
                 console.log("User-Cart-register- Succesfuuly !", 1)
             };
         } else if (findData.length > 0) {
-            // findData.forEach(async (element) => {
             const findccc = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) })
             i = 1
-            if (findccc) {
-                console.log("this user is allredy this saloon ke saat cart add hai ", findccc._id)
-
-            } else {
+            if (!findccc) {
                 for await (const element of findData) {
-                    // }
-                    // console.log("findD carts", element.saloonId)
                     if (query.saloonId != element.saloonId.toString() && i === 1) {
-                        // console.log("if")
                         obj.userId = user._id;
                         obj.saloonId = query.saloonId;
                         let cart_detail = new cart(obj);
                         newCart = await cart_detail.save();
-                        // console.log("new cart ban jaye", obj, "newCart", newCart)
                         i++
                     }
                 }
             }
-            // });
-            // fesd
         }
-        // dfhgfjhg
         console.log("User-Cart-register- Succesfuuly !", 2)
         if (query.serviceId) {
-            // console.log("query.serviceId", query.serviceId)
             let _id = mongoose.Types.ObjectId(query.serviceId);
             console.log("_id_id_id_id", _id)
             if (newCart) {
                 findService = await service.findOne({ _id, saloonStore: newCart.saloonId });
-                // console.log("findService", 1111, findService)
                 if (!findService) {
                     return {
                         statusCode: 400,
@@ -271,8 +255,7 @@ exports.addcart = async ({ user, query }) => {
                         message: "service is  not Found this Saloon store  !",
                         data: []
                     };
-                }// else {
-                const FindCart = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
+                } const FindCart = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
                 if (FindCart) {
                     if (FindCart.cartdata.length > 0) {
                         for (const item of FindCart.cartdata) {
@@ -287,7 +270,6 @@ exports.addcart = async ({ user, query }) => {
                         timePeriod_in_minits: findService.timePeriod_in_minits,
                     });
                 }
-                // console.log("neew cart nhi bani ", 21, FindCart, 21)
                 let totalamount = [];
                 serviceArr.forEach(element => {
                     totalamount.push(Number(element.Amount))
@@ -306,11 +288,8 @@ exports.addcart = async ({ user, query }) => {
                     };
                 };
 
-                // }
             } else {
-                // console.log(111, "new cart nhi bani ")
                 const findService = await service.findOne({ _id, saloonStore: mongoose.Types.ObjectId(query.saloonId) });
-                // console.log("findService", 1111, findService)
                 if (!findService) {
                     return {
                         statusCode: 200,
@@ -319,11 +298,8 @@ exports.addcart = async ({ user, query }) => {
                         data: []
                     };
                 }
-                //     }
 
-                // };
                 const FindCart = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
-                // console.log("--===", 4444, FindCart)
                 if (FindCart) {
                     if (FindCart.cartdata.length > 0) {
                         for (const item of FindCart.cartdata) {
@@ -345,7 +321,6 @@ exports.addcart = async ({ user, query }) => {
                     let sum = totalamount.reduce(function (x, y) {
                         return x + y;
                     }, 0);
-                    // console.log("serviceArr-->", serviceArr, "---->", totalamount)
 
                     const result = await cart.findByIdAndUpdate({ _id: FindCart._id }, { $set: { cartdata: serviceArr, totalamount: sum } }, { new: true });
                     if (result) {
@@ -363,8 +338,7 @@ exports.addcart = async ({ user, query }) => {
                         message: "cart not Found register karwao !",
                         data: [FindCart]
                     };
-                } /*
-                                };*/
+                }
             }
 
         };

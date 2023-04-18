@@ -24,6 +24,7 @@ exports.getServicePackage = async (query) => {
                 '_id': '$saloonId',
                 'ServicesDitail': {
                     '$push': {
+                        'PackageId':"$_id",
                         'PackageName': '$PackageName',
                         'saloonId': '$saloonId',
                         'Services': '$Services',

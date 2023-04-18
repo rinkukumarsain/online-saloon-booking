@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>service Package</title>
+  <title>editindex Package</title>
   <%- include('../../partials/headlink.ejs') %>
 </head>
 
@@ -29,14 +29,15 @@
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title">Package Create </h5>
-                    <form class="needs-validation row g-3" action="/Create-Package?saloonId=<%=query.saloonId%>"
-                      method="post" novalidate>
+
+                    <h5 class="card-title">Package Edit</h5>
+                    <form class="needs-validation row g-3" action="/Package-Edit?id=<%=data[0]._id%>" method="post"
+                      novalidate>
 
                       <div class="col-md-6">
                         <label for="">Title Name</label>
                         <input type="text" name="PackageName" class="form-control"
-                          placeholder="Enter Package Title Name" value="<%=data?.PackageName %>" required>
+                          placeholder="Enter Package Title Name" value="<%=data[0]?.PackageName %>" required>
                         <div class="invalid-feedback">Please Enter Title Name.</div>
                       </div>
 
@@ -47,7 +48,7 @@
                           <option value="">Select Type</option>
                           <% for(Categor of Category){%>
                             <option value="<%= Categor?._id%>"
-                              <%=Categor?._id?.toString()===data?.PackageCotegory?.toString() ? "selected" : "" %>
+                              <%=Categor?._id?.toString()===data[0]?.PackageCotegory?.toString() ? "selected" : "" %>
                               >
                               <%= Categor?.Name%>
                             </option>
@@ -60,31 +61,48 @@
                         <select class="form-select" name="gender" id="gender" aria-label="Default select example"
                           onchange="FindService(this)" required="">
                           <option value="">Select Type</option>
-                          <option value="male" <%=data?.gender==="male" ? "selected" :"" %>>male</option>
-                          <option value="female" <%=data?.gender=='female' ? "selected" :"" %> >female
+                          <option value="male" <%=data[0]?.gender==="male" ? "selected" :"" %>>male</option>
+                          <option value="female" <%=data[0]?.gender=='female' ? "selected" :"" %> >female
                           </option>
                         </select>
                       </div>
-                      <div id="myselect" class="col-md-6"> </div>
+                      <% let arrr=[]%>
+                        <% for (const item of data[0].Services) {%>
+                          <% arrr.push(item.toString())%>
+                            <%}%>
+                              <%console.log("arrr",arrr)%>
+                                <div class="col-md-6">
+                                  <label for="">Select service</label>
+                                  <select class="form-select" name="gender" id="gender" multiple
+                                    aria-label="Default select example" required="">
+                                    <option value="">Select Type</option>
+                                    <% for (const service of FindService) {%>
+                                      <option value="<%=service._id%>" <%=arrr.includes(service._id.toString())==true
+                                        ? "selected" :"" %>>
+                                        <%=service.ServiceName%>
+                                      </option>
+                                      <%}%>
+                                  </select>
+                                </div>
 
-                      <div class="col-md-6">
-                        <label for="">Amount</label>
-                        <input type="number" name="Amount" id="Amount" value="<%=data?.Amount %>" class="form-control"
-                          placeholder="Enter Amount" min="0" required readonly>
-                        <div class="invalid-feedback">Please Enter Amount.</div>
-                      </div>
+                                <div class="col-md-6">
+                                  <label for="">Amount</label>
+                                  <input type="number" name="Amount" id="Amount" value="<%=data[0]?.Amount%>"
+                                    class="form-control" placeholder="Enter Amount" min="0" required readonly>
+                                  <div class="invalid-feedback">Please Enter Amount.</div>
+                                </div>
 
-                      <div class="col-md-6">
-                        <label for="">final Price</label>
-                        <input type="number" name="finalPrice" id='FinalPrice' value="<%=data?.finalPrice %>"
-                          class="form-control" placeholder="Enter final Price less than or equal to amount" min="0"
-                          required>
-                        <div class="invalid-feedback">Please Enter final Price.</div>
-                      </div>
+                                <div class="col-md-6">
+                                  <label for="">final Price</label>
+                                  <input type="number" name="finalPrice" id='FinalPrice'
+                                    value="<%=data[0]?.finalPrice %>" class="form-control"
+                                    placeholder="Enter final Price less than or equal to amount" min="0" required>
+                                  <div class="invalid-feedback">Please Enter final Price.</div>
+                                </div>
 
-                      <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                      </div>
+                                <div class="text-center">
+                                  <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
 
                     </form><!-- End No Labels Form -->
                   </div>
@@ -114,7 +132,7 @@
                     abc += `<option value=${JSON.stringify({ id: item._id, amount: item.ServicePrice })}>${item.ServiceName}</option>`
                   })
                   abc += `</select> 
-                  <div class="invalid-feedback">Please Select Sub Category.</div> </div>`
+                            <div class="invalid-feedback">Please Select Sub Category.</div> </div>`
                   let num2 = num + 1
                   while (true) {
                     let cat = $(`#subcategory-${num2}`)
@@ -148,16 +166,16 @@
         </script>
         <!-- sahil script for amount and final price -->
         <script>
-          const amountInput = document.getElementById('Amount');
-          const finalPriceInput = document.getElementById('FinalPrice');
-          amountInput.addEventListener('input', () => {
-            // Update the final price input value to match the amount input value
-            finalPriceInput.value = Math.min(amountInput.value, finalPriceInput.value);
-          });
-          finalPriceInput.addEventListener('input', () => {
-            // Ensure the final price input value is not higher than the amount input value
-            finalPriceInput.value = Math.min(amountInput.value, finalPriceInput.value);
-          });
+          // const amountInput = document.getElementById('Amount');
+          // const finalPriceInput = document.getElementById('FinalPrice');
+          // amountInput.addEventListener('input', () => {
+          //   // Update the final price input value to match the amount input value
+          //   finalPriceInput.value = Math.min(amountInput.value, finalPriceInput.value);
+          // });
+          // finalPriceInput.addEventListener('input', () => {
+          //   // Ensure the final price input value is not higher than the amount input value
+          //   finalPriceInput.value = Math.min(amountInput.value, finalPriceInput.value);
+          // });
         </script>
 </body>
 
