@@ -57,6 +57,7 @@ exports.CreatePackage = async (req, res) => {
         let arr = [];
         for (const item of req.body.Services) {
             let data = JSON.parse(item)
+
             arr.push(data.id)
         };
         req.body.Services = arr
