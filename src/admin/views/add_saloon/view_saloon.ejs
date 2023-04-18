@@ -174,15 +174,15 @@
                                   </a> -->
                                   <!-- sahil view -->
                                   <%if( data.result.length>0){%>
-                                    <a href="/view-service-Package-particular?id=<%= data._id%>" class="btn btn-success">
+                                    <a href="/view-service-Package?id=<%= data._id%>" class="btn btn-success">
                                       <%= data.result.length %>
                                         <i class="bi bi-eye" title="view Service"></i>
                                     </a>
                                     <%}%>
-                                  <!-- sahil view end -->
-                                  <a href="/package?saloonId=<%= data._id%>" class="btn btn-success text-warning"><i
-                                      class="ri-file-add-line" title="Add Sub Category"></i></a>
-                                  <% }%>
+                                      <!-- sahil view end -->
+                                      <a href="/package?saloonId=<%= data._id%>" class="btn btn-success text-warning"><i
+                                          class="ri-file-add-line" title="Add Sub Category"></i></a>
+                                      <% }%>
                               </td>
                               <td>
                                 <!-- <a href="/add_saloon?id=<%= data._id%>" class="btn btn-dark">Edit</a>

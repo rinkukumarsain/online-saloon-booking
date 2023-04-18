@@ -1,22 +1,32 @@
 const mongoose = require("mongoose");
 const { getAllSaloonCity } = require("../../api/saloonstore/controller");
-const { getCategoryListing } = require("../../api/category/controller")
-const saloonService = require("../../api/saloonService/model")
-const package = require("./model")
+const { getCategoryListing } = require("../../api/category/controller");
+const saloonService = require("../../api/saloonService/model");
+const package = require("./model");
 
 exports.package = async (req, res) => {
     try {
         req.query.type = 1
         let iid = req.query.id
         req.query.id = ""
-        console.log("package", req.query)
         const FindCategory = await getCategoryListing(req)
-
         if (iid != undefined && iid != "") {
-            console.log("idd", iid)
-            const data = await package.findOne({ _id: mongoose.Types.ObjectId(iid) });
+            const data = await package.aggregate([{
+                '$match': {
+                    '_id': mongoose.Types.ObjectId(iid)
+                }
+            }, {
+                '$lookup': {
+                    'from': 'saloonservices',
+                    'localField': 'Services',
+                    'foreignField': '_id',
+                    'as': 'saloservices'
+                }
+            }]);
+            const FindService = await saloonService.find({ saloonStore: data[0].saloonId })
+            console.log("FindServiceb h", FindService.length)
             if (data) {
-                res.render("servicePackage/index", { user: req.user, data, Category: FindCategory.data, query: req.query });
+                res.render("servicePackage/editindex", { user: req.user, data, Category: FindCategory.data, query: req.query, FindService });
             }
         } else {
             res.render("servicePackage/index", { user: req.user, data: "", Category: FindCategory.data, query: req.query });
@@ -31,9 +41,9 @@ exports.package = async (req, res) => {
 
 exports.FindServiceForPackages = async (req, res) => {
     try {
-        // console.log("FindServiceForPackages", req.query)
-        const FindService = await saloonService.find({ saloonStore: mongoose.Types.ObjectId(req.query.saloonId), type: { $in: ['unisex', req.query.type] } })
-        // console.log(FindService.length)
+        console.log("FindServiceForPackages", req.query.saloonId)
+        const FindService = await saloonService.find({ saloonStore: mongoose.Types.ObjectId(req.query.saloonId), $or: [{ type: "unisex" }, { type: "male" }] })
+        console.log("FindService.length", FindService.length)
         // f
         res.send(FindService)
     } catch (error) {
@@ -42,114 +52,121 @@ exports.FindServiceForPackages = async (req, res) => {
 };
 
 exports.CreatePackage = async (req, res) => {
-    try {res.locals.message = req.flash();
-        console.log("CreatePackage", req.query, "body", req.body)
-        // console.log("req.body.Services", req.body.Services)
+    try {
+        res.locals.message = req.flash();
         let arr = [];
-
-         for (const item in req.body.Services) {
-            //console.log(" kjlkjljlllk",item)
-            //if(item)
-            //{//let data=item
-            
+        for (const item of req.body.Services) {
             let data = JSON.parse(item)
             arr.push(data.id)
-            console.log("item", 1, item)
-            // hh
-            // j
-        }
-        let info=await package.findOne({ PackageCotegory:req.body.PackageCotegory,salonnId:req.query.saloonId})
-        if(!info)
-        {
-        console.log("arr",arr)
+        };
         req.body.Services = arr
         req.body.saloonId = req.query.saloonId
+        console.log("req", req.query)
         const pakegeDetail = new package(req.body)
         const result = await pakegeDetail.save()
-        }
-        else
-        {req.body.Services = arr
-            req.body.saloonId = req.query.saloonId
-            
-            let pakegeDetail=await package.updateMany(
-            { PackageCotegory:req.body.PackageCotegory,salonnId:req.query.saloonId} ,
-             req.body,{new:true} 
-         );
 
+        if (result) {
+            req.flash("success", "package Createed successfully");
+            res.redirect("/view-service-Package");
+        } else {
+            req.flash("error", "samething is wroung ");
+            res.redirect("/");
         }
-        // console.log("result", result)
-        req.flash("success","package edit successfully")
-        res.redirect("/")
-        // const FindService = await saloonService.find({ saloonStore: mongoose.Types.ObjectId(req.query.saloonId), type: { $in: ['unisex', req.query.type] } })
-        // // console.log(FindService.length)
-        // // f
-        // res.send(FindService)
     } catch (error) {
         console.log(error);
     };
 };
 
+
+exports.packageEdit = async (req, res) => {
+    console.log("packageEdit")
+}
+
 exports.viewServicePackage = async (req, res) => {
     try {
         res.locals.message = req.flash();
-        const data = await package.aggregate([
-            {
-                '$lookup': {
-                    'from': 'saloons',
-                    'localField': 'saloonId',
-                    'foreignField': '_id',
-                    'pipeline': [
-                        {
-                            '$project': {
-                                'storeName': 1
-                            }
-                        }
-                    ],
-                    'as': 'saloonNmae'
+        let condition = []
+
+        if (req.query.id != undefined && req.query.id != "") {
+            condition.push({
+                '$match': {
+                    'saloonId': mongoose.Types.ObjectId(req.query.id)
                 }
+            })
+        };
+        condition.push({
+            '$lookup': {
+                'from': 'saloons',
+                'localField': 'saloonId',
+                'foreignField': '_id',
+                'pipeline': [
+                    {
+                        '$project': {
+                            'storeName': 1
+                        }
+                    }
+                ],
+                'as': 'saloonNmae'
             }
-        ]);
+        }, {
+            '$lookup': {
+                'from': 'categories',
+                'localField': 'PackageCotegory',
+                'foreignField': '_id',
+                'pipeline': [
+                    {
+                        '$project': {
+                            'Name': 1
+                        }
+                    }
+                ],
+                'as': 'Cotegory'
+            }
+        })
+        const data = await package.aggregate(condition);
+
         res.render("servicePackage/view_service_Package", { query: req.query, user: req.user, data });
     } catch (error) {
         console.log(error);
     };
 };
+
 //sahil view package
-exports.viewServicePackageparticular=async (req, res) => {
+/*
+exports.viewServicePackageparticular = async (req, res) => {
     try {
         res.locals.message = req.flash();
-        const data = await package.aggregate([ {
+        const data = await package.aggregate([{
             '$match': {
-              'saloonId': mongoose.Types.ObjectId(req.query.id)
+                'saloonId': mongoose.Types.ObjectId(req.query.id)
             }
-          },
-            {
-                '$lookup': {
-                    'from': 'saloons',
-                    'localField': 'saloonId',
-                    'foreignField': '_id',
-                    'pipeline': [
-                        {
-                            '$project': {
-                                'storeName': 1
-                            }
+        },
+        {
+            '$lookup': {
+                'from': 'saloons',
+                'localField': 'saloonId',
+                'foreignField': '_id',
+                'pipeline': [
+                    {
+                        '$project': {
+                            'storeName': 1
                         }
-                    ],
-                    'as': 'saloonNmae'
-                }
+                    }
+                ],
+                'as': 'saloonNmae'
             }
+        }
         ]);
-        console.log("data",data)
+        console.log("data", data)
 
         res.render("servicePackage/viewServicePackageparticular", { query: req.query, user: req.user, data });
     } catch (error) {
         console.log(error);
     };
-}; 
+};*/
 //sahil view package end
 exports.deletePackage = async (req, res) => {
     try {
-
         if (req.query.id != undefined && req.query.id != "") {
             const updateData = await package.findByIdAndDelete({ _id: mongoose.Types.ObjectId(req.query.id) })
             if (updateData) {
