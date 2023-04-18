@@ -126,7 +126,7 @@
                           <th scope="col">#</th>
                           <th scope="col"> rupee</th>
                           <th scope="col">point</th>
-                          <th scope="col">MoreActionvvvvv</th>
+                          <th scope="col">MoreAction</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -145,16 +145,11 @@
                               </td>
 
                               <td>
-                                <% if( data?.status=="succes" ){%>
-                                  <a href="/add_service?id=<%= data?._id%>" class="btn btn-dark">succes</a>
-                                  <%}else if( data?.status=="cancel" ){%>
-                                    <a href="#" class="btn btn-danger">Cancel</a>
-                                    <%}else{%>
-                                      <a href="/Admin-Order-Approve?id=<%= data?._id%>" class="btn btn-dark">G</a>
-                                      <a href="/Admin-Order-Cancel?id=<%= data?._id%>" class="btn btn-danger">D</a>
-                                      <a href="/Set-point-to-rupee?id=<%=data?._id%>" class="btn btn-info"><i
-                                          class="ri-edit-box-line" title="Edit"></i></a>
-                                      <%}%>
+                                <a href="/Set-point-to-rupee?id=<%=data?._id%>" class="btn btn-info"><i
+                                    class="ri-edit-box-line" title="Edit"></i></a>
+                                <a href="/Delete-Refer-Eran-program?id=<%= data?._id%>" class="btn btn-danger">
+                                  <i class="ri-delete-bin-5-line" title="delete"></i>
+                                </a>
                               </td>
                             </tr>
                             <%}%>
