@@ -4,6 +4,9 @@ const fs = require("fs");
 const userModel = require("../../api/user/model");
 const { findByIdAndUpdate } = require('./model');
 const path = require("path")
+
+const service = require("./service")
+
 exports.admin = async (req, res) => {
     try {
         if (req.cookies.accessToken) {
@@ -11,6 +14,7 @@ exports.admin = async (req, res) => {
             const user = await userModel.findOne({ _id })
             res.locals.message = req.flash();
             if (user) {
+                // let data = service.AllDetail(req)
                 res.render("users/dashboard", { user })
             } else {
                 res.locals.message = req.flash();
@@ -191,3 +195,12 @@ exports.AdminlogOut = async (req, res) => {
     }
 }
 
+// const order = require("../../api/order/model")
+// exports.orderDetail = async (req, res) => {
+//     try {
+//         const data = await order.find()
+//         res.send(data);
+//     } catch (error) {
+//         console.log(error);
+//     };
+// };
