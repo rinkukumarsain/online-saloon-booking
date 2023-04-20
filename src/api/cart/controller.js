@@ -108,107 +108,83 @@ exports.getcart = async ({ user, query }) => {
                 }
             })
         }
-
         condition.push({
             '$unwind': {
-                'path': '$cartdata',
-                'preserveNullAndEmptyArrays': true
+                'path': '$cartdata'
             }
         }, {
             '$lookup': {
                 'from': 'saloonservices',
                 'localField': 'cartdata.serviceId',
                 'foreignField': '_id',
-                'as': 'cartdata'
+                'as': 'result'
             }
         }, {
             '$unwind': {
-                'path': '$cartdata',
-                'preserveNullAndEmptyArrays': true
+                'path': '$result'
             }
         }, {
-            '$group': {
-                '_id': '$_id',
-                'Service': {
-                    '$push': {
-                        '_id': '$cartdata._id',
-                        'ServiceName': '$cartdata.ServiceName',
-                        'ServicePrice': '$cartdata.ServicePrice',
-                        'timePeriod_in_minits': '$cartdata.timePeriod_in_minits',
-                        'image': '$cartdata.image',
-                        'description': '$cartdata.ServiceName'
-                    }
+            '$project': {
+                'totalamount': 1,
+                'cartdata': {
+                    'saloonId': '$result.saloonStore',
+                    'serviceId': '$result._id',
+                    'quantity': '$cartdata.quantity',
+                    'Amount': '$cartdata.Amount',
+                    'ServiceName': '$result.ServiceName',
+                    'ServicePrice': '$result.ServicePrice',
+                    'timePeriod_in_minits': '$result.timePeriod_in_minits',
+                    'serviceProvider': '$result.serviceProvider',
+                    'image': '$result.image',
+                    'description': '$result.description'
                 },
-                'Package': {
-                    '$first': '$Package'
-                },
-                'saloon': {
-                    '$first': '$saloonId'
-                }
-            }
-        }, {
-            '$lookup': {
-                'from': 'saloons',
-                'localField': 'saloon',
-                'foreignField': '_id',
-                'as': 'saloon'
+                'addressId': '$addressId'
             }
         })
-        // countOfPackage=0
-        // if (countOfPackage > 0) {
-        condition.push({
-            '$unwind': {
-                'path': '$Package',
-                'preserveNullAndEmptyArrays': true
-
-            }
-        }, {
-            '$lookup': {
-                'from': 'packages',
-                'localField': 'Package',
-                'foreignField': '_id',
-                'as': 'Package'
-            }
-        }, {
-            '$unwind': {
-                'path': '$Package',
-                'preserveNullAndEmptyArrays': true
-            }
-        }, {
-            '$group': {
-                '_id': '$_id',
-                'Service': {
-                    '$first': '$Service'
-                },
-                'Package': {
-                    '$push': {
-                        '_id': '$Package._id',
-                        'PackageName': '$Package.PackageName',
-                        'Amount': '$Package.Amount',
-                        'finalPrice': '$Package.finalPrice',
-                        'gender': '$Package.gender'
-                    }
-                },
-                'saloon': {
-                    '$first': '$saloon'
-                }
-            }
-        })
-        // } else {
-        //     condition.push({
-        //         '$project': {
-        //             'Package': 0
-        //         }
-        //     })
-        // }
         const findData = await cart.aggregate(condition)
-
-        if (findData) {
+        const findSaloon = await cart.aggregate([
+            {
+                '$match': {
+                    'userId': user._id
+                }
+            }, {
+                '$lookup': {
+                    'from': 'saloons',
+                    'localField': 'saloonId',
+                    'foreignField': '_id',
+                    'as': 'result'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$result'
+                }
+            }, {
+                '$replaceRoot': {
+                    'newRoot': '$result'
+                }
+            }
+        ])
+        let i;
+        i = 1
+        let cartData = []
+        for (const saloon of findSaloon) {
+            cartData = []
+            for (const cart of findData) {
+                if (cart.cartdata.saloonId.toString() === saloon._id.toString()) {
+                    cartData.push(cart)
+                }
+            }
+            if (cartData.length > 0) {
+                saloon.cart = cartData
+                arr.push(saloon)
+            }
+        }
+        if (arr) {
             return {
                 statusCode: 200,
                 status: true,
                 message: "your cart is here !",
-                data: findData
+                data: arr
             };
         } else {
             return {
