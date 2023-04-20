@@ -370,7 +370,7 @@ exports.addImagesInSaloon = async (req, res) => {
         let arr = [];
         req.files.forEach(element => {
             console.log(element.filename)
-            arr.push(element.filename)
+            arr.push(`http://159.89.164.11:7070/uploads/${element.filename}`)
         });
         const result = await saloon.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { image: arr }, { new: true })
         if (result) {
