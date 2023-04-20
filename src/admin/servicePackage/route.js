@@ -8,7 +8,7 @@ const { joi_createCoupon } = require("../../middleware/joi_createCoupon");
 
 app.get("/package", auth, package);
 app.post("/Create-Package", auth, CreatePackage);
-app.post("/package-Edit", auth, packageEdit)
+// app.post("/package-Edit", auth, packageEdit)
 app.get("/Find-Service-for-Packages", auth, FindServiceForPackages);
 // app.post("/Service-Price-Totel", auth, ServicePriceTotel);
 

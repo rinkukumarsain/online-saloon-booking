@@ -1,16 +1,9 @@
 const mongoose = require("mongoose");
 const { getAllSaloonCity } = require("../../api/saloonstore/controller");
-<<<<<<< HEAD
 const { getCategoryListing } = require("../../api/category/controller")
 const saloonService = require("../../api/saloonService/model")
 const package = require("./model")
 const saloon = require("../../api/saloonstore/model")
-=======
-const { getCategoryListing } = require("../../api/category/controller");
-const saloonService = require("../../api/saloonService/model");
-const package = require("./model");
-
->>>>>>> 7e414db570baa290decfc40791c8fb2d3895e54a
 exports.package = async (req, res) => {
     try {
         req.query.type = 1
@@ -48,14 +41,7 @@ exports.package = async (req, res) => {
 
 exports.FindServiceForPackages = async (req, res) => {
     try {
-<<<<<<< HEAD
         const FindService = await saloonService.find({ saloonStore: mongoose.Types.ObjectId(req.query.saloonId), ServicesType: 0 })
-=======
-        console.log("FindServiceForPackages", req.query.saloonId)
-        const FindService = await saloonService.find({ saloonStore: mongoose.Types.ObjectId(req.query.saloonId), $or: [{ type: "unisex" }, { type: "male" }] })
-        console.log("FindService.length", FindService.length)
-        // f
->>>>>>> 7e414db570baa290decfc40791c8fb2d3895e54a
         res.send(FindService)
     } catch (error) {
         console.log(error);
@@ -65,30 +51,6 @@ exports.FindServiceForPackages = async (req, res) => {
 exports.CreatePackage = async (req, res) => {
     try {
         res.locals.message = req.flash();
-<<<<<<< HEAD
-        console.log("CreatePackage", req.query, "body", req.body)
-        let arr = [];
-        for (const item of req.body.Services) {
-            let data = JSON.parse(item)
-            arr.push(data.id)
-        }
-        let info = await package.findOne({ PackageCotegory: req.body.PackageCotegory, salonnId: req.query.saloonId })
-        if (!info) {
-            console.log("arr", arr)
-            req.body.Services = arr
-            req.body.saloonId = req.query.saloonId
-            const pakegeDetail = new package(req.body)
-            const result = await pakegeDetail.save()
-        }
-        else {
-            req.body.Services = arr
-            req.body.saloonId = req.query.saloonId
-
-            let pakegeDetail = await package.updateMany(
-                { PackageCotegory: req.body.PackageCotegory, salonnId: req.query.saloonId },
-                req.body, { new: true }
-            );
-=======
         let arr = [];
         for (const item of req.body.Services) {
             let data = JSON.parse(item)
@@ -100,7 +62,6 @@ exports.CreatePackage = async (req, res) => {
         console.log("req", req.query)
         const pakegeDetail = new package(req.body)
         const result = await pakegeDetail.save()
->>>>>>> 7e414db570baa290decfc40791c8fb2d3895e54a
 
         if (result) {
             req.flash("success", "package Createed successfully");
@@ -109,11 +70,8 @@ exports.CreatePackage = async (req, res) => {
             req.flash("error", "samething is wroung ");
             res.redirect("/");
         }
-<<<<<<< HEAD
         req.flash("success", "package edit successfully")
         res.redirect("/")
-=======
->>>>>>> 7e414db570baa290decfc40791c8fb2d3895e54a
     } catch (error) {
         console.log(error);
     };
@@ -174,10 +132,6 @@ exports.viewServicePackage = async (req, res) => {
 };
 
 //sahil view package
-<<<<<<< HEAD
-=======
-/*
->>>>>>> 7e414db570baa290decfc40791c8fb2d3895e54a
 exports.viewServicePackageparticular = async (req, res) => {
     try {
         res.locals.message = req.flash();
