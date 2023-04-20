@@ -86,53 +86,58 @@
                             <th scope="col">#</th>
                             <th scope="col">Store Name</th>
                             <th scope="col">PackageName</th>
-                            <th scope="col">Service Name</th>
                             <th scope="col"> Price</th>
                             <!-- <th scope="col">Time </th> -->
-                            <th scope="col"> DisCount Price </th>
+                            <th scope="col">Dis.Count</th>
                             <th scope="col">grnder</th>
+                            <th>
+                              Cotegory
+                            </th>
+                            <th scope="col">Services</th>
                             <th scope="col">Action</th>
                           </tr>
                         </thead>
                         <tbody>
                           <% let i=0 %>
                             <% for( data of data) { %>
-                              <% console.log("dddd",data)%>
-                                <tr>
-                                  <th scope="row">
-                                    <%= ++i %>
-                                  </th>
-                                  <td>
-                                    <%= data?.saloonNmae[0]?.storeName %>
-                                  </td>
-                                  <td>
-                                    <%= data?.PackageName %>
-                                  </td>
-                                  <td>
-                                    <!-- <%= data?.Services %> -->
-                                    <button type="button" value="<%= data?._id %>" onclick="FindPackage(this)"
-                                      class="btn btn-info"><i class="bi bi-eye"></i></button>
-                                  </td>
-                                  <td>
-                                    <%= data?.Amount %>
-                                  </td>
-                                  <td>
-                                    <%= data?.finalPrice %>
-                                  </td>
-                                  <td>
-                                    <%= data?.gender %>
-                                  </td>
-                                  <td>
-                                    <a href="/package?saloonId=<%= data._id%>&&id=<%=data?._id%>"
-                                      class="btn btn-info"><i class="ri-edit-box-line" title="Edit"></i></a>
-                                    <a href="/delete_package?id=<%= data._id%>" class="btn btn-danger">
-                                      <i class="ri-delete-bin-5-line" title="delete"></i>
-                                    </a>
-                                    <!-- <a href="/add_service?id=<%= data._id%>" class="btn btn-dark">Edit</a>
+                              <tr>
+                                <th scope="row">
+                                  <%= ++i %>
+                                </th>
+                                <td>
+                                  <%= data?.saloonNmae[0]?.storeName %>
+                                </td>
+                                <td>
+                                  <%= data?.PackageName %>
+                                </td>
+
+                                <td>
+                                  <%= data?.Amount %>
+                                </td>
+                                <td>
+                                  <%= data?.finalPrice %>
+                                </td>
+                                <td>
+                                  <%= data?.gender %>
+                                </td>
+                                <td>
+                                  <%= data?.Cotegory[0]?.Name %>
+                                </td>
+                                <td>
+                                  <button type="button" value="<%= data?._id %>" onclick="FindPackage(this)"
+                                    class="btn btn-info"><i class="bi bi-eye"></i></button>
+                                </td>
+                                <td>
+                                  <a href="/package?id=<%=data?._id%>" class="btn btn-info"><i
+                                      class="ri-edit-box-line" title="Edit"></i></a>
+                                  <a href="/delete_package?id=<%= data._id%>" class="btn btn-danger">
+                                    <i class="ri-delete-bin-5-line" title="delete"></i>
+                                  </a>
+                                  <!-- <a href="/add_service?id=<%= data._id%>" class="btn btn-dark">Edit</a>
                                 <a href="/delete_service?id=<%= data._id%>" class="btn btn-danger">Delete</a> -->
-                                  </td>
-                                </tr>
-                                <%}%>
+                                </td>
+                              </tr>
+                              <%}%>
                         </tbody>
                       </table>
                       <!-- End Table with stripped rows -->

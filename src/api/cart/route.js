@@ -7,7 +7,7 @@ const app = Router();
 
 app.get("/remove-service-from-cart", auth, responseHandler(removeserviceFromCart));
 app.get("/get-cart", auth, responseHandler(getcart));
-app.get("/add-cart", auth, responseHandler(addcart))
-app.get("/remove-cart", auth, responseHandler(removeCart))
+app.get("/add-cart", auth, responseHandler(addcart));
+app.get("/remove-cart", auth, responseHandler(removeCart));
 
 module.exports = app;

@@ -2,6 +2,7 @@ const service = require("../saloonService/model");
 const mongoose = require("mongoose");
 const cart = require("./model");
 const saloon = require("../saloonstore/model");
+const package = require("../../admin/servicePackage/model");
 
 exports.removeserviceFromCart = async ({ body, user, query }) => {
     try {
@@ -107,6 +108,7 @@ exports.getcart = async ({ user, query }) => {
                 }
             })
         }
+
         condition.push({
             '$unwind': {
                 'path': '$cartdata'
@@ -116,74 +118,96 @@ exports.getcart = async ({ user, query }) => {
                 'from': 'saloonservices',
                 'localField': 'cartdata.serviceId',
                 'foreignField': '_id',
-                'as': 'result'
+                'as': 'cartdata'
             }
         }, {
             '$unwind': {
-                'path': '$result'
+                'path': '$cartdata',
+                'preserveNullAndEmptyArrays': true
             }
         }, {
-            '$project': {
-                'totalamount': 1,
-                'cartdata': {
-                    'saloonId': '$result.saloonStore',
-                    'serviceId': '$result._id',
-                    'quantity': '$cartdata.quantity',
-                    'Amount': '$cartdata.Amount',
-                    'ServiceName': '$result.ServiceName',
-                    'ServicePrice': '$result.ServicePrice',
-                    'timePeriod_in_minits': '$result.timePeriod_in_minits',
-                    'serviceProvider': '$result.serviceProvider',
-                    'image': '$result.image',
-                    'description': '$result.description'
+            '$group': {
+                '_id': '$_id',
+                'Service': {
+                    '$push': {
+                        '_id': '$cartdata._id',
+                        'ServiceName': '$cartdata.ServiceName',
+                        'ServicePrice': '$cartdata.ServicePrice',
+                        'timePeriod_in_minits': '$cartdata.timePeriod_in_minits',
+                        'image': '$cartdata.image',
+                        'description': '$cartdata.ServiceName'
+                    }
                 },
-                'addressId': '$addressId'
+                'Package': {
+                    '$first': '$Package'
+                },
+                'saloon': {
+                    '$first': '$saloonId'
+                }
+            }
+        }, {
+            '$lookup': {
+                'from': 'saloons',
+                'localField': 'saloon',
+                'foreignField': '_id',
+                'as': 'saloon'
             }
         })
+        // countOfPackage=0
+        // if (countOfPackage > 0) {
+        condition.push({
+            '$unwind': {
+                'path': '$Package',
+                'preserveNullAndEmptyArrays': true
+
+            }
+        }, {
+            '$lookup': {
+                'from': 'packages',
+                'localField': 'Package',
+                'foreignField': '_id',
+                'as': 'Package'
+            }
+        }, {
+            '$unwind': {
+                'path': '$Package',
+                'preserveNullAndEmptyArrays': true
+            }
+        }, {
+            '$group': {
+                '_id': '$_id',
+                'Service': {
+                    '$first': '$Service'
+                },
+                'Package': {
+                    '$push': {
+                        '_id': '$Package._id',
+                        'PackageName': '$Package.PackageName',
+                        'Amount': '$Package.Amount',
+                        'finalPrice': '$Package.finalPrice',
+                        'gender': '$Package.gender'
+                    }
+                },
+                'saloon': {
+                    '$first': '$saloon'
+                }
+            }
+        })
+        // } else {
+        //     condition.push({
+        //         '$project': {
+        //             'Package': 0
+        //         }
+        //     })
+        // }
         const findData = await cart.aggregate(condition)
-        const findSaloon = await cart.aggregate([
-            {
-                '$match': {
-                    'userId': user._id
-                }
-            }, {
-                '$lookup': {
-                    'from': 'saloons',
-                    'localField': 'saloonId',
-                    'foreignField': '_id',
-                    'as': 'result'
-                }
-            }, {
-                '$unwind': {
-                    'path': '$result'
-                }
-            }, {
-                '$replaceRoot': {
-                    'newRoot': '$result'
-                }
-            }
-        ])
-        let i;
-        i = 1
-        let cartData = []
-        for (const saloon of findSaloon) {
-            cartData = []
-            for (const cart of findData) {
-                if (cart.cartdata.saloonId.toString() === saloon._id.toString()) {
-                    cartData.push(cart)
-                }
-            }
-            if (cartData.length > 0) {
-                saloon.cart = cartData
-                arr.push(saloon)
-            }
-        }
-        if (arr) {
+
+        if (findData) {
             return {
                 statusCode: 200,
                 status: true,
                 message: "your cart is here !",
-                data: arr
+                data: findData
             };
         } else {
             return {
@@ -206,14 +230,13 @@ exports.addcart = async ({ user, query }) => {
         let newCart;
         let i;
         const findData = await cart.find({ userId: user._id });
-        // console.log("user carts", findData)
         if (findData.length == 0) {
+            //cart create 
             obj.userId = user._id;
             if (query.saloonId) {
                 let _id = mongoose.Types.ObjectId(query.saloonId);
                 const findSaloon = await saloon.findOne({ _id });
                 if (findSaloon) {
-                    // console.log("cart RRR", 1)
                     obj.saloonId = query.saloonId;
                 } else {
                     return {
@@ -224,46 +247,34 @@ exports.addcart = async ({ user, query }) => {
                     };
                 };
             };
-            // console.log(obj)
             let cart_detail = new cart(obj);
             const result = await cart_detail.save();
             if (result) {
                 console.log("User-Cart-register- Succesfuuly !", 1)
             };
         } else if (findData.length > 0) {
-            // findData.forEach(async (element) => {
             const findccc = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) })
             i = 1
-            if (findccc) {
-                console.log("this user is allredy this saloon ke saat cart add hai ", findccc._id)
-
-            } else {
+            if (!findccc) {
                 for await (const element of findData) {
-                    // }
-                    // console.log("findD carts", element.saloonId)
                     if (query.saloonId != element.saloonId.toString() && i === 1) {
-                        // console.log("if")
                         obj.userId = user._id;
                         obj.saloonId = query.saloonId;
                         let cart_detail = new cart(obj);
                         newCart = await cart_detail.save();
-                        // console.log("new cart ban jaye", obj, "newCart", newCart)
                         i++
                     }
                 }
             }
-            // });
-            // fesd
         }
-        // dfhgfjhg
         console.log("User-Cart-register- Succesfuuly !", 2)
+
+
         if (query.serviceId) {
-            // console.log("query.serviceId", query.serviceId)
             let _id = mongoose.Types.ObjectId(query.serviceId);
             console.log("_id_id_id_id", _id)
             if (newCart) {
                 findService = await service.findOne({ _id, saloonStore: newCart.saloonId });
-                // console.log("findService", 1111, findService)
                 if (!findService) {
                     return {
                         statusCode: 400,
@@ -271,8 +282,7 @@ exports.addcart = async ({ user, query }) => {
                         message: "service is  not Found this Saloon store  !",
                         data: []
                     };
-                }// else {
-                const FindCart = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
+                } const FindCart = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
                 if (FindCart) {
                     if (FindCart.cartdata.length > 0) {
                         for (const item of FindCart.cartdata) {
@@ -287,7 +297,6 @@ exports.addcart = async ({ user, query }) => {
                         timePeriod_in_minits: findService.timePeriod_in_minits,
                     });
                 }
-                // console.log("neew cart nhi bani ", 21, FindCart, 21)
                 let totalamount = [];
                 serviceArr.forEach(element => {
                     totalamount.push(Number(element.Amount))
@@ -306,11 +315,8 @@ exports.addcart = async ({ user, query }) => {
                     };
                 };
 
-                // }
             } else {
-                // console.log(111, "new cart nhi bani ")
                 const findService = await service.findOne({ _id, saloonStore: mongoose.Types.ObjectId(query.saloonId) });
-                // console.log("findService", 1111, findService)
                 if (!findService) {
                     return {
                         statusCode: 200,
@@ -319,11 +325,8 @@ exports.addcart = async ({ user, query }) => {
                         data: []
                     };
                 }
-                //     }
 
-                // };
                 const FindCart = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
-                // console.log("--===", 4444, FindCart)
                 if (FindCart) {
                     if (FindCart.cartdata.length > 0) {
                         for (const item of FindCart.cartdata) {
@@ -345,7 +348,6 @@ exports.addcart = async ({ user, query }) => {
                     let sum = totalamount.reduce(function (x, y) {
                         return x + y;
                     }, 0);
-                    // console.log("serviceArr-->", serviceArr, "---->", totalamount)
 
                     const result = await cart.findByIdAndUpdate({ _id: FindCart._id }, { $set: { cartdata: serviceArr, totalamount: sum } }, { new: true });
                     if (result) {
@@ -363,10 +365,64 @@ exports.addcart = async ({ user, query }) => {
                         message: "cart not Found register karwao !",
                         data: [FindCart]
                     };
-                } /*
-                                };*/
+                }
             }
+        };
 
+        if (query.packageId) {
+            let _id = mongoose.Types.ObjectId(query.packageId);
+            if (newCart) {
+                findPackage = await package.findOne({ _id, saloonStore: newCart.saloonId });
+                if (!findPackage) {
+                    return {
+                        statusCode: 400,
+                        status: false,
+                        message: "package is  not Found this Saloon store  !",
+                        data: []
+                    };
+                };
+                const FindCart = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
+
+                const result = await cart.findByIdAndUpdate({ _id: FindCart._id }, { $push: { Package: query.packageId } }, { new: true });
+                if (result) {
+                    return {
+                        statusCode: 200,
+                        status: true,
+                        message: "package added in new new cart Succesfuuly ! 1 ",
+                        data: [result]
+                    };
+                };
+            } else {
+                const findPackage = await package.findOne({ _id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
+                if (!findPackage) {
+                    return {
+                        statusCode: 200,
+                        status: true,
+                        message: "not found package in your selected store !",
+                        data: []
+                    };
+                };
+
+                const FindCart = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
+                if (FindCart) {
+                    const result = await cart.findByIdAndUpdate({ _id: FindCart._id }, { $push: { Package: query.packageId } }, { new: true });
+                    if (result) {
+                        return {
+                            statusCode: 200,
+                            status: true,
+                            message: "package added in cart Succesfuuly ! 2 ",
+                            data: [result]
+                        };
+                    };
+                } else {
+                    return {
+                        statusCode: 400,
+                        status: false,
+                        message: "cart not Found register karwao !",
+                        data: [FindCart]
+                    };
+                };
+            };
         };
     } catch (error) {
         console.log(error);

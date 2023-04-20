@@ -55,3 +55,12 @@ exports.ViewReferEarn = async (req, res) => {
     };
 };
 
+
+exports.deletReferEranProgram = async (req, res) => {
+    try {
+        const data = await refer.findByIdAndDelete({ _id: mongoose.Types.ObjectId(req.query.id) });
+        res.redirect("/View-Refer-Earn")
+    } catch (error) {
+        console.log(error);
+    };
+};
