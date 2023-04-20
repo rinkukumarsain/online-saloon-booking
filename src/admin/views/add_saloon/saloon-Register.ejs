@@ -71,8 +71,8 @@
                                     <div class="row g-3">
                                       <div class="col">
                                         <label for="">Password</label><br>
-                                        <input required type="password" minlength="6" maxlength="8" name="password" class="form-control"
-                                          placeholder="Enter a Password"
+                                        <input required type="password" minlength="6" maxlength="8" name="password"
+                                          class="form-control" placeholder="Enter a Password"
                                           value="<%=data?.password!=undefined ? data?.password : "" %>">
                                         <div class="invalid-feedback">Please Enter Password.</div>
 
@@ -91,15 +91,16 @@
                                       <div class="row g-3">
                                         <div class="col">
                                           <label for="">Password</label><br>
-                                          <input required type="password" minlength="6" maxlength="8" name="password" class="form-control"
-                                            placeholder="Enter Password"
+                                          <input required type="password" minlength="6" maxlength="8" name="password"
+                                            class="form-control" placeholder="Enter Password"
                                             value="<%=data?.password!=undefined ? data?.password : "" %>">
                                           <div class="invalid-feedback">Please Enter Password.</div>
 
                                         </div>
                                         <div class="col">
                                           <label for="">Confirm Password</label><br>
-                                          <input required type="password" minlength="6" maxlength="8" name="confromPassword" class="form-control"
+                                          <input required type="password" minlength="6" maxlength="8"
+                                            name="confromPassword" class="form-control"
                                             placeholder="Enter confrom Password"
                                             value="<%=data?.password!=undefined ? data?.password : "" %>">
                                           <div class="invalid-feedback">Please Enter Confirm Password.</div>
@@ -109,8 +110,10 @@
                                       <div class="row g-3">
                                         <div class="col">
                                           <label for="">Phone</label><br>
-                                          <input type="number" onKeyDown="if(this.value.length==10 && event.keyCode!=8) return false;"  id="Phone" name="Phone"
-                                            class="form-control pac-target-input" placeholder="Enter Phone Number"
+                                          <input type="number"
+                                            onKeyDown="if(this.value.length==10 && event.keyCode!=8) return false;"
+                                            id="Phone" name="Phone" class="form-control pac-target-input"
+                                            placeholder="Enter Phone Number"
                                             value="<%=data?.Phone!=undefined ? data?.Phone : "" %>" required>
                                           <div class="invalid-feedback">Please Enter Phone No.</div>
 
@@ -122,8 +125,9 @@
                                         </div>
                                         <div class="col">
                                           <label for="">Enter otp</label><br>
-                                          <input required type="number"onKeyDown="if(this.value.length==4 && event.keyCode!=8) return false;"  id="otp" class="form-control"
-                                            placeholder="Enter  otp"
+                                          <input required type="number"
+                                            onKeyDown="if(this.value.length==4 && event.keyCode!=8) return false;"
+                                            id="otp" class="form-control" placeholder="Enter  otp"
                                             value="<%=data?.otp!=undefined ? data?.otp : "" %>">
                                           <div class="invalid-feedback">Please Enter Correct OTP.</div>
                                         </div>
@@ -158,9 +162,9 @@
                                           </div>
                                           <div class="col">
                                             <label for="">Owner Name </label><br>
-                                            <input required type="text" maxlength="30" id="addressSearch" name="ownerName"
-                                              class="form-control pac-target-input" placeholder="saloon ownerName"
-                                              autocomplete="off"
+                                            <input required type="text" maxlength="30" id="addressSearch"
+                                              name="ownerName" class="form-control pac-target-input"
+                                              placeholder="saloon ownerName" autocomplete="off"
                                               value="<%=data?.ownerName!=undefined ? data?.ownerName : "" %>">
                                             <div class="invalid-feedback">Please Enter owner Name.</div>
 
@@ -183,30 +187,31 @@
                                               class="form-control pac-target-input" placeholder="Enter a city"
                                               autocomplete="off"
                                               value="<%=data?.location?.city!=undefined ? data?.location?.city : "" %>">
-                                      <div class="invalid-feedback">Please Enter City Name.</div>
-                                        
-                                            </div>
+                                            <div class="invalid-feedback">Please Enter City Name.</div>
+
+                                          </div>
                                         </div><br>
 
                                         <div class="row g-3">
                                           <div class="col">
                                             <label for="">Pincode</label><br>
-                                            <input required type="number" onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;"  name="pincode"
-                                              class="form-control pac-target-input" placeholder="Enter a Pin Code"
-                                              autocomplete="off"
+                                            <input required type="number"
+                                              onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;"
+                                              name="pincode" class="form-control pac-target-input"
+                                              placeholder="Enter a Pin Code" autocomplete="off"
                                               value="<%=data?.location?.pincode!=undefined ? data?.location?.pincode : "" %>">
-                                      <div class="invalid-feedback">Please Enter Pincode.</div>
-                                         
-                                            </div>
+                                            <div class="invalid-feedback">Please Enter Pincode.</div>
+
+                                          </div>
                                           <div class="col">
                                             <label for="">Place</label><br>
                                             <input required type="text" name="aria"
-                                              class="form-control pac-target-input" placeholder="Enter Which Place You From"
-                                              autocomplete="off"
+                                              class="form-control pac-target-input"
+                                              placeholder="Enter Which Place You From" autocomplete="off"
                                               value="<%=data?.location?.aria!=undefined ? data?.location?.aria : "" %>">
-                                      <div class="invalid-feedback">Please enter which aria you from.</div>
-                                          
-                                            </div>
+                                            <div class="invalid-feedback">Please enter which aria you from.</div>
+
+                                          </div>
                                         </div><br>
 
 
@@ -214,11 +219,11 @@
                                         <div class="row g-3">
                                           <div class="col-6">
                                             <label for="">Description</label><br>
-                                            <textarea class="form-control" minlength="20" name="description" placeholder="Description"
-                                              style="height: 100px"
+                                            <textarea class="form-control" minlength="20" name="description"
+                                              placeholder="Description" style="height: 100px"
                                               required><%=data?.description!=undefined ? data?.description : "" %></textarea>
-                                      <div class="invalid-feedback">Please enter Discription.</div>
-                                              
+                                            <div class="invalid-feedback">Please enter Discription.</div>
+
                                           </div>
                                           <div class="col-6">
                                             <label for="">Category</label><br>
@@ -255,10 +260,12 @@
 
                       <% if(typeof data !=="undefined" && data){%>
                         <h5 class="card-title"> Edit business-profile-info-by-Admin</h5>
-                        <form class="needs-validation" action="/business-profile-info-by-Admin?id=<%= data.id %>" method="post" novalidate>
+                        <form class="needs-validation" action="/business-profile-info-by-Admin?id=<%= data.id %>"
+                          method="post" novalidate>
                           <%}else{%>
                             <h5 class="card-title">Add business-profile-info-by-Admin</h5>
-                            <form class="needs-validation" action="/business-profile-info-by-Admin" method="post" novalidate>
+                            <form class="needs-validation" action="/business-profile-info-by-Admin" method="post"
+                              novalidate>
                               <%}%>
 
                                 <div class="row g-3">
@@ -267,15 +274,16 @@
                                     <input required type="text" maxlength="30" name="yourService" class="form-control"
                                       placeholder="Enter Service name"
                                       value="<%=data?.ProfileInfo.yourService!=undefined ? data?.ProfileInfo.yourService : "" %>">
-                                      <div class="invalid-feedback">Please enter Service name.</div>
+                                    <div class="invalid-feedback">Please enter Service name.</div>
                                   </div>
                                   <div class="col">
                                     <label for="">Phone no.</label><br>
-                                    <input required type="number" onKeyDown="if(this.value.length==10 && event.keyCode!=8) return false;"  name="alternatePhone" class="form-control"
-                                      placeholder="Enter Phone no."
+                                    <input required type="number"
+                                      onKeyDown="if(this.value.length==10 && event.keyCode!=8) return false;"
+                                      name="alternatePhone" class="form-control" placeholder="Enter Phone no."
                                       value="<%=data?.ProfileInfo.alternatePhone!=undefined ? data?.ProfileInfo.alternatePhone : "" %>">
-                                      <div class="invalid-feedback">Please enter Phone no .</div>
-                                    </div>
+                                    <div class="invalid-feedback">Please enter Phone no .</div>
+                                  </div>
                                 </div><br>
 
                                 <div class="row g-3">
@@ -333,16 +341,16 @@
                                       class="form-control pac-target-input" placeholder="Enter FaceBook Profile Name"
                                       autocomplete="off"
                                       value="<%=data?.ProfileInfo?.FaceBookProfile!=undefined ? data?.ProfileInfo?.FaceBookProfile : "" %>">
-                                      <div class="invalid-feedback">Please enter your Facebook Profile .</div>
-                                    </div>
+                                    <div class="invalid-feedback">Please enter your Facebook Profile .</div>
+                                  </div>
                                   <div class="col">
                                     <label for="">Instagram Profile </label><br>
                                     <input required type="url" id="addressSearch" name="instaProfile"
                                       class="form-control pac-target-input" placeholder="Enter Instagram Profile Name"
                                       autocomplete="off"
                                       value="<%=data?.ProfileInfo?.instaProfile!=undefined ? data?.ProfileInfo?.instaProfile : "" %>">
-                                      <div class="invalid-feedback">Please enter Instagram Profile.</div>
-                                    </div>
+                                    <div class="invalid-feedback">Please enter Instagram Profile.</div>
+                                  </div>
                                 </div><br>
 
                                 <div class="row g-3">
@@ -351,8 +359,8 @@
                                     <input required type="url" name="webProfile" class="form-control pac-target-input"
                                       placeholder="Enter Web Profile" autocomplete="off"
                                       value="<%=data?.ProfileInfo?.webProfile!=undefined ? data?.ProfileInfo?.webProfile : "" %>">
-                                      <div class="invalid-feedback">Please enter Web Profile.</div>
-                                    </div>
+                                    <div class="invalid-feedback">Please enter Web Profile.</div>
+                                  </div>
                                 </div><br>
 
                                 <div class="row g-3">
@@ -361,15 +369,15 @@
                                     <input id="starting_time" type="time" class="form-control pac-target-input"
                                       name="starting_time" required
                                       value="<%=data?.ProfileInfo?.starting_time!=undefined ? data?.ProfileInfo?.starting_time : "" %>" />
-                                      <div class="invalid-feedback">Please enter Start Time.</div>
-                                    </div>
+                                    <div class="invalid-feedback">Please enter Start Time.</div>
+                                  </div>
                                   <div class="col-6">
                                     <label for="ending-time">Ending Time </label>
                                     <input id="ending_time" type="time" class="form-control pac-target-input"
                                       name="ending_time" required
                                       value="<%=data?.ProfileInfo?.ending_time!=undefined ? data?.ProfileInfo?.ending_time : "" %>" />
-                                      <div class="invalid-feedback">Please enter End Time.</div>
-                                    </div>
+                                    <div class="invalid-feedback">Please enter End Time.</div>
+                                  </div>
                                 </div><br>
                                 <div class="row mb-3">
                                   <div class="col-sm-10">
@@ -388,25 +396,29 @@
                     <div class="card-body">
                       <% if(typeof data !=="undefined" && data){%>
                         <h5 class="card-title">Edit business-bank-information-admin</h5>
-                        <form class="needs-validation" action="/business-bank-information-admin?id=<%=data._id%>" method="post" novalidate>
+                        <form class="needs-validation" action="/business-bank-information-admin?id=<%=data._id%>"
+                          method="post" novalidate>
                           <%}else{%>
                             <h5 class="card-title"> Add business-bank-information-admin</h5>
-                            <form class="needs-validation" action="/business-bank-information-admin" method="post" novalidate>
+                            <form class="needs-validation" action="/business-bank-information-admin" method="post"
+                              novalidate>
                               <%}%>
                                 <div class="row g-3">
                                   <div class="col">
                                     <label for="">Pan Card Number</label><br>
-                                    <input required type="text" name="panNo" maxlength="10" oninput="this.value = this.value.toUpperCase()" class="form-control"
+                                    <input required type="text" name="panNo" maxlength="10"
+                                      oninput="this.value = this.value.toUpperCase()" class="form-control"
                                       placeholder="Enter Your pan card no."
                                       value="<%=data?.BankInfo?.panNo!=undefined ? data?.BankInfo?.panNo : "" %>">
-                                      <div class="invalid-feedback">Please enter your Pan Card no.</div>
+                                    <div class="invalid-feedback">Please enter your Pan Card no.</div>
                                   </div>
                                   <div class="col">
                                     <label for="">GST No.</label><br>
-                                    <input required type="number" name="gstNo" onKeyDown="if(this.value.length==15 && event.keyCode!=8) return false;"  class="form-control"
-                                      placeholder="Enter GST no."
+                                    <input required type="number" name="gstNo"
+                                      onKeyDown="if(this.value.length==15 && event.keyCode!=8) return false;"
+                                      class="form-control" placeholder="Enter GST no."
                                       value="<%=data?.BankInfo?.gstNo!=undefined ? data?.BankInfo?.gstNo : "" %>">
-                                      <div class="invalid-feedback">Please enter GST no.</div>
+                                    <div class="invalid-feedback">Please enter GST no.</div>
                                   </div>
                                 </div><br>
 
@@ -416,25 +428,26 @@
                                     <input required type="text" name="bankName" maxlength="35" class="form-control"
                                       placeholder="Enter Bank Name"
                                       value="<%=data?.BankInfo?.bankName!=undefined ? data?.BankInfo?.bankName : "" %>">
-                                      <div class="invalid-feedback">Please enter Bank Name.</div>
+                                    <div class="invalid-feedback">Please enter Bank Name.</div>
                                   </div>
                                   <div class="col">
                                     <label for="">Branch Name</label><br>
                                     <input required type="text" name="branchName" maxlength="35" class="form-control"
                                       placeholder="Enter Branch Name"
                                       value="<%=data?.BankInfo?.branchName!=undefined ? data?.BankInfo?.branchName : "" %>">
-                                      <div class="invalid-feedback">Please enter Branch Name.</div>
+                                    <div class="invalid-feedback">Please enter Branch Name.</div>
                                   </div>
                                 </div><br>
 
                                 <div class="row g-3">
                                   <div class="col">
                                     <label for="">Account Number</label><br>
-                                    <input required type="number" id="addressSearch" onKeyDown="if(this.value.length==17 && event.keyCode!=8) return false;"  name="accountNo"
-                                      class="form-control pac-target-input" placeholder="Enter Account Number"
-                                      autocomplete="off"
+                                    <input required type="number" id="addressSearch"
+                                      onKeyDown="if(this.value.length==17 && event.keyCode!=8) return false;"
+                                      name="accountNo" class="form-control pac-target-input"
+                                      placeholder="Enter Account Number" autocomplete="off"
                                       value="<%=data?.BankInfo?.accountNo!=undefined ? data?.BankInfo?.accountNo : "" %>">
-                                      <div class="invalid-feedback">Please enter Account No.</div>
+                                    <div class="invalid-feedback">Please enter Account No.</div>
                                   </div>
                                   <div class="col">
                                     <label for="">Account Holder name</label><br>
@@ -442,18 +455,18 @@
                                       class="form-control pac-target-input" placeholder="Enter Account Holder Name"
                                       autocomplete="off"
                                       value="<%=data?.BankInfo?.accoutHolder!=undefined ? data?.BankInfo?.accoutHolder : "" %>">
-                                      <div class="invalid-feedback">Please enter Account Holder Name.</div>
+                                    <div class="invalid-feedback">Please enter Account Holder Name.</div>
                                   </div>
                                 </div><br>
 
                                 <div class="row g-3">
                                   <div class="col">
                                     <label for="">IFSC Code</label><br>
-                                    <input required type="text" oninput="this.value = this.value.toUpperCase()" name="ifscCode" maxlength="11"
-                                      class="form-control pac-target-input" placeholder="Enter IFSC Code"
-                                      autocomplete="off"
+                                    <input required type="text" oninput="this.value = this.value.toUpperCase()"
+                                      name="ifscCode" maxlength="11" class="form-control pac-target-input"
+                                      placeholder="Enter IFSC Code" autocomplete="off"
                                       value="<%=data?.BankInfo?.ifscCode!=undefined ? data?.BankInfo?.ifscCode : "" %>">
-                                      <div class="invalid-feedback">Please enter IFSC Code.</div>
+                                    <div class="invalid-feedback">Please enter IFSC Code.</div>
                                   </div>
                                   <div class="col-6">
                                     <label for="starting-time"> KYC</label>
@@ -468,7 +481,7 @@
                                       <option value="no" <%=data?.BankInfo?.kyc=="no" ? "selected" : "" %>>no
                                       </option>
                                     </select>
-                                    <div class="invalid-feedback">Please Select KYC  .</div>
+                                    <div class="invalid-feedback">Please Select KYC .</div>
                                   </div>
                                 </div><br>
 
@@ -552,10 +565,45 @@
                             <!-- //4.End-1 -->
                     </div>
                   </div>
-
+                  <!-- //5 add sallon imgaes -->
+                  <div class="card">
+                    <div class="card-body">
+                      <% if(typeof data !=="undefined" && data){%>
+                        <h5 class="card-title">Edit saloon-image</h5>
+                        <form action="/Add-images-in-saloon?id=<%=data._id%>" method="post"
+                          enctype="multipart/form-data">
+                          <%}else{%>
+                            <h5 class="card-title">Add saloon-image</h5>
+                            <form action="/Add-images-in-saloon" method="post" enctype="multipart/form-data">
+                              <%}%>
+                                <div class="row g-3">
+                                  <div class="col-md-4">
+                                    <label for="">Banner Logo</label><br>
+                                    <input required type="file" name="image" class="form-control"
+                                      placeholder="uplode Image" multiple>
+                                  </div>
+                                </div><br>
+                                <div class="row g-3">
+                                  <%for (const item of data.image) {%>
+                                    <div class="col-md-3">
+                                      <img src="/uploads/<%=item%>" alt="image" style="height: 100px;">
+                                    </div>
+                                    <%}%>
+                                </div>
+                                <br>
+                                <div class="row mb-3">
+                                  <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                                </div>
+                            </form>
+                            <!-- //5.End-1 -->
+                    </div>
+                  </div>
                 </div>
           </section>
         </main>
+        
         <script>
           function SendOtp(params) {
             const ele = document.getElementById("Phone");

@@ -363,3 +363,30 @@ exports.FindAdminAllSaloon = async (req, res) => {
         console.log(error)
     }
 }
+
+exports.addImagesInSaloon = async (req, res) => {
+    try {
+        console.log("khvb", req.files)
+        let arr = [];
+        req.files.forEach(element => {
+            console.log(element.filename)
+            arr.push(element.filename)
+        });
+        const result = await saloon.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { image: arr }, { new: true })
+        if (result) {
+            res.redirect("/")
+        }
+
+     
+        // let data;
+        // if (req.user.type == "admin") {
+        //     data = await saloon.find({ userId: req.user._id })
+        // } else {
+        //     data = await saloon.find()
+        // }
+        // // return data
+        // return res.send(data)
+    } catch (error) {
+        console.log(error)
+    }
+}

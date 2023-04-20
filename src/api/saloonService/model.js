@@ -33,7 +33,18 @@ const saloon_Service = new mongoose.Schema({
     },
     category: {
         type: [ObjectId],
-        default: null
+    },
+    Services: {
+        type: [ObjectId],
+    },
+    FinalPrice: {
+        type: Number,
+    },
+    ServicesType: {
+        type: Number,
+        default: 0
+        //0 service ke liye 
+        // pakege se liye 1
     }
 }, { timestamps: true });
 

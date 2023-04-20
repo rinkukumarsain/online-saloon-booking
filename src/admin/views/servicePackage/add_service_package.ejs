@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service</title>
+
+  <%- include('../../partials/headlink.ejs') %>
+</head>
+
+<body>
+  <%- include('../../partials/Header.ejs') %>
+    <%- include("../../partials/sidebar.ejs") %>
+      <%- include("../../partials/alertMsg") %>
+        <main id="main" class="main">
+          <div class="pagetitle">
+            <h1>
+              <%-user?.type %>
+            </h1>
+            <nav>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+              </ol>
+            </nav>
+          </div><!-- End Page Title -->
+
+          <section class="section dashboard">
+            <div class="row">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+
+                      <h5 class="card-title">Add Service pakage </h5>
+                      <form class="needs-validation" action="/add-new-package" method="post"
+                        enctype="multipart/form-data" novalidate>
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for=""> Service Name</label>
+                            <input required type="text" name="ServiceName" class="form-control"
+                              placeholder="Enter Service Name">
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please Enter Service Name.</div>
+                          </div>
+                          <div class="col">
+                            <label for="">Time</label>
+                            <input required type="number" name="timePeriod_in_minits" class="form-control"
+                              placeholder="Enter Time ">
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please Enter Service Time.</div>
+                          </div>
+
+                        </div><br>
+
+                        <div class="row g-3">
+
+                          <div class="col">
+                            <label for="">Choose Gender </label>
+                            <select class="form-select" name="type" aria-label="Default select example" required>
+                              <option value="">Select Type</option>
+                              <option value="male">Male</option>
+                              <option value="female">Female</option>
+                              <option value="unisex">Unisex</option>
+                            </select>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please Select Gender.</div>
+                          </div>
+                          <div class="col">
+                            <label for=""> Service Price</label>
+                            <input required type="number" name="ServicePrice" id="Amount" class="form-control"
+                              placeholder="Enter Service Price" readonly>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please Enter Service Price.</div>
+                          </div>
+                        </div><br>
+
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for="">Discription</label>
+                            <textarea class="form-control" name="description" placeholder="Enter Description"
+                              style="height: 100px" required minlength="5"></textarea>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please Enter Discription.</div>
+                          </div>
+                          <div class="col">
+                            <label for="">Service Images</label>
+                            <input class="form-control" type="file" name="file" id="formFile" required>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please select Image.</div>
+                          </div>
+                        </div><br>
+
+                        <div class="row g-3">
+                          <div class="col">
+                            <label for="">Select Category</label>
+                            <select class="form-select" name="category" aria-label="multiple select example" required>
+                              <option value="">Select Category</option>
+                              <% Category.data.forEach(element=> {%>
+                                <option value="<%=element._id%>">
+                                  <%=element.Name%>
+                                </option>
+                                <% });%>
+                            </select>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please Select Category.</div>
+                          </div>
+                          <div class="col">
+                            <label for="">Select Saloon</label>
+                            <select class="form-select" name="saloonStore" aria-label="Default select example"
+                              onchange="FindService(this)" required>
+                              <option value="">select Saloon</option>
+                              <% salon.forEach(element=> {%>
+                                <option value="<%=element._id%>">
+                                  <%=element.storeName%>
+                                </option>
+                                <% });%>
+                            </select>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please Select Saloon.</div>
+                          </div>
+                        </div><br>
+
+                        <div class="row g-3">
+                          <div class="col">
+                            <div id="myselect" class="col-md-12">
+
+                            </div>
+                          </div>
+                          <div class="col">
+                            <label for="">Service Final Price</label>
+                            <input class="form-control" type="number" name="FinalPrice" id="FinalPrice" required>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please select Image.</div>
+                          </div>
+                        </div><br>
+
+
+                        <div class="row mb-3">
+                          <div class="col-sm-10">
+                            <button type="submit" id='mySubmit' class="btn btn-primary">Submit</button>
+                          </div>
+                        </div>
+                      </form>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script src="/public/assets/js/form-validation.js"></script>
+
+        <script>
+
+          function FindService(select) {
+            console.log("hiiih", select)
+            // <% console.log("hhhhhgfggg", query) %>
+            let num = Number(select.id)
+            let category = select.value
+            $.ajax({
+              type: 'get',
+              data: { "saloonId": category, },
+              url: '/Find-Service-for-Packages',// nandlal
+              success: function (data) {
+                if (data.length > 0) {
+                  console.log("data", data)
+                  let abc = `<div id="subcategory-${num + 1}"><label for="inputAddress" class="form-label">Sub Category</label>`
+                  abc += `<select style="width:100%;"  multiple class="form-select" id="txtSelectedValues"  onchange="ServicePriceTotel(this)" name="Services" id="${num + 1}">`
+                  abc += `<option value="" disabled>select Sub Category</option>`
+                  console.log("abz--", 1, abc)
+                  data.forEach((item) => {
+                    abc += `<option value=${JSON.stringify({ id: item._id, amount: item.ServicePrice })}>${item.ServiceName}</option>`
+                  })
+                  abc += `</select> 
+                  <div class="invalid-feedback">Please Select Sub Category.</div> </div>`
+                  let num2 = num + 1
+                  console.log("abz--", 2, abc)
+                  while (true) {
+                    let cat = $(`#subcategory-${num2}`)
+                    if (cat.html()) {
+                      cat.remove();
+                    } else {
+                      break;
+                    }
+                    ++num2
+                  }
+                  $('#myselect').append(abc)
+                } else {
+                  alert("data not found")
+                  let num2 = num + 1
+                  while (true) {
+                    let cat = $(`#subcategory-${num2}`)
+                    if (cat.html()) {
+                      cat.remove();
+                    } else {
+                      break;
+                    }
+                    ++num2
+                  }
+                }
+              }
+            })
+          }
+
+          // $("#txtSelectedValues").change(function () {
+          //   console.log("ectedValues", 11)
+          //   // if ($("select option:selected").length > 3) {
+          //   //   $(this).removeAttr("selected");
+          //   //   alert('You can select upto 3 options only');
+          //   // }
+          // });
+
+
+
+
+
+          function ServicePriceTotel(a) {
+            let arr = []
+            var selectedValues = $('#txtSelectedValues').val();
+            console.log("selectedValues", selectedValues)
+            // $("element[attribute-name=attribute-value]")
+            selectedValues.forEach(element => {
+              // console.log(element);
+              let data = JSON.parse(element)
+              arr.push(Number(data.amount))
+            });
+            const sum = arr.reduce((acc, ele) => acc + ele, 0);
+            $('#Amount').val(sum)
+          }
+
+
+        
+
+        </script>
+        <script>
+          // function valueMax(params) {
+          //   console.log("valueMax",321354654)
+          const amountInput = document.getElementById('Amount');
+          const finalPriceInput = document.getElementById('FinalPrice');
+          amountInput.addEventListener('input', () => {
+            // Update the final price input value to match the amount input value
+            finalPriceInput.value = Math.min(amountInput.value, finalPriceInput.value);
+          });
+          finalPriceInput.addEventListener('input', () => {
+            // Ensure the final price input value is not higher than the amount input value
+            finalPriceInput.value = Math.min(amountInput.value, finalPriceInput.value);
+          });
+          // }
+        </script>
+
+        <%- include("../../partials/script.ejs") %>
+</body>
+
+
+</html>

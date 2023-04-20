@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>view-Service</title>
+  <%- include('../../partials/headlink.ejs') %>
+</head>
+
+<body>
+  <%- include('../../partials/Header.ejs') %>
+    <%- include("../../partials/sidebar.ejs") %>
+      <%- include("../../partials/alertMsg") %>
+
+        <main id="main" class="main">
+          <div class="pagetitle">
+            <h1><%-user?.type %></h1>
+            <nav>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+              </ol>
+            </nav>
+          </div>
+          <!-- End Page Title -->
+          <section class="section dashboard">
+            <div class="row">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Filter</h5>
+
+                      <!-- No Labels Form -->
+                      <form class="row g-3" action="/view_service">
+                        <div class="col-md-3">
+                          <label>Enter Store Name</label> <br>
+                          <% if(query?.StoreName!="" ){%>
+                            <input type="text" name="StoreName" class="form-control" value="<%=query?.StoreName%>"
+                              placeholder="StoreName">
+                            <%}else{%>
+                              <input type="text" name="StoreName" class="form-control" placeholder="StoreName">
+                              <%}%>
+                        </div>
+                        <div class="col-md-3">
+                          <label>Enter Service Name</label> <br>
+                          <% if(query?.ServiceName!="" ){%>
+                            <input type="text" name="ServiceName" class="form-control" value="<%=query?.ServiceName%>"
+                              placeholder="ServiceName">
+                            <%}else{%>
+                              <input type="text" name="ServiceName" class="form-control" placeholder="ServiceName">
+                              <%}%>
+                        </div>
+                        <div class="col-md-3">
+                          <label>Enter Service Price Amount</label> <br>
+                          <% if(query?.ServicePrice!="" ){%>
+                            <input type="number" name="ServicePrice" class="form-control"
+                              value="<%=query?.ServicePrice%>" placeholder="ServicePrice">
+                            <%}else{%>
+                              <input type="number" name="ServicePrice" class="form-control" placeholder="ServicePrice">
+                              <%}%>
+                        </div>
+                        <div class="col-md-3">
+                          <label></label> <br>
+                          <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <a href="/view_service"> <button type="button" class="btn btn-secondary">Reset</button></a>
+                          </div>
+                        </div>
+                      </form>
+                      <!-- End No Labels Form -->
+
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Service List</h5>
+
+                      <!-- Table with stripped rows -->
+                      <table class="table datatable">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Store Name</th>
+                            <th scope="col">Service Name</th>
+                            <th scope="col"> Price</th>
+                            <th scope="col"> FinalPrice</th>
+                            <th scope="col">Time </th>
+                            <th scope="col">Service Type</th>
+                            <th scope="col"> Category </th>
+                            <th scope="col"> Services </th>
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% let i=0 %>
+                            <% for( data of data) { %>
+                              <% console.log("---",i,data)%>
+                              <tr>
+                                <th scope="row">
+                                  <%= ++i %>
+                                </th>
+                                <td>
+                                  <%= data?.saloon_name %>
+                                </td>
+                                <td>
+                                  <%= data?.ServiceName %>
+                                </td>
+                                <td>
+                                  <%= data?.ServicePrice %>
+                                </td>
+                                <td>
+                                  <%= data?.FinalPrice %>  
+                                </td>
+                                <td>
+                                  <%= data?.timePeriod_in_minits %>
+                                </td>
+                                <td>
+                                  <%= data?.type %>
+                                </td>
+                                <td>
+                                  <%= data?.last_category_name %>
+                                </td>
+                                <td>
+                                  <button type="button" value="<%= data?._id %>" id="location"
+                                    onclick="FindPackage(this)" class="btn btn-info">
+                                    <i class="bi bi-eye" title="view"></i>
+                                  </button>
+                                </td>
+                                <td>
+                                  <a href="/add_service?id=<%= data._id%>" class="btn btn-info"><i
+                                      class="ri-edit-box-line" title="Edit"></i></a>
+                                  <a href="/delete_service?id=<%= data._id%>" class="btn btn-danger">
+                                    <i class="ri-delete-bin-5-line" title="delete"></i>
+                                  </a>
+                                  <!-- <a href="/add_service?id=<%= data._id%>" class="btn btn-dark">Edit</a>
+                                <a href="/delete_service?id=<%= data._id%>" class="btn btn-danger">Delete</a> -->
+                                </td>
+                              </tr>
+                              <%}%>
+                        </tbody>
+                      </table>
+                      <!-- End Table with stripped rows -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">User Service Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="moduleDataAppend">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <script>
+          function FindPackage(data) {
+            let num = data.value
+
+            $.ajax({
+              type: 'get',
+              data: { "id": num },
+              url: '/Find-Package-Services',
+              success: function (data) {
+                if (data.length > 0) {
+                  $('#moduleDataAppend').empty()
+
+                  let abc = ` <table class="table datatable">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">ServiceName</th>
+                              <th scope="col">ServicePrice</th>
+                              <th scope="col">timePeriod </th>
+                              <th scope="col">image</th>
+                            </tr>
+                          </thead>
+                          <tbody>`
+                  let i = 1;
+                  data.forEach((item) => {
+                    console.log("tem", item)
+                    abc += `<tr>
+                      <th>${i}.</th>
+                            <td scope="row">${item.ServiceName}</td>
+                            <td>${item.ServicePrice}</td>
+                            <td>${item.timePeriod_in_minits}</td>
+                            <td><img src="${item.image[0]}" alt="img" style="width:50px"></td>
+                          </tr>`
+                    i++
+                  })
+                  abc += `</tbody> </table >`
+
+                  $('#moduleDataAppend').append(abc)
+                  $("#exampleModal").modal("toggle");
+                } else {
+                  alert("data not Found")
+                }
+              }
+            })
+          }
+        </script>
+        <%- include("../../partials/script.ejs") %>
+</body>
+
+</html>
