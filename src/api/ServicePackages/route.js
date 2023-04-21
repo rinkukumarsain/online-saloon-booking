@@ -9,6 +9,6 @@ app.get("/get-service-Package", responseHandler(getServicePackage));
 
 //cart 
 //add pakage in cart
-app.get("/Package-cart-Add", auth, responseHandler(packageCartAdd));
+// app.get("/Package-cart-Add", auth, responseHandler(packageCartAdd));
 
 module.exports = app
