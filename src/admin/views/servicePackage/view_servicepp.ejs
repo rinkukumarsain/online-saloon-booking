@@ -88,7 +88,7 @@
                             <th scope="col"> Price</th>
                             <th scope="col"> FinalPrice</th>
                             <th scope="col">Time </th>
-                            <th scope="col">Service Type</th>
+                            <th scope="col">Gender</th>
                             <th scope="col"> Category </th>
                             <th scope="col"> Services </th>
                             <th scope="col">Action</th>
@@ -201,7 +201,7 @@
                             <td scope="row">${item.ServiceName}</td>
                             <td>${item.ServicePrice}</td>
                             <td>${item.timePeriod_in_minits}</td>
-                            <td><img src="${item.image[0]}" alt="img" style="width:50px"></td>
+                            <td><img src="/uploads/${item.image[0]}" alt="img" style="width:50px"></td>
                           </tr>`
                     i++
                   })
