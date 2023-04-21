@@ -1,25 +1,24 @@
-const mongoose = require("mongoose")
-const package = require("../../admin/servicePackage/model")
-const services = require("../saloonService/model")
+const mongoose = require("mongoose");
+const services = require("../saloonService/model");
+
 exports.getServicePackage = async (query) => {
     try {
         const condition = [];
-
         if (query.categoryId != undefined && query.categoryId != "") {
             condition.push({
                 '$match': {
                     'category': {
                         '$in': [mongoose.Types.ObjectId(query.categoryId)],
                     },
-                }
+                },
             });
         } else {
             condition.push({
                 '$match': {
                     'ServicesType': 1
-                }
-            })
-        }
+                },
+            });
+        };
 
 
         condition.push({
@@ -53,15 +52,15 @@ exports.getServicePackage = async (query) => {
                 'service': {
                     '$push': {
                         '_id': '$_id',
-                        'ServiceName': '$ServiceName',
-                        'ServicePrice': '$ServicePrice',
-                        'timePeriod_in_minits': '$timePeriod_in_minits',
+                        'packageName': '$ServiceName',
+                        'packagePrice': '$ServicePrice',
+                        'packageServiceTime': '$timePeriod_in_minits',
                         'type': '$type',
-                        'ServicesType': '$ServicesType',
-                        'ServicePrice': '$ServicePrice',
-                        'FinalPrice': '$FinalPrice',
+                        // 'ServicesType': '$ServicesType',
+                        'packagePrice': '$ServicePrice',
+                        'packageFinalPrice': '$FinalPrice',
                         'description': '$description',
-                        'ServicesName':'$servicename'
+                        'ServicesName': '$servicename'
                     }
                 },
                 'saloon': {
