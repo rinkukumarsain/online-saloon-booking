@@ -296,8 +296,8 @@ exports.addcart = async ({ user, query }) => {
                 const findService = await service.findOne({ _id, saloonStore: mongoose.Types.ObjectId(query.saloonId) });
                 if (!findService) {
                     return {
-                        statusCode: 200,
-                        status: true,
+                        statusCode: 400,
+                        status: false,
                         message: "not found servce in your selected store !",
                         data: []
                     };
