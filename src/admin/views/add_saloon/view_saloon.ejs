@@ -94,9 +94,9 @@
                           <th scope="col">Store Name</th>
                           <th scope="col">Owner Name</th>
                           <th scope="col">Email</th>
-                          <th scope="col">Phone Number</th>
-                          <th scope="col">Location</th>
-                          <th scope="col">Profile</th>
+                          <th scope="col">Phone</th>
+                          <th scope="col">Loca</th>
+                          <th scope="col">Prof.</th>
                           <th scope="col">Doc</th>
                           <th scope="col">Bank Info</th>
                           <th scope="col">saloonService</th>
@@ -123,13 +123,6 @@
                               <td>
                                 <%= data.Phone %>
                               </td>
-                              <!-- <td>
-                                <button type="button" value="<%=data._id%>" onclick="saloonAdd(this)"
-                                  class="btn btn-info"><i class="bi bi-eye"></i></button>
-                              </td>
-                              <td>Profile</td>
-                              <td>Docu ment</td>
-                              <td>Bank Info</td> -->
                               <td>
                                 <button type="button" value="<%= data._id %>" id="location" onclick="saloonAdd(this)"
                                   class="btn btn-info">
@@ -154,45 +147,50 @@
                                   <i class="bi bi-eye" title="view"></i>
                                 </button>
                               </td>
+                              <% let sss ;%>
+                                <td>
+                                  <a href="/add_service?saloonId=<%= data._id%>" class="btn btn-success text-warning"><i
+                                      class="ri-file-add-line" title="Add Sub Category"></i></a>
+                                  <%data.ccc.forEach(element=> {%>
 
-                              <td>
-                                <%if( data.Service[0]?.numberOfService>0){%>
-                                  <a href="/view_service?id=<%= data._id%>" class="btn btn-success">
-                                    <%= data.Service[0]?.numberOfService %>
-                                      <i class="bi bi-eye" title="view Service"></i>
-                                  </a>
-                                  <% }%>
-                                    <a href="/add_service?saloonId=<%= data._id%>"
+                                    <%if( element._id==0){%>
+                                      <% sss=element.count %>
+                                        <a href="/view_service?id=<%= data._id%>" class="btn btn-success">
+                                          <%= element.count %>
+                                            <i class="bi bi-eye" title="view Service"></i>
+                                        </a>
+                                        <%}%>
+                                          <%})%>
+
+                                </td>
+                                <td>
+                                  <%if(sss>1){%>
+                                    <a href="/add-new-package?saloonId=<%= data._id%>"
                                       class="btn btn-success text-warning"><i class="ri-file-add-line"
                                         title="Add Sub Category"></i></a>
-                              </td>
-                              <td>
-                                <%if( data.Service[0]?.numberOfService>1){%>
-                                  <!-- <a href="/view_service?id=<%= data._id%>" class="btn btn-success">
-                                    <%= data.Service[0]?.numberOfService %>
-                                      <i class="bi bi-eye" title="view Service"></i>
-                                  </a> -->
-                                  <!-- sahil view -->
-                                  <%if( data.result.length>0){%>
-                                    <a href="/view-package?id=<%= data._id%>" class="btn btn-success">
-                                      <%= data.result.length %>
-                                        <i class="bi bi-eye" title="view Service"></i>
-                                    </a>
-                                    <%}%>
-                                      <!-- sahil view end -->
-                                      <a href="/add-new-package?saloonId=<%= data._id%>" class="btn btn-success text-warning"><i
-                                          class="ri-file-add-line" title="Add Sub Category"></i></a>
-                                      <% }%>
-                              </td>
-                              <td>
-                                <!-- <a href="/add_saloon?id=<%= data._id%>" class="btn btn-dark">Edit</a>
+                                    <% }%>
+
+                                  <%if(data.ccc.length>1){%>
+                                    <%data.ccc.forEach(element=> {%>
+                                      <%if( element._id==1){%>
+                                        <a href="/view-package?id=<%= data._id%>" class="btn btn-success">
+                                          <%= element.count %>
+                                            <i class="bi bi-eye" title="view Service"></i>
+                                        </a>
+                                        <%}%>
+                                          <%})%>
+                                            <% }%>                                           
+                                                  <!-- sahil view end -->
+                                </td>
+                                <td>
+                                  <!-- <a href="/add_saloon?id=<%= data._id%>" class="btn btn-dark">Edit</a>
                                 <a href="/delete_saloon?id=<%= data._id%>" class="btn btn-danger">Delete</a> -->
-                                <a href="/add_saloon?id=<%= data._id%>" class="btn btn-info"><i class="ri-edit-box-line"
-                                    title="Edit"></i></a>
-                                <a href="/delete_saloon?id=<%= data._id%>" class="btn btn-danger">
-                                  <i class="ri-delete-bin-5-line" title="delete"></i>
-                                </a>
-                              </td>
+                                  <a href="/add_saloon?id=<%= data._id%>" class="btn btn-info"><i
+                                      class="ri-edit-box-line" title="Edit"></i></a>
+                                  <a href="/delete_saloon?id=<%= data._id%>" class="btn btn-danger">
+                                    <i class="ri-delete-bin-5-line" title="delete"></i>
+                                  </a>
+                                </td>
                             </tr>
                             <%}%>
                       </tbody>

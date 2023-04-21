@@ -63,27 +63,51 @@ exports.VIEW_SALOON = async (req) => {
         'foreignField': 'saloonStore',
         'pipeline': [
           {
+            '$match': {
+                'ServicesType': 0
+            }
+        },{
             '$count': 'numberOfService'
           }
         ],
         'as': 'Service'
       }
     })
-    pipeline.push( {
+    pipeline.push({
       '$lookup': {
-          'from': 'saloonservices', 
-          'localField': '_id', 
-          'foreignField': 'saloonStore', 
-          'pipeline': [
-              {
-                  '$match': {
-                      'ServicesType': 1
-                  }
-              }
-          ], 
-          'as': 'result'
+        'from': 'saloonservices',
+        'localField': '_id',
+        'foreignField': 'saloonStore',
+        'pipeline': [
+          {
+            '$group': {
+              '_id': "$ServicesType",
+              'count': {
+                '$sum': 1,
+              },
+            },
+          },
+        ],
+        'as': 'ccc'
       }
-  })
+    })
+    // pipeline.push({
+    //   '$lookup': {
+    //     'from': 'saloonservices',
+    //     'localField': '_id',
+    //     'foreignField': 'saloonStore',
+    //     'pipeline': [
+    //       {
+    //         '$match': {
+    //           'Services': 1
+    //         }
+    //       }, {
+    //         '$count': 'package'
+    //       }
+    //     ],
+    //     'as': 'package'
+    //   }
+    // })
     //console.log(pipeline,"pipeline")
     return await saloon.aggregate(pipeline)
   } catch (error) {

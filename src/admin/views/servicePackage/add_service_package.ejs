@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Service</title>
+  <title>package</title>
 
   <%- include('../../partials/headlink.ejs') %>
 </head>
@@ -34,23 +34,23 @@
                   <div class="card">
                     <div class="card-body">
 
-                      <h5 class="card-title">Add Service pakage </h5>
+                      <h5 class="card-title">Add Service package </h5>
                       <form class="needs-validation" action="/add-new-package" method="post"
                         enctype="multipart/form-data" novalidate>
                         <div class="row g-3">
                           <div class="col">
-                            <label for=""> Service Name</label>
+                            <label for=""> package Name</label>
                             <input required type="text" name="ServiceName" class="form-control"
-                              placeholder="Enter Service Name">
+                              placeholder="Enter package Name">
                             <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Please Enter Service Name.</div>
+                            <div class="invalid-feedback">Please Enter package Name.</div>
                           </div>
                           <div class="col">
                             <label for="">Time</label>
                             <input required type="number" name="timePeriod_in_minits" class="form-control"
                               placeholder="Enter Time ">
                             <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Please Enter Service Time.</div>
+                            <div class="invalid-feedback">Please Enter package Time.</div>
                           </div>
 
                         </div><br>
@@ -69,11 +69,11 @@
                             <div class="invalid-feedback">Please Select Gender.</div>
                           </div>
                           <div class="col">
-                            <label for=""> Service Price</label>
+                            <label for=""> package Price</label>
                             <input required type="number" name="ServicePrice" id="Amount" class="form-control"
-                              placeholder="Enter Service Price" readonly>
+                              placeholder="Enter package Price" readonly>
                             <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Please Enter Service Price.</div>
+                            <div class="invalid-feedback">Please Enter package Price.</div>
                           </div>
                         </div><br>
 
@@ -86,7 +86,7 @@
                             <div class="invalid-feedback">Please Enter Discription.</div>
                           </div>
                           <div class="col">
-                            <label for="">Service Images</label>
+                            <label for="">package Images</label>
                             <input class="form-control" type="file" name="file" id="formFile" required>
                             <div class="valid-feedback">Looks good!</div>
                             <div class="invalid-feedback">Please select Image.</div>
@@ -109,9 +109,8 @@
                           </div>
                           <div class="col">
                             <label for="">Select Saloon</label>
-                            <select class="form-select" name="saloonStore" aria-label="Default select example"
-                              onchange="FindService(this)" required>
-                              <option value="">select Saloon</option>
+                            <select class="form-select" name="saloonStore" id="saloonStore"
+                              aria-label="Default select example" onchange="FindService(this)" required>
                               <% salon.forEach(element=> {%>
                                 <option value="<%=element._id%>">
                                   <%=element.storeName%>
@@ -130,7 +129,7 @@
                             </div>
                           </div>
                           <div class="col">
-                            <label for="">Service Final Price</label>
+                            <label for="">package Final Price</label>
                             <input class="form-control" type="number" name="FinalPrice" id="FinalPrice" required>
                             <div class="valid-feedback">Looks good!</div>
                             <div class="invalid-feedback">Please select Image.</div>
@@ -157,6 +156,12 @@
         <script src="/public/assets/js/form-validation.js"></script>
 
         <script>
+          // A $( document ).ready() block.
+          $(document).ready(function () {
+            const ee = document.getElementById("saloonStore")
+            FindService(ee)
+          });
+
 
           function FindService(select) {
             console.log("hiiih", select)
@@ -172,7 +177,7 @@
                   console.log("data", data)
                   let abc = `<div id="subcategory-${num + 1}"><label for="inputAddress" class="form-label">Sub Category</label>`
                   abc += `<select style="width:100%;"  multiple class="form-select" id="txtSelectedValues"  onchange="ServicePriceTotel(this)" name="Services" id="${num + 1}">`
-                  abc += `<option value="" disabled>select Sub Category</option>`
+                  abc += `<option value="" disabled>select Services</option>`
                   console.log("abz--", 1, abc)
                   data.forEach((item) => {
                     abc += `<option value=${JSON.stringify({ id: item._id, amount: item.ServicePrice })}>${item.ServiceName}</option>`
@@ -234,8 +239,6 @@
             $('#Amount').val(sum)
           }
 
-
-        
 
         </script>
         <script>

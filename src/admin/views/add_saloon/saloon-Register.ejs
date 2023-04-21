@@ -584,11 +584,13 @@
                                   </div>
                                 </div><br>
                                 <div class="row g-3">
-                                  <%for (const item of data.image) {%>
-                                    <div class="col-md-3">
-                                      <img src="<%=item%>" alt="image" style="height: 100px;">
-                                    </div>
-                                    <%}%>
+                                  <%if(data?.image){%>
+                                    <%for (const item of data.image) {%>
+                                      <div class="col-md-3">
+                                        <img src="<%=item%>" alt="image" style="height: 100px;">
+                                      </div>
+                                      <%}%>
+                                        <%}%>
                                 </div>
                                 <br>
                                 <div class="row mb-3">
@@ -603,7 +605,7 @@
                 </div>
           </section>
         </main>
-        
+
         <script>
           function SendOtp(params) {
             const ele = document.getElementById("Phone");

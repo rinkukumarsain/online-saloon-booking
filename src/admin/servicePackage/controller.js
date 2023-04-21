@@ -220,37 +220,45 @@ exports.addNewPackage = async (req, res) => {
         req.query.type = 1
         let iid = req.query.id
         req.query.id = ""
-        console.log("package", req.query)
-        const Category = await getCategoryListing(req)
-        const salon = await saloon.aggregate([
-            {
-                '$lookup': {
-                    'from': 'saloonservices',
-                    'localField': '_id',
-                    'foreignField': 'saloonStore',
-                    'as': 'ss'
+        console.log("package", req.query.saloonId)
+        let condition = [];
+        if (req.query.saloonId != undefined && req.query.saloonId != "") {
+            condition.push({
+                '$match': {
+                    '_id': mongoose.Types.ObjectId(req.query.saloonId)
                 }
-            }, {
-                '$unwind': {
-                    'path': '$ss',
-                    // 'preserveNullAndEmptyArrays': true
-                }
-            }, {
-                '$group': {
-                    '_id': '$_id',
-                    'fieldN': {
-                        '$first': {
-                            '_id': '$_id',
-                            'storeName': '$storeName'
-                        }
+            })
+        }
+
+        condition.push({
+            '$lookup': {
+                'from': 'saloonservices',
+                'localField': '_id',
+                'foreignField': 'saloonStore',
+                'as': 'ss'
+            }
+        }, {
+            '$unwind': {
+                'path': '$ss',
+                // 'preserveNullAndEmptyArrays': true
+            }
+        }, {
+            '$group': {
+                '_id': '$_id',
+                'fieldN': {
+                    '$first': {
+                        '_id': '$_id',
+                        'storeName': '$storeName'
                     }
                 }
-            }, {
-                '$replaceRoot': {
-                    'newRoot': '$fieldN'
-                }
             }
-        ])
+        }, {
+            '$replaceRoot': {
+                'newRoot': '$fieldN'
+            }
+        })
+        const Category = await getCategoryListing(req)
+        const salon = await saloon.aggregate(condition)
 
         console.log("salon.length", salon.length)
         res.render("servicePackage/add_service_package", { user: req.user, data: "", salon, Category, query: req.query })
@@ -274,7 +282,7 @@ exports.newPackageCreate = async (req, res) => {
         const details = saloonService(req.body);
         const result = await details.save();
         if (result) {
-            res.redirect("/");
+            res.redirect("/view-package");
         };
     } catch (error) {
         console.log(error);
