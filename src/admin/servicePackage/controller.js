@@ -213,6 +213,7 @@ exports.FindPackageService = async (req, res) => {
 
 
 const { getSaloonStore } = require("../../api/saloonstore/controller")
+
 exports.addNewPackage = async (req, res) => {
     try {
         res.locals.message = req.flash();
@@ -220,7 +221,7 @@ exports.addNewPackage = async (req, res) => {
         req.query.type = 1
         let iid = req.query.id
         req.query.id = ""
-        console.log("package", req.query.saloonId)
+
         let condition = [];
         if (req.query.saloonId != undefined && req.query.saloonId != "") {
             condition.push({
@@ -229,6 +230,14 @@ exports.addNewPackage = async (req, res) => {
                 }
             })
         }
+        if (req.user.type == "admin") {
+            condition.push({
+                '$match': {
+                    'userId': mongoose.Types.ObjectId(req.user._id)
+                }
+            })
+        }
+
 
         condition.push({
             '$lookup': {
@@ -259,8 +268,6 @@ exports.addNewPackage = async (req, res) => {
         })
         const Category = await getCategoryListing(req)
         const salon = await saloon.aggregate(condition)
-
-        console.log("salon.length", salon.length)
         res.render("servicePackage/add_service_package", { user: req.user, data: "", salon, Category, query: req.query })
     } catch (error) {
         console.log(error)

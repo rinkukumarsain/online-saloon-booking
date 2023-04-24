@@ -88,11 +88,11 @@ exports.loginData = async (req, res) => {
                     const refreshToken = jwt.sign({ _id: user._id }, process.env.refreshToken);
 
                     res.cookie("accessToken", accessToken, {
-                        expires: new Date(Date.now() + 1000 * 60 * 5),//1 minit
+                        expires: new Date(Date.now() + 10000 * 60 * 60),//1 minit
                         httpOnly: true,
                         overwrite: true
                     }).cookie("refreshToken", refreshToken, {
-                        expires: new Date(Date.now() + 1000 * 60 * 30),//10 minit
+                        expires: new Date(Date.now() + 10000 * 60 * 60 * 12),//10 minit
                         httpOnly: true,
                         overwrite: true
                     });
