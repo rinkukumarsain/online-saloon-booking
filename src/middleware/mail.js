@@ -68,3 +68,40 @@ exports.sendmailwarning = async ({ userData, body }) => {
 
     };
 };
+
+exports.newLetterEmail = async ({ body, arr }) => {
+    try {
+        let transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: process.env.email, // generated ethereal user
+                pass: process.env.pass, // generated ethereal password
+            }
+        });
+
+        var mailoption = {
+            from: process.env.email, // sender address
+            to: arr, // list of receivers
+            subject: "body.subject", // Subject line
+            text: body.description
+        };
+
+        let result = await transporter.sendMail(mailoption);
+        if (result) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "mails send  successfull !",
+                data: []
+            };
+        };
+        return {
+            statusCode: 200,
+            status: true,
+            message: "mails send  successfull !",
+            data: []
+        };
+    } catch (error) {
+        console.log(error);
+    };
+};

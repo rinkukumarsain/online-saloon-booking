@@ -164,8 +164,7 @@
 
 
           function FindService(select) {
-            console.log("hiiih", select)
-            // <% console.log("hhhhhgfggg", query) %>
+
             let num = Number(select.id)
             let category = select.value
             $.ajax({
@@ -174,18 +173,15 @@
               url: '/Find-Service-for-Packages',// nandlal
               success: function (data) {
                 if (data.length > 0) {
-                  console.log("data", data)
-                  let abc = `<div id="subcategory-${num + 1}"><label for="inputAddress" class="form-label">Sub Category</label>`
+                  let abc = `<div id="subcategory-${num + 1}"><label for="inputAddress" class="form-label">choice Service</label>`
                   abc += `<select style="width:100%;"  multiple class="form-select" id="txtSelectedValues"  onchange="ServicePriceTotel(this)" name="Services" id="${num + 1}">`
                   abc += `<option value="" disabled>select Services</option>`
-                  console.log("abz--", 1, abc)
                   data.forEach((item) => {
                     abc += `<option value=${JSON.stringify({ id: item._id, amount: item.ServicePrice })}>${item.ServiceName}</option>`
                   })
                   abc += `</select> 
                   <div class="invalid-feedback">Please Select Sub Category.</div> </div>`
                   let num2 = num + 1
-                  console.log("abz--", 2, abc)
                   while (true) {
                     let cat = $(`#subcategory-${num2}`)
                     if (cat.html()) {

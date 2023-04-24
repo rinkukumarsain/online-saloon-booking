@@ -97,7 +97,6 @@
                         <tbody>
                           <% let i=0 %>
                             <% for( data of data) { %>
-                              <% console.log("---",i,data)%>
                               <tr>
                                 <th scope="row">
                                   <%= ++i %>
@@ -112,7 +111,7 @@
                                   <%= data?.ServicePrice %>
                                 </td>
                                 <td>
-                                  <%= data?.FinalPrice %>  
+                                  <%= data?.FinalPrice %>
                                 </td>
                                 <td>
                                   <%= data?.timePeriod_in_minits %>
@@ -130,7 +129,7 @@
                                   </button>
                                 </td>
                                 <td>
-                                  <a href="/add_service?id=<%= data._id%>" class="btn btn-info"><i
+                                  <a href="/add-new-package?id=<%= data._id%>" class="btn btn-info"><i
                                       class="ri-edit-box-line" title="Edit"></i></a>
                                   <a href="/delete_service?id=<%= data._id%>" class="btn btn-danger">
                                     <i class="ri-delete-bin-5-line" title="delete"></i>
@@ -195,7 +194,6 @@
                           <tbody>`
                   let i = 1;
                   data.forEach((item) => {
-                    console.log("tem", item)
                     abc += `<tr>
                       <th>${i}.</th>
                             <td scope="row">${item.ServiceName}</td>
