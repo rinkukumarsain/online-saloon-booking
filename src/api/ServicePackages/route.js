@@ -5,7 +5,7 @@ const { getServicePackage, packageCartAdd } = require('./controller');
 const app = Router();
 const uplode = require("../../middleware/img");
 
-app.get("/get-service-Package", responseHandler(getServicePackage));
+app.get("/get-service-Package", auth, responseHandler(getServicePackage));
 
 //cart 
 //add pakage in cart

@@ -68,7 +68,8 @@ exports.getServicePackage = async (query) => {
                         '_id': '$saloonStore._id',
                         'storeName': '$saloonStore.storeName',
                         'location': '$saloonStore.location',
-                        'image': '$saloonStore.image'
+                        'image': '$saloonStore.image',
+                        'ProfileInfo': '$saloonStore.ProfileInfo'
                     }
                 }
             }
