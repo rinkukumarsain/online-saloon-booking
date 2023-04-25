@@ -227,12 +227,14 @@ exports.Checkout = async ({ user, query }) => {
                 Checkout.user = user
                 const data = await this.applyBalance(Checkout)
                 data.user = ""
-                return {
-                    statusCode: 200,
-                    status: true,
-                    message: "Checkout  Succesfuuly ! 1",
-                    data: [data]
-                };
+                if (data.statusCode == 200 && data.status == true) {
+                    return {
+                        statusCode: 200,
+                        status: true,
+                        message: "Checkout  Succesfuuly ! 1",
+                        data: data.data
+                    };
+                }
             }
             return {
                 statusCode: 200,
@@ -256,11 +258,13 @@ exports.Checkout = async ({ user, query }) => {
 
 exports.applyBalance = async (data) => {
     try {
+        console.log(typeof (data.user.userWallet.balance), 5555)
         if (data.user.userWallet.balance > 0) {
             if (data.user.userWallet.balance > data.totalamount) {
+                data.totalamount = data.totalamount - data.user.userWallet.balance
                 const Data = await userModel.findByIdAndUpdate({ _id: data.user._id }, { $inc: { "userWallet.useBalance": +data.totalamount, "userWallet.balance": -data.totalamount } }, { new: true });
-                data.totalamount = 0
-            } else if (data.user.userWallet.balance <= data.totalamount) {
+
+            } else if (data.user.userWallet.balance < data.totalamount) {
                 data.totalamount = data.totalamount - data.user.userWallet.balance
                 const Data = await userModel.findByIdAndUpdate({ _id: data.user._id }, { $inc: { "userWallet.useBalance": +data.totalamount, "userWallet.balance": -data.totalamount } }, { new: true });
             };

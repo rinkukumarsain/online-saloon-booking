@@ -35,114 +35,134 @@
                     <div class="card-body">
 
                       <h5 class="card-title">Add Service package </h5>
-                      <form class="needs-validation" action="/add-new-package" method="post"
-                        enctype="multipart/form-data" novalidate>
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for=""> package Name</label>
-                            <input required type="text" name="ServiceName" class="form-control"
-                              placeholder="Enter package Name">
-                            <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Please Enter package Name.</div>
-                          </div>
-                          <div class="col">
-                            <label for="">Time</label>
-                            <input required type="number" name="timePeriod_in_minits" class="form-control"
-                              placeholder="Enter Time ">
-                            <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Please Enter package Time.</div>
-                          </div>
+                      <% console.log("->",data._id,"<-----")%>
+                          <% if(data){ %>
+                            <form class="needs-validation" action="/add-new-package?id=<%= data._id%>" method="post"
+                              enctype="multipart/form-data" novalidate>
+                              <% }else{ %>
 
-                        </div><br>
+                                <form class="needs-validation" action="/add-new-package" method="post"
+                                  enctype="multipart/form-data" novalidate>
+                                  <% } %>
+                                    <div class="row g-3">
+                                      <div class="col">
+                                        <label for=""> package Name</label>
+                                        <input required type="text" name="ServiceName" class="form-control"
+                                          placeholder="Enter package Name" value="<%= data?.ServiceName %>">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please Enter package Name.</div>
+                                      </div>
+                                      <div class="col">
+                                        <label for="">Time</label>
+                                        <input required type="number" name="timePeriod_in_minits" class="form-control"
+                                          placeholder="Enter Time " value="<%= data?.timePeriod_in_minits %>">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please Enter package Time.</div>
+                                      </div>
 
-                        <div class="row g-3">
+                                    </div><br>
 
-                          <div class="col">
-                            <label for="">Choose Gender </label>
-                            <select class="form-select" name="type" aria-label="Default select example" required>
-                              <option value="">Select Type</option>
-                              <option value="male">Male</option>
-                              <option value="female">Female</option>
-                              <option value="unisex">Unisex</option>
-                            </select>
-                            <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Please Select Gender.</div>
-                          </div>
-                          <div class="col">
-                            <label for=""> package Price</label>
-                            <input required type="number" name="ServicePrice" id="Amount" class="form-control"
-                              placeholder="Enter package Price" readonly>
-                            <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Please Enter package Price.</div>
-                          </div>
-                        </div><br>
+                                    <div class="row g-3">
 
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for="">Discription</label>
-                            <textarea class="form-control" name="description" placeholder="Enter Description"
-                              style="height: 100px" required minlength="5"></textarea>
-                            <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Please Enter Discription.</div>
-                          </div>
-                          <div class="col">
-                            <label for="">package Images</label>
-                            <input class="form-control" type="file" name="file" id="formFile" required>
-                            <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Please select Image.</div>
-                          </div>
-                        </div><br>
+                                      <div class="col">
+                                        <label for="">Choose Gender </label>
+                                        <select class="form-select" name="type" aria-label="Default select example"
+                                          required>
+                                          <option value="">Select Type</option>
+                                          <option <%=data?.type=='male' ? 'selected' :'' %> value="male">Male</option>
+                                          <option <%=data?.type=='female' ? 'selected' :'' %> value="female">Female
+                                          </option>
+                                          <option <%=data?.type=='unisex' ? 'selected' :'' %> value="unisex">Unisex
+                                          </option>
+                                        </select>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please Select Gender.</div>
+                                      </div>
+                                      <div class="col">
+                                        <label for=""> package Price</label>
+                                        <input required type="number" name="ServicePrice" id="Amount"
+                                          class="form-control" placeholder="Enter package Price"
+                                          value="<%= data?.ServicePrice %>" readonly>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please Enter package Price.</div>
+                                      </div>
+                                    </div><br>
 
-                        <div class="row g-3">
-                          <div class="col">
-                            <label for="">Select Category</label>
-                            <select class="form-select" name="category" aria-label="multiple select example" required>
-                              <option value="">Select Category</option>
-                              <% Category.data.forEach(element=> {%>
-                                <option value="<%=element._id%>">
-                                  <%=element.Name%>
-                                </option>
-                                <% });%>
-                            </select>
-                            <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Please Select Category.</div>
-                          </div>
-                          <div class="col">
-                            <label for="">Select Saloon</label>
-                            <select class="form-select" name="saloonStore" id="saloonStore"
-                              aria-label="Default select example" onchange="FindService(this)" required>
-                              <% salon.forEach(element=> {%>
-                                <option value="<%=element._id%>">
-                                  <%=element.storeName%>
-                                </option>
-                                <% });%>
-                            </select>
-                            <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Please Select Saloon.</div>
-                          </div>
-                        </div><br>
+                                    <div class="row g-3">
+                                      <div class="col">
+                                        <label for="">Discription</label>
+                                        <textarea class="form-control" name="description"
+                                          placeholder="Enter Description" style="height: 100px" required
+                                          minlength="5"><%= data?.description %></textarea>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please Enter Discription.</div>
+                                      </div>
+                                      <div class="col">
+                                        <label for="">package Images</label>
+                                        <% if(data){ %>
+                                          <input class="form-control" type="file" name="file" id="formFile">
 
-                        <div class="row g-3">
-                          <div class="col">
-                            <div id="myselect" class="col-md-12">
+                                          <% }else{ %>
+                                            <input class="form-control" type="file" name="file" id="formFile" required>
+                                            <% } %>
+                                              <div class="valid-feedback">Looks good!</div>
+                                              <div class="invalid-feedback">Please select Image.</div>
+                                              <img src="/uploads/<%=data?.image[0] %>"
+                                                style="max-width: 200px; max-height: 68px;" alt="img">
+                                      </div>
+                                    </div><br>
 
-                            </div>
-                          </div>
-                          <div class="col">
-                            <label for="">package Final Price</label>
-                            <input class="form-control" type="number" name="FinalPrice" id="FinalPrice" required>
-                            <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Please select Image.</div>
-                          </div>
-                        </div><br>
+                                    <div class="row g-3">
+                                      <div class="col">
+                                        <label for="">Select Category</label>
+                                        <select class="form-select" name="category" aria-label="multiple select example"
+                                          required>
+                                          <% Category.data.forEach(element=> {%>
+                                            <option value="<%=element._id%>">
+                                              <%=element.Name%>
+                                            </option>
+                                            <% });%>
+                                        </select>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please Select Category.</div>
+                                      </div>
+                                      <div class="col">
+                                        <label for="">Select Saloon</label>
+                                        <select class="form-select" name="saloonStore" id="saloonStore"
+                                          aria-label="Default select example" onchange="FindService(this)" required>
+                                          <% salon.forEach(element=> {%>
+                                            <option value="<%=element._id%>">
+                                              <%=element.storeName%>
+                                            </option>
+                                            <% });%>
+                                        </select>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please Select Saloon.</div>
+                                      </div>
+                                    </div><br>
+
+                                    <div class="row g-3">
+                                      <div class="col">
+                                        <div id="myselect" class="col-md-12">
+
+                                        </div>
+                                      </div>
+                                      <div class="col">
+                                        <label for="">package Final Price</label>
+                                        <input class="form-control" type="number" name="FinalPrice"
+                                          value="<%= data?.FinalPrice %>" id="FinalPrice" required>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please select Image.</div>
+                                      </div>
+                                    </div><br>
 
 
-                        <div class="row mb-3">
-                          <div class="col-sm-10">
-                            <button type="submit" id='mySubmit' class="btn btn-primary">Submit</button>
-                          </div>
-                        </div>
-                      </form>
+                                    <div class="row mb-3">
+                                      <div class="col-sm-10">
+                                        <button type="submit" id='mySubmit' class="btn btn-primary">Submit</button>
+                                      </div>
+                                    </div>
+                                </form>
 
 
                     </div>
@@ -156,13 +176,14 @@
         <script src="/public/assets/js/form-validation.js"></script>
 
         <script>
-          // A $( document ).ready() block.
+
           $(document).ready(function () {
             const ee = document.getElementById("saloonStore")
             FindService(ee)
           });
-
-
+          console.log("arrrrr", 286)
+          let arrr = <%- JSON.stringify(data.Services) %>
+            console.log("arrrrr", arrr)
           function FindService(select) {
 
             let num = Number(select.id)
@@ -177,7 +198,11 @@
                   abc += `<select style="width:100%;"  multiple class="form-select" id="txtSelectedValues"  onchange="ServicePriceTotel(this)" name="Services" id="${num + 1}">`
                   abc += `<option value="" disabled>select Services</option>`
                   data.forEach((item) => {
-                    abc += `<option value=${JSON.stringify({ id: item._id, amount: item.ServicePrice })}>${item.ServiceName}</option>`
+                    if (arrr.includes(item._id.toString()) == true) {
+                      abc += `<option value=${JSON.stringify({ id: item._id, amount: item.ServicePrice })} selected >${item.ServiceName}</option>`
+                    } else {
+                      abc += `<option value=${JSON.stringify({ id: item._id, amount: item.ServicePrice })}>${item.ServiceName}</option>`
+                    }
                   })
                   abc += `</select> 
                   <div class="invalid-feedback">Please Select Sub Category.</div> </div>`
