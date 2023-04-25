@@ -40,19 +40,33 @@ exports.deletePackage = async (req, res) => {
 exports.addNewPackage = async (req, res) => {
     try {
         res.locals.message = req.flash();
+        let FindPakage;
+        if (req.query.id != undefined && req.query.id != "") {
+            // console.log("req.query.-->", 1111, req.query.id)
+            FindPakage = await saloonService.findOne({ _id: req.query.id })
+            // console.log("FindPakage", FindPakage.category[0])
+            req.query.saloonId = FindPakage.saloonStore
+            req.query.id = FindPakage.category[0]
+            // console.log("req.query.id-->", 222, req.query.id)
 
-        req.query.type = 1
-        let iid = req.query.id
-        req.query.id = ""
+        } else {
+            req.query.id = "";
+        }
+
+        req.query.type = 1;
+        let iid = req.query.id;
+
 
         let condition = [];
         if (req.query.saloonId != undefined && req.query.saloonId != "") {
+            // console.log("req.query.saloonId", req.query.saloonId)
             condition.push({
                 '$match': {
                     '_id': mongoose.Types.ObjectId(req.query.saloonId)
                 }
             })
         }
+
         if (req.user.type == "admin") {
             condition.push({
                 '$match': {
@@ -60,7 +74,6 @@ exports.addNewPackage = async (req, res) => {
                 }
             })
         }
-
 
         condition.push({
             '$lookup': {
@@ -89,9 +102,12 @@ exports.addNewPackage = async (req, res) => {
                 'newRoot': '$fieldN'
             }
         })
+
+        // req.query.id =""
+        // console.log("FindPakage.category[0]", req.query.id)
         const Category = await getCategoryListing(req)
         const salon = await saloon.aggregate(condition)
-        res.render("servicePackage/add_service_package", { user: req.user, data: "", salon, Category, query: req.query })
+        res.render("servicePackage/add_service_package", { user: req.user, data: FindPakage, salon, Category, query: req.query })
     } catch (error) {
         console.log(error)
     }
@@ -107,13 +123,21 @@ exports.newPackageCreate = async (req, res) => {
             arr.push(data.id);
         };
         req.body.Services = arr;
-        req.body.image = req.file.filename;
-        //1 pakege se liye service ke liye 0
+        if (req.file != undefined && req.file != "") {
+            req.body.image = req.file.filename;
+        };
         req.body.ServicesType = 1
-        const details = saloonService(req.body);
-        const result = await details.save();
-        if (result) {
-            res.redirect("/view-package");
+        if (req.query.id != undefined && req.query.id != "") {
+            const result = await saloonService.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, req.body, { new: true });
+            if (result) {
+                res.redirect("/view-package");
+            };
+        } else {
+            const details = saloonService(req.body);
+            const result = await details.save();
+            if (result) {
+                res.redirect("/view-package");
+            };
         };
     } catch (error) {
         console.log(error);
@@ -129,8 +153,13 @@ exports.viewPackage = async (req, res) => {
         if (req.query.ServicePrice != undefined && req.query.ServicePrice != "") {
             match.ServicePrice = { $gt: Number(req.query.ServicePrice) }
         }
+
         if (req.query.ServiceName != undefined && req.query.ServiceName != "") {
-            match.ServiceName = { $regex: req.query.ServiceName }
+            match.ServiceName = { $regex: req.query.ServiceName, $options: 'i' }
+        }
+
+        if (req.query.FinalPrice != undefined && req.query.FinalPrice != "") {
+            match.FinalPrice = { $gt: Number(req.query.FinalPrice) }
         }
 
         if (req.query.id != undefined && req.query.id != "") {
