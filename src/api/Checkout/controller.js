@@ -224,13 +224,15 @@ exports.Checkout = async ({ user, query }) => {
 
 
             if (query.balance != undefined && query.balance != "") {
-                // console.log("findData", 111)
-                // let obj = {}
-                // obj.userId = user._id
-                // obj.query = query
-                // obj.Data = findData
                 Checkout.user = user
-                const dd = await this.applyBalance(Checkout)
+                const data = await this.applyBalance(Checkout)
+                data.user = ""
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: "Checkout  Succesfuuly ! 1",
+                    data: [data]
+                };
             }
             return {
                 statusCode: 200,
@@ -253,37 +255,25 @@ exports.Checkout = async ({ user, query }) => {
 };
 
 exports.applyBalance = async (data) => {
-    //cart ka balece 150 $$
-    console.log("Checkout amount", 1, data.totalamount);
-    // console.log("userWallet.balance", 22, data.user.userWallet.balance)
-    // const data = await userModel.findByIdAndUpdate({ _id: user._id })
-    // ufh
-
-    if (data.user.userWallet.balance > 0) {
-        console.log("userWallet.balance", 2, data.user.userWallet.balance)
-        j
-
-        if (data.user.userWallet.balance > data.totalamount) {
-            // user balec me se --- kar do + 
-            const data = await userModel.findByIdAndUpdate({ _id: data.user._id }, { $inc: { "userWallet.useBalance": +item.totalamount }, debitAmount }, { new: true })
-            console.log("data", 1, data)
-            data.totalamount = 0
-        } else if (data.user.userWallet.balance <= data.totalamount) {
-            data.totalamount = data.totalamount - data.user.userWallet.balance
-            const data = await userModel.findByIdAndUpdate({ _id: data.user._id }, { $inc: { "userWallet.useBalance": +item.totalamount } }, { new: true })
-            console.log("data", 2, data)
-        }
-
-    } else {
-        return {
-            statusCode: 400,
-            status: false,
-            message: "your balace is Zero !",
-            data: []
+    try {
+        if (data.user.userWallet.balance > 0) {
+            if (data.user.userWallet.balance > data.totalamount) {
+                const Data = await userModel.findByIdAndUpdate({ _id: data.user._id }, { $inc: { "userWallet.useBalance": +data.totalamount, "userWallet.balance": -data.totalamount } }, { new: true });
+                data.totalamount = 0
+            } else if (data.user.userWallet.balance <= data.totalamount) {
+                data.totalamount = data.totalamount - data.user.userWallet.balance
+                const Data = await userModel.findByIdAndUpdate({ _id: data.user._id }, { $inc: { "userWallet.useBalance": +data.totalamount, "userWallet.balance": -data.totalamount } }, { new: true });
+            };
+            return data;
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "your balace is Zero !",
+                data: []
+            };
         };
-    }
-    // for (const item of data) {
-
-
-    // }
-}
+    } catch (erore) {
+        console.log(erore);
+    };
+};
