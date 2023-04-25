@@ -73,6 +73,10 @@ exports.getServicePackage = async (query) => {
                     }
                 }
             }
+        }, {
+            '$sort': {
+                'saloon.storeName': -1
+            }
         });
         const findData = await services.aggregate(condition);
         if (findData.length > 0) {
