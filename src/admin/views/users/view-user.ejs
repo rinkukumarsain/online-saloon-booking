@@ -100,6 +100,7 @@
                                                         <th scope="col">balance</th>
                                                         <th scope="col">point</th>
                                                         <th scope="col">Status</th>
+                                                        <th scope="col">wallet</th>
                                                         <th scope="col">MoreAction</th>
                                                     </tr>
                                                 </thead>
@@ -166,7 +167,14 @@
                                                                     <%= data.type %>
                                                                 </td>
                                                                 <td>
-                                                                    <% if( data.type=="block-User" || data.type=="block-admin"){%>
+                                                                    <button type="button" value="<%=data._id%>"
+                                                                        class="btn btn-info" onclick="wallet(this)">
+                                                                        <i class="bi bi-wallet2"></i>
+                                                                    </button>
+                                                                </td>
+                                                                <td>
+                                                                    <% if( data.type=="block-User" ||
+                                                                        data.type=="block-admin" ){%>
                                                                         <a href="/unblock?id=<%= data._id%>"
                                                                             class="btn btn-dark">
                                                                             unBlock
@@ -211,6 +219,7 @@
                         </div>
                     </section>
                 </main>
+
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
@@ -230,6 +239,47 @@
                         </div>
                     </div>
                 </div>
+
+                <script>
+                    function wallet(a) {
+                        console.log("=====>", a)
+                        console.log(a.value)
+                        $('#moduleDataAppend').empty()
+
+                        let abc = `<!-- No Labels Form -->
+                                <form class="row g-3" action="/wallet-Action">
+                                    <input type="hidden" name="id" class="form-control" value="${a.value}" readonly>
+                                 <div class="col-md-3">
+                                  <label>Choose City</label> <br>
+                                  <select id="inputState" name="type" class="form-select">
+                                    <option selected="" value="point">point</option>
+                                    <option value="balance">balance </option>
+                                  </select>
+                                 </div>
+                                <div class="col-md-3">
+                                  <label>Status Type</label> <br>
+                                  <select id="inputState" name="status" class="form-select">
+                                        <option value="Add">Add</option>
+                                        <option value="debit">debit</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                  <label>Amount</label> <br>
+                                    <input type="number" name="amount" class="form-control" value="" placeholder="Enter Amount">
+                                </div>
+
+                                <div class="col-md-3">
+                                  <label></label> <br>
+                                  <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                                </div>
+                            </form>`
+
+                        $('#moduleDataAppend').append(abc)
+                        $("#exampleModal").modal("toggle");
+                    }
+                </script>
                 <%- include("../../partials/script.ejs") %>
 </body>
 
