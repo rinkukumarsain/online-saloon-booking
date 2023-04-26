@@ -114,8 +114,9 @@ exports.VIEW_SALOON = async (req, res) => {
     try {
         const data = await service.VIEW_SALOON(req)
         const user = req.user
-        const FindAllcity = await getAllSaloonCity(req)
-        res.render("add_saloon/view_saloon", { user, data, query: req.query, city: FindAllcity.data })
+        // const FindAllcity = await getAllSaloonCity(req)
+        const city = await saloon.distinct("location.city")
+        res.render("add_saloon/view_saloon", { user, data, query: req.query, city })
     } catch (error) {
         console.log(error)
     }
@@ -377,7 +378,7 @@ exports.addImagesInSaloon = async (req, res) => {
             res.redirect("/")
         }
 
-     
+
         // let data;
         // if (req.user.type == "admin") {
         //     data = await saloon.find({ userId: req.user._id })
