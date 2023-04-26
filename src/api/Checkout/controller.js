@@ -258,16 +258,25 @@ exports.Checkout = async ({ user, query }) => {
 
 exports.applyBalance = async (data) => {
     try {
-        console.log(typeof (data.user.userWallet.balance), 5555)
+        //2000 ch balance 
+        //3000 ka saman totalamount
+        // console.log(typeof (data.user.userWallet.balance), 5555)
+        // console.log("data", data)
+        // gs
         if (data.user.userWallet.balance > 0) {
-            if (data.user.userWallet.balance > data.totalamount) {
-                data.totalamount = data.totalamount - data.user.userWallet.balance
-                const Data = await userModel.findByIdAndUpdate({ _id: data.user._id }, { $inc: { "userWallet.useBalance": +data.totalamount, "userWallet.balance": -data.totalamount } }, { new: true });
 
-            } else if (data.user.userWallet.balance < data.totalamount) {
-                data.totalamount = data.totalamount - data.user.userWallet.balance
+            if (data.user.userWallet.balance >= data.totalamount) {
+                3000 == 3000 - 2000
+                // Amount = data.user.userWallet.balance - data.totalamount
                 const Data = await userModel.findByIdAndUpdate({ _id: data.user._id }, { $inc: { "userWallet.useBalance": +data.totalamount, "userWallet.balance": -data.totalamount } }, { new: true });
+                data.totalamount = 0
+            } else if (data.user.userWallet.balance < data.totalamount) {
+                a = 3002 - 2000
+                let amount = data.totalamount - data.user.userWallet.balance
+                const Data = await userModel.findByIdAndUpdate({ _id: data.user._id }, { $inc: { "userWallet.useBalance": +data.user.userWallet.balance, "userWallet.balance": -data.user.userWallet.balance } }, { new: true });
+                data.totalamount = amount
             };
+
             return data;
         } else {
             return {
