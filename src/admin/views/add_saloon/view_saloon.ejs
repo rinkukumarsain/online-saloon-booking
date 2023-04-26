@@ -34,43 +34,51 @@
 
                     <!-- No Labels Form -->
                     <form class="row g-3" action="/view_saloon">
-                      <div class="col-md-3">
+                      <div class="col-md-4">
                         <label>Choose City</label> <br>
                         <select id="inputState" name="city" class="form-select">
-                          <% if( query.city!=undefined&&query.city!="" ){%>
-                            <option selected="" value="<%=query?.city%>">
-                              <%=query?.city%>
+                          <option value="">Choose City</option>
+                          <% city.forEach(function(citys) { %>
+                            <option value="<%=citys%>" <%=citys==query?.city?'selected':'' %>>
+                              <%=citys%>
                             </option>
-                            <option value="">Choose City</option>
-                            <%}else{%>
-                              <option selected="" value="">Choose City</option>
-                              <%}%>
-                                <% city.forEach(function(citys) { %>
-                                  <option value="<%=citys%>">
-                                    <%=citys%>
-                                  </option>
-                                  <% }); %>
+                            <% }); %>
                         </select>
                       </div>
-                      <div class="col-md-3">
+                      <div class="col-md-4">
+                        <label>Enter Store Name</label> <br>
+                        <input type="text" name="storeName" class="form-control" value="<%=query?.storeName%>"
+                          placeholder="storeName">
+                      </div>
+                      <div class="col-md-4">
+                        <label>Enter gender</label> <br>
+                        <!-- <input type="text" name="gender" class="form-control" value="<%=query?.gender%>"
+                          placeholder="gender"> -->
+                        <select id="inputState" name="gender" class="form-select">
+                          <option value="">Choose Gender</option>
+                          <option value="male" <%=query?.gender=='male' ?'selected':'' %>>
+                            Male
+                          </option>
+                          <option value="female" <%=query?.gender=='female' ?'selected':'' %>>
+                            Female
+                          </option>
+                          <option value="unisex" <%=query?.gender=='unisex' ?'selected':'' %>>
+                            Unisex
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col-md-4">
                         <label>Enter email</label> <br>
-                        <% if(query?.email!="" ){%>
-                          <input type="text" name="email" class="form-control" value="<%=query?.email%>"
-                            placeholder="email">
-                          <%}else{%>
-                            <input type="text" name="email" class="form-control" placeholder="email">
-                            <%}%>
+                        <input type="text" name="email" class="form-control" value="<%=query?.email%>"
+                          placeholder="email">
                       </div>
-                      <div class="col-md-3">
+
+                      <div class="col-md-4">
                         <label>Enter Phone</label> <br>
-                        <% if(query?.Phone!="" ){%>
-                          <input type="number" name="Phone" class="form-control" value="<%=query?.Phone%>"
-                            placeholder="Phone">
-                          <%}else{%>
-                            <input type="number" name="Phone" class="form-control" placeholder="Phone">
-                            <%}%>
+                        <input type="number" name="Phone" class="form-control" value="<%=query?.Phone%>"
+                          placeholder="Phone">
                       </div>
-                      <div class="col-md-3">
+                      <div class="col-md-4">
                         <label></label> <br>
                         <div class="text-center">
                           <button type="submit" class="btn btn-primary">Submit</button>
@@ -95,6 +103,7 @@
                           <th scope="col">Owner Name</th>
                           <th scope="col">Email</th>
                           <th scope="col">Phone</th>
+                          <th scope="col">Gender</th>
                           <th scope="col">Loca</th>
                           <th scope="col">Prof.</th>
                           <th scope="col">Doc</th>
@@ -122,6 +131,9 @@
                               </td>
                               <td>
                                 <%= data.Phone %>
+                              </td>
+                              <td>
+                                <%= data.type %>
                               </td>
                               <td>
                                 <button type="button" value="<%= data._id %>" id="location" onclick="saloonAdd(this)"
@@ -170,16 +182,16 @@
                                         title="Add Sub Category"></i></a>
                                     <% }%>
 
-                                  <%if(data.ccc.length>1){%>
-                                    <%data.ccc.forEach(element=> {%>
-                                      <%if( element._id==1){%>
-                                        <a href="/view-package?id=<%= data._id%>" class="btn btn-success">
-                                          <%= element.count %>
-                                            <i class="bi bi-eye" title="view Service"></i>
-                                        </a>
-                                        <%}%>
-                                          <%})%>
-                                            <% }%>                                           
+                                      <%if(data.ccc.length>1){%>
+                                        <%data.ccc.forEach(element=> {%>
+                                          <%if( element._id==1){%>
+                                            <a href="/view-package?id=<%= data._id%>" class="btn btn-success">
+                                              <%= element.count %>
+                                                <i class="bi bi-eye" title="view Service"></i>
+                                            </a>
+                                            <%}%>
+                                              <%})%>
+                                                <% }%>
                                                   <!-- sahil view end -->
                                 </td>
                                 <td>

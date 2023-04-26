@@ -76,10 +76,10 @@ exports.userWalletAction = async (req, res) => {
         obj.$inc = {};
 
         if (req.query.status == "debit") {
-            const findUser = await user.findOne({ _id: req.query.id });
+            const findUser = await user.findOne({ _id: mongoose.Types.ObjectId(req.query.id) });
 
             if (req.query.type == "point") {
-                if (findUser.userWallet.point >= req.query.point) {
+                if (findUser.userWallet.point >= req.query.amount) {
                     obj.$inc["userWallet.point"] = -Number(req.query.amount);
                 } else {
                     req.flash("error", "insufficient point");

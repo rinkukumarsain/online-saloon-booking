@@ -15,6 +15,12 @@ exports.VIEW_SALOON = async (req) => {
     if (req.query.email != undefined && req.query.email != "") {
       match.email = { $regex: req.query.email, $options: 'i' }
     }
+    if (req.query.storeName != undefined && req.query.storeName != "") {
+      match.storeName = { $regex: req.query.storeName, $options: 'i' }
+    }
+    if (req.query.gender != undefined && req.query.gender != "") {
+      match.type = req.query.gender
+    }
     if (req.query.userId != undefined && req.query.userId != "") {
       match.userId = mongoose.Types.ObjectId(req.query.userId)
     }
@@ -64,9 +70,9 @@ exports.VIEW_SALOON = async (req) => {
         'pipeline': [
           {
             '$match': {
-                'ServicesType': 0
+              'ServicesType': 0
             }
-        },{
+          }, {
             '$count': 'numberOfService'
           }
         ],
