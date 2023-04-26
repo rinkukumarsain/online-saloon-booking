@@ -178,7 +178,8 @@ exports.getUserOrder = async ({ user, query }) => {
 
 
         const findData = await order.aggregate(condition);
-        const findAllSaloon = await saloon.find({}, { image: 1, storeName: 1, location: 1 })
+        const findAllSaloon = await saloon.find()
+        // const findAllSaloon = await saloon.find({}, { image: 1, storeName: 1, location: 1 })
 
         for (const order of findData) {
             for (const Saloon of findAllSaloon) {
