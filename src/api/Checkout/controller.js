@@ -106,113 +106,113 @@ exports.Checkout = async ({ user, query }) => {
             }
         });
 
-        /*   if (query.couponId != undefined && query.couponId != "") {
-   
-               const findCoupon = await coupon.findOne({ _id: mongoose.Types.ObjectId(query.couponId) });
-               if (findCoupon) {
-                   const findOrder = await order.find({ userId: user._id, couponId: mongoose.Types.ObjectId(query.couponId) });
-                   if (findOrder.length > findCoupon.Limit) {
-                       return {
-                           statusCode: 400,
-                           status: false,
-                           message: "you are use this coupon over limit  !",
-                           data: []
-                       };
-                   };
-                   condition.push({
-                       '$lookup': {
-                           'from': 'coupons',
-                           'pipeline': [
-                               {
-                                   '$match': {
-                                       '_id': findCoupon._id
-                                   }
-                               }, {
-                                   '$project': {
-                                       'Discount': 1,
-                                       'Amount': 1,
-                                       'Limit': 1
-                                   }
-                               }
-                           ],
-                           'as': 'coupon'
-                       }
-                   }, {
-                       '$unwind': {
-                           'path': '$coupon'
-                       }
-                   });
-                   condition.push({
-                       '$project': {
-                           _id: 0,
-                           name: 1,
-                           phone: 1,
-                           email: 1,
-                           Time: "$schedule.timeslot",
-                           Date: "$schedule.date",
-                           cartdata: 1,
-                           userAddress: "$Address.location",
-                           storedetail: {
-                               storeName: "$saloon.storeName",
-                               location: "$saloon.location",
-                               PhoneNumber: "$saloon.PhoneNumber",
-                               Email: "$saloon.Email",
-                           },
-                           totalamount: 1,
-                           Discount: {
-                               $cond: [
-                                   { $gte: ["$totalamount", '$coupon.Amount'] },
-                                   "$coupon.Discount",
-                                   0,
-                               ],
-                           },
-                           finalTotalAmount: {
-                               $cond: [
-                                   { $gte: ["$totalamount", '$coupon.Amount'] },
-                                   {
-                                       $subtract: [
-                                           "$totalamount",
-                                           "$coupon.Discount",
-                                       ],
-                                   },
-                                   0,
-                               ],
-                           },
-                       }
-                   });
-               } else {
-                   return {
-                       statusCode: 400,
-                       status: true,
-                       message: "please Enter valid coupon code  !",
-                       data: []
-                   };
-               };
-           } else {*/
+        if (query.couponId != undefined && query.couponId != "") {
+
+            const findCoupon = await coupon.findOne({ _id: mongoose.Types.ObjectId(query.couponId) });
+            if (findCoupon) {
+                const findOrder = await order.find({ userId: user._id, couponId: mongoose.Types.ObjectId(query.couponId) });
+                if (findOrder.length > findCoupon.Limit) {
+                    return {
+                        statusCode: 400,
+                        status: false,
+                        message: "you are use this coupon over limit  !",
+                        data: []
+                    };
+                };
+                condition.push({
+                    '$lookup': {
+                        'from': 'coupons',
+                        'pipeline': [
+                            {
+                                '$match': {
+                                    '_id': findCoupon._id
+                                }
+                            }, {
+                                '$project': {
+                                    'Discount': 1,
+                                    'Amount': 1,
+                                    'Limit': 1
+                                }
+                            }
+                        ],
+                        'as': 'coupon'
+                    }
+                }, {
+                    '$unwind': {
+                        'path': '$coupon'
+                    }
+                });
+                condition.push({
+                    '$project': {
+                        _id: 0,
+                        name: 1,
+                        phone: 1,
+                        email: 1,
+                        Time: "$schedule.timeslot",
+                        Date: "$schedule.date",
+                        cartdata: 1,
+                        userAddress: "$Address.location",
+                        storedetail: {
+                            storeName: "$saloon.storeName",
+                            location: "$saloon.location",
+                            PhoneNumber: "$saloon.PhoneNumber",
+                            Email: "$saloon.Email",
+                        },
+                        totalamount: 1,
+                        Discount: {
+                            $cond: [
+                                { $gte: ["$totalamount", '$coupon.Amount'] },
+                                "$coupon.Discount",
+                                0,
+                            ],
+                        },
+                        finalTotalAmount: {
+                            $cond: [
+                                { $gte: ["$totalamount", '$coupon.Amount'] },
+                                {
+                                    $subtract: [
+                                        "$totalamount",
+                                        "$coupon.Discount",
+                                    ],
+                                },
+                                0,
+                            ],
+                        },
+                    }
+                });
+            } else {
+                return {
+                    statusCode: 400,
+                    status: true,
+                    message: "please Enter valid coupon code  !",
+                    data: []
+                };
+            };
+        } else {
 
 
-        condition.push({
-            '$project': {
-                '_id': 0,
-                'name': 1,
-                'phone': 1,
-                'email': 1,
-                'totalamount': 1,
-                'cartId': 1,
-                'Time': '$schedule.timeslot',
-                'Date': '$schedule.date',
-                'cartdata': 1,
-                'userAddress': '$Address.location',
-                'storedetail': {
-                    '_id': '$saloon._id',
-                    'storeName': '$saloon.storeName',
-                    'location': '$saloon.location',
-                    'PhoneNumber': '$saloon.PhoneNumber',
-                    'Email': '$saloon.Email'
+            condition.push({
+                '$project': {
+                    '_id': 0,
+                    'name': 1,
+                    'phone': 1,
+                    'email': 1,
+                    'totalamount': 1,
+                    'cartId': 1,
+                    'Time': '$schedule.timeslot',
+                    'Date': '$schedule.date',
+                    'cartdata': 1,
+                    'userAddress': '$Address.location',
+                    'storedetail': {
+                        '_id': '$saloon._id',
+                        'storeName': '$saloon.storeName',
+                        'location': '$saloon.location',
+                        'PhoneNumber': '$saloon.PhoneNumber',
+                        'Email': '$saloon.Email'
+                    }
                 }
-            }
-        });
-        // };
+            });
+        };
 
         const findData = await users.aggregate(condition);
 
