@@ -112,7 +112,7 @@ exports.userWalletAction = async (req, res) => {
             body.type = req.query.status
             req.body = body
             const saveTragaction = await walletTransaction(req)
-            console.log("saveTragaction", saveTragaction, 1)
+
             req.flash("success", "update  successfully");
             res.redirect("/all-user");
         } else {
