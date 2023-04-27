@@ -208,7 +208,7 @@ exports.viewPackage = async (req, res) => {
                         {
                             '$match': {
                                 'Name': {
-                                    '$regex': /b/  //req.query.ServiceName, $options: 'i'
+                                    '$regex': req.query.CategoryName, $options: 'i' //req.query.ServiceName, $options: 'i'
                                 }
                             }
                         }
