@@ -179,6 +179,7 @@ exports.getUserOrder = async ({ user, query }) => {
 
         const findData = await order.aggregate(condition);
         const findAllSaloon = await saloon.find()
+        // const findAllSaloon = await saloon.find({}, { image: 1, storeName: 1, location: 1 })
 
         for (const order of findData) {
             for (const Saloon of findAllSaloon) {
@@ -208,6 +209,116 @@ exports.getUserOrder = async ({ user, query }) => {
         console.log(error);
     };
 };
+
+
+/* new code 
+exports.getUserOrder = async ({ user, query }) => {
+    try {
+        console.log("req", user._id)
+        let condition = [];
+        let finalData = [];
+        if (query.id) {
+            condition.push({
+                '$match': {
+                    '_id': mongoose.Types.ObjectId(query.id)
+                }
+            })
+        } else {
+            condition.push({
+                '$match': {
+                    'userId': user._id
+                }
+            })
+        };
+
+        condition.push({
+            '$unwind': {
+                'path': '$cartdata'
+            }
+        }, {
+            '$lookup': {
+                'from': 'saloonservices',
+                'localField': 'cartdata.serviceId',
+                'foreignField': '_id',
+                'as': 'cartdata'
+            }
+        }, {
+            '$unwind': {
+                'path': '$cartdata'
+            }
+        }, {
+            '$lookup': {
+                'from': 'saloons',
+                'localField': 'saloonId',
+                'foreignField': '_id',
+                'pipeline': [
+                    {
+                        '$project': {
+                            'storeName': 1,
+                            'image': 1,
+                            'location': 1
+                        }
+                    }
+                ],
+                'as': 'saloon'
+            }
+        }, {
+            '$unwind': {
+                'path': '$saloon'
+            }
+        }, {
+            '$group': {
+                '_id': '$_id',
+                'saloon': {
+                    '$first': {
+                        '_id': '$saloon._id',
+                        'storeName': '$saloon.storeName',
+                        'image': '$saloon.image',
+                        'location': '$saloon.location'
+                    }
+                },
+                'services': {
+                    '$push': {
+                        '_id': '$cartdata._id',
+                        'ServiceName': '$cartdata.ServiceName',
+                        'ServicePrice': '$cartdata.ServicePrice'
+                    }
+                },
+                'orderDetail': {
+                    '$first': {
+                        'Schedule': '$Schedule',
+                        'totalamount': '$totalamount',
+                        'couponId': '$couponId',
+                        'paymentStatus': '$paymentStatus',
+                        'status': '$status',
+                        'orderId': '$orderId',
+                        'addressId': '$addressId'
+                    }
+                }
+            }
+        })
+
+        const findData = await order.aggregate(condition);
+
+        if (findData.length > 0) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: "Find Your Order  successful Done !",
+                data: findData
+            };
+        } else {
+            return {
+                statusCode: 400,
+                status: false,
+                message: "Not Find Your Order !",
+                data: []
+            };
+        };
+    } catch (error) {
+        console.log(error);
+    };
+};*/
 
 exports.orderCancel = async (req) => {
     try {

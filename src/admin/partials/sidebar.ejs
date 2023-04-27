@@ -61,14 +61,19 @@
                     class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="components-package" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/add-new-package">
+                        <i class="bi bi-circle"></i><span>Add new package</span>
+                    </a>
+                </li>
                 <!-- <li>
-                    <a href="/package">
-                        <i class="bi bi-circle"></i><span>Add Service package</span>
+                    <a href="/view-service-Package">
+                        <i class="bi bi-circle"></i><span>View Service packages</span>
                     </a>
                 </li> -->
                 <li>
-                    <a href="/view-service-Package">
-                        <i class="bi bi-circle"></i><span>View Service packages</span>
+                    <a href="/view-package">
+                        <i class="bi bi-circle"></i><span>view Package</span>
                     </a>
                 </li>
             </ul>
@@ -197,7 +202,7 @@
                     <ul id="icon-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav" style="">
                         <li>
                             <a href="/view-all-payment">
-                                <i class="bi bi-circle"></i><span>All Payment Transaction</span>
+                                <i class="bi bi-circle"></i><span>All Payment</span>
                             </a>
                         </li>
                     </ul>
@@ -261,8 +266,23 @@
                                 </a>
                             </li>
                         </ul>
-
-
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" data-bs-target="#icon-Letter" data-bs-toggle="collapse" href="#"
+                            aria-expanded="false">
+                            <i class="bi bi-gem"></i><span>News-Letter-Manager</span><i
+                                class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul id="icon-Letter" class="nav-content collapse" data-bs-parent="#sidebar-nav" style="">
+                            <li>
+                                <!-- <a href="/Send-All-User-Email">
+                                <i class="bi bi-circle"></i><span>Send All User Email</span>
+                            </a> -->
+                                <a href="/Send-notification">
+                                    <i class="bi bi-circle"></i><span>Send All User Email</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <%}%>
     </ul>

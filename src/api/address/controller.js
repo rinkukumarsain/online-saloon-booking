@@ -66,6 +66,12 @@ exports.getUserAddress = async ({ user, query }) => {
                     '_id': mongoose.Types.ObjectId(query.id)
                 }
             })
+        } else {
+            condition.push({
+                '$match': {
+                    'userId': mongoose.Types.ObjectId(user._id)
+                }
+            })
         }
         condition.push({
             '$lookup': {
@@ -89,7 +95,7 @@ exports.getUserAddress = async ({ user, query }) => {
         })
         const findData = await userAddress.aggregate(condition);
 
-        if (findData) {
+        if (findData.length > 0) {
             return {
                 statusCode: 200,
                 status: true,

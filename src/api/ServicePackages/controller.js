@@ -1,10 +1,33 @@
+const cart = require("../cart/model");
+const package = require("../../admin/servicePackage/model");
 const mongoose = require("mongoose")
 const { getServicePackage } = require("./services")
 
 exports.getServicePackage = async ({ query, user }) => {
     try {
-        query.user = user
+        query.user = user;
         const result = await getServicePackage(query);
+
+        for (const item of result.data) {
+            const findCart = await cart.findOne({ userId: query.user._id, saloonId: item.saloon[0]._id });
+            if (findCart) {
+                for (const servi of item.service) {
+                    let i = 0;
+                    for (const cartItem of findCart.cartdata) {
+                        if (servi._id.toString() == cartItem.serviceId.toString()) {
+                            i++;
+                        };
+                    };
+                    servi.Quantity_In_Cart = i;
+                };
+            } else {
+                for (const servi of item.service) {
+                    let i = 0;
+                    servi.Quantity_In_Cart = i;
+                };
+            };
+        };
+
         if (result) {
             return result
         }
@@ -13,50 +36,101 @@ exports.getServicePackage = async ({ query, user }) => {
     };
 };
 
-// exports.addReviews = async ({ body, user, query }) => {
+
+// exports.packageCartAdd = async ({ user, query }) => {
 //     try {
 //         let obj = {};
-//         if (query.id != undefined && query.id != "") {
-//             let _id = mongoose.Types.ObjectId(query.id)
-//             if (body.Rating != undefined && body.Rating != "") {
-//                 obj.Rating = body.Rating;
-//             }
-//             if (body.Description != undefined && body.Description != "") {
-//                 obj.Description = body.Description;
-//             }
-//             const updateDate = await review.findByIdAndUpdate({ _id }, obj, { new: true })
-//             if (updateDate) {
-//                 return {
-//                     statusCode: 200,
-//                     status: true,
-//                     message: `your review updateDate successfull !`,
-//                     data: [updateDate]
+//         let newCart;
+//         let i;
+//         const findData = await cart.find({ userId: user._id });
+//         if (findData.length == 0) {
+//             obj.userId = user._id;
+//             if (query.saloonId) {
+//                 let _id = mongoose.Types.ObjectId(query.saloonId);
+//                 const findSaloon = await saloon.findOne({ _id });
+//                 if (findSaloon) {
+//                     obj.saloonId = query.saloonId;
+//                 } else {
+//                     return {
+//                         statusCode: 400,
+//                         status: false,
+//                         message: "Enter Valid saloon Id !",
+//                         data: []
+//                     };
 //                 };
 //             };
+//             let cart_detail = new cart(obj);
+//             const result = await cart_detail.save();
 
-//         } else {
-//             if (body.Rating != undefined && body.Rating != "") {
-//                 obj.Rating = body.Rating;
-//             }
-//             if (body.Description != undefined && body.Description != "") {
-//                 obj.Description = body.Description;
-//             }
-//             if (query.saloonId) {
-//                 obj.saloonId = query.saloonId;
-//             }
-//             if (user) {
-//                 obj.userId = user._id;
-//             }
-//             obj.Date = new Date();
+//         } else if (findData.length > 0) {
+//             const findccc = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
+//             i = 1;
+//             if (!findccc) {
+//                 for await (const element of findData) {
+//                     if (query.saloonId != element.saloonId.toString() && i === 1) {
+//                         obj.userId = user._id;
+//                         obj.saloonId = query.saloonId;
+//                         let cart_detail = new cart(obj);
+//                         newCart = await cart_detail.save();
+//                         i++
+//                     };
+//                 };
+//             };
+//         };
 
-//             const reviewDetail = new review(obj);
-//             const result = await reviewDetail.save();
-//             if (result) {
-//                 return {
-//                     statusCode: 200,
-//                     status: true,
-//                     message: `your review submited successfull !`,
-//                     data: [result]
+//         //same code hai Add cart mwe bhi service aur pakege me bhi ;
+//         if (query.packageId) {
+//             let _id = mongoose.Types.ObjectId(query.packageId);
+//             if (newCart) {
+//                 findPackage = await package.findOne({ _id, saloonStore: newCart.saloonId });
+//                 if (!findPackage) {
+//                     return {
+//                         statusCode: 400,
+//                         status: false,
+//                         message: "package is  not Found this Saloon store  !",
+//                         data: []
+//                     };
+//                 };
+//                 const FindCart = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
+
+//                 const result = await cart.findByIdAndUpdate({ _id: FindCart._id }, { $push: { Package: { packageId: query.packageId, quantity: 1 } } }, { new: true });
+//                 if (result) {
+//                     return {
+//                         statusCode: 200,
+//                         status: true,
+//                         message: "package added in new new cart Succesfuuly ! 1 ",
+//                         data: [result]
+//                     };
+//                 };
+//             } else {
+//                 const findPackage = await package.findOne({ _id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
+//                 if (!findPackage) {
+//                     return {
+//                         statusCode: 200,
+//                         status: true,
+//                         message: "not found package in your selected store !",
+//                         data: []
+//                     };
+//                 };
+
+//                 const FindCart = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
+//                 if (FindCart) {
+//                     const result = await cart.findByIdAndUpdate({ _id: FindCart._id }, { $push:  { Package: { packageId: query.packageId, quantity: 1 } }  }, { new: true });
+//                     if (result) {
+//                         return {
+//                             statusCode: 200,
+//                             status: true,
+//                             message: "package added in cart Succesfuuly ! 2 ",
+//                             data: [result]
+//                         };
+//                     };
+//                 } else {
+//                     return {
+//                         statusCode: 400,
+//                         status: false,
+//                         message: "cart not Found register karwao !",
+//                         data: [FindCart]
+//                     };
 //                 };
 //             };
 //         };
@@ -64,126 +138,3 @@ exports.getServicePackage = async ({ query, user }) => {
 //         console.log(error);
 //     };
 // };
-
-
-// exports.updateLikeDislike = async ({ user, query }) => {
-//     try {
-//         if (query.id != undefined && query.id != "") {
-//             let obj = {};
-//             let like = []
-//             const _id = mongoose.Types.ObjectId(query.id)
-//             const findData = await review.findOne({ _id })
-//             if (findData) {
-//                 //dislike me hai to remove aur like me add
-//                 if (query.like != undefined && query.like != "") {
-//                     // console.log("findData-like-->", findData.like)
-//                     const opchake = findData.dislike.includes(user._id)
-//                     // console.log("opchake like-->", opchake)
-//                     if (opchake) {
-//                         var idx = findData.dislike.indexOf(user._id);
-//                         if (idx != -1) {
-//                             // console.log("remove from dislike findData.dislike", findData.dislike)
-//                             const rrr = findData.dislike.splice(idx, 1);
-//                             // console.log("remove from dislike ", findData.dislike)
-//                             obj.dislike = findData.dislike
-//                         }
-//                     }
-//                     if (findData.like.length > 0) {
-//                         const chake = findData.like.includes(user._id);
-//                         if (chake) {
-//                             // console.log("chake-like-->", chake)
-//                             return {
-//                                 statusCode: 400,
-//                                 status: false,
-//                                 message: "you are allredy like this   !",
-//                                 data: [findData]
-//                             };
-//                         } else {
-//                             let arr = []
-//                             findData.like.forEach(element => {
-//                                 arr.push(element)
-//                             });
-
-//                             arr.push(user._id)
-//                             // console.log("arr like-->", arr)
-//                             obj.like = arr
-//                         }
-//                     } else {
-//                         like.push(user._id)
-//                         obj.like = like
-//                     }
-//                 }
-
-
-//                 let dislike = []
-//                 if (query.dislike != undefined && query.dislike != "") {
-//                     const opchake = findData.like.includes(user._id)
-//                     if (opchake) {
-//                         //   console.log("opchake", opchake)
-//                         var idx = findData.like.indexOf(user._id);
-//                         if (idx != -1) {
-//                             findData.like.splice(idx, 1);
-//                             //   console.log("remove from like ", findData.like)
-//                             obj.like = findData.like
-//                         }
-
-//                     }
-
-//                     if (findData.dislike.length > 0) {
-//                         //   console.log("findData-dislike-->", findData.dislike)
-//                         const chake = findData.dislike.includes(user._id);
-//                         if (chake) {
-//                             return {
-//                                 statusCode: 400,
-//                                 status: false,
-//                                 message: "you are allredy dislike this   !",
-//                                 data: [findData]
-//                             };
-//                         } else {
-//                             let arr = []
-//                             findData.dislike.forEach(element => {
-//                                 arr.push(element)
-//                             });
-
-//                             arr.push(user._id)
-//                             //   console.log("arr", arr)
-//                             obj.dislike = arr
-//                         }
-//                     } else {
-//                         dislike.push(user._id)
-//                         obj.dislike = dislike
-//                     }
-//                 }
-
-
-//                 // console.log("obbj", obj)
-//                 const update = await review.findByIdAndUpdate({ _id }, obj, { new: true })
-//                 // console.log("update--->", update)
-//                 if (update) {
-//                     return {
-//                         statusCode: 200,
-//                         status: true,
-//                         message: "updateed   !",
-//                         data: [update]
-//                     };
-//                 }
-//             } else {
-//                 return {
-//                     statusCode: 400,
-//                     status: false,
-//                     message: "Enter a valid reviews Id find  !",
-//                     data: []
-//                 };
-//             }
-//         } else {
-//             return {
-//                 statusCode: 400,
-//                 status: false,
-//                 message: "Enter a reviews Id find  !",
-//                 data: []
-//             };
-//         }
-//     } catch (error) {
-//         console.log(error);
-//     };
-// }

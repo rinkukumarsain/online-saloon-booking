@@ -1,5 +1,5 @@
-const mongoose = require("mongoose")
-const package = require("../../admin/servicePackage/model")
+const mongoose = require("mongoose");
+const services = require("../saloonService/model");
 
 exports.getServicePackage = async (query) => {
     try {
@@ -7,43 +7,78 @@ exports.getServicePackage = async (query) => {
         if (query.categoryId != undefined && query.categoryId != "") {
             condition.push({
                 '$match': {
-                    'PackageCotegory': mongoose.Types.ObjectId(query.categoryId)
-                }
+                    'category': {
+                        '$in': [mongoose.Types.ObjectId(query.categoryId)],
+                    },
+                },
+            });
+        } else {
+            condition.push({
+                '$match': {
+                    'ServicesType': 1
+                },
             });
         };
 
+
         condition.push({
+            '$lookup': {
+                'from': 'saloons',
+                'localField': 'saloonStore',
+                'foreignField': '_id',
+                'as': 'saloonStore'
+            }
+        }, {
+            '$unwind': {
+                'path': '$saloonStore'
+            }
+        }, {
             '$lookup': {
                 'from': 'saloonservices',
                 'localField': 'Services',
                 'foreignField': '_id',
-                'as': 'Services'
+                'pipeline': [
+                    {
+                        '$project': {
+                            'ServiceName': 1
+                        }
+                    }
+                ],
+                'as': 'servicename'
             }
         }, {
             '$group': {
-                '_id': '$saloonId',
-                'ServicesDitail': {
+                '_id': '$saloonStore._id',
+                'service': {
                     '$push': {
-                        'PackageId':"$_id",
-                        'PackageName': '$PackageName',
-                        'saloonId': '$saloonId',
-                        'Services': '$Services',
-                        'Amount': '$Amount',
-                        'finalPrice': '$finalPrice',
-                        'gender': '$gender',
-                        'Service': '$Service'
+                        '_id': '$_id',
+                        'packageName': '$ServiceName',
+                        'packagePrice': '$ServicePrice',
+                        'packageServiceTime': '$timePeriod_in_minits',
+                        'type': '$type',
+                        // 'ServicesType': '$ServicesType',
+                        'packagePrice': '$ServicePrice',
+                        'packageFinalPrice': '$FinalPrice',
+                        'description': '$description',
+                        'ServicesName': '$servicename'
+                    }
+                },
+                'saloon': {
+                    '$addToSet': {
+                        '_id': '$saloonStore._id',
+                        'storeName': '$saloonStore.storeName',
+                        'location': '$saloonStore.location',
+                        'image': '$saloonStore.image',
+                        'ProfileInfo': '$saloonStore.ProfileInfo'
                     }
                 }
             }
         }, {
-            '$lookup': {
-                'from': 'saloons',
-                'localField': '_id',
-                'foreignField': '_id',
-                'as': 'saloon'
+            '$sort': {
+                'saloon.storeName': -1
             }
         });
-        const findData = await package.aggregate(condition);
+        const findData = await services.aggregate(condition);
         if (findData.length > 0) {
             return {
                 statusCode: 200,

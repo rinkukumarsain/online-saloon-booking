@@ -52,19 +52,16 @@ exports.warning = async (req, res) => {
     };
 };
 exports.unblock = async (req, res) => {
-    try {let Finddata;
+    try {
+        let Finddata;
         res.locals.message = req.flash();
-        const data=await user.findOne({_id:mongoose.Types.ObjectId(req.query.id)});
-        if(data.type=="user")
-        {
-         Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "user" }, { new: true })
+        const data = await user.findOne({ _id: mongoose.Types.ObjectId(req.query.id) });
+        if (data.type == "user") {
+            Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "user" }, { new: true })
+        } else {
+            Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "admin" }, { new: true })
         }
-        else
-        {
-             Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "admin" }, { new: true })
-
-        }
-        req.flash("success","unblock successfully")
+        req.flash("success", "unblock successfully")
         if (Finddata) {
             res.redirect("/all-user")
         }
@@ -72,4 +69,56 @@ exports.unblock = async (req, res) => {
         console.log(error);
     };
 };
+const { walletTransaction } = require("../../api/refer And ponts/controller")
+exports.userWalletAction = async (req, res) => {
+    try {
+        res.locals.message = req.flash();
+        let obj = {};
+        obj.$inc = {};
 
+        if (req.query.status == "debit") {
+            const findUser = await user.findOne({ _id: mongoose.Types.ObjectId(req.query.id) });
+
+            if (req.query.type == "point") {
+                if (findUser.userWallet.point >= req.query.amount) {
+                    obj.$inc["userWallet.point"] = -Number(req.query.amount);
+                } else {
+                    req.flash("error", "insufficient point");
+                    return res.redirect("/all-user");
+                }
+            } else {
+                if (findUser.userWallet.balance >= req.query.amount) {
+                    obj.$inc["userWallet.balance"] = -Number(req.query.amount);
+                } else {
+                    req.flash("error", "insufficient balance");
+                    return res.redirect("/all-user");
+                }
+            };
+        } else {
+            if (req.query.type == "point") {
+                obj.$inc["userWallet.point"] = +Number(req.query.amount);
+            } else {
+                obj.$inc["userWallet.balance"] = +Number(req.query.amount);
+            };
+        };
+        const result = await user.findByIdAndUpdate({ _id: req.query.id }, obj, { new: true });
+        if (result) {
+            let body = {}
+            body.userId = result._id
+            body.moneyType = req.query.type
+            body.formUserId = req.user._id
+            body.status = "succes"
+            body.amount = req.query.amount
+            body.type = req.query.status
+            req.body = body
+            const saveTragaction = await walletTransaction(req)
+            console.log("saveTragaction", saveTragaction, 1)
+            req.flash("success", "update  successfully");
+            res.redirect("/all-user");
+        } else {
+            res.redirect("/");
+        };
+    } catch (error) {
+        console.log(error);
+    };
+};

@@ -1,5 +1,6 @@
 const saloonService = require("../../api/saloonService/model")
 const mongoose = require("mongoose")
+
 exports.VIEW_SALOON = async (req) => {
   let pipeline = []
   // res.locals.message = req.flash();
@@ -14,6 +15,8 @@ exports.VIEW_SALOON = async (req) => {
   if (req.query.id != undefined && req.query.id != "") {
     match.saloonStore = mongoose.Types.ObjectId(req.query.id)
   }
+  match.ServicesType = 0
+
   pipeline.push({
     '$match': match
   })

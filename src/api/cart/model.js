@@ -21,8 +21,28 @@ const usercart = new mongoose.Schema({
         },
         _id: false
     }],
+    Package: {
+        type: [mongoose.Types.ObjectId]
+    },
+    // Package: [{
+    //     packageId: {
+    //         type: mongoose.Types.ObjectId
+    //     },
+    //     quantity: {
+    //         type: Number,
+    //     },
+    //     _id: false
+    // }],
     totalamount: {
         type: Number,
+    },
+    disCount: {
+        type: Number,
+        default: 0
+    },
+    pay: {
+        type: Number,
+        default: 0
     },
     addressId: {
         type: mongoose.Types.ObjectId,

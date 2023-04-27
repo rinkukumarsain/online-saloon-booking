@@ -15,7 +15,8 @@ const Vacancy = require("./Vacancy/routes");
 const refer = require("./Refer-And-point/routes");
 const Contact = require("./Contact-us/route");
 const package = require("./servicePackage/route");
+const newsletters = require("./newLetter/routes");
 
 module.exports = [adminRoutes, add_saloone, add_service,
     add_frequent, order, add_blog, category, Counpon, payment,
-    user, Artists, Vacancy, refer, Contact, package]
+    user, Artists, Vacancy, refer, Contact, package, newsletters]

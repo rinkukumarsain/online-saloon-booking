@@ -28,9 +28,9 @@ const saloon_Requst = new mongoose.Schema({
         type: Number,
         default: ""
     },
-    // image: {
-    //     type: [String],
-    // },
+    image: {
+        type: [String],
+    },
     location: {
         // shopNumber: {
         //     type: Number

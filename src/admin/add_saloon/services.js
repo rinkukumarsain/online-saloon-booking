@@ -15,6 +15,12 @@ exports.VIEW_SALOON = async (req) => {
     if (req.query.email != undefined && req.query.email != "") {
       match.email = { $regex: req.query.email, $options: 'i' }
     }
+    if (req.query.storeName != undefined && req.query.storeName != "") {
+      match.storeName = { $regex: req.query.storeName, $options: 'i' }
+    }
+    if (req.query.gender != undefined && req.query.gender != "") {
+      match.type = req.query.gender
+    }
     if (req.query.userId != undefined && req.query.userId != "") {
       match.userId = mongoose.Types.ObjectId(req.query.userId)
     }
@@ -63,6 +69,10 @@ exports.VIEW_SALOON = async (req) => {
         'foreignField': 'saloonStore',
         'pipeline': [
           {
+            '$match': {
+              'ServicesType': 0
+            }
+          }, {
             '$count': 'numberOfService'
           }
         ],
@@ -71,12 +81,39 @@ exports.VIEW_SALOON = async (req) => {
     })
     pipeline.push({
       '$lookup': {
-        'from': 'packages', 
-        'localField': '_id', 
-        'foreignField': 'saloonId', 
-        'as': 'result'
+        'from': 'saloonservices',
+        'localField': '_id',
+        'foreignField': 'saloonStore',
+        'pipeline': [
+          {
+            '$group': {
+              '_id': "$ServicesType",
+              'count': {
+                '$sum': 1,
+              },
+            },
+          },
+        ],
+        'as': 'ccc'
       }
     })
+    // pipeline.push({
+    //   '$lookup': {
+    //     'from': 'saloonservices',
+    //     'localField': '_id',
+    //     'foreignField': 'saloonStore',
+    //     'pipeline': [
+    //       {
+    //         '$match': {
+    //           'Services': 1
+    //         }
+    //       }, {
+    //         '$count': 'package'
+    //       }
+    //     ],
+    //     'as': 'package'
+    //   }
+    // })
     //console.log(pipeline,"pipeline")
     return await saloon.aggregate(pipeline)
   } catch (error) {

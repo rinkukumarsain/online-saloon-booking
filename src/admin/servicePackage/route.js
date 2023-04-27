@@ -1,24 +1,20 @@
 const auth = require("../../middleware/adminauth");
+const Upload = require("../../middleware/img");
 const { Router } = require("express");
 const app = Router();
-const { package, FindServiceForPackages, CreatePackage, viewServicePackage, deletePackage, FindPackageService, packageEdit } = require('./controller');
+const { FindServiceForPackages, deletePackage, addNewPackage,
+ newPackageCreate, viewPackage, findPackageServices } = require('./controller');
 
 const { joi_createCoupon } = require("../../middleware/joi_createCoupon");
 
-app.get("/package", auth, package);
-app.post("/Create-Package", auth, CreatePackage);
-app.post("/package-Edit", auth, packageEdit)
-app.get("/Find-Service-for-Packages", auth, FindServiceForPackages);
-// app.post("/Service-Price-Totel", auth, ServicePriceTotel);
+//create a pakege in service cillection insert 
+app.get("/add-new-package", auth, addNewPackage);//1
+app.post("/add-new-package", auth, Upload.single("file"), newPackageCreate);//3
+app.get("/view-package", auth, viewPackage);//4
+app.get("/delete_package", auth, deletePackage);//5
 
-app.get("/view-service-Package", auth, viewServicePackage)
-// sahil view packge
-// app.get("/view-service-Package-particular", auth, viewServicePackageparticular)
-// sahil view package end
-app.get("/delete_package", auth, deletePackage)
-// app.post("/Create-Coupon", auth,  createCoupon);
-app.get("/Find-Package-service", auth, FindPackageService);
-// app.get("/Delete-Coupon", auth, DeleteCoupon);
-
+app.get("/Find-Service-for-Packages", auth, FindServiceForPackages);//2
+// ajex
+app.get("/Find-Package-Services", auth, findPackageServices);
 
 module.exports = app;

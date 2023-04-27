@@ -114,8 +114,9 @@ exports.VIEW_SALOON = async (req, res) => {
     try {
         const data = await service.VIEW_SALOON(req)
         const user = req.user
-        const FindAllcity = await getAllSaloonCity(req)
-        res.render("add_saloon/view_saloon", { user, data, query: req.query, city: FindAllcity.data })
+        // const FindAllcity = await getAllSaloonCity(req)
+        const city = await saloon.distinct("location.city")
+        res.render("add_saloon/view_saloon", { user, data, query: req.query, city })
     } catch (error) {
         console.log(error)
     }
@@ -359,6 +360,33 @@ exports.FindAdminAllSaloon = async (req, res) => {
         }
         // return data
         return res.send(data)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+exports.addImagesInSaloon = async (req, res) => {
+    try {
+        console.log("khvb", req.files)
+        let arr = [];
+        req.files.forEach(element => {
+            console.log(element.filename)
+            arr.push(`http://159.89.164.11:7070/uploads/${element.filename}`)
+        });
+        const result = await saloon.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { image: arr }, { new: true })
+        if (result) {
+            res.redirect("/")
+        }
+
+
+        // let data;
+        // if (req.user.type == "admin") {
+        //     data = await saloon.find({ userId: req.user._id })
+        // } else {
+        //     data = await saloon.find()
+        // }
+        // // return data
+        // return res.send(data)
     } catch (error) {
         console.log(error)
     }
