@@ -308,10 +308,10 @@ exports.applyBalance = async (req, res) => {
         const findcart = await cart.findOne({ _id: req.query.cartId }, { totalamount: 1, disCount: 1, pay: 1 });
         if (findcart.pay > 0) {
             return {
-                statusCode: 400,
-                status: false,
+                statusCode: 200,
+                status: true,
                 message: "Allready apply  !",
-                data: []
+                data: [findcart]
             };
         };
         obj.cartId = findcart._id;

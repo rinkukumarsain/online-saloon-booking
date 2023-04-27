@@ -32,7 +32,8 @@
                     <% if(typeof Coupon !=="undefined" && Coupon){%>
                       <%console.log("hello",Coupon)%>
                         <h5 class="card-title">Coupon Edit</h5>
-                        <form class="needs-validation row g-3" action="/Create-Coupon?id=<%=Coupon._id %>" method="post" novalidate>
+                        <form class="needs-validation row g-3" action="/Create-Coupon?id=<%=Coupon._id %>" method="post"
+                          novalidate>
                           <div class="col-md-6">
                             <label for="">Title Name</label>
                             <input type="text" name="Title" class="form-control" placeholder="Enter Title Name"
@@ -110,7 +111,7 @@
                               <label for="">Coupon Code</label>
                               <input type="text" name="CouponCode" class="form-control" placeholder="Enter CouponCode"
                                 required>
-                            <div class="invalid-feedback">Please Enter Coupon Code.</div>
+                              <div class="invalid-feedback">Please Enter Coupon Code.</div>
 
                             </div>
 
@@ -118,15 +119,15 @@
                               <label for="">Start Date</label>
                               <input placeholder="Selected starting date" name="StartDate" type="date" id="startingDate"
                                 class="form-control datepicker" required>
-                            <div class="invalid-feedback">Please Enter Start Date.</div>
-                                
+                              <div class="invalid-feedback">Please Enter Start Date.</div>
+
                             </div>
 
                             <div class="col-md-6">
                               <label for="">End Date</label>
                               <input placeholder="Selected ending date" name="EndDate" type="date" id="endingDate"
                                 class="form-control datepicker" required>
-                            <div class="invalid-feedback">Please Enter End Date.</div>
+                              <div class="invalid-feedback">Please Enter End Date.</div>
 
                             </div>
 
@@ -134,23 +135,23 @@
                               <label for="">Limit</label>
                               <input type="number" name="Limit" min="1" max="5" class="form-control"
                                 placeholder="Enter Limit" required>
-                            <div class="invalid-feedback">Please Enter Limit.</div>
+                              <div class="invalid-feedback">Please Enter Limit.</div>
 
                             </div>
 
                             <div class="col-md-4">
                               <label for="">Amount</label>
-                              <input type="number" name="Amount" class="form-control" placeholder="Enter Amount"
-                                required>
-                            <div class="invalid-feedback">Please Enter Amount.</div>
+                              <input type="number" id="Amount" name="Amount" class="form-control"
+                                placeholder="Enter Amount" required>
+                              <div class="invalid-feedback">Please Enter Amount.</div>
 
                             </div>
 
                             <div class="col-md-2">
                               <label for="">Discount</label>
-                              <input type="number" name="Discount" class="form-control" placeholder="Enter Discount"
-                                required>
-                            <div class="invalid-feedback">Please Enter Discount.</div>
+                              <input type="number" id="Discount" name="Discount" class="form-control"
+                                placeholder="Enter Discount" required>
+                              <div class="invalid-feedback">Please Enter Discount.</div>
 
                             </div>
 
@@ -168,6 +169,19 @@
           </div>
         </section>
       </main>
+
+      <script>
+        const Amount = document.getElementById('Amount');
+        const Discount = document.getElementById('Discount');
+
+        Amount.addEventListener('input', () => {
+          Discount.value = Math.min(Amount.value, Discount.value);
+        });
+        Discount.addEventListener('input', () => {
+          Discount.value = Math.min(Amount.value, Discount.value);
+        });
+      </script>
+
       <%- include("../../partials/script.ejs") %>
         <script type="text/javascript">
           $(function () {

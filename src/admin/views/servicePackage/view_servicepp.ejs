@@ -35,7 +35,7 @@
 
                       <!-- No Labels Form -->
                       <form class="row g-3" action="/view-package">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                           <label>Enter Store Name</label> <br>
                           <% if(query?.StoreName!="" ){%>
                             <input type="text" name="StoreName" class="form-control" value="<%=query?.StoreName%>"
@@ -44,7 +44,7 @@
                               <input type="text" name="StoreName" class="form-control" placeholder="StoreName">
                               <%}%>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                           <label>Enter Service Name</label> <br>
                           <% if(query?.ServiceName!="" ){%>
                             <input type="text" name="ServiceName" class="form-control" value="<%=query?.ServiceName%>"
@@ -53,7 +53,7 @@
                               <input type="text" name="ServiceName" class="form-control" placeholder="ServiceName">
                               <%}%>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                           <label>Enter FinalPrice Amount </label> <br>
                           <% if(query?.FinalPrice!="" ){%>
                             <input type="number" name="FinalPrice" class="form-control" value="<%=query?.FinalPrice%>"
@@ -62,7 +62,15 @@
                               <input type="number" name="FinalPrice" class="form-control" placeholder="FinalPrice">
                               <%}%>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
+                          <label>Enter Category Name</label> <br>
+                          <input type="text" name="CategoryName" class="form-control" value="<%= query?.CategoryName %>"
+                            placeholder="CategoryName">
+                        </div>
+                        <div class="col-md-4">
+                          
+                        </div>
+                        <div class="col-md-4">
                           <label></label> <br>
                           <div class="text-center">
                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -120,7 +128,7 @@
                                   <%= data?.type %>
                                 </td>
                                 <td>
-                                  <%= data?.last_category_name %>
+                                  <%= data?.last_category_data.Name %>
                                 </td>
                                 <td>
                                   <button type="button" value="<%= data?._id %>" id="location"
