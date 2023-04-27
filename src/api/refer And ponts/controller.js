@@ -68,3 +68,28 @@ exports.pointToMoneyConvert = async (req) => {
         console.log(error);
     };
 };
+
+
+const trangacation = require("../refer And ponts/wallthTra")
+exports.walletTransaction = async (req) => {
+    try {
+        // console.log("walletTransaction", req.body)
+        req.body.tragactionId = Math.random() * 1000000000000000
+        Math.floor(req.body.tragactionId)
+        // console.log(req.body, 12)
+        const Deteil = new trangacation(req.body)
+        const result = await Deteil.save()
+        // console.log("trangacation", result)
+        if (result) {
+            return {
+                statusCode: 200,
+                status: true,
+                message: `transaction  Succesfuuly !`,
+                data: [result]
+            };
+        }
+
+    } catch (error) {
+        console.log(error);
+    };
+};

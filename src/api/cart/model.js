@@ -36,6 +36,14 @@ const usercart = new mongoose.Schema({
     totalamount: {
         type: Number,
     },
+    disCount: {
+        type: Number,
+        default: 0
+    },
+    pay: {
+        type: Number,
+        default: 0
+    },
     addressId: {
         type: mongoose.Types.ObjectId,
         default: null

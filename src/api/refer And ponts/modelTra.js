@@ -7,7 +7,7 @@ const ConvertTra = new mongoose.Schema({
  },
  referPlanId: {
   type: mongoose.Types.ObjectId,
-  // default: null
+  default: null
  },
 }, { timestamps: true });
 

@@ -69,6 +69,7 @@ exports.unblock = async (req, res) => {
         console.log(error);
     };
 };
+const { walletTransaction } = require("../../api/refer And ponts/controller")
 exports.userWalletAction = async (req, res) => {
     try {
         res.locals.message = req.flash();
@@ -102,7 +103,16 @@ exports.userWalletAction = async (req, res) => {
         };
         const result = await user.findByIdAndUpdate({ _id: req.query.id }, obj, { new: true });
         if (result) {
-            //user balance update
+            let body = {}
+            body.userId = result._id
+            body.moneyType = req.query.type
+            body.formUserId = req.user._id
+            body.status = "succes"
+            body.amount = req.query.amount
+            body.type = req.query.status
+            req.body = body
+            const saveTragaction = await walletTransaction(req)
+            console.log("saveTragaction", saveTragaction, 1)
             req.flash("success", "update  successfully");
             res.redirect("/all-user");
         } else {
