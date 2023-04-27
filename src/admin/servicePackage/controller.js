@@ -197,15 +197,41 @@ exports.viewPackage = async (req, res) => {
                 }
             })
         }
+        if (req.query.CategoryName != undefined && req.query.CategoryName != "") {
 
+            pipeline.push({
+                '$lookup': {
+                    'from': 'categories',
+                    'localField': 'category',
+                    'foreignField': '_id',
+                    'pipeline': [
+                        {
+                            '$match': {
+                                'Name': {
+                                    '$regex': /b/  //req.query.ServiceName, $options: 'i'
+                                }
+                            }
+                        }
+                    ],
+                    'as': 'last_category_data'
+                }
+            })
+        } else {
+            pipeline.push({
+                '$lookup': {
+                    'from': 'categories',
+                    'localField': 'category',
+                    'foreignField': '_id',
+                    'as': 'last_category_data'
+                }
+            })
+        }
         pipeline.push({
-            '$lookup': {
-                'from': 'categories',
-                'localField': 'category',
-                'foreignField': '_id',
-                'as': 'last_category_data'
+            '$unwind': {
+                'path': '$last_category_data'
             }
-        })
+        },)
+
         pipeline.push({
             '$addFields': {
                 'saloon_name': {
@@ -218,16 +244,16 @@ exports.viewPackage = async (req, res) => {
                         }
                     }
                 },
-                'last_category_name': {
-                    '$getField': {
-                        'field': 'Name',
-                        'input': {
-                            '$arrayElemAt': [
-                                '$last_category_data', 0
-                            ]
-                        }
-                    }
-                }
+                // 'last_category_name': {
+                //     '$getField': {
+                //         'field': 'Name',
+                //         'input': {
+                //             '$arrayElemAt': [
+                //                 '$last_category_data', 0
+                //             ]
+                //         }
+                //     }
+                // }
             }
         })
 

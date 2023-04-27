@@ -182,7 +182,7 @@
             FindService(ee)
           });
           console.log("arrrrr", 286)
-          let arrr = <%- JSON.stringify(data.Services) %>
+          let arrr = <% - JSON.stringify(data.Services) %>
             console.log("arrrrr", arrr)
           function FindService(select) {
 
@@ -263,19 +263,15 @@
 
         </script>
         <script>
-          // function valueMax(params) {
-          //   console.log("valueMax",321354654)
           const amountInput = document.getElementById('Amount');
           const finalPriceInput = document.getElementById('FinalPrice');
+          
           amountInput.addEventListener('input', () => {
-            // Update the final price input value to match the amount input value
             finalPriceInput.value = Math.min(amountInput.value, finalPriceInput.value);
           });
           finalPriceInput.addEventListener('input', () => {
-            // Ensure the final price input value is not higher than the amount input value
             finalPriceInput.value = Math.min(amountInput.value, finalPriceInput.value);
           });
-          // }
         </script>
 
         <%- include("../../partials/script.ejs") %>

@@ -39,7 +39,7 @@
                       <!-- //1. add sallon register step -1 -->
                       <% if(typeof data !=="undefined" && data){%>
                         <h5 class="card-title">Edit Saloon</h5>
-                        <% console.log("hello",data) %>
+                        
                           <form class="needs-validation" action="/add_saloon_store?id=<%=data._id%>" method="post"
                             novalidate>
                             <%}else{%>
