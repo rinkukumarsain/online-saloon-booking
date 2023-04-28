@@ -14,8 +14,9 @@ exports.admin = async (req, res) => {
             const user = await userModel.findOne({ _id })
             res.locals.message = req.flash();
             if (user) {
-                // let data = service.AllDetail(req)
-                res.render("users/dashboard", { user })
+                let data = await service.AllDetail(req)
+                // console.log("data", data)
+                res.render("users/dashboard", { user, data })
             } else {
                 res.locals.message = req.flash();
                 res.render("users/login")

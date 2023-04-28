@@ -48,23 +48,6 @@ exports.VIEW_SALOON = async (req) => {
     })
   }
 
-  // pipeline.push({
-  //   '$lookup': {
-  //     'from': 'categories',
-  //     'localField': 'last_category',
-  //     'foreignField': '_id',
-  //     'pipeline': [
-  //       {
-  //         '$match': {
-  //           'Name': {
-  //             '$regex': req.query.CategoryName
-  //           }
-  //         }
-  //       }
-  //     ],
-  //     'as': 'last_category_data'
-  //   }
-  // })
   if (req.query.CategoryName != undefined && req.query.CategoryName != "") {
     pipeline.push({
       '$lookup': {
@@ -95,7 +78,8 @@ exports.VIEW_SALOON = async (req) => {
   }
   pipeline.push({
     '$unwind': {
-      'path': '$last_category_data'
+      'path': '$last_category_data',
+      'preserveNullAndEmptyArrays': true
     }
   })
   pipeline.push({
@@ -110,16 +94,6 @@ exports.VIEW_SALOON = async (req) => {
           }
         }
       },
-      // 'last_category_name': {
-      //   '$getField': {
-      //     'field': 'Name',
-      //     'input': {
-      //       '$arrayElemAt': [
-      //         '$last_category_data', 0
-      //       ]
-      //     }
-      //   }
-      // }
     }
   })
 

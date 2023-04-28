@@ -74,11 +74,13 @@ exports.getAllOrder = async (req) => {
 
         condition.push({
             '$unwind': {
-                'path': '$users'
+                'path': '$users',
+                'preserveNullAndEmptyArrays': true
             }
         }, {
             '$unwind': {
-                'path': '$saloon'
+                'path': '$saloon',
+                'preserveNullAndEmptyArrays': true
             }
         })
 
