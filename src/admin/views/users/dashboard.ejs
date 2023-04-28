@@ -131,70 +131,70 @@
                       </a>
                     </div>
                   </div>
-
-                  <!-- partner requist card -->
-                  <div class="col-xxl-4 col-md-4">
-                    <div class="card info-card user-card">
-                      <a href="/views-saloon-request">
-                        <div class="card-body">
-                          <h5 class="card-title">Saloon Partner <span>| Requist</span></h5>
-                          <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                              <i class="bi bi-shop-window"></i>
-                            </div>
-                            <div class="ps-3">
-                              <h6>
-                                <%= data.FindRequist %>
-                              </h6>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                  <!-- service card -->
-                  <div class="col-xxl-4 col-md-4">
-                    <div class="card info-card user-card">
-                      <a href="/view_service">
-                        <div class="card-body">
-                          <h5 class="card-title">Service <span>| Service</span></h5>
-                          <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                              <i class="ri-customer-service-2-fill"></i>
-                            </div>
-                            <div class="ps-3">
-                              <h6>
-                                <%= data.Findservice %>
-                              </h6>
+                  <%if(user.type=="super-admin"){%>
+                    <!-- partner requist card -->
+                    <div class="col-xxl-4 col-md-4">
+                      <div class="card info-card user-card">
+                        <a href="/views-saloon-request">
+                          <div class="card-body">
+                            <h5 class="card-title">Saloon Partner <span>| Requist</span></h5>
+                            <div class="d-flex align-items-center">
+                              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-shop-window"></i>
+                              </div>
+                              <div class="ps-3">
+                                <h6>
+                                  <%= data.FindRequist %>
+                                </h6>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </a>
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                  <!-- service  packege  card -->
-                  <div class="col-xxl-4 col-md-4">
-                    <div class="card info-card user-card">
-                      <a href="/view-package">
-                        <div class="card-body">
-                          <h5 class="card-title">Package <span>| Service</span></h5>
-                          <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                              <i class="ri-customer-service-2-fill"></i>
+                    <%}%>
+                      <!-- service card -->
+                      <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card user-card">
+                          <a href="/view_service">
+                            <div class="card-body">
+                              <h5 class="card-title">Service <span>| Service</span></h5>
+                              <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                  <i class="ri-customer-service-2-fill"></i>
+                                </div>
+                                <div class="ps-3">
+                                  <h6>
+                                    <%= data.Findservice %>
+                                  </h6>
+                                </div>
+                              </div>
                             </div>
-                            <div class="ps-3">
-                              <h6>
-                                <%= data.Findpackeges %>
-                              </h6>
-                            </div>
-                          </div>
+                          </a>
                         </div>
-                      </a>
-                    </div>
-                  </div>
+                      </div>
+                      <!-- service  packege  card -->
+                      <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card user-card">
+                          <a href="/view-package">
+                            <div class="card-body">
+                              <h5 class="card-title">Package <span>| Service</span></h5>
+                              <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                  <i class="ri-customer-service-2-fill"></i>
+                                </div>
+                                <div class="ps-3">
+                                  <h6>
+                                    <%= data.Findpackeges %>
+                                  </h6>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
 
-                  <!-- <div class="col-xxl-4 col-md-4">
+                      <!-- <div class="col-xxl-4 col-md-4">
                     <div class="card info-card user-card">
                       <div class="card-body">
                         <h5 class="card-title">Admin <span>| User</span></h5>

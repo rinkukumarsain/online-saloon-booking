@@ -304,7 +304,7 @@ exports.applyBalance = async (data) => {
 const { walletTransaction } = require("../refer And ponts/controller");
 exports.applyBalance = async (req, res) => {
     try {
-        let obj = {};
+        // let obj = {};
         const findcart = await cart.findOne({ _id: req.query.cartId }, { totalamount: 1, disCount: 1, pay: 1 });
         if (findcart.pay > 0) {
             return {
@@ -314,24 +314,25 @@ exports.applyBalance = async (req, res) => {
                 data: [findcart]
             };
         };
-        obj.cartId = findcart._id;
+        // obj.cartId = findcart._id;
 
         const { user } = req
         if (user.userWallet.balance > 0) {
             let Data;
             if (user.userWallet.balance >= findcart.totalamount) {
                 Amount = user.userWallet.balance - findcart.totalamount;
-                obj.Amount = findcart.totalamount;
+
                 Data = await userModel.findByIdAndUpdate({ _id: user._id }, { $inc: { "userWallet.useBalance": +findcart.totalamount, "userWallet.balance": -findcart.totalamount } }, { new: true });
                 findcart.totalamount = 0;
                 findcart._doc.disCount = findcart.totalamount;
             } else if (user.userWallet.balance < findcart.totalamount) {
                 let amount = findcart.totalamount - user.userWallet.balance;
-                obj.Amount = user.userWallet.balance;
+
                 Data = await userModel.findByIdAndUpdate({ _id: user._id }, { $inc: { "userWallet.useBalance": +user.userWallet.balance, "userWallet.balance": -user.userWallet.balance } }, { new: true });
                 findcart.totalamount = amount;
                 findcart._doc.disCount = user.userWallet.balance;
             };
+
             if (Data) {
                 const updateCart = await cart.findByIdAndUpdate({ _id: findcart._id }, { pay: findcart.totalamount, disCount: findcart._doc.disCount }, { new: true })
                 // tragaction save 
