@@ -90,7 +90,7 @@ exports.allUser = async (req, res) => {
                 }
             }
         ]);
-       
+
         return {
             statusCode: 200,
             status: true,

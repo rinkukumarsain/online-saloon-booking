@@ -50,16 +50,11 @@
                                 <label>Choose City</label> <br>
                                 <select id="inputState" name="city" class="form-select">
                                   <option value="">Choose City</option>
-                                  <% if( query.city!=undefined&& query.city!="" ){%>
-                                    <option selected="" value="<%= query.city%>">
-                                      <%= query.city%>
+                                  <%allcity.forEach(function(citys){%>
+                                    <option value="<%=citys%>" <%=query.city==citys?'selected':'' %>>
+                                      <%=citys%>
                                     </option>
-                                    <%}%>
-                                      <%allcity.forEach(function(citys){%>
-                                        <option value="<%=citys%>">
-                                          <%=citys%>
-                                        </option>
-                                        <%})%>
+                                    <%})%>
 
                                 </select>
                               </div>

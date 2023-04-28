@@ -39,7 +39,8 @@ exports.ViewAllPayment = async (req, res) => {
                 }
             }, {
                 '$unwind': {
-                    'path': '$user'
+                    'path': '$user',
+                    'preserveNullAndEmptyArrays': true
                 }
             }
         ]);
