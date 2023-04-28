@@ -4,6 +4,9 @@ const { getAllSaloonCity } = require("../../api/saloonstore/controller");
 
 exports.Coupon = async (req, res) => {
     try {
+        if (req.user.type == "admin") {
+            return res.redirect("/")
+        }
         if (req.query.id != undefined && req.query.id != "") {
             const Coupon = await coupon.findOne({ _id: mongoose.Types.ObjectId(req.query.id) });
             if (Coupon) {
@@ -48,6 +51,9 @@ exports.createCoupon = async (req, res) => {
 
 exports.ViewAllCoupon = async (req, res) => {
     try {
+        if (req.user.type == "admin") {
+            return res.redirect("/")
+        }
         let serchobj = {};
         let searchobj = {};
         if (req.query.amount) {
@@ -79,7 +85,9 @@ exports.ViewAllCoupon = async (req, res) => {
 
 exports.DeleteCoupon = async (req, res) => {
     try {
-
+        if (req.user.type == "admin") {
+            return res.redirect("/")
+        }
         if (req.query.id != undefined && req.query.id != "") {
             const updateData = await coupon.findByIdAndDelete({ _id: mongoose.Types.ObjectId(req.query.id) })
             if (updateData) {
