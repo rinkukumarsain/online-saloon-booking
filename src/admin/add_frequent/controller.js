@@ -7,7 +7,11 @@ exports.ADD_FREQUENT = async (req, res) => {
         if (req.user.type == "admin") {
             return res.redirect("/")
         }
-        const Findblog = await blog.find()
+        let condition = {};
+        if (req.query.id != undefined && req.query.id != "") {
+            condition._id = req.query.id
+        }
+        const Findblog = await blog.find(condition)
         const user = req.user;
         const _id = req.query.id;
         const faqData = await faqModel.findOne({ _id });
@@ -35,7 +39,37 @@ exports.VIEW_FREQUENT = async (req, res) => {
         if (req.user.type == "admin") {
             return res.redirect("/")
         }
-        const data = await faqModel.find();
+        let condition = [];
+        if (req.query.id != undefined && req.query.id != "") {
+            // condition.blogId =
+            condition.push({
+                '$match': {
+                    'blogId': mongoose.Types.ObjectId(req.query.id)
+                }
+            })
+        }
+        condition.push({
+            '$lookup': {
+                'from': 'blogs',
+                'localField': 'blogId',
+                'foreignField': '_id',
+                'as': 'blogs'
+            }
+        }, {
+            '$addFields': {
+                'blogTitel': {
+                    '$getField': {
+                        'field': 'Title',
+                        'input': {
+                            '$arrayElemAt': [
+                                '$blogs', 0
+                            ]
+                        }
+                    }
+                }
+            }
+        })
+        const data = await faqModel.aggregate(condition);
         const user = req.user;
         res.render("add_frequent/view_frequent", { user, data });
     } catch (err) {
@@ -44,7 +78,6 @@ exports.VIEW_FREQUENT = async (req, res) => {
 }
 exports.ADD_FREQUENT_DATA = async (req, res) => {
     try {
-        console.log("blogId", req.body)
         res.locals.message = req.flash();
         const { answer, question, blogId } = req.body;
         if (req.body.faqData) {
