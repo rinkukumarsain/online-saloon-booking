@@ -35,6 +35,7 @@
                         <tr>
                           <th scope="col">#</th>
                           <th scope="col">Question</th>
+                          <th scope="col">blog Name</th>
                           <th scope="col">Answer</th>
                           <th scope="col">Action</th>
                         </tr>
@@ -48,6 +49,9 @@
                               </th>
                               <td>
                                 <%= singleData.question %>
+                              </td>
+                              <td>
+                                <%= singleData.blogTitel %>
                               </td>
                               <td> <button type="button" value="<%= singleData._id %>" onclick="ViwesFindBlog(this)"
                                   class="btn btn-info"><i class="bi bi-eye"></i></button></td>
