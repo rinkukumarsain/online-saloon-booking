@@ -10,14 +10,21 @@ const userm = require("../../api/user/model")
 
 
 exports.saloonRegister = async (req, res) => {
-    res.locals.message = req.flash()
-    let saloon_data;
-    const find_saloon_data = await saloon.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
-    const find_saloon_requist = await saloonRequst.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
-    if (find_saloon_data) { saloon_data = find_saloon_data }
-    if (find_saloon_requist) { saloon_data = find_saloon_requist }
-    // console.log("saloon_data-->", saloon_data)
-    res.render("add_saloon/saloon-Register", { user: req.user, data: saloon_data })
+    try {
+        if (req.user.type == "admin") {
+            return res.redirect("/")
+        }
+        res.locals.message = req.flash()
+        let saloon_data;
+        const find_saloon_data = await saloon.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
+        const find_saloon_requist = await saloonRequst.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
+        if (find_saloon_data) { saloon_data = find_saloon_data }
+        if (find_saloon_requist) { saloon_data = find_saloon_requist }
+        // console.log("saloon_data-->", saloon_data)
+        res.render("add_saloon/saloon-Register", { user: req.user, data: saloon_data })
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 const { businessSignUp, businessProfileInfo, businessBankInfo, businessUplodeDocument } = require("../../api/Partner/controller")

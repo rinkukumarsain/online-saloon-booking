@@ -4,6 +4,9 @@ const { getAllSaloonCity } = require("../../api/saloonstore/controller");
 
 exports.ContactUsRequist = async (req, res) => {
     try {
+        if (req.user.type == "admin") {
+            return res.redirect("/")
+        }
         if (req.query.id != undefined && req.query.id != "") {
             const data = await Contact.findOne({ _id: mongoose.Types.ObjectId(req.query.id) });
             if (data) {

@@ -4,6 +4,9 @@ const blog = require("../../api/blogs/model")
 
 exports.ADD_FREQUENT = async (req, res) => {
     try {
+        if (req.user.type == "admin") {
+            return res.redirect("/")
+        }
         const Findblog = await blog.find()
         const user = req.user;
         const _id = req.query.id;
@@ -16,6 +19,9 @@ exports.ADD_FREQUENT = async (req, res) => {
 
 exports.DELETE_FREQUENT = async (req, res) => {
     try {
+        if (req.user.type == "admin") {
+            return res.redirect("/")
+        }
         const id = req.query.id;
         const data = await faqModel.findByIdAndDelete({ _id: id });
         res.redirect("/view_frequent");
@@ -26,6 +32,9 @@ exports.DELETE_FREQUENT = async (req, res) => {
 
 exports.VIEW_FREQUENT = async (req, res) => {
     try {
+        if (req.user.type == "admin") {
+            return res.redirect("/")
+        }
         const data = await faqModel.find();
         const user = req.user;
         res.render("add_frequent/view_frequent", { user, data });
