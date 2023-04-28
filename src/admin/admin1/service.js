@@ -23,7 +23,11 @@ exports.AllDetail = async (req, res) => {
   };
 
   obj.order = await order.countDocuments()//{status:"cancel"}
+  // if (req.user.type == "admin") {
 
+  // } else {
+
+  // }
   obj.user = await user.countDocuments({ type: "user" })
   obj.saloon = await saloon.countDocuments()
   obj.FindRequist = await PartnerRequist.countDocuments()
