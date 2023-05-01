@@ -88,10 +88,9 @@
                           <th scope="col">Customer Name</th>
                           <th scope="col"> Pay Date</th>
                           <th scope="col"> Pay Time</th>
-                          <th scope="col">Order</th>
                           <th scope="col">Amount</th>
                           <th scope="col">Payment Status</th>
-                          <th scope="col">Action</th>
+                          <th scope="col">Order</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -111,31 +110,18 @@
                                 <%= data.Time %>
                               </td>
                               <td>
-
+                                <%= data.orderData.amount /100%>
+                              </td>
+                              <td>
+                                <%= data.payment %>
+                              </td>
+                              <td>
                                 <a href="/get-All-order?userId=<%= data.userId %>&orderId=<%= data.orderId %>">
                                   <button type="button" class="btn btn-info">
                                     <i class="bi bi-eye" title="view"> </i>
                                   </button>
                                 </a>
                               </td>
-                              <td>
-                                <%= data.orderData.amount /100%>
-                              </td>
-                              <td>
-                                <%= data.payment %>
-                              </td>
-                              <!-- <td> -->
-                              <td>
-                                <a href="#" class="btn btn-info">
-                                  <i class="bi bi-check-circle-fill" title="approval"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger">
-                                  <i class="bi bi-x" title="delete"></i>
-                                </a>
-                              </td>
-                              <!-- <a href="/Coupon?id=<%= data._id%>" class="btn btn-dark">Edit</a>
-                                <a href="/Delete-payment?id=<%= data._id%>" class="btn btn-danger">Delete</a>
-                              </td> -->
                             </tr>
                             <%}%>
                       </tbody>

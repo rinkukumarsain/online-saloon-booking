@@ -42,7 +42,14 @@ exports.ViewAllPayment = async (req, res) => {
                     'path': '$user',
                     'preserveNullAndEmptyArrays': true
                 }
-            }
+            },
+            // {
+            //     '$match': {
+            //         'orderId': {
+            //             '$exists': true
+            //         }
+            //     }
+            // }
         ]);
 
         updateData.forEach((item) => {

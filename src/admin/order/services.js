@@ -54,6 +54,7 @@ exports.getAllOrder = async (req) => {
                 }
             })
         }
+
         condition.push({
             '$lookup': {
                 'from': 'users',
@@ -84,6 +85,20 @@ exports.getAllOrder = async (req) => {
             }
         })
 
+        condition.push({
+            '$lookup': {
+                'from': 'payments',
+                'localField': 'PaymentId',
+                'foreignField': '_id',
+                'as': 'pay'
+            }
+        }, {
+            '$unwind': {
+                'path': '$pay',
+                'preserveNullAndEmptyArrays': true
+            }
+        })
+
         if (req.query.city != undefined && req.query.city != "") {
             condition.push({
                 '$match': {
@@ -91,6 +106,13 @@ exports.getAllOrder = async (req) => {
                 }
             })
         }
+        // condition.push({
+        //     '$match': {
+        //         'PaymentId': {
+        //             '$exists': true
+        //         }
+        //     }
+        // })
 
         if (req.user.type == "admin") {
             condition.push({
@@ -107,14 +129,14 @@ exports.getAllOrder = async (req) => {
             return {
                 statusCode: 200,
                 status: true,
-                message: "service added in cart Succesfuuly !",
+                message: "order Found  Succesfuuly !",
                 data: data,
             };
         } else {
             return {
                 statusCode: 400,
                 status: false,
-                message: "service not Found !",
+                message: "order not Found !",
                 data: []
             };
         }
