@@ -48,12 +48,38 @@ exports.VIEW_SALOON = async (req) => {
     })
   }
 
+  if (req.query.CategoryName != undefined && req.query.CategoryName != "") {
+    pipeline.push({
+      '$lookup': {
+        'from': 'categories',
+        'localField': 'last_category',
+        'foreignField': '_id',
+        'pipeline': [
+          {
+            '$match': {
+              'Name': {
+                '$regex': req.query.CategoryName, $options: 'i'
+              }
+            }
+          }
+        ],
+        'as': 'last_category_data'
+      }
+    })
+  } else {
+    pipeline.push({
+      '$lookup': {
+        'from': 'categories',
+        'localField': 'last_category',
+        'foreignField': '_id',
+        'as': 'last_category_data'
+      }
+    })
+  }
   pipeline.push({
-    '$lookup': {
-      'from': 'categories',
-      'localField': 'last_category',
-      'foreignField': '_id',
-      'as': 'last_category_data'
+    '$unwind': {
+      'path': '$last_category_data',
+      'preserveNullAndEmptyArrays': true
     }
   })
   pipeline.push({
@@ -68,16 +94,6 @@ exports.VIEW_SALOON = async (req) => {
           }
         }
       },
-      'last_category_name': {
-        '$getField': {
-          'field': 'Name',
-          'input': {
-            '$arrayElemAt': [
-              '$last_category_data', 0
-            ]
-          }
-        }
-      }
     }
   })
 

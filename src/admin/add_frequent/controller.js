@@ -4,7 +4,14 @@ const blog = require("../../api/blogs/model")
 
 exports.ADD_FREQUENT = async (req, res) => {
     try {
-        const Findblog = await blog.find()
+        if (req.user.type == "admin") {
+            return res.redirect("/")
+        }
+        let condition = {};
+        if (req.query.id != undefined && req.query.id != "") {
+            condition._id = req.query.id
+        }
+        const Findblog = await blog.find(condition)
         const user = req.user;
         const _id = req.query.id;
         const faqData = await faqModel.findOne({ _id });
@@ -16,6 +23,9 @@ exports.ADD_FREQUENT = async (req, res) => {
 
 exports.DELETE_FREQUENT = async (req, res) => {
     try {
+        if (req.user.type == "admin") {
+            return res.redirect("/")
+        }
         const id = req.query.id;
         const data = await faqModel.findByIdAndDelete({ _id: id });
         res.redirect("/view_frequent");
@@ -26,7 +36,40 @@ exports.DELETE_FREQUENT = async (req, res) => {
 
 exports.VIEW_FREQUENT = async (req, res) => {
     try {
-        const data = await faqModel.find();
+        if (req.user.type == "admin") {
+            return res.redirect("/")
+        }
+        let condition = [];
+        if (req.query.id != undefined && req.query.id != "") {
+            // condition.blogId =
+            condition.push({
+                '$match': {
+                    'blogId': mongoose.Types.ObjectId(req.query.id)
+                }
+            })
+        }
+        condition.push({
+            '$lookup': {
+                'from': 'blogs',
+                'localField': 'blogId',
+                'foreignField': '_id',
+                'as': 'blogs'
+            }
+        }, {
+            '$addFields': {
+                'blogTitel': {
+                    '$getField': {
+                        'field': 'Title',
+                        'input': {
+                            '$arrayElemAt': [
+                                '$blogs', 0
+                            ]
+                        }
+                    }
+                }
+            }
+        })
+        const data = await faqModel.aggregate(condition);
         const user = req.user;
         res.render("add_frequent/view_frequent", { user, data });
     } catch (err) {
@@ -35,7 +78,6 @@ exports.VIEW_FREQUENT = async (req, res) => {
 }
 exports.ADD_FREQUENT_DATA = async (req, res) => {
     try {
-        console.log("blogId", req.body)
         res.locals.message = req.flash();
         const { answer, question, blogId } = req.body;
         if (req.body.faqData) {

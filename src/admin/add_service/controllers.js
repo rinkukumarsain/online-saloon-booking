@@ -193,3 +193,11 @@ exports.FindAllServiceName = async (req) => {
     }
 
 }
+exports.findSallon = async (req, res) => {
+    try {
+        const data = await saloon.findOne({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: 1, storeName: 1 })
+        res.send(data)
+    } catch (error) {
+        console.log(error)
+    }
+}

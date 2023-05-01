@@ -10,6 +10,18 @@ exports.VIEW_BLOG = async () => {
             'as': 'result'
         }
     }, {
+        '$lookup': {
+            'from': 'faqs',
+            'localField': '_id',
+            'foreignField': 'blogId',
+            'pipeline': [
+                {
+                    '$count': 'count'
+                }
+            ],
+            'as': 'faq'
+        }
+    }, {
         '$addFields': {
             'category_name': {
                 '$getField': {

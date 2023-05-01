@@ -5,6 +5,9 @@ const saloon = require("../../api/saloonstore/model");
 
 exports.sendNotification = async (req, res) => {
     try {
+        if (req.user.type == "admin") {
+            return res.redirect("/")
+        }
         res.locals.message = req.flash();
         // req.flash("success", "login successfully");
         let data;

@@ -29,79 +29,188 @@
               </ol>
             </nav>
           </div><!-- End Page Title -->
-
           <section class="section dashboard">
             <div class="row">
-
               <!-- Left side columns -->
-              <div class="col-lg-8">
+              <div class="col-lg-12">
                 <div class="row">
 
-                  <!-- Sales Card -->
-                  <div class="col-xxl-4 col-md-6">
+                  <!-- order Card -->
+
+                  <div class="col-xxl-4 col-md-4">
                     <div class="card info-card sales-card">
+                      <a href="/get-All-order">
+                        <div class="card-body">
+                          <h5 class="card-title">Order <span>| Today</span></h5>
 
-                      <div class="filter">
-                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                          <li class="dropdown-header text-start">
-                            <h6>Filter</h6>
-                          </li>
-                          <li><a class="dropdown-item" href="#">Today</a></li>
-                          <li><a class="dropdown-item" href="#">This Month</a></li>
-                          <li><a class="dropdown-item" href="#">This Year</a></li>
-                        </ul>
-                      </div>
-
-                      <div class="card-body">
-                        <h5 class="card-title">Sales <span>| Today</span></h5>
-
-                        <div class="d-flex align-items-center">
-                          <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-cart"></i>
-                          </div>
-                          <div class="ps-3">
-                            <h6>154</h6>
-                            <span class="text-success small pt-1 fw-bold">12%</span> <span
-                              class="text-muted small pt-2 ps-1">increase</span>
+                          <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                              <i class="bi bi-cart-check-fill"></i>
+                            </div>
+                            <div class="ps-3">
+                              <h6>
+                                <%= data.order %>
+                              </h6>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     </div>
                   </div>
+
                   <!-- End Sales Card -->
 
                   <!-- Revenue Card -->
-                  <div class="col-xxl-4 col-md-6">
+                  <div class="col-xxl-4 col-md-4">
                     <div class="card info-card revenue-card">
+                      <a href="/view-all-payment">
+                        <div class="card-body">
+                          <h5 class="card-title">Revenue <span>| Payment</span></h5>
+                          <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                              <!-- <i class="bi bi-currency-dollar"></i> -->
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                                <path
+                                  d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4v1.06Z" />
+                              </svg>
+                            </div>
+                            <div class="ps-3">
+                              <h6>
+                                <%= data.payment %> ₹
+                              </h6>
+                              <span class="text-muted small pt-2 ps-1"> count of payment</span>
+                              <span class="text-success small pt-1 fw-bold">
+                                <%= data.paymentCount %>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
 
-                      <div class="filter">
-                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                          <li class="dropdown-header text-start">
-                            <h6>Filter</h6>
-                          </li>
-                          <li><a class="dropdown-item" href="#">Today</a></li>
-                          <li><a class="dropdown-item" href="#">This Month</a></li>
-                          <li><a class="dropdown-item" href="#">This Year</a></li>
-                        </ul>
+                  <!-- user card -->
+                  <div class="col-xxl-4 col-md-4">
+                    <div class="card info-card user-card">
+                      <a href="/all-user?status=user">
+                        <div class="card-body">
+                          <h5 class="card-title">User <span>| User</span></h5>
+                          <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                              <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="ps-3">
+                              <h6>
+                                <%= data.user %>
+                              </h6>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- saloon card -->
+                  <div class="col-xxl-4 col-md-4">
+                    <div class="card info-card user-card">
+                      <a href="/view_saloon">
+                        <div class="card-body">
+                          <h5 class="card-title">Saloon <span>| Store</span></h5>
+                          <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                              <i class="bi bi-shop-window"></i>
+                            </div>
+                            <div class="ps-3">
+                              <h6>
+                                <%= data.saloon %>
+                              </h6>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                  <%if(user.type=="super-admin"){%>
+                    <!-- partner requist card -->
+                    <div class="col-xxl-4 col-md-4">
+                      <div class="card info-card user-card">
+                        <a href="/views-saloon-request">
+                          <div class="card-body">
+                            <h5 class="card-title">Saloon Partner <span>| Requist</span></h5>
+                            <div class="d-flex align-items-center">
+                              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-shop-window"></i>
+                              </div>
+                              <div class="ps-3">
+                                <h6>
+                                  <%= data.FindRequist %>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                    <%}%>
+                      <!-- service card -->
+                      <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card user-card">
+                          <a href="/view_service">
+                            <div class="card-body">
+                              <h5 class="card-title">Service <span>| Service</span></h5>
+                              <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                  <i class="ri-customer-service-2-fill"></i>
+                                </div>
+                                <div class="ps-3">
+                                  <h6>
+                                    <%= data.Findservice %>
+                                  </h6>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                      <!-- service  packege  card -->
+                      <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card user-card">
+                          <a href="/view-package">
+                            <div class="card-body">
+                              <h5 class="card-title">Package <span>| Service</span></h5>
+                              <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                  <i class="ri-customer-service-2-fill"></i>
+                                </div>
+                                <div class="ps-3">
+                                  <h6>
+                                    <%= data.Findpackeges %>
+                                  </h6>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        </div>
                       </div>
 
+                      <!-- <div class="col-xxl-4 col-md-4">
+                    <div class="card info-card user-card">
                       <div class="card-body">
-                        <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                        <h5 class="card-title">Admin <span>| User</span></h5>
                         <div class="d-flex align-items-center">
                           <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                             <i class="bi bi-currency-dollar"></i>
                           </div>
                           <div class="ps-3">
-                            <h6>$3,264</h6>
+                            <h6><%= data.user %></h6>
                             <span class="text-success small pt-1 fw-bold">8%</span> <span
                               class="text-muted small pt-2 ps-1">increase</span>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
                 </div>
               </div>
