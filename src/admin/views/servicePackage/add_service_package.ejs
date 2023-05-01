@@ -35,7 +35,7 @@
                     <div class="card-body">
 
                       <h5 class="card-title">Add Service package </h5>
-                      <% console.log("->",data._id,"<-----")%>
+                      <% console.log("->",data?._id,"<-----")%>
                           <% if(data){ %>
                             <form class="needs-validation" action="/add-new-package?id=<%= data._id%>" method="post"
                               enctype="multipart/form-data" novalidate>
@@ -182,8 +182,14 @@
             FindService(ee)
           });
           console.log("arrrrr", 286)
-          let arrr = <% - JSON.stringify(data.Services) %>
-            console.log("arrrrr", arrr)
+          let arrr;
+          <% if (data?.Services.length > 0) {%>
+            // yaha ye -  eske pass me hona chhaiye just 
+            arrr = <%- JSON.stringify(data.Services) %>
+          <% } else {%>
+            arrr =[]
+              <% }%>
+                console.log("arrrrr", arrr)
           function FindService(select) {
 
             let num = Number(select.id)
@@ -265,7 +271,7 @@
         <script>
           const amountInput = document.getElementById('Amount');
           const finalPriceInput = document.getElementById('FinalPrice');
-          
+
           amountInput.addEventListener('input', () => {
             finalPriceInput.value = Math.min(amountInput.value, finalPriceInput.value);
           });

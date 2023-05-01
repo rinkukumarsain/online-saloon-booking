@@ -40,10 +40,12 @@
                                             enctype="multipart/form-data">
                                             <div class="row g-3">
                                                 <div class="col">
+                                                    <label for="">Name</label>
                                                     <input required type="text" name="name" value="<%= user.name%>"
                                                         class="form-control" placeholder="Enter Your  Name">
                                                 </div>
                                                 <div class="col">
+                                                    <label for=""> phone number</label>
                                                     <input required type="number" name="phone" value="<%= user.phone%>"
                                                         class="form-control" placeholder="Enter a phone">
                                                 </div>
@@ -51,17 +53,20 @@
 
                                             <div class="row g-3">
                                                 <div class="col">
+                                                    <label for=""> description</label>
                                                     <textarea class="form-control" name="description"
-                                                        placeholder="Description" style="height: 100px"
-                                                        required><%= user.description%></textarea>
+                                                        placeholder="Description" style="height: 100px" required>
+                                                        <%= user.description%>
+                                                    </textarea>
                                                 </div>
                                                 <div class="col">
+                                                    <label for=""> Profile image </label>
                                                     <input class="form-control" type="file" name="image" id="formFile"
                                                         multiple>
                                                 </div>
                                             </div><br>
                                             <div class="row mb-3">
-                                                
+
                                                 <div class="col-sm-10">
                                                     <button type="submit" class="btn btn-primary">Update</button>
                                                 </div>
