@@ -15,6 +15,10 @@ const ContactUs = new mongoose.Schema({
     message: {
         type: String,
     },
+    status: {
+        type: Number,
+        default: 0
+    }
 }, { timestamps: true });
 
 

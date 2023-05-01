@@ -223,7 +223,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">User Service Data</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Saloon Data</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="moduleDataAppend">
@@ -291,7 +291,7 @@
                   data.forEach((item) => {
                     abc += `<tr>
                                 <td>
-                                  ${item.location.shopNumber}
+                                  ${item.location?.shopNumber}
                                 </td>
                                 <td>
                                   ${item.location.pincode}
@@ -327,19 +327,23 @@
                                 </td>
                                 <td>
                                   ${item.ProfileInfo.alternatePhone}
-                                </td>
-                                <td>
-                                  view
-                                </td>
+                                </td> 
+                                <td>`
+                    item.ProfileInfo.workingday.forEach((days) => {
+                      abc += ` ${days}<br>`
+                    })
+                    abc += ` </td> 
                                 <td>
                                   <a href="${item.ProfileInfo.FaceBookProfile}"><i class="bi bi-facebook"></i></a>
                                   <a href="${item.ProfileInfo.instaProfile}"><i class="bi bi-instagram"></i></a>
                                   <a href="${item.ProfileInfo.webProfile}"><i class="bi bi-link-45deg"></i></a>
                                 </td>
-                                <td>
-                                 view
-                                </td>
-                            </tr>`
+                                <td>`
+
+                    item.ProfileInfo.amenities.forEach((amenities) => {
+                      abc += ` ${amenities}<br>`
+                    })
+                    abc += `</td></tr>`
                   })
                   abc += `</tbody> </table >`
                 } else if (element.id == "Document") {

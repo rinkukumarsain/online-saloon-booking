@@ -124,18 +124,17 @@
                                   class="btn btn-info"><i class="bi bi-eye"></i></button>
                               </td>
                               <td>
-                                <% console.log(singleData.faq[0]?.count,"---")%>
-                                  <a href="/add_frequent?id=<%= singleData._id %>">
-                                    <button type="button" value="<%= singleData._id %>" class="btn btn-info">
-                                      +
-                                    </button>
+                                <a href="/add_frequent?id=<%= singleData._id %>">
+                                  <button type="button" value="<%= singleData._id %>" class="btn btn-info">
+                                    +
+                                  </button>
+                                </a>
+                                <% if(singleData.faq[0]?.count>0){ %>
+                                  <a href="/view_frequent?id=<%= singleData._id %>">
+                                    <button type="button" value="<%= singleData._id %>" class="btn btn-info"><i
+                                        class="bi bi-eye"></i></button>
                                   </a>
-                                  <% if(singleData.faq[0]?.count>0){ %>
-                                    <a href="/view_frequent?id=<%= singleData._id %>">
-                                      <button type="button" value="<%= singleData._id %>" class="btn btn-info"><i
-                                          class="bi bi-eye"></i></button>
-                                    </a>
-                                    <%}%>
+                                  <%}%>
                               </td>
                               <td>
                                 <a href="/add_blog?id=<%= singleData._id%>" class="btn btn-info"><i
