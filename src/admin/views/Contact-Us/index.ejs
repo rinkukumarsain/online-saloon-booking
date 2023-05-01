@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Coupon</title>
+  <title>Contact-Us-Requist</title>
   <%- include('../../partials/headlink.ejs') %>
 </head>
 
@@ -33,54 +33,51 @@
                     <h5 class="card-title">Filter</h5>
 
                     <!-- No Labels Form -->
-                    <form class="needs-validation row g-3" action="/View-All-Coupon" novalidate>
-                      <div class="col-md-4">
-                        <label>Enter Greater Than Amount</label> <br>
-                        <input type="number" name="amount" class="form-control" placeholder="Enter Amount"
-                          value="<%=query.Amount%>">
-                        <div class="invalid-feedback">Please Enter Amount.</div>
+                    <form class="needs-validation row g-3" action="/Contact-Us-Requist" novalidate>
 
-                      </div>
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                         <label>name</label> <br>
-                        <input type="text" name="title" class="form-control" placeholder="Enter name"
+                        <input type="text" name="name" class="form-control" placeholder="Enter name"
                           value=<%=query.name%>>
                         <div class="invalid-feedback">Please Enter name.</div>
 
                       </div>
-                      <div class="col-md-4">
-                        <label>Coupon</label> <br>
+                      <div class="col-md-2">
+                        <label>Email</label> <br>
 
-                        <input type="text" name="coupon" class="form-control" placeholder="Enter Coupon"
+                        <input type="text" name="email" class="form-control" placeholder="Enter Email"
                           value="<%=query.email%>">
-                        <div class="invalid-feedback">Please Enter Coupon.</div>
-
-
+                        <div class="invalid-feedback">Please Enter Email.</div>
                       </div>
-                      <div class="col-md-4">
-                        <label>Start Date</label> <br>
-
-                        <input type="Date" name="startdate" class="form-control" placeholder="Enter Start Date"
-                          value=<%=query.services%>>
-                        <div class="invalid-feedback">Please Enter Start Date.</div>
-
-
+                      <div class="col-md-2">
+                        <label>phone</label> <br>
+                        <input type="number" name="phone" class="form-control" placeholder="Enter Amount"
+                          value="<%=query.phone%>">
+                        <div class="invalid-feedback">Please Enter phone.</div>
                       </div>
-                      <div class="col-md-4">
-                        <label>End Date</label> <br>
-
-                        <input type="Date" name="enddate" class="form-control" placeholder="Enter End Date"
-                          value=<%=query.phone%>>
-                        <div class="invalid-feedback">Please Enter End Date.</div>
-
-
+                      <div class="col-md-2">
+                        <label>Status</label> <br>
+                        <select id="inputState" name="status" class="form-select">
+                          <option value="">Status</option>
+                          <option value="0">
+                            pending
+                          </option>
+                          <option value="1">
+                            replyed
+                          </option>
+                          <option value="-1">
+                            rejected
+                          </option>
+                        </select>
+                        <div class="invalid-feedback">Please Enter phone.</div>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                         <div class="text-center">
                           <label></label> <br>
 
                           <button type="submit" class="btn btn-primary">Submit</button>
-                          <a href="/View-All-Coupon"> <button type="button" class="btn btn-secondary">Reset</button></a>
+                          <a href="/Contact-Us-Requist"> <button type="button"
+                              class="btn btn-secondary">Reset</button></a>
                         </div>
                       </div>
                     </form>
@@ -90,7 +87,7 @@
                 </div>
                 <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title">Coupon List</h5>
+                    <h5 class="card-title">Contact Us Requist List</h5>
 
                     <!-- Table with stripped rows -->
                     <table class="table datatable">
@@ -102,7 +99,7 @@
                           <th scope="col">services</th>
                           <th scope="col">phone</th>
                           <th scope="col">message</th>
-                          <th scope="col">MoreAction</th>
+                          <th scope="col">Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -128,10 +125,13 @@
                                 <%= data.message %>
                               </td>
                               <td>
-                                <a href="/Coupon?id=<%= data._id%>" class="btn btn-info"><i class="ri-edit-box-line"
-                                    title="Edit"></i></a>
-                                <a href="/Delete-Coupon?id=<%= data._id%>" class="btn btn-danger"><i
-                                    class="ri-delete-bin-5-line" title="delete"></i></a>
+                                <a href="/Send-notification?id=<%= data._id%>" class="btn btn-info">
+                                  <!-- <i class="ri-edit-box-line" title="Edit"></i> -->
+                                  <i class="bi bi-reply-all-fill"></i>
+                                </a>
+                                <a href="/Reject-requist?id=<%= data._id%>" class="btn btn-danger">
+                                  <i class="ri-delete-bin-5-line" title="delete"></i>
+                                </a>
                               </td>
                             </tr>
                             <%}%>

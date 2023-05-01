@@ -34,39 +34,49 @@
                   <div class="card">
                     <div class="card-body">
 
-                      <h5 class="card-title">Add Vacancy</h5>
-                      <form action="Send-All-User-Email" id="form" method="post">
+                      <%if(data?._id){%>
+                        <h5 class="card-title">
+                          <%= data.services %>
+                        </h5>
+                        <form action="Send-All-User-Email?ContectUs=<%=data._id%>" id="form" method="post">
+                          <%}else{%>
+                            <h5 class="card-title">newsletters</h5>
+                            <form action="Send-All-User-Email" id="form" method="post">
+                              <%}%>
 
-                        <div class="row g-3">
-                          <div class="col-md-9">
-                            <label for="">Enter Job rupee</label>
-                            <textarea class="form-control" name="description" placeholder="Enter Description"
-                              style="height: 100px" required="" minlength="5"></textarea>
-                          </div>
+                                <div class="row g-3">
+                                  <div class="col-md-9">
+                                    <label for="">Enter Job rupee</label>
+                                    <textarea class="form-control" name="description" placeholder="Enter Description"
+                                      style="height: 100px" required="" minlength="5"></textarea>
+                                  </div>
 
-                          <div class="col-md-3">
-                            <div class="col">
-                              <label for="">Choose Gender </label>
-                              <select class="form-select" name="status" aria-label="Default select example" required="">
-                                <%if(user.type=="super-admin"){%>
-                                  <option value="1">Only Saloon</option>
-                                  <option value="2">Only users</option>
-                                  <option value="3">News-Letter-suscribe</option>
-                                  <option value="0">All</option>
-                                  <%}%>
-                              </select>
-                              <div class="valid-feedback">Looks good!</div>
-                              <div class="invalid-feedback">Please Select Gender.</div>
-                            </div>
-                          </div>
-                        </div><br>
+                                  <div class="col-md-3">
+                                    <div class="col">
+                                      <label for="">Choose Gender </label>
+                                      <select class="form-select" name="status" aria-label="Default select example"
+                                        required="">
+                                        <%if(data?._id){%>
+                                          <option value="R">Requist reply</option>
+                                          <%}else{%>
+                                            <option value="1">Only Saloon</option>
+                                            <option value="2">Only users</option>
+                                            <option value="3">News-Letter-suscribe</option>
+                                            <option value="0">All</option>
+                                            <%}%>
+                                      </select>
+                                      <div class="valid-feedback">Looks good!</div>
+                                      <div class="invalid-feedback">Please Select Gender.</div>
+                                    </div>
+                                  </div>
+                                </div><br>
 
-                        <div class="row mb-3">
-                          <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary">Send</button>
-                          </div>
-                        </div>
-                      </form>
+                                <div class="row mb-3">
+                                  <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Send</button>
+                                  </div>
+                                </div>
+                            </form>
 
                     </div>
                   </div>

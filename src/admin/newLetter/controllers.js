@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const newsletters = require("../../api/Newsletter/model");
 const user = require("../../api/user/model");
 const saloon = require("../../api/saloonstore/model");
+const ContecUs = require("../../api/Contact-Us/model");
 
 exports.sendNotification = async (req, res) => {
     try {
@@ -9,8 +10,11 @@ exports.sendNotification = async (req, res) => {
             return res.redirect("/")
         }
         res.locals.message = req.flash();
-        // req.flash("success", "login successfully");
-        let data;
+        let data
+        if (req.query.id != undefined && req.query.id != "") {
+            data = await ContecUs.findOne({ _id: req.query.id })
+        }
+
         res.render("newsletters/index", { user: req.user, data });
     } catch (e) {
         console.log(e);
@@ -35,10 +39,15 @@ exports.SendAllUserEmail = async (req, res) => {
         } else if (req.body.status == 3) {
             arr = newsletterData;
         };
+        if (req.query.ContectUs != undefined && req.query.ContectUs != "") {
+            const data = await ContecUs.findOne({ _id: req.query.ContectUs })
+            arr = [data.email]
+        }
         req.arr = arr;
         const result = await newLetterEmail(req);
 
         if (result.statusCode == 200) {
+            const data = await ContecUs.findByIdAndUpdate({ _id: req.query.ContectUs }, { status: 1 }, { new: true })
             req.flash("success", "mail send  successfully");
             res.redirect("/");
         };
