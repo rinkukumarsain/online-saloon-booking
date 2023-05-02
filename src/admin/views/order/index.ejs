@@ -235,6 +235,7 @@
                 let abc = ` <table class="table datatable">
                           <thead>
                             <tr>
+                              <th scope="col">#</th>
                               <th scope="col">serviceId</th>
                               <th scope="col">quantity</th>
                               <th scope="col">Amount</th>
@@ -242,13 +243,16 @@
                             </tr>
                           </thead>
                           <tbody>`
+                let i = 1;
                 data.forEach((item) => {
                   abc += `<tr>
+                            <th scope="col">${i}.</th>
                             <td scope="row">${item.service.ServiceName}</td>
                             <td>${item.cartdata.quantity}</td>
                             <td>${item.cartdata.Amount}</td>
                             <td>${item.cartdata.timePeriod_in_minits}</td>
                           </tr>`
+                  i++
                 })
                 abc += `</tbody> </table >`
 
