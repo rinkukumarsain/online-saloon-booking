@@ -90,26 +90,7 @@
                     </div>
                   </div>
 
-                  <!-- user card -->
-                  <div class="col-xxl-4 col-md-4">
-                    <div class="card info-card user-card">
-                      <a href="/all-user?status=user">
-                        <div class="card-body">
-                          <h5 class="card-title">User <span>| User</span></h5>
-                          <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                              <i class="bi bi-person-fill"></i>
-                            </div>
-                            <div class="ps-3">
-                              <h6>
-                                <%= data.user %>
-                              </h6>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
+                
 
                   <!-- saloon card -->
                   <div class="col-xxl-4 col-md-4">
@@ -132,6 +113,27 @@
                     </div>
                   </div>
                   <%if(user.type=="super-admin"){%>
+                      <!-- user card -->
+                  <div class="col-xxl-4 col-md-4">
+                    <div class="card info-card user-card">
+                      <a href="/all-user?status=user">
+                        <div class="card-body">
+                          <h5 class="card-title">User <span>| User</span></h5>
+                          <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                              <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="ps-3">
+                              <h6>
+                                <%= data.user %>
+                              </h6>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                  
                     <!-- partner requist card -->
                     <div class="col-xxl-4 col-md-4">
                       <div class="card info-card user-card">
