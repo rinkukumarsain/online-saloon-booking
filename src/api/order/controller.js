@@ -84,6 +84,7 @@ exports.userOrder = async ({ query, user }) => {
     };
 };
 
+/*
 exports.getUserOrder = async ({ user, query }) => {
     try {
         let condition = [];
@@ -128,7 +129,7 @@ exports.getUserOrder = async ({ user, query }) => {
                 'timePeriod_in_minits': '$result.timePeriod_in_minits',
                 'totalamount': 1,
                 'addressId': 1,
-                'ScheduleId': 1,
+                'Schedule': 1,
                 'paymentStatus': 1,
                 'status': 1,
                 'orderId': 1,
@@ -146,11 +147,10 @@ exports.getUserOrder = async ({ user, query }) => {
                         saloonId: "$saloonId",
                         ServiceName: "$ServiceName",
                         ServicePrice: "$ServicePrice",
-                        timePeriod_in_minits:
-                            "$timePeriod_in_minits",
+                        timePeriod_in_minits: "$timePeriod_in_minits",
                         totalamount: "$totalamount",
                         addressId: "$addressId",
-                        ScheduleId: "$ScheduleId",
+                        Schedule: "$Schedule",
                         paymentStatus: "$paymentStatus",
                         status: "$status",
                         orderId: "$orderId",
@@ -208,10 +208,10 @@ exports.getUserOrder = async ({ user, query }) => {
     } catch (error) {
         console.log(error);
     };
-};
+};*/
 
 
-/* new code 
+// new code 
 exports.getUserOrder = async ({ user, query }) => {
     try {
         console.log("req", user._id)
@@ -318,7 +318,7 @@ exports.getUserOrder = async ({ user, query }) => {
     } catch (error) {
         console.log(error);
     };
-};*/
+};
 
 exports.orderCancel = async (req) => {
     try {
@@ -328,6 +328,7 @@ exports.orderCancel = async (req) => {
             if (findOrder) {
                 const orderCencal = await order.findByIdAndUpdate({ _id }, { status: "cancel" }, { new: true })
                 if (orderCencal) {
+                    //refund paise 
                     return {
                         statusCode: 200,
                         status: true,

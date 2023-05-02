@@ -33,6 +33,7 @@ exports.orderCancel = async (req, res) => {
             if (findOrder) {
                 const orderCencal = await order.findByIdAndUpdate({ _id }, { status: "cancel" }, { new: true })
                 if (orderCencal) {
+                    // user ke pise refund
                     res.redirect("/get-All-order")
                 };
             } else {
