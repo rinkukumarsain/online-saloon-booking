@@ -98,7 +98,6 @@
                                     <label for="starting-time">Category</label>
                                     <select class="form-select" name="category" id="category"
                                       aria-label="Default select example" required onchange="clickMe(this)">
-                                      <option value="">select </option>
                                       <%for (categoryItem of category_data) {%>
                                         <option value="<%= categoryItem._id%>"
                                           <%=categoryItem._id.toString()==data?.category.toString()?"selected" :"" %>>

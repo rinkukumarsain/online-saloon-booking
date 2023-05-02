@@ -22,17 +22,98 @@ exports.AllDetail = async (req, res) => {
    obj.paymentCount = data.length
   };
 
-  obj.order = await order.countDocuments()//{status:"cancel"}
-  // if (req.user.type == "admin") {
+  if (req.user.type == "admin") {
+   let condition = []
+   condition.push({
+    '$lookup': {
+     'from': 'saloons',
+     'localField': 'saloonId',
+     'foreignField': '_id',
+     'pipeline': [
+      {
+       '$match': {
+        'userId': req.user._id
+       }
+      }
+     ],
+     'as': 'saloon'
+    }
+   }, {
+    '$unwind': {
+     'path': '$saloon'
+    }
+   })
+   const findOrder = await order.aggregate(condition)//{status:"cancel"}
+   obj.order = findOrder.length
+  } else {
+   obj.order = await order.countDocuments()//{status:"cancel"}
+  }
+  obj.user = await user.countDocuments({ type: "user" })//super Admin
+  let condition = {};
+  if (req.user.type == "admin") {
+   condition.userId = req.user._id
+  } else {
+   condition = {}
+  }
+  obj.saloon = await saloon.countDocuments(condition)
+  obj.FindRequist = await PartnerRequist.countDocuments()//super Admin
 
-  // } else {
+  if (req.user.type == "admin") {
+   let condition = []
+   let match = {};
+   match.userId = req.user._id
+   condition.push({
+    '$match': match
+   }, {
+    '$lookup': {
+     'from': 'saloonservices',
+     'localField': '_id',
+     'foreignField': 'saloonStore',
+     'pipeline': [
+      {
+       '$match': {
+        'ServicesType': 0
+       }
+      }
+     ],
+     'as': 'stores'
+    }
+   }, {
+    '$unwind': {
+     'path': '$stores'
+    }
+   })
+   const findservice = await saloon.aggregate(condition)
+   obj.Findservice = findservice.length
+   condition = []
+   condition.push({
+    '$match': match
+   }, {
+    '$lookup': {
+     'from': 'saloonservices',
+     'localField': '_id',
+     'foreignField': 'saloonStore',
+     'pipeline': [
+      {
+       '$match': {
+        'ServicesType': 1
+       }
+      }
+     ],
+     'as': 'stores'
+    }
+   }, {
+    '$unwind': {
+     'path': '$stores'
+    }
+   })
+   const findpackeges = await saloon.aggregate(condition)
+   obj.Findpackeges = findpackeges.length
 
-  // }
-  obj.user = await user.countDocuments({ type: "user" })
-  obj.saloon = await saloon.countDocuments()
-  obj.FindRequist = await PartnerRequist.countDocuments()
-  obj.Findservice = await service.countDocuments({ ServicesType: 0 })
-  obj.Findpackeges = await service.countDocuments({ ServicesType: 1 })
+  } else {
+   obj.Findservice = await service.countDocuments({ ServicesType: 0 })
+   obj.Findpackeges = await service.countDocuments({ ServicesType: 1 })
+  }
 
 
 
@@ -57,109 +138,4 @@ exports.Findpayment = async (req, res) => {
   console.log(e);
  };
 };
-
-/*
-
-exports.Findorder = async (req, res) => {
- try {
-  let obj = {};
-  if (req.query.dd != undefined && req.query.dd != "") {
-   obj.name = req.query.dd;
-  };
-  const findData = await order.find(obj);
-  return findData
-  // res.send(findData);
- } catch (e) {
-  console.log(e);
- };
-};
-
-exports.Finduser = async (req, res) => {
- try {
-  let obj = {};
-  if (req.query.dd != undefined && req.query.dd != "") {
-   obj.name = req.query.dd;
-  };
-  obj.type = "user"
-  const findData = await user.find(obj);
-  return findData
-  // res.send(findData);
- } catch (e) {
-  console.log(e);
- };
-};
-
-exports.Findsaloon = async (req, res) => {
- try {
-  let obj = {};
-  if (req.query.dd != undefined && req.query.dd != "") {
-   obj.name = req.query.dd;
-  };
-  const findData = await saloon.find(obj);
-  return findData
-  // res.send(findData);
- } catch (e) {
-  console.log(e);
- };
-};
-
-exports.Findservice = async (req, res) => {
- try {
-  let obj = {};
-  if (req.query.dd != undefined && req.query.dd != "") {
-   obj.name = req.query.dd;
-  };
-  const findData = await service.find(obj);
-  return findData
-  // res.send(findData);
- } catch (e) {
-  console.log(e);
- };
-};
-
-
-
-exports.FindPartnerRequist = async (req, res) => {
- try {
-  let obj = {};
-  if (req.query.dd != undefined && req.query.dd != "") {
-   obj.name = req.query.dd;
-  };
-  const findData = await PartnerRequist.find(obj);
-  return findData
-  // res.send(findData);
- } catch (e) {
-  console.log(e);
- };
-};
-
-exports.FindArtice = async (req, res) => {
- try {
-  let obj = {};
-  if (req.query.dd != undefined && req.query.dd != "") {
-   obj.name = req.query.dd;
-  };
-  const findData = await Artice.find(obj);
-  res.send(findData);
- } catch (e) {
-  console.log(e);
- };
-};
-
-exports.Findveconcy = async (req, res) => {
- try {
-  let obj = {};
-  if (req.query.dd != undefined && req.query.dd != "") {
-   obj.name = req.query.dd;
-  };
-  const findData = await veconcy.find(obj);
-  res.send(findData);
- } catch (e) {
-  console.log(e);
- };
-};
-
-*/
-
-
 
