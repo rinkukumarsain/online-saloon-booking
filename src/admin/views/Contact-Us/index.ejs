@@ -59,13 +59,13 @@
                         <label>Status</label> <br>
                         <select id="inputState" name="status" class="form-select">
                           <option value="">Status</option>
-                          <option value="0">
+                          <option value="0" <%=query.status=='0' ?'selected':''%>>
                             pending
                           </option>
-                          <option value="1">
+                          <option value="1" <%=query.status=='1' ?'selected':''%>>
                             replyed
                           </option>
-                          <option value="-1">
+                          <option value="-1" <%=query.status=='-1' ?'selected':''%>>
                             rejected
                           </option>
                         </select>
