@@ -4,7 +4,8 @@ const responseHandler = require("../../utils/responseHandlers");
 const { Router } = require("express");
 const app = Router();
 const { admin, register, adminRegisterData, loginData, login,
-    usersProfile, AdminlogOut, forgetPassword, ForgetPassword, add_profile_data, orderDetail } = require('./controller');
+    usersProfile, AdminlogOut, forgetPassword, ForgetPassword,
+    add_profile_data, paymentRevenues } = require('./controller');
 app.get("/", admin)
 
 app.get("/pages-register", register);
@@ -21,6 +22,6 @@ app.post("/add_profile_data", auth, Upload.single("image"), add_profile_data)
 app.get("/Admin-log-out", AdminlogOut)
 
 // ajex
-// app.get("/order-detail", auth, orderDetail)
+app.get("/payment-Revenues", auth, paymentRevenues)
 
 module.exports = app

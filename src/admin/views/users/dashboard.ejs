@@ -2,39 +2,35 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
   <title>Dashboard</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <meta content="" name="description" />
+  <meta content="" name="keywords" />
   <%- include("../../partials/headlink.ejs")%>
-
 </head>
 
 <body>
-  <%- include("../../partials/alertMsg") %>
-    <%- include("../../partials/Header.ejs") %>
-      <%- include("../../partials/sidebar.ejs") %>
+  <%- include("../../partials/alertMsg") %> <%- include("../../partials/Header.ejs") %> <%-
+        include("../../partials/sidebar.ejs") %>
 
         <main id="main" class="main">
           <div class="pagetitle">
-            <h1>
-              <%- user.type %>
-            </h1>
+            <h1><%- user.type %></h1>
             <nav>
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
                 <li class="breadcrumb-item active">Dashboard</li>
               </ol>
             </nav>
-          </div><!-- End Page Title -->
+          </div>
+          <!-- End Page Title -->
           <section class="section dashboard">
             <div class="row">
               <!-- Left side columns -->
               <div class="col-lg-12">
                 <div class="row">
-
                   <!-- order Card -->
 
                   <div class="col-xxl-4 col-md-4">
@@ -76,12 +72,10 @@
                               </svg>
                             </div>
                             <div class="ps-3">
-                              <h6>
-                                <%= data.payment %> ₹
-                              </h6>
-                              <span class="text-muted small pt-2 ps-1"> count of payment</span>
-                              <span class="text-success small pt-1 fw-bold">
-                                <%= data.paymentCount %>
+                              <h6 id="payment"></h6>
+                              <span class="text-muted small pt-2 ps-1">
+                                count of payment</span>
+                              <span class="text-success small pt-1 fw-bold" id="paymentCounts">
                               </span>
                             </div>
                           </div>
@@ -89,8 +83,6 @@
                       </a>
                     </div>
                   </div>
-
-                
 
                   <!-- saloon card -->
                   <div class="col-xxl-4 col-md-4">
@@ -113,33 +105,35 @@
                     </div>
                   </div>
                   <%if(user.type=="super-admin"){%>
-                      <!-- user card -->
-                  <div class="col-xxl-4 col-md-4">
-                    <div class="card info-card user-card">
-                      <a href="/all-user?status=user">
-                        <div class="card-body">
-                          <h5 class="card-title">User <span>| User</span></h5>
-                          <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                              <i class="bi bi-person-fill"></i>
-                            </div>
-                            <div class="ps-3">
-                              <h6>
-                                <%= data.user %>
-                              </h6>
+                    <!-- user card -->
+                    <div class="col-xxl-4 col-md-4">
+                      <div class="card info-card user-card">
+                        <a href="/all-user?status=user">
+                          <div class="card-body">
+                            <h5 class="card-title">User <span>| User</span></h5>
+                            <div class="d-flex align-items-center">
+                              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-person-fill"></i>
+                              </div>
+                              <div class="ps-3">
+                                <h6>
+                                  <%= data.user %>
+                                </h6>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </a>
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                  
+
                     <!-- partner requist card -->
                     <div class="col-xxl-4 col-md-4">
                       <div class="card info-card user-card">
                         <a href="/views-saloon-request">
                           <div class="card-body">
-                            <h5 class="card-title">Saloon Partner <span>| Requist</span></h5>
+                            <h5 class="card-title">
+                              Saloon Partner <span>| Requist</span>
+                            </h5>
                             <div class="d-flex align-items-center">
                               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                 <i class="bi bi-shop-window"></i>
@@ -213,18 +207,35 @@
                       </div>
                     </div>
                   </div> -->
-
                 </div>
               </div>
             </div>
           </section>
-        </main><!-- End #main -->
-
+        </main>
+        <!-- End #main -->
 
         <!-- ======= Footer ======= -->
         <%- include("../../partials/footer.ejs") %>
           <!-- End Footer -->
           <%- include("../../partials/script.ejs") %>
+            <script>
+              $(document).ready(function () {
+                let id =  <%- JSON.stringify(user._id) %>
+                  $.ajax({
+                    type: 'get',
+                    data: { "id": id },
+                    url: '/payment-Revenues',// nandlal
+                    success: function (data) {
+                      if (data) {
+                        $('#payment').append(data.payment, ' ₹');
+                        $('#paymentCounts').append(data.paymentCount);
+                      } else {
+                        alert("data not found");
+                      };
+                    }
+                  });
+              });
+            </script>
 </body>
 
 </html>

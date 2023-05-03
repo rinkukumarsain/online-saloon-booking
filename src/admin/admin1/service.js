@@ -11,17 +11,7 @@ const veconcy = require("../Vacancy/model");
 exports.AllDetail = async (req, res) => {
  try {
   let obj = {}
-  const data = await this.Findpayment(req)
-  if (data) {
-   arr = []
-   for (const item of data) {
-    arr.push(item.orderData.amount / 100)
-   }
-   const sum = arr.reduce((acc, ele) => acc + ele, 0);
-   obj.payment = sum
-   obj.paymentCount = data.length
-  };
-
+ 
   if (req.user.type == "admin") {
    let condition = []
    condition.push({
@@ -124,18 +114,4 @@ exports.AllDetail = async (req, res) => {
  };
 };
 
-exports.Findpayment = async (req, res) => {
- try {
-  let obj = {};
-  if (req.query.dd != undefined && req.query.dd != "") {
-   obj.name = req.query.dd;
-  };
-  obj.payment = "Payment successfull";
-  const findData = await payment.find(obj, { "orderData.amount": 1 });
-  return findData
-  // res.send(findData);
- } catch (e) {
-  console.log(e);
- };
-};
 
