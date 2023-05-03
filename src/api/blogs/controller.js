@@ -142,6 +142,12 @@ exports.getAllBlog = async ({ query }) => {
         };
 
         const result = await blog.aggregate(condition);
+        for (const item of result) {
+            if (item?.image[0] != undefined) {
+                item.image = `http://159.89.164.11:7070/uploads/${item.image[0]}`
+            };
+        };
+
         if (result) {
             return {
                 statusCode: 200,
