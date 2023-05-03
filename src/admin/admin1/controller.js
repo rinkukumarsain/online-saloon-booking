@@ -4,6 +4,7 @@ const fs = require("fs");
 const userModel = require("../../api/user/model");
 const { findByIdAndUpdate } = require('./model');
 const path = require("path")
+const saloon = require("../../api/saloonstore/model")
 
 const service = require("./service")
 
@@ -196,12 +197,77 @@ exports.AdminlogOut = async (req, res) => {
     }
 }
 
-// const order = require("../../api/order/model")
-// exports.orderDetail = async (req, res) => {
-//     try {
-//         const data = await order.find()
-//         res.send(data);
-//     } catch (error) {
-//         console.log(error);
-//     };
-// };
+const payment = require("../../api/payment/model")
+exports.paymentRevenues = async (req, res) => {
+    try {
+        let obj = {};
+        let data;
+        if (req.user.type == "admin") {
+            let condition = [];
+            condition.push({
+                '$match': {
+                    'userId': req.user._id
+                }
+            }, {
+                '$lookup': {
+                    'from': 'orders',
+                    'localField': '_id',
+                    'foreignField': 'saloonId',
+                    'pipeline': [
+                        {
+                            '$project': {
+                                'PaymentId': 1
+                            }
+                        }
+                    ],
+                    'as': 'order'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$order'
+                }
+            }, {
+                '$replaceRoot': {
+                    'newRoot': '$order'
+                }
+            }, {
+                '$lookup': {
+                    'from': 'payments',
+                    'localField': 'PaymentId',
+                    'foreignField': '_id',
+                    'pipeline': [
+                        {
+                            '$match': {
+                                'payment': 'Payment successfull'
+                            }
+                        }
+                    ],
+                    'as': 'payment'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$payment'
+                }
+            }, {
+                '$replaceRoot': {
+                    'newRoot': '$payment'
+                }
+            })
+            data = await saloon.aggregate(condition);
+        } else {
+            data = await payment.find({ payment: "Payment successfull" }, { "orderData.amount": 1 });
+        }
+        if (data) {
+            arr = []
+            for (const item of data) {
+                arr.push(item.orderData.amount / 100)
+            }
+            const sum = arr.reduce((acc, ele) => acc + ele, 0);
+            obj.payment = sum
+            obj.paymentCount = data.length
+        };
+        res.send(obj);
+    } catch (error) {
+        console.log(error);
+    };
+};
