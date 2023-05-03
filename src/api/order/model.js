@@ -36,7 +36,8 @@ const orderSchema = new mongoose.Schema({
         type: Number,
     },
     addressId: {
-        type: mongoose.Types.ObjectId
+        type: mongoose.Types.ObjectId,
+        default: null
     },
     PaymentId: {
         type: mongoose.Types.ObjectId

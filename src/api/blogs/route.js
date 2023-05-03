@@ -6,7 +6,7 @@ const app = Router();
 const uplode = require("../../middleware/img")
 
 app.post("/Write-blog", auth, uplode.single("file"), responseHandler(creatBlog))
-app.get("/get-blog", auth, responseHandler(getAllBlog))
+app.get("/get-blog", responseHandler(getAllBlog))
 
 
 module.exports = app
