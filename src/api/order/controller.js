@@ -296,6 +296,10 @@ exports.getUserOrder = async ({ user, query }) => {
                     }
                 }
             }
+        }, {
+            '$sort': {
+                'orderDetail.createdAt': -1
+            }
         })
 
         const findData = await order.aggregate(condition);
