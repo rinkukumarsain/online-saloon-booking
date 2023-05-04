@@ -214,7 +214,6 @@ exports.getUserOrder = async ({ user, query }) => {
 // new code 
 exports.getUserOrder = async ({ user, query }) => {
     try {
-        console.log("req", user._id)
         let condition = [];
         let finalData = [];
         if (query.id) {
@@ -292,7 +291,8 @@ exports.getUserOrder = async ({ user, query }) => {
                         'paymentStatus': '$paymentStatus',
                         'status': '$status',
                         'orderId': '$orderId',
-                        'addressId': '$addressId'
+                        'addressId': '$addressId',
+                        'createdAt': '$createdAt'
                     }
                 }
             }
