@@ -451,7 +451,13 @@ exports.getServiceByCategory = async ({ query }) => {
                                     'data.ServicePrice': num
                                 }
                             });
-                        };
+                        } else {
+                            condition.push({
+                                '$sort': {
+                                    'data.storeName': 1
+                                }
+                            });
+                        }
 
                         const findService = await saloonService.aggregate(condition);
                         if (findService.length > 0) {
