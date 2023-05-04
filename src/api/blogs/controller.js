@@ -146,6 +146,13 @@ exports.getAllBlog = async ({ query }) => {
             if (item?.image[0] != undefined) {
                 item.image = `http://159.89.164.11:7070/uploads/${item.image[0]}`
             };
+            if (item.RelatedPosts.length > 0) {
+                for (const index of item.RelatedPosts) {
+                    if (index?.image[0] != undefined) {
+                        index.image = `http://159.89.164.11:7070/uploads/${index.image[0]}`
+                    };
+                }
+            }
         };
 
         if (result) {
