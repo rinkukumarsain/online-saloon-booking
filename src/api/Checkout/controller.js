@@ -92,6 +92,20 @@ exports.Checkout = async ({ user, query }) => {
                 'from': 'schedules',
                 'localField': '_id',
                 'foreignField': 'userId',
+                'let': {
+                    'cartId': '$cartId'
+                },
+                'pipeline': [
+                    {
+                        '$match': {
+                            '$expr': {
+                                '$eq': [
+                                    '$cartId', '$$cartId'
+                                ]
+                            }
+                        }
+                    }
+                ],
                 'as': 'schedule'
             }
         });
@@ -233,19 +247,19 @@ exports.Checkout = async ({ user, query }) => {
             // Checkout.cartId ="54251"
 
 
-            if (query.balance != undefined && query.balance != "") {
-                Checkout.user = user
-                const data = await this.applyBalance(Checkout)
-                data.user = ""
-                if (data.statusCode == 200 && data.status == true) {
-                    return {
-                        statusCode: 200,
-                        status: true,
-                        message: "Checkout  Succesfuuly ! 1",
-                        data: data.data
-                    };
-                }
-            }
+            /* if (query.balance != undefined && query.balance != "") {
+                 Checkout.user = user
+                 const data = await this.applyBalance(Checkout)
+                 data.user = ""
+                 if (data.statusCode == 200 && data.status == true) {
+                     return {
+                         statusCode: 200,
+                         status: true,
+                         message: "Checkout  Succesfuuly ! 1",
+                         data: data.data
+                     };
+                 }
+             }*/
             return {
                 statusCode: 200,
                 status: true,
