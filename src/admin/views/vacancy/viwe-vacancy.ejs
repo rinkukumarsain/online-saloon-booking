@@ -140,7 +140,9 @@
                                   class="btn btn-info"><i class="bi bi-eye"></i></button>
                               </td>
                               <td>
-                                <a href="/delete-Vacancy?id=<%= data._id%>" class="btn btn-danger">D</a>
+                                <a href="/delete-Vacancy?id=<%= data._id%>" class="btn btn-danger">
+                                  <i class="ri-delete-bin-5-line" title="delete"></i>
+                                </a>
                                 <a href="/Vacancy?id=<%=data._id%>" class="btn btn-info">
                                   <i class="ri-edit-box-line" title="Edit"></i>
                                 </a>
@@ -269,7 +271,7 @@
             }
           })
         }
-        
+
       </script>
       <%- include("../../partials/script.ejs") %>
 </body>
