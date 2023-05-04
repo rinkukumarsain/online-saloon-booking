@@ -62,31 +62,7 @@
 
                                     </div><br>
 
-                                    <div class="row g-3">
 
-                                      <div class="col">
-                                        <label for="">Choose Gender </label>
-                                        <select class="form-select" name="type" aria-label="Default select example"
-                                          required>
-                                          <option value="">Select Type</option>
-                                          <option <%=data?.type=='male' ? 'selected' :'' %> value="male">Male</option>
-                                          <option <%=data?.type=='female' ? 'selected' :'' %> value="female">Female
-                                          </option>
-                                          <option <%=data?.type=='unisex' ? 'selected' :'' %> value="unisex">Unisex
-                                          </option>
-                                        </select>
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please Select Gender.</div>
-                                      </div>
-                                      <div class="col">
-                                        <label for=""> package Price</label>
-                                        <input required type="number" name="ServicePrice" id="Amount"
-                                          class="form-control" placeholder="Enter package Price"
-                                          value="<%= data?.ServicePrice %>" readonly>
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please Enter package Price.</div>
-                                      </div>
-                                    </div><br>
 
                                     <div class="row g-3">
                                       <div class="col">
@@ -129,7 +105,8 @@
                                       <div class="col">
                                         <label for="">Select Saloon</label>
                                         <select class="form-select" name="saloonStore" id="saloonStore"
-                                          aria-label="Default select example" onchange="FindService(this)" required>
+                                          aria-label="Default select example"
+                                          onchange="FindService(this) ,FindSaloon(this)" required>
                                           <% salon.forEach(element=> {%>
                                             <option value="<%=element._id%>">
                                               <%=element.storeName%>
@@ -140,6 +117,25 @@
                                         <div class="invalid-feedback">Please Select Saloon.</div>
                                       </div>
                                     </div><br>
+                                    <div class="row g-3">
+
+                                      <div class="col">
+                                        <label for="">Choose Gender </label>
+                                        <div id="gendeAll">
+
+                                        </div>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please Select Gender.</div>
+                                      </div>
+                                      <div class="col">
+                                        <label for=""> package Price</label>
+                                        <input required type="number" name="ServicePrice" id="Amount"
+                                          class="form-control" placeholder="Enter package Price"
+                                          value="<%= data?.ServicePrice %>" readonly>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please Enter package Price.</div>
+                                      </div>
+                                    </div><br>
 
                                     <div class="row g-3">
                                       <div class="col">
@@ -148,7 +144,7 @@
                                         </div>
                                       </div>
                                       <div class="col">
-                                        <label for="">package Final Price</label>
+                                        <label for="">package Final Price</label> <br>
                                         <input class="form-control" type="number" name="FinalPrice"
                                           value="<%= data?.FinalPrice %>" id="FinalPrice" required>
                                         <div class="valid-feedback">Looks good!</div>
@@ -180,8 +176,8 @@
           $(document).ready(function () {
             const ee = document.getElementById("saloonStore")
             FindService(ee)
+            FindSaloon(ee)
           });
-          console.log("arrrrr", 286)
           let arrr;
           <% if (data?.Services.length > 0) {%>
             // yaha ye -  eske pass me hona chhaiye just 
@@ -189,56 +185,55 @@
           <% } else {%>
             arrr =[]
               <% }%>
-                console.log("arrrrr", arrr)
-          function FindService(select) {
+                function FindService(select) {
 
-            let num = Number(select.id)
-            let category = select.value
-            $.ajax({
-              type: 'get',
-              data: { "saloonId": category, },
-              url: '/Find-Service-for-Packages',// nandlal
-              success: function (data) {
-                if (data.length > 0) {
-                  let abc = `<div id="subcategory-${num + 1}"><label for="inputAddress" class="form-label">choice Service</label>`
-                  abc += `<select style="width:100%;"  multiple class="form-select" id="txtSelectedValues"  onchange="ServicePriceTotel(this)" name="Services" id="${num + 1}">`
-                  abc += `<option value="" disabled>select Services</option>`
-                  data.forEach((item) => {
-                    if (arrr.includes(item._id.toString()) == true) {
-                      abc += `<option value=${JSON.stringify({ id: item._id, amount: item.ServicePrice })} selected >${item.ServiceName}</option>`
-                    } else {
-                      abc += `<option value=${JSON.stringify({ id: item._id, amount: item.ServicePrice })}>${item.ServiceName}</option>`
+                  let num = Number(select.id)
+                  let category = select.value
+                  $.ajax({
+                    type: 'get',
+                    data: { "saloonId": category, },
+                    url: '/Find-Service-for-Packages',// nandlal
+                    success: function (data) {
+                      if (data.length > 0) {
+                        let abc = `<div id="subcategory-${num + 1}"><label for="inputAddress" class="form-label">choice Service</label>`
+                        abc += `<select style="width:100%;"  multiple class="form-select" id="txtSelectedValues"  onchange="ServicePriceTotel(this)" name="Services" id="${num + 1}">`
+                        abc += `<option value="" disabled>select Services</option>`
+                        data.forEach((item) => {
+                          if (arrr.includes(item._id.toString()) == true) {
+                            abc += `<option value=${JSON.stringify({ id: item._id, amount: item.ServicePrice })} selected >${item.ServiceName}</option>`
+                          } else {
+                            abc += `<option value=${JSON.stringify({ id: item._id, amount: item.ServicePrice })}>${item.ServiceName}</option>`
+                          }
+                        })
+                        abc += `</select> 
+                  <div class="invalid-feedback">Please Select Sub Category.</div> </div>`
+                        let num2 = num + 1
+                        while (true) {
+                          let cat = $(`#subcategory-${num2}`)
+                          if (cat.html()) {
+                            cat.remove();
+                          } else {
+                            break;
+                          }
+                          ++num2
+                        }
+                        $('#myselect').append(abc)
+                      } else {
+                        alert("data not found")
+                        let num2 = num + 1
+                        while (true) {
+                          let cat = $(`#subcategory-${num2}`)
+                          if (cat.html()) {
+                            cat.remove();
+                          } else {
+                            break;
+                          }
+                          ++num2
+                        }
+                      }
                     }
                   })
-                  abc += `</select> 
-                  <div class="invalid-feedback">Please Select Sub Category.</div> </div>`
-                  let num2 = num + 1
-                  while (true) {
-                    let cat = $(`#subcategory-${num2}`)
-                    if (cat.html()) {
-                      cat.remove();
-                    } else {
-                      break;
-                    }
-                    ++num2
-                  }
-                  $('#myselect').append(abc)
-                } else {
-                  alert("data not found")
-                  let num2 = num + 1
-                  while (true) {
-                    let cat = $(`#subcategory-${num2}`)
-                    if (cat.html()) {
-                      cat.remove();
-                    } else {
-                      break;
-                    }
-                    ++num2
-                  }
                 }
-              }
-            })
-          }
 
           // $("#txtSelectedValues").change(function () {
           //   console.log("ectedValues", 11)
@@ -278,6 +273,51 @@
           finalPriceInput.addEventListener('input', () => {
             finalPriceInput.value = Math.min(amountInput.value, finalPriceInput.value);
           });
+
+
+
+
+          function FindSaloon(a) {
+            $.ajax({
+              type: 'get',
+              data: { id: a.value },
+              url: '/find-Sallon',
+              success: function (data) {
+                console.log("data", data);
+                const element = document.getElementById("Gender")
+
+                if (data.type == "male") {
+                  $('#Gender').remove()
+                  let abc;
+                  abc = ` <select class="form-select" name="type" id="Gender" aria-label="Default select example"
+                                  required>
+                                <option value="male">Male</option>
+                          </select>`
+                  $('#gendeAll').append(abc)
+                } else if (data.type == "female") {
+                  $('#Gender').remove()
+                  let abc;
+                  abc = `<select class="form-select" name="type" id="Gender" aria-label="Default select example"
+                                  required>
+                                 <option value="female">Female</option>
+                          </select>`
+
+                  $('#gendeAll').append(abc)
+                } else {
+                  $('#Gender').remove()
+                  let abc;
+                  abc = `<select class="form-select" name="type" id="Gender" aria-label="Default select example"
+                                  required>
+                                  <option value="">Select Type</option>
+                                  <option value="male">Male</option>
+                                  <option value="female">Female</option>
+                                  <option value="unisex">Unisex</option>
+                                </select>`
+                  $('#gendeAll').append(abc)
+                };
+              }
+            });
+          };
         </script>
 
         <%- include("../../partials/script.ejs") %>
