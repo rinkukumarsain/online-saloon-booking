@@ -6,7 +6,6 @@ const getAllSaloonRequistCity = require("../../api/Partner/model")
 
 exports.registerSaloonStore = async ({ body, user, files, query }) => {
     try {
-        // console.log("filesfiles", files)
         let catogoryarr = []
         if (query.id) {
             let _id = mongoose.Types.ObjectId(query.id);

@@ -16,9 +16,6 @@ const saloon_Service = new mongoose.Schema({
         type: Number,
         default: 15
     },
-    // serviceProvider: {
-    //     type: String
-    // },
     type: {
         type: String
     },

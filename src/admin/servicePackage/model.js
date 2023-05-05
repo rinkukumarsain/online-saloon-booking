@@ -14,11 +14,9 @@ const packages = new mongoose.Schema({
     Services: {
         type: [mongoose.Types.ObjectId],
     },
-    // ServicesPrice: {
     Amount: {
         type: Number,
     },
-    // TotelPrice: {
     finalPrice: {
         type: Number,
     },

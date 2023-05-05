@@ -16,8 +16,8 @@ exports.sendNotification = async (req, res) => {
         }
 
         res.render("newsletters/index", { user: req.user, data });
-    } catch (e) {
-        console.log(e);
+    } catch (error) {
+        console.log(error);
     };
 };
 
@@ -51,8 +51,8 @@ exports.SendAllUserEmail = async (req, res) => {
             req.flash("success", "mail send  successfully");
             res.redirect("/");
         };
-    } catch (e) {
-        console.log(e);
+    } catch (error) {
+        console.log(error);
     };
 };
 

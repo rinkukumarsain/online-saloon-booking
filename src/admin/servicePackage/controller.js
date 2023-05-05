@@ -14,13 +14,6 @@ exports.FindServiceForPackages = async (req, res) => {
     };
 };
 
-exports.packageEdit = async (req, res) => {
-    try {
-        console.log("packageEdit")
-    } catch (error) {
-        console.log(error);
-    };
-}
 
 exports.deletePackage = async (req, res) => {
     try {
@@ -42,12 +35,9 @@ exports.addNewPackage = async (req, res) => {
         res.locals.message = req.flash();
         let FindPakage;
         if (req.query.id != undefined && req.query.id != "") {
-            // console.log("req.query.-->", 1111, req.query.id)
             FindPakage = await saloonService.findOne({ _id: req.query.id })
-            // console.log("FindPakage", FindPakage.category[0])
             req.query.saloonId = FindPakage.saloonStore
             req.query.id = FindPakage.category[0]
-            // console.log("req.query.id-->", 222, req.query.id)
 
         } else {
             req.query.id = "";
@@ -59,7 +49,6 @@ exports.addNewPackage = async (req, res) => {
 
         let condition = [];
         if (req.query.saloonId != undefined && req.query.saloonId != "") {
-            // console.log("req.query.saloonId", req.query.saloonId)
             condition.push({
                 '$match': {
                     '_id': mongoose.Types.ObjectId(req.query.saloonId)
@@ -85,7 +74,6 @@ exports.addNewPackage = async (req, res) => {
         }, {
             '$unwind': {
                 'path': '$ss',
-                // 'preserveNullAndEmptyArrays': true
             }
         }, {
             '$group': {
@@ -103,8 +91,7 @@ exports.addNewPackage = async (req, res) => {
             }
         })
 
-        // req.query.id =""
-        // console.log("FindPakage.category[0]", req.query.id)
+
         const Category = await getCategoryListing(req)
         const salon = await saloon.aggregate(condition)
         res.render("servicePackage/add_service_package", { user: req.user, data: FindPakage, salon, Category, query: req.query })
@@ -208,7 +195,7 @@ exports.viewPackage = async (req, res) => {
                         {
                             '$match': {
                                 'Name': {
-                                    '$regex': req.query.CategoryName, $options: 'i' //req.query.ServiceName, $options: 'i'
+                                    '$regex': req.query.CategoryName, $options: 'i'
                                 }
                             }
                         }
@@ -278,8 +265,6 @@ exports.viewPackage = async (req, res) => {
         }
 
         const data = await saloonService.aggregate(pipeline)
-        // console.log("data", data)
-        // jj
         res.render("servicePackage/view_servicepp", { query: req.query, user: req.user, data });
     } catch (error) {
         console.log(error);

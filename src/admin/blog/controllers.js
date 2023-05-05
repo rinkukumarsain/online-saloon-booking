@@ -77,8 +77,8 @@ exports.VIEW_BLOG = async (req, res) => {
         const user = req.user
         const data = await service.VIEW_BLOG()
         res.render("blog/view_blog", { data, user })
-    } catch (e) {
-        console.log(e)
+    } catch (error) {
+        console.log(error)
     }
 }
 
@@ -90,8 +90,8 @@ exports.DELETE_BLOG = async (req, res) => {
         const id = req.query.id
         await blog.findByIdAndDelete({ _id: id })
         res.redirect("/view_blog")
-    } catch (e) {
-        console.log(e)
+    } catch (error) {
+        console.log(error)
     }
 }
 
@@ -102,7 +102,7 @@ exports.ViwesFindBlog = async (req, res) => {
     try {
         const data = await blog.find({ _id: mongoose.Types.ObjectId(req.query.id) });
         res.send(data)
-    } catch (err) {
-        console.log(err)
+    } catch (error) {
+        console.log(error)
     }
 }

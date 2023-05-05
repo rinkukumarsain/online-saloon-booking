@@ -145,6 +145,7 @@ exports.register = async ({ body, query }) => {
         console.log(error);
     };
 };
+
 /*
 exports.otplogin = async ({ body }) => {
     try {

@@ -1,14 +1,6 @@
 const mongoose = require("mongoose");
 
 const Transaction = new mongoose.Schema({
- // userId: {
- //  type: mongoose.Types.ObjectId,
- //  // default: null
- // },
- // referPlanId: {
- //  type: mongoose.Types.ObjectId,
- //  default: null
- // },
  userId: {
   type: mongoose.Types.ObjectId
  },

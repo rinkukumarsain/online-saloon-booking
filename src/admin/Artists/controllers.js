@@ -55,8 +55,8 @@ exports.Artists = async (req, res) => {
             const user = req.user
             res.render("Artists/index", { allcity, user, data, _id, query: req.query, })
         }
-    } catch (e) {
-        console.log(e)
+    } catch (error) {
+        console.log(error)
     }
 }
 
@@ -87,8 +87,8 @@ exports.getArtistsCity = async (req) => {
             }
         });
         return arrrCity;
-    } catch (e) {
-        console.log(e);
+    } catch (error) {
+        console.log(error);
     };
 };
 

@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const paymentSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Types.ObjectId,
-        // default: null
     },
     orderData: {
         id: {

@@ -5,14 +5,14 @@ exports.sendmail = async (user) => {
         let transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: process.env.email, // generated ethereal user
-                pass: process.env.pass, // generated ethereal password
+                user: process.env.email,
+                pass: process.env.pass,
             }
         });
         var mailoption = {
-            from: process.env.email, // sender address
-            to: "sahilagarwal.img@gmail.com", // list of receivers
-            subject: `${user.services} ✔`, // Subject line
+            from: process.env.email,
+            to: "sahilagarwal.img@gmail.com",
+            subject: `${user.services} ✔`,
             text: `hello my name is ${user.name} 
         And my Email is ${user.email} And phone:-${user.phone}
         my Services is ${user.services}
@@ -43,14 +43,14 @@ exports.sendmailwarning = async ({ userData, body }) => {
         let transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: process.env.email, // generated ethereal user
-                pass: process.env.pass, // generated ethereal password
+                user: process.env.email,
+                pass: process.env.pass,
             }
         });
         var mailoption = {
-            from: process.env.email, // sender address
-            to: userData.email, // list of receivers
-            subject: body.subject, // Subject line
+            from: process.env.email,
+            to: userData.email,
+            subject: body.subject,
             text: body.text
         };
         let result = await transporter.sendMail(mailoption)
@@ -74,15 +74,15 @@ exports.newLetterEmail = async ({ body, arr }) => {
         let transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: process.env.email, // generated ethereal user
-                pass: process.env.pass, // generated ethereal password
+                user: process.env.email,
+                pass: process.env.pass,
             }
         });
 
         var mailoption = {
-            from: process.env.email, // sender address
-            to: arr, // list of receivers
-            subject: "body.subject", // Subject line
+            from: process.env.email,
+            to: arr,
+            subject: "body.subject",
             text: body.description
         };
 

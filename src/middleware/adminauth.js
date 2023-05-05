@@ -39,7 +39,7 @@ module.exports = async (req, res, next) => {
             res.redirect("/");
         }
     } catch (error) {
-        console.log("error", error)
+        console.log(error)
         res.redirect("/");
     }
 }

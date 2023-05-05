@@ -181,9 +181,14 @@
                                                                             unBlock
                                                                         </a>
                                                                         <%}else if( data.type=="super-admin" ){%>
-                                                                            <a href="/Admin-Order-Approve?id=<%= data._id%>"
-                                                                                class="btn btn-dark">
-                                                                                Super Admin
+                                                                            <a href="#" class="btn btn-dark">
+                                                                                Su
+                                                                            </a>
+                                                                            <a href="/view_saloon?userId=<%=data._id%>">
+                                                                                <button type="button"
+                                                                                    class="btn btn-info">
+                                                                                    <i class="bi bi-eye"></i>
+                                                                                </button>
                                                                             </a>
                                                                             <%}else if( data.type=="admin" ){%>
                                                                                 <a href="/warningpage?id=<%=data._id%>"
@@ -279,8 +284,6 @@
 
 
                     function wallet(a) {
-                        console.log("=====>", a)
-                        console.log(a.value)
                         $('#moduleDataAppend').empty()
 
                         let abc = `<!-- No Labels Form -->

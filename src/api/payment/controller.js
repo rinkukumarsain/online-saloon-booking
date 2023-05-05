@@ -2,7 +2,6 @@ const users = require("../user/model");
 const servish = require("../saloonService/model");
 const razorpay = require("razorpay");
 const payments = require("./model");
-// const cart = require("../cart/model")
 const { findOne, findOneAndUpdate } = require("./model");
 const { default: mongoose } = require("mongoose");
 
@@ -52,7 +51,7 @@ exports.createOrderId = async (req) => {
                     message: "User orderid created  successfull !",
                     data: [result]
                 }
-            }else{
+            } else {
                 return {
                     statusCode: 400,
                     status: false,
@@ -62,7 +61,7 @@ exports.createOrderId = async (req) => {
             }
         };
     } catch (error) {
-        console.log("error--", error);
+        console.log(error);
 
     };
 };
@@ -70,7 +69,6 @@ exports.createOrderId = async (req) => {
 exports.apiPaymentVerify = async (req, res) => {
     try {
         let body = req.body.response.razorpay_order_id + "|" + req.body.response.razorpay_payment_id;
-        console.log("body", body)
         let orderID;
         if (req.query.orderId != undefined && req.query.orderId != "") {
             orderID = req.query.orderId
@@ -86,8 +84,6 @@ exports.apiPaymentVerify = async (req, res) => {
         var expectedSignature = crypto.createHmac('sha256', process.env.key_secret)
             .update(body.toString())
             .digest('hex');
-        console.log("sig received ", req.body.response.razorpay_signature);
-        console.log("sig generated ", expectedSignature);
         var response = { "signatureIsValid": "false" };
         if (expectedSignature === req.body.response.razorpay_signature) {
             const result = await payments.findOneAndUpdate({ "orderData.id": req.body.response.razorpay_order_id }, {
@@ -97,10 +93,8 @@ exports.apiPaymentVerify = async (req, res) => {
                 "payment_detail.razorpay_order_id": req.body.response.razorpay_order_id,
                 "payment_detail.razorpay_signature": req.body.response.razorpay_signature
             }, { new: true });
-            // const removeCart = await cart.findOneAndRemove({ userId: req.user._id })
-            // console.log("removeCart", removeCart)
+
             if (result) {
-                // console.log("result", result)
                 response = { "signatureIsValid": "true" };
                 return {
                     statusCode: 200,
@@ -114,8 +108,8 @@ exports.apiPaymentVerify = async (req, res) => {
             };
         };
     } catch (error) {
-        console.log("error--", error);
-       
+        console.log(error);
+
     };
 };
 

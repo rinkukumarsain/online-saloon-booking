@@ -69,6 +69,7 @@ const saloon_Store = new mongoose.Schema({
     },
     description: {
         type: String,
+        default: ""
     },
     ProfileInfo: {
         yourService: {

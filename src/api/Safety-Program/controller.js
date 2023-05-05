@@ -39,7 +39,6 @@ exports.createCoupon = async ({ body }) => {
 
 exports.editCoupon = async ({ query, body }) => {
     try {
-        console.log("body", body)
         if (query.id != undefined && query.id != "") {
             const _id = mongoose.Types.ObjectId(query.id)
             const updateData = await coupon.findByIdAndUpdate({ _id }, body, { new: true })

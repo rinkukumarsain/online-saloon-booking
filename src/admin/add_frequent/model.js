@@ -11,10 +11,9 @@ const userSchema = new mongoose.Schema({
   },
   answer: {
     type: String,
-    // unique: true
     default: ""
   },
- 
+
 })
 
 module.exports = mongoose.model("FAQ", userSchema);

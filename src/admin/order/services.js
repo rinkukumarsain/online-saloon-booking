@@ -6,7 +6,6 @@ exports.getAllOrder = async (req) => {
     try {
         let match = {}
         let condition = [];
-        // console.log("req.query--->", req.query)
         if (req.query.userId != undefined && req.query.userId != "") {
             match.userId = mongoose.Types.ObjectId(req.query.userId)
         }
@@ -106,13 +105,6 @@ exports.getAllOrder = async (req) => {
                 }
             })
         }
-        // condition.push({
-        //     '$match': {
-        //         'PaymentId': {
-        //             '$exists': true
-        //         }
-        //     }
-        // })
 
         if (req.user.type == "admin") {
             condition.push({

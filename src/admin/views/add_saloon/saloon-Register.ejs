@@ -221,7 +221,7 @@
                                             <label for="">Description</label><br>
                                             <textarea class="form-control" minlength="20" name="description"
                                               placeholder="Description" style="height: 100px"
-                                              required><%=data?.description!=undefined ? data?.description : "" %></textarea>
+                                              required> <%= data?.description!=undefined ? data?.description : "" %> </textarea>
                                             <div class="invalid-feedback">Please enter Discription.</div>
 
                                           </div>
@@ -277,7 +277,7 @@
                                     <div class="invalid-feedback">Please enter Service name.</div>
                                   </div>
                                   <div class="col">
-                                    <label for="">Phone no.</label><br>
+                                    <label for="">alternate Phone no.</label><br>
                                     <input required type="number"
                                       onKeyDown="if(this.value.length==10 && event.keyCode!=8) return false;"
                                       name="alternatePhone" class="form-control" placeholder="Enter Phone no."
