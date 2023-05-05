@@ -127,8 +127,10 @@ exports.getAllBlog = async ({ query }) => {
                     'from': 'blogs',
                     'pipeline': [
                         {
-                            '$limit': 4
-                        }
+                            '$sample': {
+                                'size': 4,
+                            },
+                        },
                     ],
                     'as': 'RelatedPosts'
                 }

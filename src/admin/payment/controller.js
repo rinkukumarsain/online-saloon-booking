@@ -96,6 +96,10 @@ exports.ViewAllPayment = async (req, res) => {
             '$unwind': {
                 'path': '$user',
             }
+        }, {
+            '$sort': {
+                'createdAt': 1
+            }
         })
 
         const updateData = await saloon.aggregate(condition);
