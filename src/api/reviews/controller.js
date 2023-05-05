@@ -90,22 +90,17 @@ exports.updateLikeDislike = async ({ user, query }) => {
             if (findData) {
                 //dislike me hai to remove aur like me add 
                 if (query.like != undefined && query.like != "") {
-                    // console.log("findData-like-->", findData.like)
                     const opchake = findData.dislike.includes(user._id)
-                    // console.log("opchake like-->", opchake)
                     if (opchake) {
                         var idx = findData.dislike.indexOf(user._id);
                         if (idx != -1) {
-                            // console.log("remove from dislike findData.dislike", findData.dislike)
                             const rrr = findData.dislike.splice(idx, 1);
-                            // console.log("remove from dislike ", findData.dislike)
                             obj.dislike = findData.dislike
                         }
                     }
                     if (findData.like.length > 0) {
                         const chake = findData.like.includes(user._id);
                         if (chake) {
-                            // console.log("chake-like-->", chake)
                             return {
                                 statusCode: 400,
                                 status: false,
@@ -119,7 +114,6 @@ exports.updateLikeDislike = async ({ user, query }) => {
                             });
 
                             arr.push(user._id)
-                            // console.log("arr like-->", arr)
                             obj.like = arr
                         }
                     } else {
@@ -133,18 +127,15 @@ exports.updateLikeDislike = async ({ user, query }) => {
                 if (query.dislike != undefined && query.dislike != "") {
                     const opchake = findData.like.includes(user._id)
                     if (opchake) {
-                        //   console.log("opchake", opchake)
                         var idx = findData.like.indexOf(user._id);
                         if (idx != -1) {
                             findData.like.splice(idx, 1);
-                            //   console.log("remove from like ", findData.like)
                             obj.like = findData.like
                         }
 
                     }
 
                     if (findData.dislike.length > 0) {
-                        //   console.log("findData-dislike-->", findData.dislike)
                         const chake = findData.dislike.includes(user._id);
                         if (chake) {
                             return {
@@ -160,7 +151,6 @@ exports.updateLikeDislike = async ({ user, query }) => {
                             });
 
                             arr.push(user._id)
-                            //   console.log("arr", arr)
                             obj.dislike = arr
                         }
                     } else {
@@ -170,9 +160,7 @@ exports.updateLikeDislike = async ({ user, query }) => {
                 }
 
 
-                // console.log("obbj", obj)
                 const update = await review.findByIdAndUpdate({ _id }, obj, { new: true })
-                // console.log("update--->", update)
                 if (update) {
                     return {
                         statusCode: 200,

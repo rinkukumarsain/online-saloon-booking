@@ -72,7 +72,6 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
     try {
         let { body, files, query } = req;
         res.locals.message = req.flash();
-        //update
         if (query.id) {
             let _id = mongoose.Types.ObjectId(query.id);
             const result = await saloonService.findOne({ _id });
@@ -104,7 +103,6 @@ exports.ADD_SERVICE_STORE = async (req, res) => {
                 return res.redirect("/");
             };
         } else {
-            //create service
             const { ServiceName } = body;
             if (ServiceName) {
                 const result = await saloonService.find({ ServiceName, saloonStore: mongoose.Types.ObjectId(body.saloonStore) });

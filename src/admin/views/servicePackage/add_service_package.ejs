@@ -35,7 +35,7 @@
                     <div class="card-body">
 
                       <h5 class="card-title">Add Service package </h5>
-                      <% console.log("->",data?._id,"<-----")%>
+                      
                           <% if(data){ %>
                             <form class="needs-validation" action="/add-new-package?id=<%= data._id%>" method="post"
                               enctype="multipart/form-data" novalidate>
@@ -181,7 +181,7 @@
           let arrr;
           <% if (data?.Services.length > 0) {%>
             // yaha ye -  eske pass me hona chhaiye just 
-            arrr = <%- JSON.stringify(data.Services) %>
+            arrr = <% - JSON.stringify(data.Services) %>
           <% } else {%>
             arrr =[]
               <% }%>
@@ -236,7 +236,6 @@
                 }
 
           // $("#txtSelectedValues").change(function () {
-          //   console.log("ectedValues", 11)
           //   // if ($("select option:selected").length > 3) {
           //   //   $(this).removeAttr("selected");
           //   //   alert('You can select upto 3 options only');
@@ -250,10 +249,8 @@
           function ServicePriceTotel(a) {
             let arr = []
             var selectedValues = $('#txtSelectedValues').val();
-            console.log("selectedValues", selectedValues)
             // $("element[attribute-name=attribute-value]")
             selectedValues.forEach(element => {
-              // console.log(element);
               let data = JSON.parse(element)
               arr.push(Number(data.amount))
             });
@@ -283,7 +280,6 @@
               data: { id: a.value },
               url: '/find-Sallon',
               success: function (data) {
-                console.log("data", data);
                 const element = document.getElementById("Gender")
 
                 if (data.type == "male") {

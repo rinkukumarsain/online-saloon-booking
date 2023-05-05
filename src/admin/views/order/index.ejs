@@ -34,8 +34,7 @@
                     <h5 class="card-title">Filter</h5>
 
                     <!-- No Labels Form -->
-                    <% console.log("query.userId0",query.userId)%>
-                      <% if(typeof query.userId !=="undefined" && query.userId){%>
+                  <% if(typeof query.userId !=="undefined" && query.userId){%>
                         <form class="row g-3" action="/get-All-order?userId=<%=query.userId%>">
                           <input type="hidden" name="userId" value="<%=query.userId%>">
                           <%}else{%>

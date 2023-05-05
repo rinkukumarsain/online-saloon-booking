@@ -7,8 +7,4 @@ const uplode = require("../../middleware/img");
 
 app.get("/get-service-Package", auth, responseHandler(getServicePackage));
 
-//cart 
-//add pakage in cart
-// app.get("/Package-cart-Add", auth, responseHandler(packageCartAdd));
-
 module.exports = app

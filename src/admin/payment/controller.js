@@ -73,7 +73,7 @@ exports.ViewAllPayment = async (req, res) => {
                 'newRoot': '$payment'
             }
         })
-        // }
+
         condition.push({
             "$match": serchobj2
         }, {
@@ -125,7 +125,6 @@ exports.DeletePayment = async (req, res) => {
         // yaha payment return hota hai to
         //  uska order bhi cencal hogha paise 
         // user ke welloth me add hoghe yaa return hoghe 
-        // 
         if (req.query.id != undefined && req.query.id != "") {
             const updateData = await payment.findByIdAndDelete({ _id: mongoose.Types.ObjectId(req.query.id) })
             if (updateData) {

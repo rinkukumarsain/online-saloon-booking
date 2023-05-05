@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 
 exports.VIEW_SALOON = async (req) => {
   let pipeline = []
-  // res.locals.message = req.flash();
+
   let match = {}
   if (req.query.ServicePrice != undefined && req.query.ServicePrice != "") {
     match.ServicePrice = { $gt: Number(req.query.ServicePrice) }

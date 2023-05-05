@@ -13,6 +13,6 @@ app.get("/find-Vacancy", findVacancy)
 
 //ajex url
 app.get("/Find-service-for-Admin", FindserviceforAdmin)
-// app.get("/Find-Artists", auth, )
+
 
 module.exports = app

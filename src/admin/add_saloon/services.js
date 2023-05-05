@@ -3,7 +3,6 @@ const saloon = require("../../api/saloonstore/model");
 
 exports.VIEW_SALOON = async (req) => {
   try {
-    //console.log("req.user",)
 
     let match = {}
     if (req.query.city != undefined && req.query.city != "") {
@@ -114,7 +113,7 @@ exports.VIEW_SALOON = async (req) => {
     //     'as': 'package'
     //   }
     // })
-    //console.log(pipeline,"pipeline")
+    
     return await saloon.aggregate(pipeline)
   } catch (error) {
     console.log(error)

@@ -126,7 +126,6 @@ exports.getWishlist = async ({ user, query }) => {
         // });
 
         const finddata = await wishlist.aggregate(condition);
-        // console.log("finddata", finddata)
         if (finddata.length > 0) {
             return {
                 statusCode: 200,

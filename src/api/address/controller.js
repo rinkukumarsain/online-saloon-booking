@@ -8,7 +8,6 @@ exports.addUserAddress = async ({ user, query, body }) => {
 
         if (body.makeDefault != undefined && body.makeDefault == true) {
             const updatemakeDefoult = await userAddress.updateMany({ userId: user._id }, { makeDefault: false }, { new: true })
-            console.log("updatemakeDefoult", updatemakeDefoult)
             body.makeDefault = true;
         };
         if (query.id != undefined && query.id != "") {
@@ -181,7 +180,6 @@ exports.addAddresssInUserCart = async ({ user, query }) => {
 
 exports.deleteAddress = async ({ user, query }) => {
     try {
-        console.log("delete-address")
         if (query.id) {
             const findAndDelete = await userAddress.findByIdAndDelete({ _id: mongoose.Types.ObjectId(query.id) });
             if (findAndDelete) {

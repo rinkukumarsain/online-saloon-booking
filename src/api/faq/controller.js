@@ -4,7 +4,6 @@ const mongoose = require("mongoose")
 exports.getFaq = async ({ query }) => {
     try {
         let obj = {};
-        // console.log("query", query)
         if (query.question != undefined && query.question != "") {
             obj.question = { '$regex': query.question }
         } else if (query.id != undefined && query.id != "") {

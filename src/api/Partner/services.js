@@ -22,8 +22,6 @@ exports.UpdateSaloon = async ({ body, query }) => {
   location.city = city;
   location.state = state;
   rest.location = location;
-  console.log(1, query.id);
-  console.log("------->", mongoose.Types.ObjectId(query.id));
 
 
   let update;

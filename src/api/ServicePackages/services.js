@@ -56,7 +56,6 @@ exports.getServicePackage = async (query) => {
                         'packagePrice': '$ServicePrice',
                         'packageServiceTime': '$timePeriod_in_minits',
                         'type': '$type',
-                        // 'ServicesType': '$ServicesType',
                         'packagePrice': '$ServicePrice',
                         'packageFinalPrice': '$FinalPrice',
                         'description': '$description',

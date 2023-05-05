@@ -20,10 +20,9 @@ exports.saloonRegister = async (req, res) => {
         const find_saloon_requist = await saloonRequst.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
         if (find_saloon_data) { saloon_data = find_saloon_data }
         if (find_saloon_requist) { saloon_data = find_saloon_requist }
-        // console.log("saloon_data-->", saloon_data)
         res.render("add_saloon/saloon-Register", { user: req.user, data: saloon_data })
-    } catch (e) {
-        console.log(e)
+    } catch (error) {
+        console.log(error)
     }
 }
 
@@ -60,7 +59,6 @@ exports.businessProfile = async (req, res) => {
         if (businessP.statusCode == 200 && businessP.status == true) {
             req.flash("success", businessP.message)
             res.redirect(`/add_saloon?id=${businessP.data[0]._id}`)
-            // res.redirect(`/business-bank-information?id=${businessP.data[0]._id}`)
         } else {
             req.flash("error", businessP.message)
             res.redirect(`/add_saloon?id=${find._id}`)
@@ -84,8 +82,6 @@ exports.businessBankInfoAdmin = async (req, res) => {
         if (businessP.statusCode == 200 && businessP.status == true) {
             req.flash("success", businessP.message)
             res.redirect(`/add_saloon?id=${businessP.data[0]._id}`)
-
-            // res.redirect(`/document-uplode?id=${businessP.data[0]._id}`)
         } else {
             req.flash("error", businessP.message)
             res.redirect(`/add_saloon?id=${find._id}`)
@@ -121,7 +117,6 @@ exports.VIEW_SALOON = async (req, res) => {
     try {
         const data = await service.VIEW_SALOON(req)
         const user = req.user
-        // const FindAllcity = await getAllSaloonCity(req)
         const city = await saloon.distinct("location.city")
         res.render("add_saloon/view_saloon", { user, data, query: req.query, city })
     } catch (error) {
@@ -341,14 +336,11 @@ exports.findSaloonByUser = async (req, res) => {
         // ])
 
 
-        // console.log("element", finduser)
         // let arrr = []
         // for (const element of finduser) {
         //     arrr.push(element._id)
         // }
-        // console.log("arrr", arrr)
         // const upfate = await userm.updateMany({ _id: { $nin: arrr }, type: { $ne: "block-User" }, type: { $ne: "super-admin" } }, { type: "user" })
-        // console.log("upfate", upfate)
         // jghj
 
         const findSaloon = await saloon.find({ userId: mongoose.Types.ObjectId(req.query.id) })
@@ -365,7 +357,6 @@ exports.FindAdminAllSaloon = async (req, res) => {
         } else {
             data = await saloon.find()
         }
-        // return data
         return res.send(data)
     } catch (error) {
         console.log(error)
@@ -374,10 +365,8 @@ exports.FindAdminAllSaloon = async (req, res) => {
 
 exports.addImagesInSaloon = async (req, res) => {
     try {
-        console.log("khvb", req.files)
         let arr = [];
         req.files.forEach(element => {
-            console.log(element.filename)
             arr.push(`http://159.89.164.11:7070/uploads/${element.filename}`)
         });
         const result = await saloon.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { image: arr }, { new: true })
@@ -385,15 +374,6 @@ exports.addImagesInSaloon = async (req, res) => {
             res.redirect("/")
         }
 
-
-        // let data;
-        // if (req.user.type == "admin") {
-        //     data = await saloon.find({ userId: req.user._id })
-        // } else {
-        //     data = await saloon.find()
-        // }
-        // // return data
-        // return res.send(data)
     } catch (error) {
         console.log(error)
     }

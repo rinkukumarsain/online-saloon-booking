@@ -1,6 +1,4 @@
 const auth = require("../../middleware/adminauth")
-// const Upload = require("../../middleware/img");
-// const responseHandler = require("../../utils/responseHandlers");
 const { Router } = require("express");
 const app = Router();
 const { getAllOrder, orderCancel, AdminOrderApprove, FindDateForAdminModule } = require('./controller');

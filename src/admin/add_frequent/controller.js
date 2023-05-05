@@ -41,7 +41,6 @@ exports.VIEW_FREQUENT = async (req, res) => {
         }
         let condition = [];
         if (req.query.id != undefined && req.query.id != "") {
-            // condition.blogId =
             condition.push({
                 '$match': {
                     'blogId': mongoose.Types.ObjectId(req.query.id)

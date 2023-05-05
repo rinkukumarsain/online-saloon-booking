@@ -8,15 +8,6 @@ const Artist = new mongoose.Schema({
     skiils: {
         type: [String],
     },
-    // phone: {
-    //     type: Number,
-    // },
-    // gender: {
-    //     type: String,
-    // },
-    // city: {
-    //     type: String
-    // },
 
 }, { timestamps: true });
 

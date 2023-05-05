@@ -42,7 +42,6 @@ exports.FindserviceforAdmin = async (req, res) => {
 
 exports.addVacency = async (req, res) => {
     try {
-        // console.log("---->", req.body)
         let city = [];
         if (req.body.requiredStatus == "All") {
             const FindSaloon = await store.find()
@@ -59,20 +58,15 @@ exports.addVacency = async (req, res) => {
         };
         req.body.userId = req.user._id;
 
-        console.log("req.body", req.body, 1)
-        console.log("req.body", req.query, 2)
-        // bb
         if (req.query.id != undefined && req.query.id != "") {
             const result = await vacancy.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) })
             if (result) {
-                console.log("update")
                 res.redirect("/View-Vacancy");
             };
         } else {
             const vacancyDitail = new vacancy(req.body);
             const result = await vacancyDitail.save();
             if (result) {
-                console.log("save")
                 res.redirect("/View-Vacancy");
             };
 
@@ -80,8 +74,8 @@ exports.addVacency = async (req, res) => {
         }
 
 
-    } catch (e) {
-        console.log(e);
+    } catch (error) {
+        console.log(error);
     };
 };
 
@@ -91,8 +85,8 @@ exports.ViewVacancy = async (req, res) => {
 
 
         res.render("vacancy/viwe-vacancy", { user: req.user, data, query: req.query })
-    } catch (e) {
-        console.log(e);
+    } catch (error) {
+        console.log(error);
     };
 };
 
@@ -101,8 +95,8 @@ exports.findVacancy = async (req, res) => {
     try {
         const data = await service.ViewVacancy(req)
         res.send(data)
-    } catch (e) {
-        console.log(e);
+    } catch (error) {
+        console.log(error);
     };
 };
 
@@ -112,7 +106,7 @@ exports.deletVacancy = async (req, res) => {
         if (data) {
             res.redirect("/View-Vacancy")
         }
-    } catch (e) {
-        console.log(e);
+    } catch (error) {
+        console.log(error);
     };
 };

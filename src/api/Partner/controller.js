@@ -7,7 +7,6 @@ const Service = require("./services")
 
 exports.otpSent = async ({ body }) => {
     try {
-        console.log("/business-otp-sent", body)
         let user;
         if (body.phone) {
             const data = await users.findOne({ phone: body.phone });
@@ -41,7 +40,6 @@ exports.otpSent = async ({ body }) => {
 
 exports.otpVerify = async ({ body }) => {
     try {
-        console.log("body", body)
         let user;
         if (body.phone) {
             const data = await users.findOne({ phone: body.phone });
@@ -88,7 +86,6 @@ exports.businessSignUp = async (req) => {
             }
         } else {
 
-            console.log("body", body, "user", user, "--->", 1.1)
             const { storeName, email, Phone, confromPassword, password } = body;
 
             if (storeName) {
@@ -177,7 +174,6 @@ exports.businessSignUp = async (req) => {
                 if (body.email && body.Phone) {
                     const findUser = await users.findOne({ email: body.email, phone: body.Phone });
                     if (findUser != null) {
-                        console.log("user mil gya")
                         body.userId = findUser._id;
                     };
                 };
@@ -189,12 +185,10 @@ exports.businessSignUp = async (req) => {
                     });
                     const result = await userData.save();
                     if (result) {
-                        console.log("user register succes");
                         body.userId = result._id;
                     };
                 };
             };
-            console.log("body", body, "user", user, "--->", 1.2)
 
             let saloon_details = new saloonRequst({
                 storeName: body.storeName,
@@ -212,11 +206,12 @@ exports.businessSignUp = async (req) => {
                     city: body.city,
                     state: body.state,
                 },
+                description: body.description,
+
             });
 
             const result = await saloon_details.save();
             if (result) {
-                console.log("result", result, "--->", 1.3)
 
                 return {
                     statusCode: 200,
@@ -241,7 +236,6 @@ exports.businessSignUp = async (req) => {
 // step 2
 exports.businessProfileInfo = async ({ query, body }) => {
     try {
-        console.log("body", body, "query", query, "--->", 2.1)
         let findData;
         let findSaloonRequst;
         if (query.id != undefined && query.id != "") {
@@ -268,7 +262,6 @@ exports.businessProfileInfo = async ({ query, body }) => {
                 data: []
             };
         };
-        console.log("body", body, "query", query, "--->", 2.2)
         let update;
         if (findSaloonRequst) {
             update = await saloonRequst.findOneAndUpdate({ _id: mongoose.Types.ObjectId(query.id) }, { ProfileInfo: body }, { new: true })
@@ -277,7 +270,6 @@ exports.businessProfileInfo = async ({ query, body }) => {
         }
 
         if (update) {
-            console.log("update", update, 2.1)
 
             return {
                 statusCode: 200,
@@ -334,7 +326,7 @@ exports.businessBankInfo = async ({ query, body }) => {
         } else {
             update = await saloon.findOneAndUpdate({ _id: mongoose.Types.ObjectId(query.id) }, { BankInfo: body }, { new: true })
         }
-        // const update = await saloonRequst.findOneAndUpdate({ _id: mongoose.Types.ObjectId(query.id) }, { BankInfo: body }, { new: true })
+
         if (update) {
             return {
                 statusCode: 200,

@@ -12,7 +12,6 @@ exports.Category = async (req, res) => {
             res.render("category/index", { user: req.user, id: req.query.id })
         } else if (req.query.EditId != undefined && req.query.EditId !== "") {
             const findData = await CategoryModule.findOne({ _id: mongoose.Types.ObjectId(req.query.EditId) })
-            console.log(findData, "finddata");
             res.render("category/index", { user: req.user, data: findData })
         } else {
             res.render("category/index", { user: req.user })
@@ -83,7 +82,7 @@ exports.DeleteCategory = async (req, res) => {
             res.redirect("/")
         }
     } catch (error) {
-        console.log("UserData", error)
+        console.log(error)
     }
 }
 

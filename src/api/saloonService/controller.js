@@ -64,9 +64,7 @@ exports.add_Service = async ({ body, file, query }) => {
             if (body.timePeriod != undefined && body.timePeriod != "") {
                 obj.timePeriod_in_minits = body.timePeriod;
             };
-            // if (body.serviceProvider) {
-            //     obj.serviceProvider = body.serviceProvider;
-            // };
+
             if (body.type != undefined && body.type != "") {
                 obj.type = body.type;
             };
@@ -141,9 +139,7 @@ exports.add_Service = async ({ body, file, query }) => {
             if (body.timePeriod != undefined && body.timePeriod != "") {
                 obj.timePeriod_in_minits = body.timePeriod
             };
-            // if (body.serviceProvider) {
-            //     obj.serviceProvider = body.serviceProvider;
-            // };
+
 
             if (body.type != undefined && body.type != "") {
                 obj.type = body.type;
@@ -193,7 +189,6 @@ exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
             findCategory = await category.find(obj);
         }
         const findCart = await cart.findOne({ userId: user._id, saloonId })
-        // console.log("findCart  ===?", findCart)
         const findStore = await saloonstore.findOne({ _id: saloonId });
         if (!findStore) {
             return {
@@ -203,8 +198,6 @@ exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
                 data: []
             };
         };
-        // const findCategory = await category.findOne({ _id: categoryId });
-        // console.log("findCategory", findCategory.length)
         if (!findCategory) {
             return {
                 statusCode: 400,
@@ -213,18 +206,9 @@ exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
                 data: []
             };
         } else if (findCategory.length > 0) {
-            // jfhb
             for await (const element of findCategory) {
-                // element._doc.sub = []
                 arrr.push(element)
-                // console.log("arrr", arrr)
-                // jnb
-                // arr.Category = element
-                // console.log("findCategory", element)
-                // jhb
                 const findData = await saloonService.find({ saloonStore: saloonId, last_category: element._id });
-                // console.log("findData", findData)
-                // kghk
                 if (findData.length > 0) {
                     findData.forEach(index => {
                         if (findCart != null && findCart) {
@@ -244,15 +228,10 @@ exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
                         }
                     });
                     element._doc.Service = findData
-                    // arrr[0]._doc.sub.push(element)
                 } else {
                     element._doc.Service = []
-                    // arrr[0]._doc.sub.push(element)
                 }
-                // console.log("arrr", arrr)
-                // ghjg
             }
-            // console.log("arrr", arrr)
 
             if (arrr) {
                 return {
@@ -313,15 +292,7 @@ exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
                 data: []
             };
         }
-        // } else {
-        //     return {
-        //         statusCode: 400,
-        //         status: false,
-        //         message: "invalide categoryId id please Enter valide categoryId Id!",
-        //         data: []
-        //     };
-        // };
-
+       
     } catch (error) {
         console.log(error);
     };
@@ -344,7 +315,6 @@ exports.getServiceByCategory = async ({ query }) => {
             };
 
             if (typeof (query.type) == "object" && query.type != undefined && query.type != "") {
-                console.log("typeof objext--", typeof (query.type));
                 obj.$and.push({ type: { $in: query.type } });
             };
 
@@ -534,12 +504,9 @@ exports.getSaloonByLocation = async ({ query }) => {
         };
 
         if (typeof (query.type) == "object" && query.type != undefined && query.type != "") {
-            console.log("typeof objext--", typeof (query.type));
             obj.type = { $in: query.type }
         };
-        console.log("obj", obj)
         if (obj['location.state'] != undefined && obj['location.state'] != "" || obj['location.city'] != undefined && obj['location.city'] != "") {
-            console.log("obj", 1, obj)
             condition.push({
                 '$match': obj
             });
@@ -551,7 +518,6 @@ exports.getSaloonByLocation = async ({ query }) => {
                 data: []
             };
         };
-        console.log("obj   --->", obj)
         condition.push({
             '$lookup': {
                 'from': 'saloonservices',

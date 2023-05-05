@@ -11,11 +11,9 @@ const coupons = new mongoose.Schema({
         type: String,
     },
     StartDate: {
-        // type: Date
         type: String
     },
     EndDate: {
-        // type: Date
         type: String
 
     },

@@ -6,12 +6,11 @@ const payment = require("../../api/payment/model");
 const PartnerRequist = require("../../api/Partner/model");
 const Artice = require("../../api/artist/model");
 const veconcy = require("../Vacancy/model");
-// const
 
 exports.AllDetail = async (req, res) => {
  try {
   let obj = {}
- 
+
   if (req.user.type == "admin") {
    let condition = []
    condition.push({

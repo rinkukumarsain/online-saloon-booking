@@ -227,7 +227,7 @@ exports.addcart = async ({ user, query }) => {
             let cart_detail = new cart(obj);
             const result = await cart_detail.save();
             if (result) {
-                console.log("User-Cart-register- Succesfuuly !", 1)
+                console.log("cart !", 1)
             };
         } else if (findData.length > 0) {
             const findccc = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) })
@@ -244,12 +244,11 @@ exports.addcart = async ({ user, query }) => {
                 }
             }
         }
-        console.log("User-Cart-register- Succesfuuly !", 2)
+        console.log("cart !", 2)
 
 
         if (query.serviceId) {
             let _id = mongoose.Types.ObjectId(query.serviceId);
-            console.log("_id_id_id_id", _id)
             if (newCart) {
                 findService = await service.findOne({ _id, saloonStore: newCart.saloonId });
                 if (!findService) {
@@ -345,62 +344,7 @@ exports.addcart = async ({ user, query }) => {
                 }
             }
         };
-
-        // if (query.packageId) {
-        //     let _id = mongoose.Types.ObjectId(query.packageId);
-        //     if (newCart) {
-        //         findPackage = await package.findOne({ _id, saloonStore: newCart.saloonId });
-        //         if (!findPackage) {
-        //             return {
-        //                 statusCode: 400,
-        //                 status: false,
-        //                 message: "package is  not Found this Saloon store  !",
-        //                 data: []
-        //             };
-        //         };
-        //         const FindCart = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
-
-        //         const result = await cart.findByIdAndUpdate({ _id: FindCart._id }, { $push: { Package: query.packageId } }, { new: true });
-        //         if (result) {
-        //             return {
-        //                 statusCode: 200,
-        //                 status: true,
-        //                 message: "package added in new new cart Succesfuuly ! 1 ",
-        //                 data: [result]
-        //             };
-        //         };
-        //     } else {
-        //         const findPackage = await package.findOne({ _id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
-        //         if (!findPackage) {
-        //             return {
-        //                 statusCode: 200,
-        //                 status: true,
-        //                 message: "not found package in your selected store !",
-        //                 data: []
-        //             };
-        //         };
-
-        //         const FindCart = await cart.findOne({ userId: user._id, saloonId: mongoose.Types.ObjectId(query.saloonId) });
-        //         if (FindCart) {
-        //             const result = await cart.findByIdAndUpdate({ _id: FindCart._id }, { $push: { Package: query.packageId } }, { new: true });
-        //             if (result) {
-        //                 return {
-        //                     statusCode: 200,
-        //                     status: true,
-        //                     message: "package added in cart Succesfuuly ! 2 ",
-        //                     data: [result]
-        //                 };
-        //             };
-        //         } else {
-        //             return {
-        //                 statusCode: 400,
-        //                 status: false,
-        //                 message: "cart not Found register karwao !",
-        //                 data: [FindCart]
-        //             };
-        //         };
-        //     };
-        // };
+    
     } catch (error) {
         console.log(error);
     };

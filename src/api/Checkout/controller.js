@@ -244,8 +244,6 @@ exports.Checkout = async ({ user, query }) => {
                 cart.push(userServish);
             };
             Checkout.cart = cart;
-            // Checkout.cartId ="54251"
-
 
             /* if (query.balance != undefined && query.balance != "") {
                  Checkout.user = user
@@ -279,13 +277,13 @@ exports.Checkout = async ({ user, query }) => {
         console.log(error);
     };
 };
+
+
 /*
 exports.applyBalance = async (data) => {
     try {
         //2000 ch balance 
         //3000 ka saman totalamount
-        // console.log(typeof (data.user.userWallet.balance), 5555)
-        // console.log("data", data)
         // gs
         if (data.user.userWallet.balance > 0) {
 
@@ -318,7 +316,6 @@ exports.applyBalance = async (data) => {
 const { walletTransaction } = require("../refer And ponts/controller");
 exports.applyBalance = async (req, res) => {
     try {
-        // let obj = {};
         const findcart = await cart.findOne({ _id: req.query.cartId }, { totalamount: 1, disCount: 1, pay: 1 });
         if (findcart.pay > 0) {
             return {
@@ -328,7 +325,6 @@ exports.applyBalance = async (req, res) => {
                 data: [findcart]
             };
         };
-        // obj.cartId = findcart._id;
 
         const { user } = req
         if (user.userWallet.balance > 0) {
