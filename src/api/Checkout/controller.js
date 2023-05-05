@@ -125,6 +125,8 @@ exports.Checkout = async ({ user, query }) => {
             const findCoupon = await coupon.findOne({ _id: mongoose.Types.ObjectId(query.couponId) });
             if (findCoupon) {
                 const findOrder = await order.find({ userId: user._id, couponId: mongoose.Types.ObjectId(query.couponId) });
+                console.log("user",user._id)
+                console.log(findOrder.length,"findOrder", "limit", findCoupon.Limit)
                 if (findOrder.length > findCoupon.Limit) {
                     return {
                         statusCode: 400,
