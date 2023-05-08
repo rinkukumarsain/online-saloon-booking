@@ -58,7 +58,7 @@ exports.ViewAllPayment = async (req, res) => {
                 'pipeline': [
                     {
                         '$match': {
-                            'payment': 'Payment successfull'
+                            'payment': serchobj2.payment
                         }
                     }
                 ],

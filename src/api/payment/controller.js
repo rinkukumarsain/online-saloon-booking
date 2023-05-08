@@ -115,8 +115,14 @@ exports.apiPaymentVerify = async (req, res) => {
 
 exports.paymentsRefund = async ({ query }) => {
     try {
-        if (query.id != undefined && query.id != "") {
-            const result = await payments.findOne({ "payment_detail.razorpay_payment_id": query.id })
+        if (query.id != undefined && query.id != "" || query._id != undefined && query._id != "") {
+            let result;
+            if (query._id != undefined && query._id != "") {
+                result = await payments.findOne({ _id: query._id })
+            } else {
+                result = await payments.findOne({ "payment_detail.razorpay_payment_id": query.id })
+            }
+
             if (result) {
                 if (result.payment == "Payment Refund") {
                     return {
@@ -131,18 +137,25 @@ exports.paymentsRefund = async ({ query }) => {
                     "speed": "optimum"
                 });
                 if (Refund) {
-                    const result = await payments.findOneAndUpdate({ "payment_detail.razorpay_payment_id": query.id }, {
+                    const data = await payments.findOneAndUpdate({ _id: result._id }, {
                         payment: "Payment Refund",
                     }, { new: true });
-                    if (result) {
+                    if (data) {
                         return {
                             statusCode: 200,
                             status: true,
                             message: "User Refund  successfull !",
-                            data: [result]
+                            data: [data]
                         };
                     };
-                };
+                } else {
+                    return {
+                        statusCode: 400,
+                        status: false,
+                        message: "refund is fail !",
+                        data: []
+                    };
+                }
             } else {
                 return {
                     statusCode: 400,

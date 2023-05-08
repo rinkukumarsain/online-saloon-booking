@@ -285,6 +285,7 @@ exports.getUserOrder = async ({ user, query }) => {
                 },
                 'orderDetail': {
                     '$first': {
+                        '_id': '$_id',
                         'Schedule': '$Schedule',
                         'totalamount': '$totalamount',
                         'couponId': '$couponId',
@@ -323,31 +324,36 @@ exports.getUserOrder = async ({ user, query }) => {
         console.log(error);
     };
 };
-
+const { paymentsRefund } = require("../payment/controller")
 exports.orderCancel = async (req) => {
     try {
         if (req.query.id) {
             const _id = mongoose.Types.ObjectId(req.query.id);
-            const findOrder = await order.findOne({ _id });
+            const findOrder = await order.findOne({ _id, status: { $ne: "succes" } });
             if (findOrder) {
-                const orderCencal = await order.findByIdAndUpdate({ _id }, { status: "cancel" }, { new: true })
-                if (orderCencal) {
-                    //refund paise 
-                    return {
-                        statusCode: 200,
-                        status: true,
-                        message: `cancel order successful `,
-                        data: [orderCencal]
+                const updateData = await order.findByIdAndUpdate({ _id }, { status: "cancel" }, { new: true })
+                if (updateData) {
+                    // refund paise 
+                    req.query._id = updateData.PaymentId
+                    const paymentRefund = await paymentsRefund(req)
+                    // refund paise successfull
+                    if (paymentRefund) {
+                        return {
+                            statusCode: 200,
+                            status: true,
+                            message: `cancel order successfull && payment refunded`,
+                            data: [updateData]
+                        };
                     };
                 };
             } else {
                 return {
                     statusCode: 400,
                     status: false,
-                    message: `Enter valid order id`,
+                    message: `Enter valid pending  order id`,
                     data: []
                 };
-            }
+            };
         } else {
             return {
                 statusCode: 400,

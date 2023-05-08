@@ -14,7 +14,7 @@ const Transaction = new mongoose.Schema({
   type: mongoose.Types.ObjectId,
   default: null
  },
- formUserId: {
+ fromUserId: {
   type: mongoose.Types.ObjectId,
   default: null
  },

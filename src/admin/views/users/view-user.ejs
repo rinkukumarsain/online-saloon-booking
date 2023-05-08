@@ -178,7 +178,7 @@
                                                                         data.type=="block-admin" ){%>
                                                                         <a href="/unblock?id=<%= data._id%>"
                                                                             class="btn btn-dark">
-                                                                            unBlock
+                                                                            <i class="bi bi-unlock-fill"></i>
                                                                         </a>
                                                                         <%}else if( data.type=="super-admin" ){%>
                                                                             <a href="#" class="btn btn-dark">
@@ -207,7 +207,7 @@
                                                                                 <%}else{%>
                                                                                     <a href="/Block-User?id=<%=data._id%>"
                                                                                         class="btn btn-danger">
-                                                                                        block
+                                                                                        <i class="bx bx-block"></i>
                                                                                     </a>
                                                                                     <%}%>
 
