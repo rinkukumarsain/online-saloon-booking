@@ -17,13 +17,25 @@ exports.pointToMoneyConvert = async (req) => {
                         // trangacation save karna hai  hai 
                         const ConvertTra = await referConvert(obj)
                         if (ConvertTra) {
-                            return {
-                                statusCode: 200,
-                                status: true,
-                                message: `money Added in user Wallet !`,
-                                data: [FinduserAndUpdate]
+                            req.body = {};
+                            req.body.userId = req.user._id;
+                            req.body.moneyType = "balance";
+                            req.body.type = "Add";
+                            req.body.amount = referOfer.rupee;
+                            req.body.status = "succes";
+                            req.body.fromUserId = req.user._id;
+                            req.body.description = "pointToMoney";
+                            const dataSave = await this.walletTransaction(req)
+                            // tragacation save dataSave
+                            if (dataSave) {
+                                return {
+                                    statusCode: 200,
+                                    status: true,
+                                    message: `money Added in user Wallet !`,
+                                    data: [FinduserAndUpdate]
+                                };
                             };
-                        }
+                        };
                     } else {
                         return {
                             statusCode: 400,

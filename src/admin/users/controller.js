@@ -59,7 +59,7 @@ exports.unblock = async (req, res) => {
         let Finddata;
         res.locals.message = req.flash();
         const data = await user.findOne({ _id: mongoose.Types.ObjectId(req.query.id) });
-        if (data.type == "user") {
+        if (data.type == "block-User") {
             Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "user" }, { new: true })
         } else {
             Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "admin" }, { new: true })
@@ -109,7 +109,7 @@ exports.userWalletAction = async (req, res) => {
             let body = {}
             body.userId = result._id
             body.moneyType = req.query.type
-            body.formUserId = req.user._id
+            body.fromUserId = req.user._id
             body.status = "succes"
             body.amount = req.query.amount
             body.type = req.query.status

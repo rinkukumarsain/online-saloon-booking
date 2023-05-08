@@ -24,7 +24,7 @@ exports.getAllOrder = async (req, res) => {
         console.log(error);
     }
 }
-
+const { paymentsRefund } = require("../../api/payment/controller")
 exports.orderCancel = async (req, res) => {
     try {
         if (req.query.id) {
@@ -34,7 +34,15 @@ exports.orderCancel = async (req, res) => {
                 const orderCencal = await order.findByIdAndUpdate({ _id }, { status: "cancel" }, { new: true })
                 if (orderCencal) {
                     // user ke pise refund
-                    res.redirect("/get-All-order")
+                    // refund paise 
+                    req.query._id = orderCencal.PaymentId
+                    const paymentRefund = await paymentsRefund(req)
+                    // refund paise successfull
+                    if (paymentRefund) {
+                        res.redirect("/get-All-order")
+                    } else {
+                        res.redirect("/")
+                    }
                 };
             } else {
                 res.redirect("/get-All-order")
