@@ -84,6 +84,14 @@ exports.loginData = async (req, res) => {
         if (email) {
             const user = await userModel.findOne({ email: req.body.email });
             if (user) {
+                if (typeof user.password === 'undefined') {
+                    req.flash("error", "Detail is Not Found ");
+                    return res.redirect("/");
+                };
+                if (user.type != "admin" && user.type != "super-admin") {
+                    req.flash("error", "your are not eligible to login");
+                    return res.redirect("/");
+                };
                 const match = await bcrypt.compare(password, user.password);
                 if (match) {
                     const accessToken = jwt.sign({ _id: user._id }, process.env.accessToken);
@@ -99,14 +107,14 @@ exports.loginData = async (req, res) => {
                         overwrite: true
                     });
                     req.flash("success", "login successfully");
-                    res.redirect("/");
+                    return res.redirect("/");
                 } else {
                     req.flash("error", "invalid login details");
-                    res.redirect("/");
+                    return res.redirect("/");
                 };
             } else {
                 req.flash("error", "invalid login details");
-                res.redirect("/");
+                return res.redirect("/");
             };
         };
     } catch (error) {
