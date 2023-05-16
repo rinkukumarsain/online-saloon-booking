@@ -36,27 +36,27 @@
                     <form class="needs-validation row g-3" action="/Contact-Us-Requist" novalidate>
 
                       <div class="col-md-3">
-                        <label>name</label> <br>
+                        <label> Enter name</label> <br>
                         <input type="text" name="name" class="form-control" placeholder="Enter name"
                           value=<%=query.name%>>
                         <div class="invalid-feedback">Please Enter name.</div>
 
                       </div>
                       <div class="col-md-2">
-                        <label>Email</label> <br>
+                        <label>Enter Email</label> <br>
 
                         <input type="text" name="email" class="form-control" placeholder="Enter Email"
                           value="<%=query.email%>">
                         <div class="invalid-feedback">Please Enter Email.</div>
                       </div>
                       <div class="col-md-2">
-                        <label>phone</label> <br>
-                        <input type="number" name="phone" class="form-control" placeholder="Enter Amount"
+                        <label>Enter phone</label> <br>
+                        <input type="number" name="phone" class="form-control" placeholder="Enter phone"
                           value="<%=query.phone%>">
                         <div class="invalid-feedback">Please Enter phone.</div>
                       </div>
                       <div class="col-md-2">
-                        <label>Status</label> <br>
+                        <label>choose Status</label> <br>
                         <select id="inputState" name="status" class="form-select">
                           <option value="">Status</option>
                           <option value="0" <%=query.status=='0' ?'selected':''%>>
