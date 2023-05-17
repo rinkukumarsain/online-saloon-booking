@@ -32,6 +32,8 @@ const { businessSignUp, businessProfileInfo, businessBankInfo, businessUplodeDoc
 exports.ADD_SALOON_STORE = async (req, res) => {
     try {
         res.locals.message = req.flash()
+      //  console.log("hjvh",req.query,"jh",req.body)
+        // jghjhn
         const businessSign = await businessSignUp(req)
         if (businessSign.statusCode == 200 && businessSign.status == true) {
             req.flash("success", businessSign.message)
