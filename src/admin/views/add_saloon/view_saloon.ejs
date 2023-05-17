@@ -108,6 +108,7 @@
                           <th scope="col">Prof.</th>
                           <th scope="col">Doc</th>
                           <th scope="col">Bank Info</th>
+                          <th scope="col">dis.</th>
                           <th scope="col">saloonService</th>
                           <th scope="col">packageService</th>
                           <th scope="col">MoreAction</th>
@@ -159,14 +160,20 @@
                                   <i class="bi bi-eye" title="view"></i>
                                 </button>
                               </td>
-                              <% let sss ;%>
+                              <td>
+                                <button type="button" value="<%= data._id %>" id="description" onclick="saloonAdd(this)"
+                                  class="btn btn-info">
+                                  <i class="bi bi-eye" title="view"></i>
+                                </button>
+                              </td>
+                              <% let NumberOfservice;%>
                                 <td>
                                   <a href="/add_service?saloonId=<%= data._id%>" class="btn btn-success text-warning"><i
                                       class="ri-file-add-line" title="Add Sub Category"></i></a>
                                   <%data.ccc.forEach(element=> {%>
 
                                     <%if( element._id==0){%>
-                                      <% sss=element.count %>
+                                      <% NumberOfservice=element.count %>
                                         <a href="/view_service?id=<%= data._id%>" class="btn btn-success">
                                           <%= element.count %>
                                             <i class="bi bi-eye" title="view Service"></i>
@@ -176,10 +183,10 @@
 
                                 </td>
                                 <td>
-                                  <%if(sss>1){%>
+                                  <%if(NumberOfservice>1){%>
                                     <a href="/add-new-package?saloonId=<%= data._id%>"
                                       class="btn btn-success text-warning"><i class="ri-file-add-line"
-                                        title="Add Sub Category"></i></a>
+                                        title="add new package"></i></a>
                                     <% }%>
 
                                       <%if(data.ccc.length>1){%>
@@ -312,40 +319,37 @@
                                 <th scope="col">Service</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">workingday</th>
-                                <th scope="col">
-                                  <i class="bi bi-facebook"></i>
-                                  <i class="bi bi-instagram"></i>
-                                  <i class="bi bi-link-45deg"></i>
+                                <th scope="col">SocialLink </th>
                                 <th scope="col">amenities</th>
                               </tr>
                             </thead>
                             <tbody>`
-                  data.forEach((item) => {
-                    abc += `<tr>
+                    data.forEach((item) => {
+                      abc += `<tr>
                                 <td>
                                   ${item.ProfileInfo.yourService}
                                 </td>
                                 <td>
                                   ${item.ProfileInfo.alternatePhone}
-                                </td> 
+                                </td>
                                 <td>`
-                    item.ProfileInfo.workingday.forEach((days) => {
-                      abc += ` ${days}<br>`
-                    })
-                    abc += ` </td> 
+                      item.ProfileInfo.workingday.forEach((days) => {
+                        abc += ` ${days}<br>`
+                      })
+
+                      abc += `  </td>
                                 <td>
                                   <a href="${item.ProfileInfo.FaceBookProfile}"><i class="bi bi-facebook"></i></a>
                                   <a href="${item.ProfileInfo.instaProfile}"><i class="bi bi-instagram"></i></a>
                                   <a href="${item.ProfileInfo.webProfile}"><i class="bi bi-link-45deg"></i></a>
                                 </td>
                                 <td>`
-
-                    item.ProfileInfo.amenities.forEach((amenities) => {
-                      abc += ` ${amenities}<br>`
+                      item.ProfileInfo.amenities.forEach((amenities) => {
+                        abc += ` ${amenities}<br>`
+                      })
+                      abc += `</td></tr>`
                     })
-                    abc += `</td></tr>`
-                  })
-                  abc += `</tbody> </table >`
+                    abc += `</tbody> </table >`
                 } else if (element.id == "Document") {
                   abc = ` <table class="table datatable">
                             <thead>
@@ -405,6 +409,12 @@
                              <tr>
                                 <th scope="col">kyc</th>  <td scope="col">${item.BankInfo.kyc}</td>
                              </tr>`
+                  })
+                  abc += ` </table >`
+                }  else if (element.id == "description") {
+                  abc = ` <table class="table datatable">`
+                  data.forEach((item) => {
+                    abc +=item.description
                   })
                   abc += ` </table >`
                 }

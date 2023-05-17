@@ -217,14 +217,9 @@
 
 
                                         <div class="row g-3">
-                                          <div class="col-6">
-                                            <label for="">Description</label><br>
-                                            <textarea class="form-control" minlength="20" name="description"
-                                              placeholder="Description" style="height: 100px"
-                                              required> <%= data?.description!=undefined ? data?.description : "" %> </textarea>
+                                         <input type="hidden" id="Description" name="description">
                                             <div class="invalid-feedback">Please enter Discription.</div>
 
-                                          </div>
                                           <div class="col-6">
                                             <label for="">Category</label><br>
                                             <select class="form-select" multiple="" name="category[]"
@@ -241,16 +236,43 @@
                                             <div class="invalid-feedback">Please enter Category.</div>
                                           </div>
                                         </div><br>
+
+                                        <div class="card">
+                                          <div class="card-body">
+                                            <h5 class="card-title">Blog Description</h5>
+                                            <!-- Quill Editor Full -->
+                                            <div id="description1" class="quill-editor-full" required>
+                                             
+                                            </div>
+                                          </div>
+                                        </div>
+                                        
                                         <div class="row mb-3">
                                           <div class="col-sm-10">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="submit" class="btn btn-primary" onclick="CkEditor(this)">Submit</button>
                                           </div>
                                         </div>
 
                               </form>
                     </div>
                   </div>
-
+<script>
+  function CkEditor(a){
+      const description = $("#Description")
+      description.val(document.querySelector(`.ql-editor`).innerHTML)
+  }
+  </script>
+  
+  <script>
+    $(document).ready(() => {
+      let div;
+      <%if (data) {%>
+    div = document.createElement("div")
+    div.innerHTML = "<%= data.description %>"
+    document.querySelector(`.ql-editor`).innerHTML = div.innerText
+      <%}%>
+    })
+</script>
 
                   <!-- //2. add sallon register step -2 -->
 

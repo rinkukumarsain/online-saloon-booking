@@ -106,6 +106,7 @@
                             <th>Profile</th>
                             <th>Doc</th>
                             <th>Bank</th>
+                            <th>dis.</th>
                             <th scope="col">MoreAction</th>
                           </tr>
                         </thead>
@@ -149,6 +150,12 @@
                                 <td>
                                   <button type="button" value="<%= data._id %>" id="BankInfo"
                                     onclick="findAddSaloonRequist(this)" class="btn btn-info">
+                                    <i class="bi bi-eye" title="view"></i>
+                                  </button>
+                                </td>
+                                <td>
+                                  <button type="button" value="<%= data._id %>" id="description" onclick="findAddSaloonRequist(this)"
+                                    class="btn btn-info">
                                     <i class="bi bi-eye" title="view"></i>
                                   </button>
                                 </td>
@@ -270,10 +277,7 @@
                                 <th scope="col">Service</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">workingday</th>
-                                <th scope="col">
-                                  <i class="bi bi-facebook"></i>
-                                  <i class="bi bi-instagram"></i>
-                                  <i class="bi bi-link-45deg"></i>
+                                <th scope="col">SocialProfile</th>
                                 <th scope="col">amenities</th>
                               </tr>
                             </thead>
@@ -365,7 +369,13 @@
                              </tr>`
                     })
                     abc += ` </table >`
-                  }
+                  } else if (element.id == "description") {
+                  abc = ` <table class="table datatable">`
+                  data.forEach((item) => {
+                    abc +=item.description
+                  })
+                  abc += ` </table >`
+                }
                   $('#moduleDataAppend').append(abc)
                   $("#exampleModal").modal("toggle");
 
