@@ -125,13 +125,16 @@
                                 <%= data.message %>
                               </td>
                               <td>
-                                <a href="/Send-notification?id=<%= data._id%>" class="btn btn-info">
-                                  <!-- <i class="ri-edit-box-line" title="Edit"></i> -->
-                                  <i class="bi bi-reply-all-fill"></i>
-                                </a>
-                                <a href="/Reject-requist?id=<%= data._id%>" class="btn btn-danger">
-                                  <i class="ri-delete-bin-5-line" title="delete"></i>
-                                </a>
+                                                              
+                                <%if(query.status!='-1'){%>
+                                  <a href="/Send-notification?id=<%= data._id%>" class="btn btn-info">
+                                    <!-- <i class="ri-edit-box-line" title="Edit"></i> -->
+                                    <i class="bi bi-reply-all-fill"></i>
+                                  </a>
+                                  <a href="/Reject-requist?id=<%= data._id%>" class="btn btn-danger">
+                                    <i class="ri-delete-bin-5-line" title="delete"></i>
+                                  </a>
+                                  <%}%>
                               </td>
                             </tr>
                             <%}%>
