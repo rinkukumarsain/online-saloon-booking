@@ -88,6 +88,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
+  description: {
+    type: String,
+    default: ""
+  },
   referId: {
     type: mongoose.Types.ObjectId,
     default: null

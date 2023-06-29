@@ -39,240 +39,240 @@
                       <!-- //1. add sallon register step -1 -->
                       <% if(typeof data !=="undefined" && data){%>
                         <h5 class="card-title">Edit Saloon</h5>
-                        
-                          <form class="needs-validation" action="/add_saloon_store?id=<%=data._id%>" method="post"
-                            novalidate>
-                            <%}else{%>
-                              <h5 class="card-title">Add Saloon</h5>
-                              <form class="needs-validation" action="/add_saloon_store" method="post" novalidate>
-                                <%}%>
+
+                        <form class="needs-validation" action="/add_saloon_store?id=<%=data._id%>" method="post"
+                          novalidate>
+                          <%}else{%>
+                            <h5 class="card-title">Add Saloon</h5>
+                            <form class="needs-validation" action="/add_saloon_store" method="post" novalidate>
+                              <%}%>
+                                <div class="row g-3">
+                                  <div class="col">
+                                    <label for="">Store Name</label><br>
+                                    <input type="text" maxlength="30" name="storeName" class="form-control"
+                                      placeholder="Enter Your Store Name"
+                                      value="<%=data?.storeName!=undefined ? data?.storeName : "" %>" required>
+                                    <div class="invalid-feedback">Please Enter Store Name.</div>
+
+                                  </div>
+                                  <div class="col">
+                                    <label for="">Store Email</label><br>
+                                    <input required type="email" name="email" class="form-control"
+                                      placeholder="Enter Store email"
+                                      value="<%=data?.email!=undefined ? data?.email : "" %>" <%=data?.email!=undefined
+                                      ? "readonly" : "" %>>
+                                    <div class="invalid-feedback">Please Enter Store Email.</div>
+
+                                  </div>
+
+                                </div><br>
+
+                                <% if(typeof data !=="undefined" && data){%>
                                   <div class="row g-3">
                                     <div class="col">
-                                      <label for="">Store Name</label><br>
-                                      <input type="text" maxlength="30" name="storeName" class="form-control"
-                                        placeholder="Enter Your Store Name"
-                                        value="<%=data?.storeName!=undefined ? data?.storeName : "" %>" required>
-                                      <div class="invalid-feedback">Please Enter Store Name.</div>
+                                      <label for="">Password</label><br>
+                                      <input required type="password" minlength="6" maxlength="8" name="password"
+                                        class="form-control" placeholder="Enter a Password"
+                                        value="<%=data?.password!=undefined ? data?.password : "" %>">
+                                      <div class="invalid-feedback">Please Enter Password.</div>
 
                                     </div>
+
                                     <div class="col">
-                                      <label for="">Store Email</label><br>
-                                      <input required type="email" name="email" class="form-control"
-                                        placeholder="Enter Store email"
-                                        value="<%=data?.email!=undefined ? data?.email : "" %>"
-                                        <%=data?.email!=undefined ? "readonly" : "" %>>
-                                      <div class="invalid-feedback">Please Enter Store Email.</div>
+                                      <label for="">Phone</label><br>
+                                      <input type="number" maxlength="10" id="Phone" name="Phone"
+                                        class="form-control pac-target-input" placeholder="Enter Your Mobile Number"
+                                        value="<%=data?.Phone!=undefined ? data?.Phone : "" %>" readonly required>
+                                      <div class="invalid-feedback">Please Enter Phone.</div>
 
                                     </div>
-
-                                  </div><br>
-
-                                  <% if(typeof data !=="undefined" && data){%>
+                                  </div>
+                                  <%}else{%>
                                     <div class="row g-3">
                                       <div class="col">
                                         <label for="">Password</label><br>
                                         <input required type="password" minlength="6" maxlength="8" name="password"
-                                          class="form-control" placeholder="Enter a Password"
+                                          class="form-control" placeholder="Enter Password"
                                           value="<%=data?.password!=undefined ? data?.password : "" %>">
                                         <div class="invalid-feedback">Please Enter Password.</div>
 
                                       </div>
-
                                       <div class="col">
-                                        <label for="">Phone</label><br>
-                                        <input type="number" maxlength="10" id="Phone" name="Phone"
-                                          class="form-control pac-target-input" placeholder="Enter Your Mobile Number"
-                                          value="<%=data?.Phone!=undefined ? data?.Phone : "" %>" readonly required>
-                                        <div class="invalid-feedback">Please Enter Phone.</div>
+                                        <label for="">Confirm Password</label><br>
+                                        <input required type="password" minlength="6" maxlength="8"
+                                          name="confromPassword" class="form-control"
+                                          placeholder="Enter confrom Password"
+                                          value="<%=data?.password!=undefined ? data?.password : "" %>">
+                                        <div class="invalid-feedback">Please Enter Confirm Password.</div>
 
                                       </div>
-                                    </div>
-                                    <%}else{%>
+                                    </div><br>
+                                    <div class="row g-3">
+                                      <div class="col">
+                                        <label for="">Phone</label><br>
+                                        <input type="number"
+                                          onKeyDown="if(this.value.length==10 && event.keyCode!=8) return false;"
+                                          id="Phone" name="Phone" class="form-control pac-target-input"
+                                          placeholder="Enter Phone Number"
+                                          value="<%=data?.Phone!=undefined ? data?.Phone : "" %>" required>
+                                        <div class="invalid-feedback">Please Enter Phone No.</div>
+
+                                      </div>
+                                      <div class="col">
+                                        <label for=""></label><br>
+                                        <input type="button" class="btn btn-primary" value="Send otp"
+                                          onclick="SendOtp(this)">
+                                      </div>
+                                      <div class="col">
+                                        <label for="">Enter otp</label><br>
+                                        <input required type="number"
+                                          onKeyDown="if(this.value.length==4 && event.keyCode!=8) return false;"
+                                          id="otp" class="form-control" placeholder="Enter  otp"
+                                          value="<%=data?.otp!=undefined ? data?.otp : "" %>">
+                                        <div class="invalid-feedback">Please Enter Correct OTP.</div>
+                                      </div>
+                                      <div class="col">
+                                        <label for=""></label><br>
+                                        <input type="button" name="confromPassword" class="btn btn-primary"
+                                          onclick="verifyOtp(this)" value="verify otp">
+                                      </div>
+                                    </div><br>
+                                    <%}%>
+
                                       <div class="row g-3">
                                         <div class="col">
-                                          <label for="">Password</label><br>
-                                          <input required type="password" minlength="6" maxlength="8" name="password"
-                                            class="form-control" placeholder="Enter Password"
-                                            value="<%=data?.password!=undefined ? data?.password : "" %>">
-                                          <div class="invalid-feedback">Please Enter Password.</div>
-
-                                        </div>
-                                        <div class="col">
-                                          <label for="">Confirm Password</label><br>
-                                          <input required type="password" minlength="6" maxlength="8"
-                                            name="confromPassword" class="form-control"
-                                            placeholder="Enter confrom Password"
-                                            value="<%=data?.password!=undefined ? data?.password : "" %>">
-                                          <div class="invalid-feedback">Please Enter Confirm Password.</div>
-
-                                        </div>
-                                      </div><br>
-                                      <div class="row g-3">
-                                        <div class="col">
-                                          <label for="">Phone</label><br>
-                                          <input type="number"
-                                            onKeyDown="if(this.value.length==10 && event.keyCode!=8) return false;"
-                                            id="Phone" name="Phone" class="form-control pac-target-input"
-                                            placeholder="Enter Phone Number"
-                                            value="<%=data?.Phone!=undefined ? data?.Phone : "" %>" required>
-                                          <div class="invalid-feedback">Please Enter Phone No.</div>
-
-                                        </div>
-                                        <div class="col">
-                                          <label for=""></label><br>
-                                          <input type="button" class="btn btn-primary" value="Send otp"
-                                            onclick="SendOtp(this)">
-                                        </div>
-                                        <div class="col">
-                                          <label for="">Enter otp</label><br>
-                                          <input required type="number"
-                                            onKeyDown="if(this.value.length==4 && event.keyCode!=8) return false;"
-                                            id="otp" class="form-control" placeholder="Enter  otp"
-                                            value="<%=data?.otp!=undefined ? data?.otp : "" %>">
-                                          <div class="invalid-feedback">Please Enter Correct OTP.</div>
-                                        </div>
-                                        <div class="col">
-                                          <label for=""></label><br>
-                                          <input type="button" name="confromPassword" class="btn btn-primary"
-                                            onclick="verifyOtp(this)" value="verify otp">
-                                        </div>
-                                      </div><br>
-                                      <%}%>
-
-                                        <div class="row g-3">
-                                          <div class="col">
-                                            <label for="">Choose Gender</label><br>
-                                            <!-- <input required type="text" id="addressSearch" name="type"
+                                          <label for="">Choose Gender</label><br>
+                                          <!-- <input required type="text" id="addressSearch" name="type"
                                               class="form-control pac-target-input" placeholder="saloon type"
                                               autocomplete="off" value="<%=data?.type!=undefined ? data?.type : "" %>"> -->
-                                            <select class="form-select" name="type" required>
-                                              <option value="">Select Gender</option>
-                                              <option value="male" <%=data?.type=="male" ||data?.type=="Male"
-                                                ? "selected" : "" %>>male
-                                              </option>
-                                              <option value="female" <%=data?.type=="female" ||data?.type=="Female"
-                                                ? "selected" : "" %>>female
-                                              </option>
-                                              <option value="unisex" <%=data?.type=="unisex" ||data?.type=="Unisex"
-                                                ? "selected" : "" %>>unisex
-                                              </option>
-                                            </select>
-                                            <div class="invalid-feedback">Please Select Gender.</div>
+                                          <select class="form-select" name="type" required>
+                                            <option value="">Select Gender</option>
+                                            <option value="male" <%=data?.type=="male" ||data?.type=="Male" ? "selected"
+                                              : "" %>>male
+                                            </option>
+                                            <option value="female" <%=data?.type=="female" ||data?.type=="Female"
+                                              ? "selected" : "" %>>female
+                                            </option>
+                                            <option value="unisex" <%=data?.type=="unisex" ||data?.type=="Unisex"
+                                              ? "selected" : "" %>>unisex
+                                            </option>
+                                          </select>
+                                          <div class="invalid-feedback">Please Select Gender.</div>
 
-                                          </div>
-                                          <div class="col">
-                                            <label for="">Owner Name </label><br>
-                                            <input required type="text" maxlength="30" id="addressSearch"
-                                              name="ownerName" class="form-control pac-target-input"
-                                              placeholder="saloon ownerName" autocomplete="off"
-                                              value="<%=data?.ownerName!=undefined ? data?.ownerName : "" %>">
-                                            <div class="invalid-feedback">Please Enter owner Name.</div>
+                                        </div>
+                                        <div class="col">
+                                          <label for="">Owner Name </label><br>
+                                          <input required type="text" maxlength="30" id="addressSearch" name="ownerName"
+                                            class="form-control pac-target-input" placeholder="saloon ownerName"
+                                            autocomplete="off"
+                                            value="<%=data?.ownerName!=undefined ? data?.ownerName : "" %>">
+                                          <div class="invalid-feedback">Please Enter owner Name.</div>
 
-                                          </div>
-                                        </div><br>
+                                        </div>
+                                      </div><br>
 
-                                        <div class="row g-3">
-                                          <div class="col">
-                                            <label for="">State</label><br>
-                                            <input required type="text" maxlength="15" name="state"
-                                              class="form-control pac-target-input" placeholder="Enter a state"
-                                              autocomplete="off"
-                                              value="<%=data?.location?.state!=undefined ? data?.location?.state : "" %>">
-                                            <div class="invalid-feedback">Please Enter State.</div>
+                                      <div class="row g-3">
+                                        <div class="col">
+                                          <label for="">State</label><br>
+                                          <input required type="text" maxlength="15" name="state"
+                                            class="form-control pac-target-input" placeholder="Enter a state"
+                                            autocomplete="off"
+                                            value="<%=data?.location?.state!=undefined ? data?.location?.state : "" %>">
+                                          <div class="invalid-feedback">Please Enter State.</div>
 
-                                          </div>
-                                          <div class="col">
-                                            <label for="">City </label><br>
-                                            <input required type="text" maxlength="15" name="city"
-                                              class="form-control pac-target-input" placeholder="Enter a city"
-                                              autocomplete="off"
-                                              value="<%=data?.location?.city!=undefined ? data?.location?.city : "" %>">
-                                            <div class="invalid-feedback">Please Enter City Name.</div>
+                                        </div>
+                                        <div class="col">
+                                          <label for="">City </label><br>
+                                          <input required type="text" maxlength="15" name="city"
+                                            class="form-control pac-target-input" placeholder="Enter a city"
+                                            autocomplete="off"
+                                            value="<%=data?.location?.city!=undefined ? data?.location?.city : "" %>">
+                                          <div class="invalid-feedback">Please Enter City Name.</div>
 
-                                          </div>
-                                        </div><br>
+                                        </div>
+                                      </div><br>
 
-                                        <div class="row g-3">
-                                          <div class="col">
-                                            <label for="">Pincode</label><br>
-                                            <input required type="number"
-                                              onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;"
-                                              name="pincode" class="form-control pac-target-input"
-                                              placeholder="Enter a Pin Code" autocomplete="off"
-                                              value="<%=data?.location?.pincode!=undefined ? data?.location?.pincode : "" %>">
-                                            <div class="invalid-feedback">Please Enter Pincode.</div>
+                                      <div class="row g-3">
+                                        <div class="col">
+                                          <label for="">Pincode</label><br>
+                                          <input required type="number"
+                                            onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;"
+                                            name="pincode" class="form-control pac-target-input"
+                                            placeholder="Enter a Pin Code" autocomplete="off"
+                                            value="<%=data?.location?.pincode!=undefined ? data?.location?.pincode : "" %>">
+                                          <div class="invalid-feedback">Please Enter Pincode.</div>
 
-                                          </div>
-                                          <div class="col">
-                                            <label for="">Place</label><br>
-                                            <input required type="text" name="aria"
-                                              class="form-control pac-target-input"
-                                              placeholder="Enter Which Place You From" autocomplete="off"
-                                              value="<%=data?.location?.aria!=undefined ? data?.location?.aria : "" %>">
-                                            <div class="invalid-feedback">Please enter which aria you from.</div>
+                                        </div>
+                                        <div class="col">
+                                          <label for="">Place</label><br>
+                                          <input required type="text" name="aria" class="form-control pac-target-input"
+                                            placeholder="Enter Which Place You From" autocomplete="off"
+                                            value="<%=data?.location?.aria!=undefined ? data?.location?.aria : "" %>">
+                                          <div class="invalid-feedback">Please enter which aria you from.</div>
 
-                                          </div>
-                                        </div><br>
-
+                                        </div>
+                                      </div><br>
 
 
-                                        <div class="row g-3">
-                                         <input type="hidden" id="Description" name="description">
-                                            <div class="invalid-feedback">Please enter Discription.</div>
 
-                                          <div class="col-6">
-                                            <label for="">Category</label><br>
-                                            <select class="form-select" multiple="" name="category[]"
-                                              aria-label="multiple select example" required>
-                                              <option value="" disabled>Select Categories</option>
-                                              <option value="spa" <%=data?.category.includes('spa')==true ? "selected"
-                                                : "" %>
-                                                >Spa</option>
-                                              <option value="parlour" <%=data?.category.includes('parlour')==true
-                                                ? "selected" : "" %>>Parlour</option>
-                                              <option value="Saloon" <%=data?.category.includes('Saloon')==true
-                                                ? "selected" : "" %>>Saloon</option>
-                                            </select>
-                                            <div class="invalid-feedback">Please enter Category.</div>
-                                          </div>
-                                        </div><br>
+                                      <div class="row g-3">
+                                        <input type="hidden" id="Description" name="description">
+                                        <div class="invalid-feedback">Please enter Discription.</div>
 
-                                        <div class="card">
-                                          <div class="card-body">
-                                            <h5 class="card-title">Saloon Description</h5>
-                                            <!-- Quill Editor Full -->
-                                            <div id="description1" class="quill-editor-full" required>
-                                             
-                                            </div>
+                                        <div class="col-6">
+                                          <label for="">Category</label><br>
+                                          <select class="form-select" multiple="" name="category[]"
+                                            aria-label="multiple select example" required>
+                                            <option value="" disabled>Select Categories</option>
+                                            <option value="spa" <%=data?.category.includes('spa')==true ? "selected"
+                                              : "" %>
+                                              >Spa</option>
+                                            <option value="parlour" <%=data?.category.includes('parlour')==true
+                                              ? "selected" : "" %>>Parlour</option>
+                                            <option value="Saloon" <%=data?.category.includes('Saloon')==true
+                                              ? "selected" : "" %>>Saloon</option>
+                                          </select>
+                                          <div class="invalid-feedback">Please enter Category.</div>
+                                        </div>
+                                      </div><br>
+
+                                      <div class="card">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Saloon Description</h5>
+                                          <!-- Quill Editor Full -->
+                                          <div id="description1" class="quill-editor-full" required>
+
                                           </div>
                                         </div>
-                                        
-                                        <div class="row mb-3">
-                                          <div class="col-sm-10">
-                                            <button type="submit" class="btn btn-primary" onclick="CkEditor(this)">Submit</button>
-                                          </div>
-                                        </div>
+                                      </div>
 
-                              </form>
+                                      <div class="row mb-3">
+                                        <div class="col-sm-10">
+                                          <button type="submit" class="btn btn-primary"
+                                            onclick="CkEditor(this)">Submit</button>
+                                        </div>
+                                      </div>
+
+                            </form>
                     </div>
                   </div>
-<script>
-  function CkEditor(a){
-      const description = $("#Description")
-      description.val(document.querySelector(`.ql-editor`).innerHTML)
-  }
-  </script>
-  
-  <script>
-    $(document).ready(() => {
-      let div;
-      <%if (data) {%>
-    div = document.createElement("div")
-    div.innerHTML = "<%= data.description %>"
-    document.querySelector(`.ql-editor`).innerHTML = div.innerText
-      <%}%>
-    })
-</script>
+                  <script>
+                    function CkEditor(a) {
+                      const description = $("#Description")
+                      description.val(document.querySelector(`.ql-editor`).innerHTML)
+                    }
+                  </script>
+
+                  <script>
+                    $(document).ready(() => {
+                      let div;
+                        <%if (data) {%>
+                        div = document.createElement("div")
+                        div.innerHTML = "<%= data.description %>"
+                        document.querySelector(`.ql-editor`).innerHTML = div.innerText
+                          <%}%>
+                  })
+                  </script>
 
                   <!-- //2. add sallon register step -2 -->
 

@@ -35,8 +35,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Add profile</h5>
-
-                                        <form action="/add_profile_data?id=<%= user._id%>" method="post"
+                                        <form action="/add_profile_data?id=<%= user._id.toString()%>" method="post"
                                             enctype="multipart/form-data">
                                             <div class="row g-3">
                                                 <div class="col">
@@ -46,8 +45,10 @@
                                                 </div>
                                                 <div class="col">
                                                     <label for=""> phone number</label>
-                                                    <input required type="number" name="phone" value="<%= user.phone%>"
-                                                        class="form-control" placeholder="Enter a phone">
+                                                    <input type="number" id="phone-input" class="form-control"
+                                                        name="phone" value="<%= user.phone%>"
+                                                        placeholder="Enter a phone" minlength="10" maxlength="12"
+                                                        required>
                                                 </div>
                                             </div><br>
 
@@ -55,9 +56,8 @@
                                                 <div class="col">
                                                     <label for=""> description</label>
                                                     <textarea class="form-control" name="description"
-                                                        placeholder="Description" style="height: 80px" required>
-                                                        <%= user.description %>
-                                                    </textarea>
+                                                        placeholder="Description" style="height: 80px"
+                                                        required><%= user.description %></textarea>
                                                 </div>
                                                 <div class="col">
                                                     <label for=""> Profile image </label>
@@ -72,8 +72,7 @@
                                                 </div>
                                             </div>
                                         </form>
-
-
+                                        <br>
                                     </div>
                                 </div>
                             </div>
@@ -81,8 +80,20 @@
                     </div>
                 </section>
             </main>
-
-            <%- include("../../partials/script.ejs") %>
+            <script>
+                $(document).ready(function () {
+                    $('#phone-input').on('input', function () {
+                        var phone = $(this).val();
+                        if (phone.length !== 10) {
+                            $(this).get(0).setCustomValidity('Phone number must be 10 digits');
+                        } else {
+                            $(this).get(0).setCustomValidity('');
+                        }
+                    });
+                });
+            </script>
+            <%- include("../../partials/footer.ejs") %>
+                <%- include("../../partials/script.ejs") %>
 </body>
 
 </html>

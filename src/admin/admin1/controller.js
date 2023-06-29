@@ -123,31 +123,37 @@ exports.loginData = async (req, res) => {
 };
 exports.forgetPassword = async (req, res) => {
     try {
-        res.render("users/Forget-Password", { user: req.user })
+        res.locals.message = req.flash();
+        res.render("users/Forget-Password", { user: req.user });
     } catch (error) {
-        console.log(error);
+        req.flash("error", error.message);
+        res.redirect("/");
     };
-}
+};
 
-exports.ForgetPassword = async ({ body, user }, res) => {
+exports.ForgetPassword = async (req, res) => {
     try {
-        if (body.Cpassword === body.password) {
-            const match = await bcrypt.compare(body.OldPassword, user.password);
+        res.locals.message = req.flash();
+        if (req.body.Cpassword === req.body.password) {
+            const match = await bcrypt.compare(req.body.OldPassword, req.user.password);
             if (match) {
-                const pp = await bcrypt.hash(body.password, 10);
-                const result = await userModel.findByIdAndUpdate({ _id: user._id }, { password: pp });
+                const pp = await bcrypt.hash(req.body.password, 10);
+                const result = await userModel.findByIdAndUpdate({ _id: req.user._id }, { password: pp });
                 if (result) {
+                    req.flash("success", "Password Change Successfully !");
                     res.redirect("/");
-                }
+                };
             } else {
+                req.flash("error", "Old Password Is Wrong !");
                 res.redirect("/forget-password");
-            }
-
+            };
         } else {
+            req.flash("error", "Password And Confirm Is Not Match");
             res.redirect("/forget-password");
-        }
+        };
     } catch (error) {
-        console.log(error);
+        req.flash("error", error.message);
+        res.redirect("/forget-password");
     };
 };
 
@@ -184,7 +190,7 @@ exports.add_profile_data = async (req, res) => {
             }
             obj.image = `http://159.89.164.11:7070/uploads/${req.file.filename}`
         }
-        const updatedata = await userModel.findByIdAndUpdate(id, obj, { new: true });
+        const updatedata = await userModel.findByIdAndUpdate({ _id: id }, obj, { new: true });
         req.flash("success", "profile updated successfully")
 
         res.redirect("/")
