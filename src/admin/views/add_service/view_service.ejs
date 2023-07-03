@@ -123,12 +123,13 @@
                                   <%= data?.type %>
                                 </td>
                                 <td>
-                                  <%= data?.last_category_data?.Name %>
+                                  <%= data?.last_category_data?.Name ?data?.last_category_data?.Name:"?" %>
                                 </td>
                                 <td>
-                                  <a href="/add_service?id=<%= data._id%>" class="btn btn-info"><i
-                                      class="ri-edit-box-line" title="Edit"></i></a>
-                                  <a href="/delete_service?id=<%= data._id%>" class="btn btn-danger">
+                                  <a href="/add_service?id=<%= data._id%>" class="btn btn-info" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" data-bs-title="Edit"><i class="ri-edit-box-line"></i></a>
+                                  <a href="/delete_service?id=<%= data._id%>" class="btn btn-danger"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="delete">
                                     <i class="ri-delete-bin-5-line" title="delete"></i>
                                   </a>
                                   <!-- <a href="/add_service?id=<%= data._id%>" class="btn btn-dark">Edit</a>

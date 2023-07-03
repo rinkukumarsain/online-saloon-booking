@@ -94,7 +94,7 @@
                     <div class="card-body">
                       <h5 class="card-title">Saloon List</h5>
                       <!-- Table with stripped rows -->
-                      <table class="table datatable">
+                      <table class="table datatable text-nowrap">
                         <thead>
                           <tr>
                             <th scope="col">#</th>
@@ -102,12 +102,12 @@
                             <th scope="col">Owner Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Phone</th>
-                            <th>Location</th>
-                            <th>Profile</th>
-                            <th>Doc</th>
-                            <th>Bank</th>
+                            <th>Loca.</th>
+                            <th>Pro.</th>
+                            <th>Doc.</th>
+                            <th>Bank.</th>
                             <th>dis.</th>
-                            <th scope="col">MoreAction</th>
+                            <th scope="col">Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -118,44 +118,50 @@
                                   <%= ++i %>
                                 </th>
                                 <td>
-                                  <%= data.storeName %>
+                                  <%= data?.storeName %>
                                 </td>
                                 <td>
-                                  <%= data.name %>
+                                  <%= data?.name %>
                                 </td>
                                 <td>
-                                  <%= data.email %>
+                                  <%= data?.email %>
                                 </td>
                                 <td>
-                                  <%= data.Phone %>
+                                  <%= data?.Phone %>
                                 </td>
                                 <td>
                                   <button type="button" value="<%= data._id %>" id="location"
-                                    onclick="findAddSaloonRequist(this)" class="btn btn-info">
-                                    <i class="bi bi-eye" title="view"></i>
+                                    onclick="findAddSaloonRequist(this)" class="btn btn-info" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" data-bs-title="Location">
+                                    <i class="bi bi-eye"></i>
                                   </button>
                                 </td>
                                 <td>
                                   <button type="button" value="<%= data._id %>" id="profile"
-                                    onclick="findAddSaloonRequist(this)" class="btn btn-info">
+                                    onclick="findAddSaloonRequist(this)" class="btn btn-info" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" data-bs-title="Profile">
+
                                     <i class="bi bi-eye" title="view"></i>
                                   </button>
                                 </td>
                                 <td>
                                   <button type="button" value="<%= data._id %>" id="Document"
-                                    onclick="findAddSaloonRequist(this)" class="btn btn-info">
+                                    onclick="findAddSaloonRequist(this)" class="btn btn-info" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" data-bs-title="Document">
                                     <i class="bi bi-eye" title="view"></i>
                                   </button>
                                 </td>
                                 <td>
                                   <button type="button" value="<%= data._id %>" id="BankInfo"
-                                    onclick="findAddSaloonRequist(this)" class="btn btn-info">
+                                    onclick="findAddSaloonRequist(this)" class="btn btn-info" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" data-bs-title="BankInfo">
                                     <i class="bi bi-eye" title="view"></i>
                                   </button>
                                 </td>
                                 <td>
-                                  <button type="button" value="<%= data._id %>" id="description" onclick="findAddSaloonRequist(this)"
-                                    class="btn btn-info">
+                                  <button type="button" value="<%= data._id %>" id="description"
+                                    onclick="findAddSaloonRequist(this)" class="btn btn-info" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" data-bs-title="Description">
                                     <i class="bi bi-eye" title="view"></i>
                                   </button>
                                 </td>
@@ -163,11 +169,18 @@
                                   <% if(data.status=="rejected" && data.status){%>
                                     rejected
                                     <%}else{%>
-                                      <a href="/saloon-requist-approval?id=<%= data._id%>" class="btn btn-info">
+                                      <!-- <a  class="btn btn-info"> -->
+                                      <a href="/saloon-requist-approval?id=<%= data._id%>" type="button"
+                                        class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="approval">
                                         <i class="bi bi-check-circle-fill" title="approval"></i>
                                       </a>
-                                      <a href="/saloon-request-delete?id=<%= data._id%>" class="btn btn-danger">
-                                        <i class="bi bi-x" title="delete"></i>
+                                      <!-- </a> -->
+
+                                      <a href="/saloon-request-delete?id=<%= data._id%>" type="button"
+                                        class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="rejected">
+                                        <i class="bi bi-x"></i>
                                       </a>
                                       <%}%>
                                 </td>
@@ -191,7 +204,7 @@
                 <h5 class="modal-title" id="exampleModalLabel">Saloon Data</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body" id="moduleDataAppend">
+              <div class="modal-body table-responsive" id="moduleDataAppend">
                 ...
               </div>
               <div class="modal-footer">
@@ -242,11 +255,11 @@
                 let abc;
                 if (data.length > 0) {
                   $('#moduleDataAppend').empty()
+                  console.log(data, ":::::::")
                   if (element.id == "location") {
                     abc = ` <table class="table datatable">
                             <thead>
                               <tr>
-                                <th scope="col">Shop Number</th>
                                 <th scope="col">Pin Code</th>
                                 <th scope="col">City</th>
                                 <th scope="col">State</th>
@@ -256,16 +269,13 @@
                     data.forEach((item) => {
                       abc += `<tr>
                                 <td>
-                                  ${item.location.shopNumber}
+                                  ${item?.location?.pincode}
                                 </td>
                                 <td>
-                                  ${item.location.pincode}
+                                  ${item?.location?.city}
                                 </td>
                                 <td>
-                                  ${item.location.city}
-                                </td>
-                                <td>
-                                  ${item.location.state}
+                                  ${item?.location?.state}
                                 </td>
                             </tr>`
                     })
@@ -370,12 +380,12 @@
                     })
                     abc += ` </table >`
                   } else if (element.id == "description") {
-                  abc = ` <table class="table datatable">`
-                  data.forEach((item) => {
-                    abc +=item.description
-                  })
-                  abc += ` </table >`
-                }
+                    abc = ` <table class="table datatable">`
+                    data.forEach((item) => {
+                      abc += item.description
+                    })
+                    abc += ` </table >`
+                  }
                   $('#moduleDataAppend').append(abc)
                   $("#exampleModal").modal("toggle");
 
@@ -385,7 +395,11 @@
               }
             })
           }
+
+
+
         </script>
+
         <%- include("../../partials/script.ejs") %>
 </body>
 

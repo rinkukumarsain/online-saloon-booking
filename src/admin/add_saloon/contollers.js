@@ -32,7 +32,7 @@ const { businessSignUp, businessProfileInfo, businessBankInfo, businessUplodeDoc
 exports.ADD_SALOON_STORE = async (req, res) => {
     try {
         res.locals.message = req.flash()
-      //  console.log("hjvh",req.query,"jh",req.body)
+        //  console.log("hjvh",req.query,"jh",req.body)
         // jghjhn
         const businessSign = await businessSignUp(req)
         if (businessSign.statusCode == 200 && businessSign.status == true) {
@@ -105,10 +105,11 @@ exports.businessUplodeDocumentAdmin = async (req, res) => {
 
         const businessP = await businessUplodeDocument(req)
         if (businessP.statusCode == 200 && businessP.status == true) {
-            res.redirect("/")
+            // res.redirect(`/document-uplode?id=${find._id}`)
+            res.redirect(`/add_saloon?id=${find._id}`)
         } else {
             req.flash("error", businessP.message)
-            res.redirect(`/document-uplode?id=${find._id}`)
+            res.redirect("/")
         }
     } catch (error) {
         console.log(error);
@@ -171,6 +172,8 @@ exports.viewsSaloonRequest = async (req, res) => {
         }
         if (req.query.status != undefined && req.query.status != "") {
             match.status = req.query.status
+        } else {
+            match.status = "pending"
         }
         condition.push({
             '$match': match
@@ -278,6 +281,7 @@ exports.saloonApproval = async (req, res) => {
             });
             const result = await saloon_details.save();
             if (result) {
+                req.result = result
                 await this.saloonRequistDelete(req, res)
             };
         } else {
@@ -293,14 +297,19 @@ exports.saloonRequistDelete = async (req, res) => {
     try {
         res.locals.message = req.flash();
         if (req.query.id != undefined && req.query.id != "") {
-            const _id = mongoose.Types.ObjectId(req.query.id)
-            const result = await saloonRequst.findByIdAndDelete({ _id })
+            // const _id = mongoose.Types.ObjectId(req.query.id)
+            const result = await saloonRequst.findByIdAndUpdate({ _id: req.query.id }, { status: "rejected" }, { new: true });
             if (result) {
-                req.flash("success", " request approvel succesfully !")
-                res.redirect("/views-saloon-request")
-            }
+                if (req.result) {
+                    req.flash("success", "Saloon Request Approval !");
+                    res.redirect("/views-saloon-request");
+                } else {
+                    req.flash("error", "Saloon Request Rejected !");
+                    res.redirect("/views-saloon-request");
+                };
+            };
         } else {
-            res.redirect("/views-saloon-request")
+            res.redirect("/views-saloon-request");
         }
     } catch (error) {
         console.log(error);
@@ -372,7 +381,11 @@ exports.addImagesInSaloon = async (req, res) => {
             arr.push(`http://159.89.164.11:7070/uploads/${element.filename}`)
         });
         const result = await saloon.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { image: arr }, { new: true })
+        console.log("result", result)
+
         if (result) {
+            res.redirect("/")
+        } else {
             res.redirect("/")
         }
 

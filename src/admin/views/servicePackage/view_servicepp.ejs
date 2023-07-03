@@ -68,7 +68,7 @@
                             placeholder="CategoryName">
                         </div>
                         <div class="col-md-4">
-                          
+
                         </div>
                         <div class="col-md-4">
                           <label></label> <br>
@@ -87,7 +87,7 @@
                       <h5 class="card-title">Service package List</h5>
 
                       <!-- Table with stripped rows -->
-                      <table class="table datatable">
+                      <table class="table datatable text-nowrap">
                         <thead>
                           <tr>
                             <th scope="col">#</th>
@@ -98,7 +98,7 @@
                             <th scope="col">Time </th>
                             <th scope="col">Gender</th>
                             <th scope="col"> Category </th>
-                            <th scope="col"> Services </th>
+                            <th scope="col"> Servicess </th>
                             <th scope="col">Action</th>
                           </tr>
                         </thead>
@@ -131,16 +131,19 @@
                                   <%= data?.last_category_data.Name %>
                                 </td>
                                 <td>
-                                  <button type="button" value="<%= data?._id %>" id="location"
-                                    onclick="FindPackage(this)" class="btn btn-info">
-                                    <i class="bi bi-eye" title="view"></i>
+                                  <button type="button" value="<%= data?._id %>" onclick="FindPackage(this)"
+                                    class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="View Services">
+                                    <i class="bi bi-eye"></i>
                                   </button>
                                 </td>
                                 <td>
-                                  <a href="/add-new-package?id=<%= data._id%>" class="btn btn-info"><i
-                                      class="ri-edit-box-line" title="Edit"></i></a>
-                                  <a href="/delete_package?id=<%= data._id%>" class="btn btn-danger">
-                                    <i class="ri-delete-bin-5-line" title="delete"></i>
+                                  <a href="/add-new-package?id=<%= data._id%>" class="btn btn-info"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"><i
+                                      class="ri-edit-box-line"></i></a>
+                                  <a href="/delete_package?id=<%= data._id%>" class="btn btn-danger"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
+                                    <i class="ri-delete-bin-5-line"></i>
                                   </a>
                                   <!-- <a href="/add_service?id=<%= data._id%>" class="btn btn-dark">Edit</a>
                                 <a href="/delete_service?id=<%= data._id%>" class="btn btn-danger">Delete</a> -->
@@ -207,7 +210,7 @@
                             <td scope="row">${item.ServiceName}</td>
                             <td>${item.ServicePrice}</td>
                             <td>${item.timePeriod_in_minits}</td>
-                            <td><img src="/uploads/${item.image[0]}" alt="img" style="width:50px"></td>
+                            <td><img src="/uploads/${item.image[0]?item.image[0]:'default.png'}" alt="img" style="width:50px"></td>
                           </tr>`
                     i++
                   })

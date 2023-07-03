@@ -91,11 +91,11 @@
                   </div>
                 </div>
                 <div class="card">
-                  <div class="card-body">
+                  <div class="card-body ">
                     <h5 class="card-title">Saloon List</h5>
 
                     <!-- Table with stripped rows -->
-                    <table class="table datatable">
+                    <table class="table datatable text-nowrap">
                       <thead>
                         <tr>
                           <th scope="col">#</th>
@@ -104,14 +104,14 @@
                           <th scope="col">Email</th>
                           <th scope="col">Phone</th>
                           <th scope="col">Gender</th>
-                          <th scope="col">Loca</th>
-                          <th scope="col">Prof.</th>
-                          <th scope="col">Doc</th>
-                          <th scope="col">Bank Info</th>
+                          <th scope="col">Loc.</th>
+                          <th scope="col">Pro.</th>
+                          <th scope="col">Doc.</th>
+                          <th scope="col">Bank.</th>
                           <th scope="col">dis.</th>
-                          <th scope="col">saloonService</th>
-                          <th scope="col">packageService</th>
-                          <th scope="col">MoreAction</th>
+                          <th scope="col">Service</th>
+                          <th scope="col">Package</th>
+                          <th scope="col">Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -138,45 +138,52 @@
                               </td>
                               <td>
                                 <button type="button" value="<%= data._id %>" id="location" onclick="saloonAdd(this)"
-                                  class="btn btn-info">
-                                  <i class="bi bi-eye" title="view"></i>
+                                  class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top"
+                                  data-bs-title="location">
+                                  <i class="bi bi-eye"></i>
                                 </button>
                               </td>
                               <td>
                                 <button type="button" value="<%= data._id %>" id="profile" onclick="saloonAdd(this)"
-                                  class="btn btn-info">
-                                  <i class="bi bi-eye" title="view"></i>
+                                  class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top"
+                                  data-bs-title="profile">
+                                  <i class="bi bi-eye"></i>
                                 </button>
                               </td>
                               <td>
                                 <button type="button" value="<%= data._id %>" id="Document" onclick="saloonAdd(this)"
-                                  class="btn btn-info">
-                                  <i class="bi bi-eye" title="view"></i>
+                                  class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top"
+                                  data-bs-title="Document">
+                                  <i class="bi bi-eye"></i>
                                 </button>
                               </td>
                               <td>
                                 <button type="button" value="<%= data._id %>" id="BankInfo" onclick="saloonAdd(this)"
-                                  class="btn btn-info">
-                                  <i class="bi bi-eye" title="view"></i>
+                                  class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top"
+                                  data-bs-title="BankInfo">
+                                  <i class="bi bi-eye"></i>
                                 </button>
                               </td>
                               <td>
                                 <button type="button" value="<%= data._id %>" id="description" onclick="saloonAdd(this)"
-                                  class="btn btn-info">
-                                  <i class="bi bi-eye" title="view"></i>
+                                  class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top"
+                                  data-bs-title="Description">
+                                  <i class="bi bi-eye"></i>
                                 </button>
                               </td>
                               <% let NumberOfservice;%>
                                 <td>
-                                  <a href="/add_service?saloonId=<%= data._id%>" class="btn btn-success text-warning"><i
-                                      class="ri-file-add-line" title="Add Sub Category"></i></a>
+                                  <a href="/add_service?saloonId=<%= data._id%>" class="btn btn-success text-warning"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add New Service"><i
+                                      class="ri-file-add-line"></i></a>
                                   <%data.ccc.forEach(element=> {%>
 
                                     <%if( element._id==0){%>
                                       <% NumberOfservice=element.count %>
-                                        <a href="/view_service?id=<%= data._id%>" class="btn btn-success">
-                                          <!-- <%= element.count %> -->
-                                            <i class="bi bi-eye" title="view Service"></i>
+                                        <a href="/view_service?id=<%= data._id%>" class="btn btn-success"
+                                          data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="view Service">
+                                          <%= element.count %>
+                                            <i class="bi bi-eye"></i>
                                         </a>
                                         <%}%>
                                           <%})%>
@@ -185,16 +192,19 @@
                                 <td>
                                   <%if(NumberOfservice>1){%>
                                     <a href="/add-new-package?saloonId=<%= data._id%>"
-                                      class="btn btn-success text-warning"><i class="ri-file-add-line"
-                                        title="add new package"></i></a>
+                                      class="btn btn-success text-warning" data-bs-toggle="tooltip"
+                                      data-bs-placement="top" data-bs-title="Add New Package">
+                                      <i class="ri-file-add-line"></i></a>
                                     <% }%>
 
                                       <%if(data.ccc.length>1){%>
                                         <%data.ccc.forEach(element=> {%>
                                           <%if( element._id==1){%>
-                                            <a href="/view-package?id=<%= data._id%>" class="btn btn-success">
-                                              <!-- <%= element.count %> -->
-                                                <i class="bi bi-eye" title="view Service"></i>
+                                            <a href="/view-package?id=<%= data._id%>" class="btn btn-success"
+                                              data-bs-toggle="tooltip" data-bs-placement="top"
+                                              data-bs-title="view Package">
+                                              <%= element.count %>
+                                                <i class="bi bi-eye"></i>
                                             </a>
                                             <%}%>
                                               <%})%>
@@ -204,10 +214,11 @@
                                 <td>
                                   <!-- <a href="/add_saloon?id=<%= data._id%>" class="btn btn-dark">Edit</a>
                                 <a href="/delete_saloon?id=<%= data._id%>" class="btn btn-danger">Delete</a> -->
-                                  <a href="/add_saloon?id=<%= data._id%>" class="btn btn-info"><i
-                                      class="ri-edit-box-line" title="Edit"></i></a>
-                                  <a href="/delete_saloon?id=<%= data._id%>" class="btn btn-danger">
-                                    <i class="ri-delete-bin-5-line" title="delete"></i>
+                                  <a href="/add_saloon?id=<%= data._id%>" class="btn btn-info" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" data-bs-title="Edit"><i class="ri-edit-box-line"></i></a>
+                                  <a href="/delete_saloon?id=<%= data._id%>" class="btn btn-danger"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete Saloon">
+                                    <i class="ri-delete-bin-5-line"></i>
                                   </a>
                                 </td>
                             </tr>
@@ -233,7 +244,7 @@
               <h5 class="modal-title" id="exampleModalLabel">Saloon Data</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="moduleDataAppend">
+            <div class="modal-body table-responsive" id="moduleDataAppend">
               ...
             </div>
             <div class="modal-footer">
@@ -298,7 +309,7 @@
                   data.forEach((item) => {
                     abc += `<tr>
                                 <td>
-                                  ${item.location?.shopNumber}
+                                  ${item.location?.shopNumber ? item.location?.shopNumber : "-"}
                                 </td>
                                 <td>
                                   ${item.location.pincode}
@@ -324,8 +335,8 @@
                               </tr>
                             </thead>
                             <tbody>`
-                    data.forEach((item) => {
-                      abc += `<tr>
+                  data.forEach((item) => {
+                    abc += `<tr>
                                 <td>
                                   ${item.ProfileInfo.yourService}
                                 </td>
@@ -333,23 +344,23 @@
                                   ${item.ProfileInfo.alternatePhone}
                                 </td>
                                 <td>`
-                      item.ProfileInfo.workingday.forEach((days) => {
-                        abc += ` ${days}<br>`
-                      })
+                    item.ProfileInfo.workingday.forEach((days) => {
+                      abc += ` ${days}<br>`
+                    })
 
-                      abc += `  </td>
+                    abc += `  </td>
                                 <td>
                                   <a href="${item.ProfileInfo.FaceBookProfile}"><i class="bi bi-facebook"></i></a>
                                   <a href="${item.ProfileInfo.instaProfile}"><i class="bi bi-instagram"></i></a>
                                   <a href="${item.ProfileInfo.webProfile}"><i class="bi bi-link-45deg"></i></a>
                                 </td>
                                 <td>`
-                      item.ProfileInfo.amenities.forEach((amenities) => {
-                        abc += ` ${amenities}<br>`
-                      })
-                      abc += `</td></tr>`
+                    item.ProfileInfo.amenities.forEach((amenities) => {
+                      abc += ` ${amenities}<br>`
                     })
-                    abc += `</tbody> </table >`
+                    abc += `</td></tr>`
+                  })
+                  abc += `</tbody> </table >`
                 } else if (element.id == "Document") {
                   abc = ` <table class="table datatable">
                             <thead>
@@ -364,19 +375,19 @@
                   data.forEach((item) => {
                     abc += `<tr>
                                 <td>
-                                 <img src="/uploads/${item.uplodeDocuments.BannerLogo}" style="height: 50px; width: 80px alt="" onclick='img(this)'>
+                                 <img src="/uploads/${item.uplodeDocuments.BannerLogo ? item.uplodeDocuments.BannerLogo : 'default.png'}" style="height: 50px; width: 80px alt="" onclick='img(this)'>
 
                                 </td>
                                 <td>
-                                 <img src="/uploads/${item.uplodeDocuments.logoImage}" style="height: 50px; width: 80px alt="" onclick='img(this)'>
+                                 <img src="/uploads/${item.uplodeDocuments.logoImage ? item.uplodeDocuments.logoImage : 'default.png'}" style="height: 50px; width: 80px alt="" onclick='img(this)'>
 
                                 </td>
                                 <td>
-                                <img src="/uploads/${item.uplodeDocuments.panImage}" style="height: 50px; width: 80px alt="" onclick='img(this)'>
+                                <img src="/uploads/${item.uplodeDocuments.panImage ? item.uplodeDocuments.panImage : 'default.png'}" style="height: 50px; width: 80px alt="" onclick='img(this)'>
 
                                 </td>
                                 <td>
-                                 <img src="/uploads/${item.uplodeDocuments.businessCertificate}" style="height: 50px; width: 80px alt="" onclick='img(this)'>
+                                 <img src="/uploads/${item.uplodeDocuments.businessCertificate ? item.uplodeDocuments.businessCertificate : 'default.png'}" style="height: 50px; width: 80px alt="" onclick='img(this)'>
 
                                 </td>
                                </tr>`
@@ -411,10 +422,10 @@
                              </tr>`
                   })
                   abc += ` </table >`
-                }  else if (element.id == "description") {
+                } else if (element.id == "description") {
                   abc = ` <table class="table datatable">`
                   data.forEach((item) => {
-                    abc +=item.description
+                    abc += item.description
                   })
                   abc += ` </table >`
                 }

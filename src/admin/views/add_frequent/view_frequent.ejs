@@ -53,13 +53,22 @@
                               <td>
                                 <%= singleData.blogTitel %>
                               </td>
-                              <td> <button type="button" value="<%= singleData._id %>" onclick="ViwesFindBlog(this)"
-                                  class="btn btn-info"><i class="bi bi-eye"></i></button></td>
                               <td>
-                                <a href="/add_frequent?id=<%= singleData._id%>" class="btn btn-info"><i
-                                    class="ri-edit-box-line" title="Edit"></i></a>
-                                <a href="/delete_frequent?id=<%= singleData._id%>" class="btn btn-danger">
-                                  <i class="ri-delete-bin-5-line" title="delete"></i>
+                                <button type="button" value="<%= singleData._id %>" onclick="ViwesFindBlog(this)"
+                                  class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top"
+                                  data-bs-title="Views Answer">
+                                  <i class="bi bi-eye">
+                                  </i>
+                                </button>
+                              </td>
+                              <td>
+                                <a href="/add_frequent?id=<%= singleData._id%>" class="btn btn-info"
+                                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">
+                                  <i class="ri-edit-box-line"></i>
+                                </a>
+                                <a href="/delete_frequent?id=<%= singleData._id%>" class="btn btn-danger"
+                                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
+                                  <i class="ri-delete-bin-5-line"></i>
                                 </a>
                             </tr>
                             <%}%>

@@ -97,7 +97,7 @@
                           <th scope="col">Writer Name</th>
                           <th scope="col">Image</th>
                           <th scope="col">Category</th>
-                          <th scope="col">Description</th>
+                          <th scope="col">Des.</th>
                           <th scope="col">F&Q</th>
                           <th scope="col">Action</th>
                         </tr>
@@ -115,32 +115,38 @@
                               <td>
                                 <%= singleData.WriterName %>
                               </td>
-                              <td><img src="/uploads/<%= singleData.image[0]%>" width="60px" onclick='img(this)'></td>
+                              <td><img src="/uploads/<%= singleData.image[0]?singleData.image[0]:'default.png'%>"
+                                  width="60px" onclick='img(this)'></td>
                               <td>
                                 <%= singleData.category_name %>
                               </td>
                               <td>
                                 <button type="button" value="<%= singleData._id %>" onclick="ViwesFindBlog(this)"
-                                  class="btn btn-info"><i class="bi bi-eye"></i></button>
+                                  class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top"
+                                  data-bs-title="Description">
+                                  <i class="bi bi-eye"></i>
+                                </button>
                               </td>
                               <td>
-                                <a href="/add_frequent?id=<%= singleData._id %>">
-                                  <button type="button" value="<%= singleData._id %>" class="btn btn-info">
-                                    +
-                                  </button>
+                                <a href="/add_frequent?id=<%= singleData._id %>" class="btn btn-info"
+                                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add New F&Q">
+                                  +
                                 </a>
                                 <% if(singleData.faq[0]?.count>0){ %>
-                                  <a href="/view_frequent?id=<%= singleData._id %>">
-                                    <button type="button" value="<%= singleData._id %>" class="btn btn-info"><i
-                                        class="bi bi-eye"></i></button>
+                                  <a href="/view_frequent?id=<%= singleData._id %>" class="btn btn-info"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View F&Q">
+                                    <%= singleData.faq[0]?.count %>
+                                      <i class="bi bi-eye"></i>
                                   </a>
                                   <%}%>
                               </td>
                               <td>
                                 <a href="/add_blog?id=<%= singleData._id%>" class="btn btn-info"><i
-                                    class="ri-edit-box-line" title="Edit"></i></a>
+                                    class="ri-edit-box-line" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="Edit"></i></a>
                                 <a href="/delete_blog?id=<%= singleData._id%>" class="btn btn-danger"><i
-                                    class="ri-delete-bin-5-line" title="delete"></i></a>
+                                    class="ri-delete-bin-5-line" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="Delete"></i></a>
                               </td>
                             </tr>
                             <%}%>
