@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 exports.AddCategory = async (req, res, _id) => {
     try {
+        res.locals.message = req.flash();
         if (req.query.EditId != undefined && req.query.EditId != "") {
             if (req.file != undefined && req.file) {
                 req.body.image = req.file.filename
@@ -30,6 +31,7 @@ exports.AddCategory = async (req, res, _id) => {
                 type: req.body.type
             })
             const result = await data.save()
+            req.flash("success", "Category Added Successfully !");
             res.redirect("/view-category")
         }
     } catch (error) {

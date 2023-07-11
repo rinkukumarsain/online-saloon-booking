@@ -40,7 +40,7 @@ exports.ContactUs = async ({ user, body }) => {
                     return {
                         statusCode: 200,
                         status: true,
-                        message: "ContactUs successfull !",
+                        message: "ContactUs Successfully !",
                         data: [result]
                     };
                 }

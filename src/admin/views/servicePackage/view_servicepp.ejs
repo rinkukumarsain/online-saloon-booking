@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>view-Service</title>
+  <title>View-Package</title>
   <%- include('../../partials/headlink.ejs') %>
 </head>
 
@@ -98,7 +98,7 @@
                             <th scope="col">Time </th>
                             <th scope="col">Gender</th>
                             <th scope="col"> Category </th>
-                            <th scope="col"> Servicess </th>
+                            <th scope="col"> Service </th>
                             <th scope="col">Action</th>
                           </tr>
                         </thead>
@@ -210,7 +210,7 @@
                             <td scope="row">${item.ServiceName}</td>
                             <td>${item.ServicePrice}</td>
                             <td>${item.timePeriod_in_minits}</td>
-                            <td><img src="/uploads/${item.image[0]?item.image[0]:'default.png'}" alt="img" style="width:50px"></td>
+                            <td><img src="/uploads/${item.image[0] ? item.image[0] : 'default.png'}" alt="img" style="width:50px"></td>
                           </tr>`
                     i++
                   })

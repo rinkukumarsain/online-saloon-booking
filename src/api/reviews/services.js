@@ -5,7 +5,7 @@ exports.getreviews = async (query) => {
     try {
         const saloonId = mongoose.Types.ObjectId(query.saloonId);
         let x = query.user._id
-      
+
         const condition = [];
         condition.push({
             '$match': {
@@ -96,7 +96,7 @@ exports.getreviews = async (query) => {
             return {
                 statusCode: 200,
                 status: true,
-                message: "reviews  find successfull !",
+                message: "reviews  find Successfully !",
                 data: findData
             };
         } else {

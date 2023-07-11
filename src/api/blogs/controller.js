@@ -37,7 +37,7 @@ exports.creatBlog = async ({ body, file }) => {
                                     return {
                                         statusCode: 200,
                                         status: true,
-                                        message: "Blog Register successfull !",
+                                        message: "Blog Register Successfully !",
                                         data: [result]
                                     };
                                 };
@@ -161,7 +161,7 @@ exports.getAllBlog = async ({ query }) => {
             return {
                 statusCode: 200,
                 status: true,
-                message: "blog is here successfull!",
+                message: "blog is here Successfully!",
                 data: [result]
             };
         } else {

@@ -82,7 +82,7 @@ exports.getCoupon = async (req) => {
             return {
                 statusCode: 400,
                 status: false,
-                message: "data not found ",
+                message: "data not Found ",
                 data: []
             };
         };

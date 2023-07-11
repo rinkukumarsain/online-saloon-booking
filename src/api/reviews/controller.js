@@ -19,7 +19,7 @@ exports.addReviews = async ({ body, user, query }) => {
                 return {
                     statusCode: 200,
                     status: true,
-                    message: `your review updateDate successfull !`,
+                    message: `your review updateDate Successfully !`,
                     data: [updateDate]
                 };
             };
@@ -45,7 +45,7 @@ exports.addReviews = async ({ body, user, query }) => {
                 return {
                     statusCode: 200,
                     status: true,
-                    message: `your review submited successfull !`,
+                    message: `your review submited Successfully !`,
                     data: [result]
                 };
             };
@@ -63,7 +63,7 @@ exports.getReviews = async ({ query, user }) => {
             return {
                 statusCode: 200,
                 status: true,
-                message: "review  get successfull !",
+                message: "review  get Successfully !",
                 data: result.data
             };
         } else {

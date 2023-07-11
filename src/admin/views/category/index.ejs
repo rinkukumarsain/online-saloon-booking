@@ -14,147 +14,150 @@
 
   <%- include('../../partials/Header.ejs') %>
     <%- include("../../partials/sidebar.ejs") %>
+      <%- include("../../partials/alertMsg.ejs") %>
 
-      <main id="main" class="main">
-        <div class="pagetitle">
+        <main id="main" class="main">
+          <div class="pagetitle">
 
-          <h1>admin</h1>
-          <nav>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-          </nav>
-        </div>
-        <!-- End Page Title -->
-        <section class="section dashboard">
-          <div class="row">
+            <h1>admin</h1>
+            <nav>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+              </ol>
+            </nav>
+          </div>
+          <!-- End Page Title -->
+          <section class="section dashboard">
             <div class="row">
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
 
 
-                    <!-- Table with stripped rows -->
-                    <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                      <% if(typeof id !=="undefined" && id){%>
-                        <!-- <div class="dataTable-container"> -->
-                        <h5 class="card-title">Add Sub Category</h5>
-                        <form class="needs-validation row g-3" action="/Add-New-Category?id=<%= id %>" method="post"
-                          enctype="multipart/form-data" novalidate>
+                      <!-- Table with stripped rows -->
+                      <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                        <% if(typeof id !=="undefined" && id){%>
+                          <!-- <div class="dataTable-container"> -->
+                          <h5 class="card-title">Add Sub Category</h5>
+                          <form class="needs-validation row g-3" action="/Add-New-Category?id=<%= id %>" method="post"
+                            enctype="multipart/form-data" novalidate>
 
-                          <div class="col-10">
-                            <label for="" class="form-label">Sub Category Name</label>
-                            <input type="text" class="form-control" placeholder="Enter Sub  Category Name" name="Name"
-                              required />
-                            <div class="invalid-feedback">Please Enter Sub Category Name.</div>
-
-                          </div>
-                          <div class="col-10">
-                            <label for="inputPassword4" class="form-label">Sub Category Image</label>
-                            <input type="file" name="file" class="form-control" id="inputPassword4" required />
-                            <div class="invalid-feedback">Please Select Sub Category Image.</div>
-
-                          </div>
-
-                          <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-secondary">Reset</button>
-                          </div>
-                        </form><!-- Vertical Form -->
-                        <%}else if(typeof data !="undefined" && data !="" ){%>
-                          <h5 class=" card-title">Edit Category</h5>
-                          <form class="needs-validation row g-3" action="/Add-New-Category?EditId=<%= data._id%>"
-                            method="post" enctype="multipart/form-data" novalidate>
-
-                            <div class="col-8">
-                              <label for="" class="form-label">Edit Category Name</label>
-                              <input type="text" class="form-control" name="Name" value="<%= data.Name%>" required>
-                              <div class="invalid-feedback">Please Category Name.</div>
+                            <div class="col-10">
+                              <label for="" class="form-label">Sub Category Name</label>
+                              <input type="text" class="form-control" placeholder="Enter Sub  Category Name" name="Name"
+                                required />
+                              <div class="invalid-feedback">Please Enter Sub Category Name.</div>
 
                             </div>
-                            <div class="col-8">
-                              <label for="inputPassword4" class="form-label">Edit Category Image</label>
-                              <input type="file" name="file" class="form-control" id="inputPassword4">
-                            </div>
-                            <div class="col-4">
-                              <% if (data.image){ %>
-                                <img src="/uploads/<%= data.image %>" alt=""
-                                  style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
-                                <% }else { %>
-                                  <img src="assets/img/profile-img.jpg" alt=""
-                                    style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
-                                  <% } %>
+                            <div class="col-10">
+                              <label for="inputPassword4" class="form-label">Sub Category Image</label>
+                              <input type="file" name="file" class="form-control" id="inputPassword4" required />
+                              <div class="invalid-feedback">Please Select Sub Category Image.</div>
+
                             </div>
 
                             <div class="text-center">
                               <button type="submit" class="btn btn-primary">Submit</button>
+                              <button type="reset" class="btn btn-secondary">Reset</button>
                             </div>
                           </form><!-- Vertical Form -->
-                          <% }else{%>
-                            <h5 class="card-title">Add Category</h5>
+                          <%}else if(typeof data !="undefined" && data !="" ){%>
+                            <h5 class=" card-title">Edit Category</h5>
+                            <form class="needs-validation row g-3" action="/Add-New-Category?EditId=<%= data._id%>"
+                              method="post" enctype="multipart/form-data" novalidate>
 
-                            <!-- <div class="dataTable-container"> -->
-                            <form class="needs-validation row g-3" action="/Add-New-Category" method="post"
-                              enctype="multipart/form-data" novalidate>
+                              <div class="col-8">
+                                <label for="" class="form-label">Edit Category Name</label>
+                                <input type="text" class="form-control" name="Name" value="<%= data.Name%>" required>
+                                <div class="invalid-feedback">Please Category Name.</div>
 
-                              <div class="col-10">
-                                <label for="" class="form-label">Category Name</label>
-                                <input type="text" class="form-control" name="Name" placeholder="Enter Category Name"
-                                  id="" required>
-                                <div class="invalid-feedback">Please Enter Category Name.</div>
                               </div>
-                              <div class="col-6">
-                                <label for="inputPassword4" class="form-label">Category Image</label>
-                                <input type="file" name="file" class="form-control" id="inputPassword4" required>
-                                <div class="invalid-feedback">Please Select Image.</div>
+                              <div class="col-8">
+                                <label for="inputPassword4" class="form-label">Edit Category Image</label>
+                                <input type="file" name="file" class="form-control" id="inputPassword4">
                               </div>
-                              <div class="col-6">
-                                <label for="inputPassword4" class="form-label">type</label>
-                                <select class="form-select" name="type" aria-label="Default select example" required="">
-                                  <option value="0">For Service</option>
-                                  <option value="1">For Service packages</option>
-                                </select>
+                              <div class="col-4">
+                                <% if (data.image){ %>
+                                  <img src="/uploads/<%= data.image %>" alt=""
+                                    style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
+                                  <% }else { %>
+                                    <img src="assets/img/profile-img.jpg" alt=""
+                                      style="margin: -93px 10px 10px 10px; height: 250px; width: 250px;">
+                                    <% } %>
                               </div>
 
                               <div class="text-center">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="reset" class="btn btn-secondary">Reset</button>
                               </div>
                             </form><!-- Vertical Form -->
-                            <!-- </div> -->
-                            <%}%>
+                            <% }else{%>
+                              <h5 class="card-title">Add Category</h5>
+
+                              <!-- <div class="dataTable-container"> -->
+                              <form class="needs-validation row g-3" action="/Add-New-Category" method="post"
+                                enctype="multipart/form-data" novalidate>
+
+                                <div class="col-10">
+                                  <label for="" class="form-label">Category Name</label>
+                                  <input type="text" class="form-control" name="Name" placeholder="Enter Category Name"
+                                    id="" required>
+                                  <div class="invalid-feedback">Please Enter Category Name.</div>
+                                </div>
+                                <div class="col-6">
+                                  <label for="inputPassword4" class="form-label">Category Image</label>
+                                  <input type="file" name="file" class="form-control" id="inputPassword4" required>
+                                  <div class="invalid-feedback">Please Select Image.</div>
+                                </div>
+                                <div class="col-6">
+                                  <label for="inputPassword4" class="form-label">type</label>
+                                  <select class="form-select" name="type" aria-label="Default select example"
+                                    required="">
+                                    <option value="0">For Service</option>
+                                    <option value="1">For Service packages</option>
+                                  </select>
+                                </div>
+
+                                <div class="text-center">
+                                  <button type="submit" class="btn btn-primary">Submit</button>
+                                  <button type="reset" class="btn btn-secondary">Reset</button>
+                                </div>
+                              </form><!-- Vertical Form -->
+                              <!-- </div> -->
+                              <%}%>
+
+                      </div>
+                      <!-- End Table with stripped rows -->
 
                     </div>
-                    <!-- End Table with stripped rows -->
-
                   </div>
                 </div>
               </div>
+
             </div>
+          </section>
 
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+
+              <!-- Modal content-->
+
+
+            </div>
           </div>
-        </section>
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
+        </main>
 
-            <!-- Modal content-->
+        <!-- ======= Footer ======= -->
 
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
 
-          </div>
-        </div>
-
-      </main>
-
-      <!-- ======= Footer ======= -->
-
-      <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-          class="bi bi-arrow-up-short"></i></a>
-
-      <!-- Vendor JS Files -->
-      <%- include("../../partials/script.ejs") %>
+        <!-- Vendor JS Files -->
+        <%- include("../../partials/script.ejs") %>
 
 </body>
 

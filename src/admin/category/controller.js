@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 exports.Category = async (req, res) => {
     try {
+        res.locals.message = req.flash();
         if (req.user.type == "admin") {
             return res.redirect("/")
         }
@@ -31,6 +32,7 @@ exports.AddCategory = async (req, res) => {
 
 exports.ViwesCategory = async (req, res) => {
     try {
+        res.locals.message = req.flash();
         if (req.user.type == "admin") {
             return res.redirect("/")
         }
@@ -72,11 +74,13 @@ exports.ViwesCategory = async (req, res) => {
 
 exports.DeleteCategory = async (req, res) => {
     try {
+        res.locals.message = req.flash();
         if (req.user.type == "admin") {
             return res.redirect("/")
         }
         const result = await CategoryModule.findByIdAndRemove({ _id: mongoose.Types.ObjectId(req.query.id) })
         if (result) {
+            req.flash("success", "Category Delete Succesfully !")
             res.redirect("/view-category")
         } else {
             res.redirect("/")

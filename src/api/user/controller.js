@@ -136,7 +136,7 @@ exports.register = async ({ body, query }) => {
                 return {
                     statusCode: 201,
                     status: true,
-                    message: "Registration successfull",
+                    message: "Registration Successfully",
                     data: { auth: token, user }
                 };
             };
@@ -196,7 +196,7 @@ exports.login = async ({ body }) => {
                         return {
                             statusCode: 200,
                             status: true,
-                            message: "Login successfull !",
+                            message: "Login Successfully !",
                             data: [user, { auth: token }]
                         };
                     }
@@ -256,7 +256,7 @@ exports.loginOtpVerify = async ({ body }) => {
                         return {
                             statusCode: 200,
                             status: true,
-                            message: "Phone Login successfull !",
+                            message: "Phone Login Successfully !",
                             data: [user, { auth: token }]
                         };
                     }
@@ -359,7 +359,7 @@ exports.userEditProfile = async ({ body, user, file }) => {
             return {
                 statusCode: 200,
                 status: true,
-                message: "User Profile Update successfull !",
+                message: "User Profile Update Successfully !",
                 data: [result]
             };
         } else {
@@ -383,7 +383,7 @@ exports.logOut = async (req, res) => {
         return {
             statusCode: 200,
             status: true,
-            message: "User log-Out successfull !",
+            message: "User log-Out Successfully !",
             data: []
         };
     } catch (error) {
@@ -401,7 +401,7 @@ exports.EditUserProfile = async ({ user, file }) => {
                 return {
                     statusCode: 200,
                     status: true,
-                    message: "User Profile Update successfull !",
+                    message: "User Profile Update Successfully !",
                     data: [result]
                 };
             } else {
