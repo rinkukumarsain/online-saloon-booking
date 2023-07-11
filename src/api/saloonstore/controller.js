@@ -54,7 +54,7 @@ exports.registerSaloonStore = async ({ body, user, files, query }) => {
                     return {
                         statusCode: 200,
                         status: true,
-                        message: "Saloon-Store is  Update successfull !",
+                        message: "Saloon-Store is  Update Successfully !",
                         data: [result]
                     };
                 };
@@ -165,7 +165,7 @@ exports.getSaloonStore = async ({ query }) => {
             return {
                 statusCode: 200,
                 status: true,
-                message: "Get All Saloon-Store successfull !",
+                message: "Get All Saloon-Store Successfully !",
                 data: result
             };
         } else {

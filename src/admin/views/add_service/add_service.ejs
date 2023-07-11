@@ -158,22 +158,6 @@
                                 <div class="invalid-feedback">Please Enter Service Time.</div>
                               </div>
                               <div class="col">
-                                <label for="">Discription</label>
-                                <textarea class="form-control" name="description" placeholder="Enter Description"
-                                  style="height: 100px" required minlength="5"></textarea>
-                                <div class="valid-feedback">Looks good!</div>
-                                <div class="invalid-feedback">Please Enter Discription.</div>
-                              </div>
-
-                            </div><br>
-                            <div class="row g-3">
-                              <div class="col">
-                                <label for="">Service Images</label>
-                                <input class="form-control" type="file" name="image" id="formFile" multiple required>
-                                <div class="valid-feedback">Looks good!</div>
-                                <div class="invalid-feedback">Please select Image.</div>
-                              </div>
-                              <div class="col">
                                 <label for="">Select Saloon</label>
                                 <select class="form-select" name="saloonStore" onchange="FindSaloon(this)"
                                   aria-label="Default select example" required>
@@ -197,6 +181,23 @@
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">Please Select Saloon.</div>
                               </div>
+
+                            </div><br>
+                            <div class="row g-3">
+                              <div class="col">
+                                <label for="">Service Images</label>
+                                <input class="form-control" type="file" name="image" id="formFile" multiple required>
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">Please select Image.</div>
+                              </div>
+                              <div class="col">
+                                <label for="">Choose Gender </label>
+                                <div id="gendeAll">
+                                </div>
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">Please Select Gender.</div>
+                              </div>
+
                             </div><br>
 
                             <div class="row g-3">
@@ -216,13 +217,11 @@
                                 <div class="invalid-feedback">Please Select Category.</div>
                               </div>
                               <div class="col">
-                                <label for="">Choose Gender </label>
-                                <div id="gendeAll">
-
-                                </div>
-
+                                <label for="">Discription</label>
+                                <textarea class="form-control" name="description" placeholder="Enter Description"
+                                  style="height: 100px" required minlength="5"></textarea>
                                 <div class="valid-feedback">Looks good!</div>
-                                <div class="invalid-feedback">Please Select Gender.</div>
+                                <div class="invalid-feedback">Please Enter Discription.</div>
                               </div>
 
                               <div id="myselect" class="col-md-12">

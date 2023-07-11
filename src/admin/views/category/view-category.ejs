@@ -13,39 +13,40 @@
 
   <%- include('../../partials/Header.ejs') %>
     <%- include("../../partials/sidebar.ejs") %>
+      <%- include("../../partials/alertMsg") %>
 
-      <main id="main" class="main">
-        <div class="pagetitle">
-          <h1><%-user.type %></h1>
-          <nav>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-          </nav>
-        </div>
-        <!-- End Page Title -->
-        <section class="section dashboard">
-          <div class="row">
+        <main id="main" class="main">
+          <div class="pagetitle">
+            <h1><%-user.type %></h1>
+            <nav>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+              </ol>
+            </nav>
+          </div>
+          <!-- End Page Title -->
+          <section class="section dashboard">
             <div class="row">
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title">Filter</h5>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Filter</h5>
 
-                    <!-- No Labels Form -->
-                    <form class="row g-3" action="/view-category">
-                      <div class="col-md-3">
-                        <label>Choose City</label> <br>
+                      <!-- No Labels Form -->
+                      <form class="row g-3" action="/view-category">
+                        <div class="col-md-3">
+                          <label>Choose City</label> <br>
 
-                        <% if(query?.CategoryName!="" ){%>
-                          <input type="text" name="CategoryName" class="form-control" value="<%=query?.CategoryName%>"
-                            placeholder="CategoryName">
-                          <%}else{%>
-                            <input type="text" name="CategoryName" class="form-control" placeholder="CategoryName">
-                            <%}%>
-                      </div>
-                    
+                          <% if(query?.CategoryName!="" ){%>
+                            <input type="text" name="CategoryName" class="form-control" value="<%=query?.CategoryName%>"
+                              placeholder="CategoryName">
+                            <%}else{%>
+                              <input type="text" name="CategoryName" class="form-control" placeholder="CategoryName">
+                              <%}%>
+                        </div>
+
                         <div class="col-md-3">
                           <label>Choose Type</label> <br>
                           <select id="inputState" name="type" class="form-select">
@@ -75,85 +76,90 @@
                             <a href="/view-category"> <button type="button" class="btn btn-secondary">Reset</button></a>
                           </div>
                         </div>
-                    </form>
-                    <!-- End No Labels Form -->
+                      </form>
+                      <!-- End No Labels Form -->
 
+                    </div>
                   </div>
-                </div>
-                <div class="card">
-                  <div class="card-body">
-                    <%if(data.parent_Name!=undefined){ %>
-                      <h5 class="card-title">Sub Category</h5>
-                      <%}else{%>
-                        <h5 class="card-title">Category</h5>
-                        <%}%>
+                  <div class="card">
+                    <div class="card-body">
+                      <%if(data.parent_Name!=undefined){ %>
+                        <h5 class="card-title">Sub Category</h5>
+                        <%}else{%>
+                          <h5 class="card-title">Category</h5>
+                          <%}%>
 
-                          <!-- Table with stripped rows -->
-                          <table class="table datatable">
-                            <thead>
-                              <tr>
-                                <th>sr no</th>
-                                <th scope="col">Category Name</th>
-                                <th scope="col">images</th>
+                            <!-- Table with stripped rows -->
+                            <table class="table datatable">
+                              <thead>
+                                <tr>
+                                  <th>sr no</th>
+                                  <th scope="col">Category Name</th>
+                                  <th scope="col">images</th>
 
-                                <th scope="col">action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <% let i=0 %>
-                                <% for( data of data) { %>
-                                  <tr>
-                                    <td scope="row">
-                                      <%= ++i %>
-                                    </td>
-                                    <td>
-                                      <%= data.Name %>
-                                    </td>
-                                    <td>
-                                      <% if(typeof data.image !="undefined" && data.image!="" ){%>
-                                        <img class="rounded-circle" src="uploads/<%= data?.image %>" height="50px"
-                                          width="50px" alt="">
-                                        <!-- <img src="<%= user?.image%>" alt="image" class="rounded-circle" style="width: 40px; height: 50px;border-radius: 50%;"> -->
-                                        <%}else{%>
-                                          <img src="assets/img/profile-img.jpg" alt="Profile" height="50px" width="50px"
-                                            class="rounded-circle">
-                                          <%}%>
-                                    </td>
-                                    <td>
-                                      <%if(data._doc.del=="view"){%>
-                                        <a href="/category?EditId=<%= data._id%>" class="btn btn-info"><i
-                                            class="ri-edit-box-line" title="Edit"></i></a>
-                                        <a href="/view-category?id=<%= data._id%>" class="btn btn-success"><i
-                                            class="bi bi-eye" title="view Sub category"></i></a>
-                                        <a href="/category?id=<%= data._id%>" class="btn btn-success text-warning"><i
-                                            class="ri-file-add-line" title="Add Sub Category"></i></a>
-                                        <%}else{%>
-                                          <a href="/category?EditId=<%= data._id%>" class="btn btn-info"><i
-                                              class="ri-edit-box-line" title="Edit"></i></a>
-                                          <a href="/delete-category?id=<%= data._id%>" class="btn btn-danger">
-                                            <i class="ri-delete-bin-5-line" title="delete"></i>
-                                          </a>
-                                          <%if(data.type===0){%>
-                                            <a href="/category?id=<%= data._id%>"
-                                              class="btn btn-success text-warning"><i class="ri-file-add-line"
-                                                title="Add Sub Category"></i></a>
+                                  <th scope="col">action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <% let i=0 %>
+                                  <% for( data of data) { %>
+                                    <tr>
+                                      <td scope="row">
+                                        <%= ++i %>
+                                      </td>
+                                      <td>
+                                        <%= data.Name %>
+                                      </td>
+                                      <td>
+                                        <% if(typeof data.image !="undefined" && data.image!="" ){%>
+                                          <img class="rounded-circle" src="uploads/<%= data?.image %>" height="50px"
+                                            width="50px" alt="">
+                                          <!-- <img src="<%= user?.image%>" alt="image" class="rounded-circle" style="width: 40px; height: 50px;border-radius: 50%;"> -->
+                                          <%}else{%>
+                                            <img src="assets/img/profile-img.jpg" alt="Profile" height="50px"
+                                              width="50px" class="rounded-circle">
                                             <%}%>
+                                      </td>
+                                      <td>
+                                        <%if(data._doc.del=="view"){%>
+                                          <a href="/category?EditId=<%= data._id%>" class="btn btn-info"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">
+                                            <i class="ri-edit-box-line"></i></a>
+                                          <a href="/view-category?id=<%= data._id%>" class="btn btn-success"
+                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="View Sub Category"><i class="bi bi-eye"></i></a>
+                                          <a href="/category?id=<%= data._id%>" class="btn btn-success text-warning"
+                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Add Sub Category"><i class="ri-file-add-line"></i></a>
+                                          <%}else{%>
+                                            <a href="/category?EditId=<%= data._id%>" class="btn btn-info"
+                                              data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"><i
+                                                class="ri-edit-box-line"></i></a>
+                                            <a href="/delete-category?id=<%= data._id%>" class="btn btn-danger"
+                                              data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
+                                              <i class="ri-delete-bin-5-line"></i>
+                                            </a>
+                                            <%if(data.type===0){%>
+                                              <a href="/category?id=<%= data._id%>" class="btn btn-success text-warning"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-title="Add Sub Category"><i class="ri-file-add-line"></i></a>
                                               <%}%>
-                                    </td>
-                                  </tr>
-                                  <%}%>
-                            </tbody>
-                          </table>
-                          <!-- End Table with stripped rows -->
+                                                <%}%>
+                                      </td>
+                                    </tr>
+                                    <%}%>
+                              </tbody>
+                            </table>
+                            <!-- End Table with stripped rows -->
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-      </main>
-      <input type="hidden" id="myText" value={{_id}}>
-      <%- include("../../partials/script.ejs") %>
+          </section>
+        </main>
+        <input type="hidden" id="myText" value={{_id}}>
+        <%- include("../../partials/script.ejs") %>
 </body>
 
 </html>

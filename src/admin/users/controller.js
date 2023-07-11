@@ -21,9 +21,11 @@ exports.allUser = async (req, res) => {
 
 exports.BlockUser = async (req, res) => {
     try {
-        const Finddata = await user.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(req.query.id) }, { type: "block-User" }, { new: true })
+        res.locals.message = req.flash();
+        const Finddata = await user.findByIdAndUpdate({ _id: req.query.id }, { type: "block-User" }, { new: true })
         if (Finddata) {
-            res.redirect("/all-user")
+            req.flash("success", "block-User Successfully !");
+            return res.redirect("/all-user");
         }
     } catch (error) {
         console.log(error);
@@ -31,6 +33,7 @@ exports.BlockUser = async (req, res) => {
 };
 exports.warningPage = async (req, res) => {
     try {
+        res.locals.message = req.flash();
         const data = await user.findOne({ _id: mongoose.Types.ObjectId(req.query.id) })
         res.render("users/warning", { id: req.query.id, data, user: req.user })
     } catch (error) {

@@ -336,12 +336,12 @@ exports.orderCancel = async (req) => {
                     // refund paise 
                     req.query._id = updateData.PaymentId
                     const paymentRefund = await paymentsRefund(req)
-                    // refund paise successfull
+                    // refund paise Successfully
                     if (paymentRefund) {
                         return {
                             statusCode: 200,
                             status: true,
-                            message: `cancel order successfull && payment refunded`,
+                            message: `cancel order Successfully && payment refunded`,
                             data: [updateData]
                         };
                     };

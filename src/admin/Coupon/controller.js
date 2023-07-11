@@ -4,6 +4,7 @@ const { getAllSaloonCity } = require("../../api/saloonstore/controller");
 
 exports.Coupon = async (req, res) => {
     try {
+        res.locals.message = req.flash();
         if (req.user.type == "admin") {
             return res.redirect("/")
         }
@@ -22,11 +23,13 @@ exports.Coupon = async (req, res) => {
 
 exports.createCoupon = async (req, res) => {
     try {
+        res.locals.message = req.flash();
         if (req.query.id != undefined && req.query.id != "") {
             const _id = mongoose.Types.ObjectId(req.query.id);
 
             const updateData = await coupon.findByIdAndUpdate({ _id }, req.body, { new: true });
             if (updateData) {
+                req.flash("success", "Coupon Update Successfully !");
                 res.redirect("/View-All-Coupon");
             };
         } else {
@@ -41,6 +44,7 @@ exports.createCoupon = async (req, res) => {
             const couponditail = new coupon(req.body);
             const result = await couponditail.save();
             if (result) {
+                req.flash("success", "Coupon Added Successfully !");
                 res.redirect("/View-All-Coupon");
             };
         };
@@ -51,6 +55,7 @@ exports.createCoupon = async (req, res) => {
 
 exports.ViewAllCoupon = async (req, res) => {
     try {
+        res.locals.message = req.flash();
         if (req.user.type == "admin") {
             return res.redirect("/")
         }
@@ -85,12 +90,14 @@ exports.ViewAllCoupon = async (req, res) => {
 
 exports.DeleteCoupon = async (req, res) => {
     try {
+        res.locals.message = req.flash();
         if (req.user.type == "admin") {
             return res.redirect("/")
         }
         if (req.query.id != undefined && req.query.id != "") {
             const updateData = await coupon.findByIdAndDelete({ _id: mongoose.Types.ObjectId(req.query.id) })
             if (updateData) {
+                req.flash("success", "Coupon Delete Successfully !");
                 res.redirect("/View-All-Coupon");
             };
         } else {

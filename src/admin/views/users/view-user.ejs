@@ -12,7 +12,7 @@
 <body>
     <%- include('../../partials/Header.ejs') %>
         <%- include("../../partials/sidebar.ejs") %>
-            <%- include("../../partials/alertMsg") %>
+            <%- include("../../partials/alertMsg.ejs") %>
                 <main id="main" class="main">
                     <div class="pagetitle">
                         <h1><%-user.type %></h1>
@@ -101,7 +101,7 @@
                                                         <th scope="col">point</th>
                                                         <th scope="col">Status</th>
                                                         <th scope="col">wallet</th>
-                                                        <th scope="col">MoreAction</th>
+                                                        <th scope="col">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -177,36 +177,48 @@
                                                                     <% if( data.type=="block-User" ||
                                                                         data.type=="block-admin" ){%>
                                                                         <a href="/unblock?id=<%= data._id%>"
-                                                                            class="btn btn-dark">
+                                                                            class="btn btn-dark"
+                                                                            data-bs-toggle="tooltip"
+                                                                            data-bs-placement="top"
+                                                                            data-bs-title="Unblock">
                                                                             <i class="bi bi-unlock-fill"></i>
                                                                         </a>
                                                                         <%}else if( data.type=="super-admin" ){%>
                                                                             <a href="#" class="btn btn-dark">
                                                                                 Su
                                                                             </a>
-                                                                            <a href="/view_saloon?userId=<%=data._id%>">
-                                                                                <button type="button"
-                                                                                    class="btn btn-info">
-                                                                                    <i class="bi bi-eye"></i>
-                                                                                </button>
+                                                                            <a href="/view_saloon?userId=<%=data._id%>"
+                                                                                class="btn btn-info"
+                                                                                data-bs-toggle="tooltip"
+                                                                                data-bs-placement="top"
+                                                                                data-bs-title="view_saloon">
+                                                                                <i class="bi bi-eye"></i>
+
                                                                             </a>
                                                                             <%}else if( data.type=="admin" ){%>
                                                                                 <a href="/warningpage?id=<%=data._id%>"
-                                                                                    class="btn btn-danger">
+                                                                                    class="btn btn-danger"
+                                                                                    data-bs-toggle="tooltip"
+                                                                                    data-bs-placement="top"
+                                                                                    data-bs-title="Give Warning">
                                                                                     <i
                                                                                         class="ri-alarm-warning-line"></i>
                                                                                 </a>
 
-                                                                                <a
-                                                                                    href="/view_saloon?userId=<%=data._id%>">
-                                                                                    <button type="button"
-                                                                                        class="btn btn-info">
-                                                                                        <i class="bi bi-eye"></i>
-                                                                                    </button>
+                                                                                <a href="/view_saloon?userId=<%=data._id%>"
+                                                                                    data-bs-toggle="tooltip"
+                                                                                    data-bs-placement="top"
+                                                                                    data-bs-title="View Saloon"
+                                                                                    class="btn btn-info">
+                                                                                    <i class="bi bi-eye"></i>
+
                                                                                 </a>
                                                                                 <%}else{%>
                                                                                     <a href="/Block-User?id=<%=data._id%>"
-                                                                                        class="btn btn-danger">
+                                                                                        class="btn btn-danger"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="top"
+                                                                                        data-bs-title="Block-User">
                                                                                         <i class="bx bx-block"></i>
                                                                                     </a>
                                                                                     <%}%>

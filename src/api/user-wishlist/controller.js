@@ -137,7 +137,7 @@ exports.getWishlist = async ({ user, query }) => {
             return {
                 statusCode: 400,
                 status: false,
-                message: "no data found !",
+                message: "no data Found !",
                 data: []
             };
         };

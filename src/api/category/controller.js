@@ -24,7 +24,7 @@ exports.getCategoryListing = async (req) => {
             return {
                 statusCode: 200,
                 status: true,
-                message: "successfull!",
+                message: "Successfully!",
                 data: FindData
             };
         } else {
@@ -68,7 +68,7 @@ exports.getAllCategoryListing = async () => {
         return {
             statusCode: 200,
             status: true,
-            message: "successfull !",
+            message: "Successfully !",
             data: parent
         };
     } catch (error) {

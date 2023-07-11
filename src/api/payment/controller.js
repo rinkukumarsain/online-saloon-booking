@@ -48,7 +48,7 @@ exports.createOrderId = async (req) => {
                 return {
                     statusCode: 200,
                     status: true,
-                    message: "User orderid created  successfull !",
+                    message: "User orderid created  Successfully !",
                     data: [result]
                 }
             } else {
@@ -87,7 +87,7 @@ exports.apiPaymentVerify = async (req, res) => {
         var response = { "signatureIsValid": "false" };
         if (expectedSignature === req.body.response.razorpay_signature) {
             const result = await payments.findOneAndUpdate({ "orderData.id": req.body.response.razorpay_order_id }, {
-                payment: "Payment successfull",
+                payment: "Payment Successfully",
                 orderId: orderID,
                 "payment_detail.razorpay_payment_id": req.body.response.razorpay_payment_id,
                 "payment_detail.razorpay_order_id": req.body.response.razorpay_order_id,
@@ -99,7 +99,7 @@ exports.apiPaymentVerify = async (req, res) => {
                 return {
                     statusCode: 200,
                     status: true,
-                    message: "User orderid signature successfull !",
+                    message: "User orderid signature Successfully !",
                     data: [{
                         "signature": response,
                         "data": req.body.response
@@ -144,7 +144,7 @@ exports.paymentsRefund = async ({ query }) => {
                         return {
                             statusCode: 200,
                             status: true,
-                            message: "User Refund  successfull !",
+                            message: "User Refund  Successfully !",
                             data: [data]
                         };
                     };

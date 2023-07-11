@@ -82,7 +82,7 @@ exports.getServicePackage = async (query) => {
             return {
                 statusCode: 200,
                 status: true,
-                message: "package  find successfull !",
+                message: "package  find Successfully !",
                 data: findData
             };
         } else {

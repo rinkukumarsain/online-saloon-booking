@@ -14,11 +14,20 @@
 <script src="assets/js/main.js"></script>
 
 <script>
+    // $(document).ready(function () {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    $(document).click(function () {
-        console.log("Page changed!");
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    })
+    // })
+    // $(document).mouseenter(function () {
+    //     console.log("Page changed!");
+    //     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    //     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+    // })
+    // $(document).mousemove(function () {
+    //     console.log("Page changed!");
+    //     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    //     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+    // })
 </script>

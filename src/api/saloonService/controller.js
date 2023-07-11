@@ -288,11 +288,11 @@ exports.getAllSaloonServiceByCatogory = async ({ user, query }) => {
             return {
                 statusCode: 400,
                 status: false,
-                message: "subcategory not found!",
+                message: "subcategory not Found!",
                 data: []
             };
         }
-       
+
     } catch (error) {
         console.log(error);
     };
@@ -439,7 +439,7 @@ exports.getServiceByCategory = async ({ query }) => {
                         return {
                             statusCode: 200,
                             status: true,
-                            message: "Find Service successfull !",
+                            message: "Find Service Successfully !",
                             data: arrr
                         };
                     } else {
@@ -454,7 +454,7 @@ exports.getServiceByCategory = async ({ query }) => {
                     return {
                         statusCode: 400,
                         status: false,
-                        message: "subcatory not found !",
+                        message: "subcatory not Found !",
                         data: []
                     };
                 }
@@ -580,14 +580,14 @@ exports.getSaloonByLocation = async ({ query }) => {
             return {
                 statusCode: 200,
                 status: true,
-                message: "Saloons find successfull by  Location Name !",
+                message: "Saloons find Successfully by  Location Name !",
                 data: findSaloon
             };
         } else {
             return {
                 statusCode: 200,
                 status: true,
-                message: "data not found !",
+                message: "data not Found !",
                 data: findSaloon
             };
         };

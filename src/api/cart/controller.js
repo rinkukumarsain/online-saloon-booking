@@ -297,7 +297,7 @@ exports.addcart = async ({ user, query }) => {
                     return {
                         statusCode: 400,
                         status: false,
-                        message: "not found servce in your selected store !",
+                        message: "not Found servce in your selected store !",
                         data: []
                     };
                 }
@@ -344,7 +344,7 @@ exports.addcart = async ({ user, query }) => {
                 }
             }
         };
-    
+
     } catch (error) {
         console.log(error);
     };
