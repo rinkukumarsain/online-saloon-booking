@@ -34,85 +34,85 @@
                     <h5 class="card-title">Filter</h5>
 
                     <!-- No Labels Form -->
-                  <% if(typeof query.userId !=="undefined" && query.userId){%>
-                        <form class="row g-3" action="/get-All-order?userId=<%=query.userId%>">
-                          <input type="hidden" name="userId" value="<%=query.userId%>">
-                          <%}else{%>
-                            <form class="row g-3" action="/get-All-order">
-                              <%}%>
+                    <% if(typeof query.userId !=="undefined" && query.userId){%>
+                      <form class="row g-3" action="/get-All-order?userId=<%=query.userId%>">
+                        <input type="hidden" name="userId" value="<%=query.userId%>">
+                        <%}else{%>
+                          <form class="row g-3" action="/get-All-order">
+                            <%}%>
 
-                                <!-- <form class="row g-3" action="/get-All-order"> -->
-                                <div class="col-md-3">
-                                  <label>Choose City</label> <br>
-                                  <select id="inputState" name="city" class="form-select">
-                                    <% if( query.city!=undefined&&query.city!="" ){%>
-                                      <option selected="" value="<%=query?.city%>">
-                                        <%=query?.city%>
-                                      </option>
-                                      <option value="">Choose City</option>
-                                      <%}else{%>
-                                        <option selected="" value="">Choose City</option>
-                                        <%}%>
-                                          <% city.forEach(function(citys) { %>
-                                            <option value="<%=citys%>">
-                                              <%=citys%>
-                                            </option>
-                                            <% }); %>
-                                  </select>
-                                </div>
-                                <div class="col-md-3">
-                                  <label>Status Type</label> <br>
-                                  <select id="inputState" name="status" class="form-select">
-                                    <% if( query?.status=="pending" ){%>
+                              <!-- <form class="row g-3" action="/get-All-order"> -->
+                              <div class="col-md-3">
+                                <label>Choose City</label> <br>
+                                <select id="inputState" name="city" class="form-select">
+                                  <% if( query.city!=undefined&&query.city!="" ){%>
+                                    <option selected="" value="<%=query?.city%>">
+                                      <%=query?.city%>
+                                    </option>
+                                    <option value="">Choose City</option>
+                                    <%}else{%>
+                                      <option selected="" value="">Choose City</option>
+                                      <%}%>
+                                        <% city.forEach(function(citys) { %>
+                                          <option value="<%=citys%>">
+                                            <%=citys%>
+                                          </option>
+                                          <% }); %>
+                                </select>
+                              </div>
+                              <div class="col-md-3">
+                                <label>Status Type</label> <br>
+                                <select id="inputState" name="status" class="form-select">
+                                  <% if( query?.status=="pending" ){%>
+                                    <option value="">Choose Status</option>
+                                    <option selected="" value="pending">pending</option>
+                                    <option value="cancel">cancel</option>
+                                    <option value="succes">succes</option>
+                                    <%}else if( query?.status=="cancel" ){%>
                                       <option value="">Choose Status</option>
-                                      <option selected="" value="pending">pending</option>
-                                      <option value="cancel">cancel</option>
+                                      <option value="pending">pending</option>
+                                      <option selected="" value="cancel">cancel</option>
                                       <option value="succes">succes</option>
-                                      <%}else if( query?.status=="cancel" ){%>
+                                      <%}else if( query?.status=="succes" ){%>
                                         <option value="">Choose Status</option>
                                         <option value="pending">pending</option>
-                                        <option selected="" value="cancel">cancel</option>
-                                        <option value="succes">succes</option>
-                                        <%}else if( query?.status=="succes" ){%>
-                                          <option value="">Choose Status</option>
+                                        <option value="cancel">cancel</option>
+                                        <option selected="" value="succes">succes</option>
+                                        <%}else{%>
+                                          <option selected="" value="">Choose Status</option>
                                           <option value="pending">pending</option>
                                           <option value="cancel">cancel</option>
-                                          <option selected="" value="succes">succes</option>
-                                          <%}else{%>
-                                            <option selected="" value="">Choose Status</option>
-                                            <option value="pending">pending</option>
-                                            <option value="cancel">cancel</option>
-                                            <option value="succes">succes</option>
-                                            <%}%>
+                                          <option value="succes">succes</option>
+                                          <%}%>
 
-                                  </select>
-                                </div>
-                                <div class="col-md-3">
-                                  <label>Amount</label> <br>
+                                </select>
+                              </div>
+                              <div class="col-md-3">
+                                <label>Amount</label> <br>
 
-                                  <% if(query?.totalamount!="" ){ %>
-                                    <input type="number" name="totalamount" class="form-control"
-                                      value="<%=query?.totalamount%>" placeholder="Enter Amount">
+                                <% if(query?.totalamount!="" ){ %>
+                                  <input type="number" name="totalamount" class="form-control"
+                                    value="<%=query?.totalamount%>" placeholder="Enter Amount">
+                                  <%}else{%>
+                                    <input type="number" name="totalamount" class="form-control" placeholder="Amount">
+                                    <%}%>
+                              </div>
+                              <div class="col-md-3">
+                                <label></label> <br>
+
+                                <div class="text-center">
+                                  <button type="submit" class="btn btn-primary">Submit</button>
+                                  <% if(typeof query.userId !=="undefined" && query.userId){%>
+                                    <a href="/get-All-order?userId=<%=query.userId%>""> <button type=" button"
+                                      class="btn btn-secondary">Reset</button></a>
                                     <%}else{%>
-                                      <input type="number" name="totalamount" class="form-control" placeholder="Amount">
+                                      <a href="/get-All-order"> <button type="button"
+                                          class="btn btn-secondary">Reset</button></a>
                                       <%}%>
                                 </div>
-                                <div class="col-md-3">
-                                  <label></label> <br>
-
-                                  <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                    <% if(typeof query.userId !=="undefined" && query.userId){%>
-                                      <a href="/get-All-order?userId=<%=query.userId%>""> <button type=" button"
-                                        class="btn btn-secondary">Reset</button></a>
-                                      <%}else{%>
-                                        <a href="/get-All-order"> <button type="button"
-                                            class="btn btn-secondary">Reset</button></a>
-                                        <%}%>
-                                  </div>
-                                </div>
-                            </form>
-                            <!-- End No Labels Form -->
+                              </div>
+                          </form>
+                          <!-- End No Labels Form -->
 
                   </div>
                 </div>
@@ -121,15 +121,17 @@
                     <h5 class="card-title">Order List</h5>
 
                     <!-- Table with stripped rows -->
-                    <table class="table datatable">
+                    <table class="table datatable text-nowrap">
                       <thead>
                         <tr>
                           <th scope="col">#</th>
                           <th scope="col">Store Name</th>
-                          <th scope="col">user Name</th>
-                          <th scope="col">Cart Data</th>
+                          <th scope="col">User Name</th>
+                          <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Cart Data">
+                            C.D.</th>
                           <th scope="col">Date And Time</th>
-                          <th scope="col">Total Amount</th>
+                          <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Total Amount">
+                            T.A.</th>
                           <th scope="col">Payment Status</th>
                           <th scope="col">Status</th>
 
@@ -151,7 +153,8 @@
                               </td>
                               <td>
                                 <button type="button" value="<%=data._id%>" onclick="cartData(this)"
-                                  class="btn btn-info"><i class="bi bi-eye"></i></button>
+                                  class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top"
+                                  data-bs-title="View Cart Data"><i class="bi bi-eye"></i></button>
 
                               </td>
                               <td>
@@ -174,13 +177,17 @@
                               </td>
                               <td>
                                 <% if( data.status=="succes" ){%>
-                                  <a href="#" class="btn btn-dark">succes</a>
+                                  <a href="#" class="btn btn-dark">Succes</a>
 
                                   <%}else if( data.status=="cancel" ){%>
                                     <a href="#" class="btn btn-danger">Cancel</a>
                                     <%}else{%>
-                                      <a href="/Admin-Order-Approve?id=<%= data._id%>" class="btn btn-dark">Approve</a>
-                                      <a href="/Admin-Order-Cancel?id=<%= data._id%>" class="btn btn-danger">Decline</a>
+                                      <a href="/Admin-Order-Approve?id=<%= data._id%>" class="btn btn-success"
+                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Approve Order"><i class="bi bi-check2-circle"></i></a>
+                                      <a href="/Admin-Order-Cancel?id=<%= data._id%>" class="btn btn-danger"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Decline Order">
+                                        <span aria-hidden="true">&times;</span></a>
                                       <%}%>
                               </td>
                             </tr>

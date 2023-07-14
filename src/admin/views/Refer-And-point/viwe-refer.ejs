@@ -120,13 +120,13 @@
                     <h5 class="card-title">Artists List</h5>
 
                     <!-- Table with stripped rows -->
-                    <table class="table datatable">
+                    <table class="table datatable text-nowrap">
                       <thead>
                         <tr>
                           <th scope="col">#</th>
                           <th scope="col"> rupee</th>
                           <th scope="col">point</th>
-                          <th scope="col">MoreAction</th>
+                          <th scope="col">Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -146,9 +146,11 @@
 
                               <td>
                                 <a href="/Set-point-to-rupee?id=<%=data?._id%>" class="btn btn-info"><i
-                                    class="ri-edit-box-line" title="Edit"></i></a>
+                                    class="ri-edit-box-line"  data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="Edit"></i></a>
                                 <a href="/Delete-Refer-Eran-program?id=<%= data?._id%>" class="btn btn-danger">
-                                  <i class="ri-delete-bin-5-line" title="delete"></i>
+                                  <i class="ri-delete-bin-5-line"  data-bs-toggle="tooltip" data-bs-placement="top"
+                                  data-bs-title="Delete"></i>
                                 </a>
                               </td>
                             </tr>
