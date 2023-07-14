@@ -81,7 +81,7 @@
                   <div class="card-body">
                     <h5 class="card-title">Payment List</h5>
                     <!-- Table with stripped rows -->
-                    <table class="table datatable">
+                    <table class="table datatable text-nowrap">
                       <thead>
                         <tr>
                           <th scope="col">#</th>
@@ -118,7 +118,8 @@
                               <td>
                                 <a href="/get-All-order?userId=<%= data.userId %>&orderId=<%= data.orderId %>">
                                   <button type="button" class="btn btn-info">
-                                    <i class="bi bi-eye" title="view"> </i>
+                                    <i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="View Order"> </i>
                                   </button>
                                 </a>
                               </td>

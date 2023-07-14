@@ -90,7 +90,7 @@
                     <h5 class="card-title">Contact Us Requist List</h5>
 
                     <!-- Table with stripped rows -->
-                    <table class="table datatable">
+                    <table class="table datatable text-nowrap">
                       <thead>
                         <tr>
                           <th scope="col">#</th>
@@ -125,13 +125,15 @@
                                 <%= data.message %>
                               </td>
                               <td>
-                                                              
+
                                 <%if(query.status!='-1'){%>
-                                  <a href="/Send-notification?id=<%= data._id%>" class="btn btn-info">
+                                  <a href="/Send-notification?id=<%= data._id%>" class="btn btn-info"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Give Reply">
                                     <!-- <i class="ri-edit-box-line" title="Edit"></i> -->
                                     <i class="bi bi-reply-all-fill"></i>
                                   </a>
-                                  <a href="/Reject-requist?id=<%= data._id%>" class="btn btn-danger">
+                                  <a href="/Reject-requist?id=<%= data._id%>" class="btn btn-danger"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete Rejected">
                                     <i class="ri-delete-bin-5-line" title="delete"></i>
                                   </a>
                                   <%}%>
