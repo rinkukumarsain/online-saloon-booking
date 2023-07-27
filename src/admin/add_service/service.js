@@ -27,7 +27,7 @@ exports.VIEW_SALOON = async (req) => {
         'from': 'saloons',
         'localField': 'saloonStore',
         'foreignField': '_id',
-        pipeline: [
+        'pipeline': [
           {
             '$match': {
               'userId': req.user._id
