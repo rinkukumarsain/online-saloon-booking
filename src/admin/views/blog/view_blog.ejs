@@ -33,51 +33,39 @@
                     <h5 class="card-title">Filter</h5>
 
                     <!-- No Labels Form -->
-                    <form class="row g-3" action="/get-All-order">
+                    <form class="row g-3" action="/view_blog">
                       <div class="col-md-3">
-                        <label>Choose City</label> <br>
-                        <select id="inputState" name="city" class="form-select">
-
-                          <option selected="" value="">Choose City</option>
-
-
-                          <option value="ajmer">
-                            ajmer
-                          </option>
-
-                          <option value="gujrat">
-                            gujrat
-                          </option>
-
-
-
-
+                        <label>Choose Category</label> <br>
+                        <select id="inputState" name="Category" class="form-select">
+                          <option selected="" value="">Choose Category</option>
+                          <% for(let item of Category){%>
+                            <option value="<%= item?._id%>" <%=query.Category==item._id.toString() ? 'selected' :''%>>
+                              <%=item?.Name %>
+                            </option>
+                            <%}%>
                         </select>
                       </div>
                       <div class="col-md-3">
-                        <label>Choose Status</label> <br>
-                        <select id="inputState" name="status" class="form-select">
-
-                          <option selected="" value="">select status</option>
-                          <option value="pending">pending</option>
-                          <option value="cancel">cancel</option>
-                          <option value="succes">succes</option>
-
-
+                        <label>Choose Writer Name</label> <br>
+                        <select id="inputState" name="WriterName" class="form-select">
+                          <option selected="" value="">select Writer Name</option>
+                          <% for(let item of WriterName){%>
+                            <option value="<%= item %>" <%=query.WriterName==item ? 'selected' :''%>>
+                              <%=item %>
+                            </option>
+                            <%}%>
                         </select>
                       </div>
                       <div class="col-md-3">
-                        <label>Enter Amount</label> <br>
-
-                        <input type="number" name="totalamount" class="form-control" value=""
-                          placeholder="Enter Amount">
-
+                        <label>Enter Title</label> <br>
+                        <input type="text" name="Title" class="form-control" value="<%= query.Title ? query.Title:''%>"
+                          placeholder="Enter Title">
                       </div>
                       <div class="col-md-3">
                         <div class="text-center">
                           <label></label> <br>
                           <button type="submit" class="btn btn-primary">Submit</button>
-                          <a href="/get-All-order"> <button type="button" class="btn btn-secondary">Reset</button></a>
+                          <a href="/view_blog"> <button type="button" class="btn btn-secondary">Reset</button></a>
                         </div>
                       </div>
                     </form>

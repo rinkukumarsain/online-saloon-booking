@@ -71,16 +71,17 @@ exports.ADD_BLOG_STORE = async (req, res) => {
 
 exports.VIEW_BLOG = async (req, res) => {
     try {
-        if (req.user.type == "admin") {
-            res.redirect("/")
-        }
-        const user = req.user
-        const data = await service.VIEW_BLOG()
-        res.render("blog/view_blog", { data, user })
+        if (req.user.type == "admin") { res.redirect("/") };
+        const user = req.user;
+        let query = req.query;
+        const Category = await category.find({ parent_Name: null });
+        const WriterName = await blog.distinct("WriterName");
+        const data = await service.VIEW_BLOG(req);
+        res.render("blog/view_blog", { data, user, Category, query, WriterName });
     } catch (error) {
-        console.log(error)
-    }
-}
+        console.log(error);
+    };
+};
 
 exports.DELETE_BLOG = async (req, res) => {
     try {
