@@ -10,7 +10,7 @@
                     <small class="text-white-50 ml-2">just now</small>
                     <button class="ml-2 mb-1 close text-white bg-success" type="button" data-dismiss="toast"
                         aria-label="Close">
-                        <span aria-hidden="true">×</span>
+                        <span id="closeBtn" onclick="closeAlert()">&times;</span>
                     </button>
                 </div>
                 <div class="toast-body">
@@ -97,3 +97,10 @@
         });
     </script>
     <% } %>
+
+        <script>
+            function closeAlert() {
+                const alertMessage = document.getElementById('toastBasic4');
+                alertMessage.style.display = 'none';
+            };
+        </script>
