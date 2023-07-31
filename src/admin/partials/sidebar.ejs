@@ -13,7 +13,7 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i><span>Saloon Management</span><i
+                <i class="bi bi-shop-window"></i><span>Saloon Management</span><i
                     class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
@@ -39,7 +39,7 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#components-nav1" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i><span>Saloon Services</span><i
+                <i class="ri-customer-service-2-fill"></i><span>Saloon Services</span><i
                     class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="components-nav1" class="nav-content collapse " data-bs-parent="#sidebar-nav">
@@ -57,7 +57,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#components-package" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i><span>Services package</span><i
+                <i class="ri-customer-service-2-fill"></i><span>Services package</span><i
                     class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="components-package" class="nav-content collapse " data-bs-parent="#sidebar-nav">
@@ -81,8 +81,7 @@
         <%if(user.type=="super-admin"){%>
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav3" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Blogs Manager</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-file-post"></i><span>Blogs Manager</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="components-nav3" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
@@ -156,7 +155,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#icon-User" data-bs-toggle="collapse" href="#"
                     aria-expanded="false">
-                    <i class="bi bi-gem"></i><span>User Manager</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-person-fill"></i><span>User Manager</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="icon-User" class="nav-content collapse" data-bs-parent="#sidebar-nav" style="">
                     <li>
@@ -169,7 +168,8 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#icon-Artists" data-bs-toggle="collapse" href="#"
                     aria-expanded="false">
-                    <i class="bi bi-gem"></i><span>Artists Manager</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-person-fill"></i><span>Artists Manager</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="icon-Artists" class="nav-content collapse" data-bs-parent="#sidebar-nav" style="">
                     <li>
@@ -182,7 +182,7 @@
             <%}%>
                 <li>
                     <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-journal-text"></i><span>Order Manager</span><i
+                        <i class="bi bi-cart-check-fill"></i><span>Order Manager</span><i
                             class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
@@ -197,7 +197,15 @@
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#icon-nav" data-bs-toggle="collapse" href="#"
                         aria-expanded="false">
-                        <i class="bi bi-gem"></i><span>Payment Manager</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <!-- <i class="bi bi-currency-dollar"></i> -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                                <path
+                                    d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4v1.06Z">
+                                </path>
+                            </svg>
+                        </div> <span>Payment Manager</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="icon-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav" style="">
                         <li>
@@ -211,7 +219,8 @@
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#icon-Vacancy" data-bs-toggle="collapse" href="#"
                         aria-expanded="false">
-                        <i class="bi bi-gem"></i><span>Vacancy Manager </span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-people-fill"></i><span>Vacancy Manager </span><i
+                            class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="icon-Vacancy" class="nav-content collapse" data-bs-parent="#sidebar-nav" style="">
                         <li>
@@ -232,7 +241,7 @@
                     <li class="nav-item">
                         <a class="nav-link collapsed" data-bs-target="#icon-Refer" data-bs-toggle="collapse" href="#"
                             aria-expanded="false">
-                            <i class="bi bi-gem"></i><span>Refer & Point Manager </span><i
+                            <i class="bi bi-people-fill"></i><span>Refer & Point Manager </span><i
                                 class="bi bi-chevron-down ms-auto"></i>
                         </a>
                         <ul id="icon-Refer" class="nav-content collapse" data-bs-parent="#sidebar-nav" style="">
@@ -270,7 +279,7 @@
                     <li class="nav-item">
                         <a class="nav-link collapsed" data-bs-target="#icon-Letter" data-bs-toggle="collapse" href="#"
                             aria-expanded="false">
-                            <i class="bi bi-gem"></i><span>News-Letter-Manager</span><i
+                            <i class="bi bi-newspaper"></i><span>News-Letter-Manager</span><i
                                 class="bi bi-chevron-down ms-auto"></i>
                         </a>
                         <ul id="icon-Letter" class="nav-content collapse" data-bs-parent="#sidebar-nav" style="">
